@@ -17,7 +17,7 @@
       color: var(--color-teal);
       border-color: var(--color-teal);
       box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.8);
-      gap: desktop-vw(24px);
+      /* gap: desktop-vw(24px); */
 
       .arrow {
         &::before {
@@ -30,10 +30,10 @@
       }
     }
 
-    &:first-child:hover,
+    /* &:first-child:hover,
     &:first-child:has(~ &:hover) {
       margin-left: calc(desktop-vw(6px) * -1);
-    }
+    } */
   }
 
   &.isBlack {
@@ -115,17 +115,6 @@
       }
     }
   }
-
-  &.isSnippet {
-    &:hover {
-      gap: desktop-vw(143px);
-    }
-  }
-}
-
-.snippet {
-  border: 2px solid var(--color-dark-grey);
-  transition: margin-left 300ms ease;
 }
 
 .arrow {

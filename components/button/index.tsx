@@ -97,18 +97,19 @@ export function CTA({
           <ArrowSVG className="dt:dr-w-16 dt:dr-h-16 z-1" />
         </span>
       </Button>
-      {/* {snippet && ( */}
-      <button
-        className={cn(
-          !snippet && 'opacity-0 pointer-events-none',
-          'dr-rounded-16 absolute w-full top-full left-0 dr-mt-4 dr-pl-16 dr-pr-8 dr-pb-16 dr-pt-8',
-          isHovered ? s.snippet : 'opacity-0 pointer-events-none'
-        )}
-        type="button"
-      >
-        <p className="typo-code-snippet">testing</p>
-      </button>
-      {/* )} */}
+      {snippet && (
+        <button
+          className={cn(
+            'dr-rounded-16 absolute w-full top-full left-0 dr-mt-4 dr-pl-16 dr-pr-8 dr-pb-16 dr-pt-8 border-2 border-solid border-dark-grey transition-opacity duration-300 ease-in-out',
+            isHovered
+              ? 'opacity-100 pointer-events-auto'
+              : 'opacity-0 pointer-events-none'
+          )}
+          type="button"
+        >
+          <p className="typo-code-snippet">testing</p>
+        </button>
+      )}
     </div>
   )
 }
