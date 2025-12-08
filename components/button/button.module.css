@@ -1,0 +1,16 @@
+.button {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-dark-grey);
+  transition:
+    background-color 300ms ease,
+    color 300ms ease,
+    border-color 300ms ease;
+
+  @media (--hover) {
+    &:hover {
+      background-color: var(--color-black);
+      color: var(--color-teal);
+      border-color: var(--color-teal);
+    }
+  }
+}
