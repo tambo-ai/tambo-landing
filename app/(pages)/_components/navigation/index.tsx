@@ -182,7 +182,7 @@ export function Navigation() {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 z-2 dr-layout-grid-inner pt-gap pb-safe uppercase',
+        'fixed top-0 left-0 z-2 dr-layout-grid-inner pt-gap pb-safe uppercase typo-button',
         isVisible && 'opacity-100'
       )}
       onMouseEnter={() => toggleNavigation('show')}
@@ -190,23 +190,26 @@ export function Navigation() {
     >
       <Link
         href="/"
-        className="dr-size-48 rounded-full border border-black grid place-items-center"
+        className="dr-size-48 rounded-full border border-dark-grey grid place-items-center"
         ref={githubRef}
       >
-        <div className="dr-w-32 aspect-square grid place-items-center">
-          <GithubIcon className="dr-w-16" />
+        <div className="group dr-w-32 aspect-square grid place-items-center bg-teal hover:bg-black hover:text-teal rounded-full hover:scale-110 transition-all duration-300">
+          <GithubIcon className="dr-w-16 icon" />
         </div>
       </Link>
 
       <section className="col-start-3 col-end-11 flex justify-center">
         <div
           ref={centerRef}
-          className="w-full origin-center flex justify-between items-center border border-black pl-gap dr-pr-8 rounded-full overflow-hidden dr-h-48"
+          className="w-full origin-center flex justify-between items-center border border-dark-grey pl-gap dr-pr-8 rounded-full overflow-hidden dr-h-48"
         >
           <ul ref={leftRef} className="flex dr-gap-20">
             {LEFT_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href}>{link.label}</Link>
+                <Link href={link.href} className="link">
+                  {link.label}
+                  {'external' in link && ' ↗'}
+                </Link>
               </li>
             ))}
           </ul>
@@ -225,7 +228,7 @@ export function Navigation() {
             <li>
               <Link
                 href="/login"
-                className="block dr-px-16 dr-h-32 rounded-full bg-black"
+                className="dr-px-16 dr-h-32 rounded-full bg-mint grid place-items-center hover:bg-black hover:text-mint transition-all duration-300"
               >
                 Log in
               </Link>
@@ -236,11 +239,11 @@ export function Navigation() {
 
       <Link
         href="/"
-        className="col-start-12 dr-size-48 rounded-full border border-black grid place-items-center"
+        className="col-start-12 dr-size-48 rounded-full border border-dark-grey grid place-items-center"
         ref={discordRef}
       >
-        <div className="dr-w-32 aspect-square grid place-items-center">
-          <DiscordIcon className="dr-w-16" />
+        <div className="group dr-w-32 aspect-square grid place-items-center bg-teal hover:bg-black hover:text-teal rounded-full hover:scale-110 transition-all duration-300">
+          <DiscordIcon className="dr-w-16 icon" />
         </div>
       </Link>
     </nav>

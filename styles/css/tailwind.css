@@ -91,7 +91,7 @@
   
 
 /** Custom static utilities **/
-@utility test-mono {
+@utility typo-test-mono {
   font-family: var(--next-font-mono);
 	font-style: normal;
 	font-weight: 400;
@@ -100,7 +100,7 @@
 	font-size: calc(((20 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((24 * 100) / var(--device-width)) * 1vw); }
 }
-@utility h1 {
+@utility typo-h1 {
   font-family: var(--next-font-sentient);
 	font-style: normal;
 	font-weight: 300;
@@ -109,7 +109,7 @@
 	font-size: calc(((48 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((48 * 100) / var(--device-width)) * 1vw); }
 }
-@utility h2 {
+@utility typo-h2 {
   font-family: var(--next-font-sentient);
 	font-style: normal;
 	font-weight: 300;
@@ -118,7 +118,7 @@
 	font-size: calc(((40 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((40 * 100) / var(--device-width)) * 1vw); }
 }
-@utility h3 {
+@utility typo-h3 {
   font-family: var(--next-font-sentient);
 	font-style: normal;
 	font-weight: 300;
@@ -127,7 +127,7 @@
 	font-size: calc(((32 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((32 * 100) / var(--device-width)) * 1vw); }
 }
-@utility h4 {
+@utility typo-h4 {
   font-family: var(--next-font-geist-mono);
 	font-style: normal;
 	font-weight: 500;
@@ -137,7 +137,7 @@
 	font-size: calc(((24 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((16 * 100) / var(--device-width)) * 1vw); }
 }
-@utility surtitle {
+@utility typo-surtitle {
   font-family: var(--next-font-geist-mono);
 	font-style: normal;
 	font-weight: 400;
@@ -147,7 +147,7 @@
 	font-size: calc(((16 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((16 * 100) / var(--device-width)) * 1vw); }
 }
-@utility button {
+@utility typo-button {
   font-family: var(--next-font-geist-mono);
 	font-style: normal;
 	font-weight: 500;
@@ -157,7 +157,7 @@
 	font-size: calc(((14 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((14 * 100) / var(--device-width)) * 1vw); }
 }
-@utility link {
+@utility typo-link {
   font-family: var(--next-font-geist-mono);
 	font-style: normal;
 	font-weight: 500;
@@ -168,7 +168,7 @@
 	font-size: calc(((14 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((14 * 100) / var(--device-width)) * 1vw); }
 }
-@utility label-m {
+@utility typo-label-m {
   font-family: var(--next-font-geist-mono);
 	font-style: normal;
 	font-weight: 400;
@@ -178,7 +178,7 @@
 	font-size: calc(((12 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((12 * 100) / var(--device-width)) * 1vw); }
 }
-@utility label-s {
+@utility typo-label-s {
   font-family: var(--next-font-geist-mono);
 	font-style: normal;
 	font-weight: 400;
@@ -188,7 +188,7 @@
 	font-size: calc(((10 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((10 * 100) / var(--device-width)) * 1vw); }
 }
-@utility p-l {
+@utility typo-p-l {
   font-family: var(--next-font-geist);
 	font-style: normal;
 	font-weight: 400;
@@ -197,7 +197,7 @@
 	font-size: calc(((20 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((20 * 100) / var(--device-width)) * 1vw); }
 }
-@utility p {
+@utility typo-p {
   font-family: var(--next-font-geist);
 	font-style: normal;
 	font-weight: 400;
@@ -206,7 +206,7 @@
 	font-size: calc(((16 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((16 * 100) / var(--device-width)) * 1vw); }
 }
-@utility p-s {
+@utility typo-p-s {
   font-family: var(--next-font-geist);
 	font-style: normal;
 	font-weight: 400;
@@ -215,7 +215,7 @@
 	font-size: calc(((12 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((12 * 100) / var(--device-width)) * 1vw); }
 }
-@utility code-snippet {
+@utility typo-code-snippet {
   font-family: var(--next-font-geist-mono);
 	font-style: normal;
 	font-weight: 400;

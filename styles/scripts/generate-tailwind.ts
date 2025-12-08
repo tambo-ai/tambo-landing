@@ -59,7 +59,7 @@ ${formatObject(
 /** Custom static utilities **/
 ${Object.entries(typography)
   .map(
-    ([name, value]) => `@utility ${name} {
+    ([name, value]) => `@utility typo-${name} {
   ${Object.entries(value)
     .filter((entry) => entry?.[0] && entry?.[1])
     .filter((entry) => entry !== undefined)
