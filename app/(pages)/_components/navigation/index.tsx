@@ -29,9 +29,19 @@ export function Navigation() {
   const githubRef = useRef<HTMLAnchorElement>(null)
   const discordRef = useRef<HTMLAnchorElement>(null)
 
-  useLenis(({ lastVelocity }) => {
-    setIsVisible(lastVelocity < 0)
+  const lenis = useLenis(({ lastVelocity }) => {
+    if (lastVelocity === 0) return
+    toggleNavigation(lastVelocity > 0 ? 'hide' : 'show')
   })
+
+  function toggleNavigation(action: 'show' | 'hide') {
+    if (!lenis) return
+    if (lenis.scroll < 100) {
+      setIsVisible(true)
+    } else {
+      setIsVisible(action === 'show')
+    }
+  }
 
   const hideNavigation = useEffectEvent(() => {
     const tl = gsap.timeline()
@@ -172,11 +182,11 @@ export function Navigation() {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 z-2 dr-layout-grid-inner pt-gap pb-safe bg-red uppercase',
+        'fixed top-0 left-0 z-2 dr-layout-grid-inner pt-gap pb-safe uppercase',
         isVisible && 'opacity-100'
       )}
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
+      onMouseEnter={() => toggleNavigation('show')}
+      onMouseLeave={() => toggleNavigation('hide')}
     >
       <Link
         href="/"
@@ -191,7 +201,7 @@ export function Navigation() {
       <section className="col-start-3 col-end-11 flex justify-center">
         <div
           ref={centerRef}
-          className="w-full origin-center flex justify-between items-center border border-blue pl-gap dr-pr-8 rounded-full overflow-hidden dr-h-48"
+          className="w-full origin-center flex justify-between items-center border border-black pl-gap dr-pr-8 rounded-full overflow-hidden dr-h-48"
         >
           <ul ref={leftRef} className="flex dr-gap-20">
             {LEFT_LINKS.map((link) => (
