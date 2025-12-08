@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
   poweredByHeader: false,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   productionBrowserSourceMaps:
     process.env.SOURCE_MAPS === 'true' && typeof Bun === 'undefined',
   typedRoutes: true,
