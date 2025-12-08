@@ -1,16 +1,68 @@
 .button {
   background-color: var(--color-white);
   border: 2px solid var(--color-dark-grey);
+  position: relative;
+  gap: desktop-vw(12px);
   transition:
     background-color 300ms ease,
     color 300ms ease,
-    border-color 300ms ease;
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    gap 300ms ease,
+    transform 300ms ease;
 
   @media (--hover) {
     &:hover {
       background-color: var(--color-black);
       color: var(--color-teal);
       border-color: var(--color-teal);
+      gap: desktop-vw(24px);
+      transform: translateX(desktop-vw(-6px));
+      box-shadow:
+        0 100px 28px 0 rgba(127, 255, 195, 0),
+        0 64px 26px 0 rgba(127, 255, 195, 0.02),
+        0 36px 22px 0 rgba(127, 255, 195, 0.07),
+        0 16px 16px 0 rgba(127, 255, 195, 0.12),
+        0 4px 9px 0 rgba(127, 255, 195, 0.14);
+
+      .arrow {
+        &::before {
+          transform: scale(1.25);
+        }
+
+        &::after {
+          transform: scale(1.5);
+        }
+      }
     }
+  }
+}
+
+.arrow {
+  position: relative;
+
+  &::before {
+    transition: transform 300ms ease;
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    background-color: var(--color-mint);
+    border-radius: desktop-vw(10px);
+    z-index: 0;
+  }
+
+  &::after {
+    content: "";
+    transition: transform 300ms ease;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    background-color: var(--color-mint);
+    border-radius: desktop-vw(10px);
   }
 }

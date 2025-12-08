@@ -41,7 +41,7 @@ export function Button({
   )
 }
 
-export function PrimaryButton({
+export function CTA({
   className,
   href,
   as,
@@ -52,7 +52,7 @@ export function PrimaryButton({
   return (
     <Button
       className={cn(
-        'dr-rounded-16 flex items-center justify-between dt:dr-pl-16 dt:dr-pr-8 dt:dr-py-8 dt:dr-w-194 dt:dr-h-52',
+        'dt:dr-rounded-16 flex items-center dt:dr-pl-16 dt:dr-pr-8 dt:dr-py-8 dt:dr-h-52',
         s.button,
         className
       )}
@@ -61,8 +61,13 @@ export function PrimaryButton({
       {...props}
     >
       <span className="typo-button ">{children}</span>
-      <span className="dt:dr-w-32 dt:dr-h-32 bg-mint flex items-center justify-center dr-rounded-10">
-        <ArrowSVG className="dt:dr-w-16 dt:dr-h-16" />
+      <span
+        className={cn(
+          'dt:dr-w-32 dt:dr-h-32 bg-mint flex items-center justify-center dr-rounded-10',
+          s.arrow
+        )}
+      >
+        <ArrowSVG className="dt:dr-w-16 dt:dr-h-16 z-1" />
       </span>
     </Button>
   )

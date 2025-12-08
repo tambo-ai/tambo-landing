@@ -1,4 +1,4 @@
-import { PrimaryButton } from '~/components/button'
+import { CTA } from '~/components/button'
 import { Wrapper } from '../_components/wrapper'
 
 export default function StyleGuide() {
@@ -18,68 +18,73 @@ export default function StyleGuide() {
         <p className="typo-button">Button</p>
         <p className="typo-link">Link</p>
         <p className="typo-surtitle">Surtitle</p>
-        <div className="dr-h-50 w-full bg-ghost-mint">
-          <p className="typo-p">Ghost Mint</p>
-        </div>
-        <div className="dr-h-50 w-full bg-mint">
-          <p className="typo-p">Mint</p>
-        </div>
-        <div className="dr-h-50 w-full bg-teal">
-          <p className="typo-p">Teal</p>
-        </div>
-        <div className="dr-h-50 w-full bg-dark-teal">
-          <p className="typo-p">Dark Teal</p>
-        </div>
-        <div className="dr-h-50 w-full bg-off-white">
-          <p className="typo-p">Off White</p>
-        </div>
-        <div className="dr-h-50 w-full bg-light-gray">
-          <p className="typo-p">Light Gray</p>
-        </div>
-        <div className="dr-h-50 w-full bg-grey">
-          <p className="typo-p">Grey</p>
-        </div>
-        <div className="dr-h-50 w-full bg-dark-grey">
-          <p className="typo-p">Dark Grey</p>
-        </div>
-        <div className="dr-h-50 w-full bg-white">
-          <p className="typo-p">White</p>
-        </div>
-        <div className="dr-h-50 w-full bg-white-80">
-          <p className="typo-p">White 80</p>
-        </div>
-        <div className="dr-h-50 w-full bg-white-60">
-          <p className="typo-p">White 60</p>
-        </div>
-        <div className="dr-h-50 w-full bg-white-50">
-          <p className="typo-p">White 50</p>
-        </div>
-        <div className="dr-h-50 w-full bg-black">
-          <p className="typo-p text-white">Black</p>
-        </div>
-        <div className="dr-h-50 w-full bg-black-70">
-          <p className="typo-p">Black 70</p>
-        </div>
-        <div className="dr-h-50 w-full bg-black-50">
-          <p className="typo-p">Black 50</p>
-        </div>
-        <div className="dr-h-50 w-full bg-forest">
-          <p className="typo-p">Forest</p>
-        </div>
-        <div className="dr-h-50 w-full bg-forest-50">
-          <p className="typo-p">Forest 50</p>
-        </div>
-        <div className="dr-h-50 w-full bg-forest-30">
-          <p className="typo-p">Forest 30</p>
-        </div>
-        <div className="dr-h-50 w-full bg-forest-20">
-          <p className="typo-p">Forest 20</p>
-        </div>
-        <div className="dr-h-50 w-full bg-forest-10">
-          <p className="typo-p">Forest 10</p>
+        {/* COLORS */}
+        <div className="dr-grid dr-grid-cols-4 dr-gap-4 dr-mb-50">
+          <div className="dr-h-50 w-full bg-ghost-mint">
+            <p className="typo-p">Ghost Mint</p>
+          </div>
+          <div className="dr-h-50 w-full bg-mint">
+            <p className="typo-p">Mint</p>
+          </div>
+          <div className="dr-h-50 w-full bg-teal">
+            <p className="typo-p">Teal</p>
+          </div>
+          <div className="dr-h-50 w-full bg-dark-teal">
+            <p className="typo-p">Dark Teal</p>
+          </div>
+          <div className="dr-h-50 w-full bg-off-white">
+            <p className="typo-p">Off White</p>
+          </div>
+          <div className="dr-h-50 w-full bg-light-gray">
+            <p className="typo-p">Light Gray</p>
+          </div>
+          <div className="dr-h-50 w-full bg-grey">
+            <p className="typo-p">Grey</p>
+          </div>
+          <div className="dr-h-50 w-full bg-dark-grey">
+            <p className="typo-p">Dark Grey</p>
+          </div>
+          <div className="dr-h-50 w-full bg-white">
+            <p className="typo-p">White</p>
+          </div>
+          <div className="dr-h-50 w-full bg-white-80">
+            <p className="typo-p">White 80</p>
+          </div>
+          <div className="dr-h-50 w-full bg-white-60">
+            <p className="typo-p">White 60</p>
+          </div>
+          <div className="dr-h-50 w-full bg-white-50">
+            <p className="typo-p">White 50</p>
+          </div>
+          <div className="dr-h-50 w-full bg-black">
+            <p className="typo-p text-white">Black</p>
+          </div>
+          <div className="dr-h-50 w-full bg-black-70">
+            <p className="typo-p">Black 70</p>
+          </div>
+          <div className="dr-h-50 w-full bg-black-50">
+            <p className="typo-p">Black 50</p>
+          </div>
+          <div className="dr-h-50 w-full bg-forest">
+            <p className="typo-p">Forest</p>
+          </div>
+          <div className="dr-h-50 w-full bg-forest-50">
+            <p className="typo-p">Forest 50</p>
+          </div>
+          <div className="dr-h-50 w-full bg-forest-30">
+            <p className="typo-p">Forest 30</p>
+          </div>
+          <div className="dr-h-50 w-full bg-forest-20">
+            <p className="typo-p">Forest 20</p>
+          </div>
+          <div className="dr-h-50 w-full bg-forest-10">
+            <p className="typo-p">Forest 10</p>
+          </div>
         </div>
       </div>
-      <PrimaryButton>Primary Button</PrimaryButton>
+      <div className="px-safe">
+        <CTA>Primary Button</CTA>
+      </div>
     </Wrapper>
   )
 }
