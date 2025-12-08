@@ -9,21 +9,15 @@
     border-color 300ms ease,
     box-shadow 300ms ease,
     gap 300ms ease,
-    transform 300ms ease;
+    margin-left 300ms ease;
 
   @media (--hover) {
     &:hover {
       background-color: var(--color-black);
       color: var(--color-teal);
       border-color: var(--color-teal);
+      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.8);
       gap: desktop-vw(24px);
-      transform: translateX(desktop-vw(-6px));
-      box-shadow:
-        0 100px 28px 0 rgba(127, 255, 195, 0),
-        0 64px 26px 0 rgba(127, 255, 195, 0.02),
-        0 36px 22px 0 rgba(127, 255, 195, 0.07),
-        0 16px 16px 0 rgba(127, 255, 195, 0.12),
-        0 4px 9px 0 rgba(127, 255, 195, 0.14);
 
       .arrow {
         &::before {
@@ -34,6 +28,11 @@
           transform: scale(1.5);
         }
       }
+    }
+
+    &:first-child:hover,
+    &:first-child:has(~ &:hover) {
+      margin-left: calc(desktop-vw(6px) * -1);
     }
   }
 
@@ -51,7 +50,7 @@
     @media (--hover) {
       &:hover {
         background-color: var(--color-teal);
-        border-color: var(--color-dark-teal);
+        /* border-color: var(--color-dark-teal); */
         color: var(--color-black);
 
         .arrow {
@@ -71,6 +70,49 @@
             background-color: var(--color-black);
           }
         }
+      }
+    }
+  }
+
+  &.isSecondary {
+    background-color: transparent;
+    border: none;
+    color: var(--color-teal);
+
+    .arrow {
+      transition: box-shadow 300ms ease;
+    }
+
+    @media (--hover) {
+      &:hover {
+        box-shadow: none;
+
+        .arrow {
+          box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+        }
+
+        .text {
+          &::before {
+            width: 100%;
+            transform: scaleX(1);
+          }
+        }
+      }
+    }
+
+    .text {
+      position: relative;
+
+      &::before {
+        transition: transform 300ms ease;
+        content: "";
+        position: absolute;
+        bottom: desktop-vw(-3px);
+        width: 100%;
+        transform: scaleX(0);
+        transform-origin: center;
+        height: 1px;
+        background-color: var(--color-teal);
       }
     }
   }
