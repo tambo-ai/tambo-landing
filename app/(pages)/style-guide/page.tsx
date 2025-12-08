@@ -88,6 +88,7 @@ export default function StyleGuide() {
         <div className="dr-w-200 h-fit dr-pt-3 bg-black">
           <CTA type="secondary">Secondary CTA</CTA>
         </div>
+        <CTA snippet>Snippet CTA</CTA>
       </div>
     </Wrapper>
   )

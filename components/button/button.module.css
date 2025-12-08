@@ -50,7 +50,6 @@
     @media (--hover) {
       &:hover {
         background-color: var(--color-teal);
-        /* border-color: var(--color-dark-teal); */
         color: var(--color-black);
 
         .arrow {
@@ -116,6 +115,17 @@
       }
     }
   }
+
+  &.isSnippet {
+    &:hover {
+      gap: desktop-vw(143px);
+    }
+  }
+}
+
+.snippet {
+  border: 2px solid var(--color-dark-grey);
+  transition: margin-left 300ms ease;
 }
 
 .arrow {
