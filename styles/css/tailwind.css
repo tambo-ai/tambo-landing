@@ -28,6 +28,9 @@
 
   --font-*: initial;
   --font-mono: var(--next-font-mono);
+	--font-geist: var(--next-font-geist);
+	--font-geistMono: var(--next-font-geist-mono);
+	--font-sentient: var(--next-font-sentient);
 
   --ease-*: initial;
   --ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
@@ -78,6 +81,130 @@
 	letter-spacing: 0em;
 	font-size: calc(((20 * 100) / var(--device-width)) * 1vw);
 	@variant dt { font-size: calc(((24 * 100) / var(--device-width)) * 1vw); }
+}
+@utility h1 {
+  font-family: var(--next-font-sentient);
+	font-style: normal;
+	font-weight: 300;
+	line-height: 110%;
+	letter-spacing: -0.05em;
+	font-size: calc(((48 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((48 * 100) / var(--device-width)) * 1vw); }
+}
+@utility h2 {
+  font-family: var(--next-font-sentient);
+	font-style: normal;
+	font-weight: 300;
+	line-height: 110%;
+	letter-spacing: -0.05em;
+	font-size: calc(((40 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((40 * 100) / var(--device-width)) * 1vw); }
+}
+@utility h3 {
+  font-family: var(--next-font-sentient);
+	font-style: normal;
+	font-weight: 300;
+	line-height: 110%;
+	letter-spacing: -0.05em;
+	font-size: calc(((32 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((32 * 100) / var(--device-width)) * 1vw); }
+}
+@utility h4 {
+  font-family: var(--next-font-geist-mono);
+	font-style: normal;
+	font-weight: 500;
+	line-height: 110%;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	font-size: calc(((24 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((16 * 100) / var(--device-width)) * 1vw); }
+}
+@utility surtitle {
+  font-family: var(--next-font-geist-mono);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 120%;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	font-size: calc(((16 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((16 * 100) / var(--device-width)) * 1vw); }
+}
+@utility button {
+  font-family: var(--next-font-geist-mono);
+	font-style: normal;
+	font-weight: 500;
+	line-height: 110%;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	font-size: calc(((14 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((14 * 100) / var(--device-width)) * 1vw); }
+}
+@utility link {
+  font-family: var(--next-font-geist-mono);
+	font-style: normal;
+	font-weight: 500;
+	line-height: 110%;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	text-decoration: underline;
+	font-size: calc(((14 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((14 * 100) / var(--device-width)) * 1vw); }
+}
+@utility label-m {
+  font-family: var(--next-font-geist-mono);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 120%;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	font-size: calc(((12 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((12 * 100) / var(--device-width)) * 1vw); }
+}
+@utility label-s {
+  font-family: var(--next-font-geist-mono);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 110%;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	font-size: calc(((10 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((10 * 100) / var(--device-width)) * 1vw); }
+}
+@utility p-l {
+  font-family: var(--next-font-geist);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 110%;
+	letter-spacing: 0em;
+	font-size: calc(((20 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((20 * 100) / var(--device-width)) * 1vw); }
+}
+@utility p {
+  font-family: var(--next-font-geist);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 120%;
+	letter-spacing: 0em;
+	font-size: calc(((16 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((16 * 100) / var(--device-width)) * 1vw); }
+}
+@utility p-s {
+  font-family: var(--next-font-geist);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 140%;
+	letter-spacing: 0em;
+	font-size: calc(((12 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((12 * 100) / var(--device-width)) * 1vw); }
+}
+@utility code-snippet {
+  font-family: var(--next-font-geist-mono);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 120%;
+	letter-spacing: 0.02em;
+	font-size: calc(((14 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((14 * 100) / var(--device-width)) * 1vw); }
 }
 
 @utility desktop-only {
