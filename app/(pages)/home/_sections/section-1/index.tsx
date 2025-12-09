@@ -4,6 +4,7 @@ import gsap from 'gsap'
 import { useRect } from 'hamo'
 import { useContext, useEffect } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
+import { CTA } from '~/components/button'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
 
@@ -176,7 +177,8 @@ export function Section1() {
         </p>
       </div>
       <div className="flex dr-gap-16 dr-mt-40">
-        {/* TODO: Add Buttons here */}
+        <CTA color="black">START BUILDING</CTA>
+        <CTA>Try Live Demo</CTA>
       </div>
     </section>
   )
