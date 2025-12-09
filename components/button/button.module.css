@@ -8,8 +8,7 @@
     color 300ms ease,
     border-color 300ms ease,
     box-shadow 300ms ease,
-    gap 300ms ease,
-    margin-left 300ms ease;
+    gap 300ms ease;
 
   @media (--hover) {
     &:hover {
@@ -17,7 +16,7 @@
       color: var(--color-teal);
       border-color: var(--color-teal);
       box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.8);
-      /* gap: desktop-vw(24px); */
+      gap: desktop-vw(24px);
 
       .arrow {
         &::before {
@@ -29,11 +28,6 @@
         }
       }
     }
-
-    /* &:first-child:hover,
-    &:first-child:has(~ &:hover) {
-      margin-left: calc(desktop-vw(6px) * -1);
-    } */
   }
 
   &.isBlack {
