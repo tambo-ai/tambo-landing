@@ -28,12 +28,12 @@ export function Section1() {
         fromTo(
           elements,
           {
-            width: (index) => 80 - index * 15,
-            y: (index) => -(elements.length - index) * 5,
+            width: (index) => 125 - index * 15,
+            y: (index) => -25 - (elements.length - index) * 1.8,
           },
           {
             y: 0,
-            width: (index) => 130 - index * 15,
+            width: (index) => 125 - index * 15,
           },
           progress,
           {

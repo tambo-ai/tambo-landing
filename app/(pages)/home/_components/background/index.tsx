@@ -18,12 +18,14 @@ function BoxShadow({
 }) {
   return (
     <div
-      className={cn('absolute inset-0 rounded-[inherit]', s.boxShadow)}
+      className={cn('absolute inset-[-5%] rounded-[inherit]', s.boxShadow)}
       style={{
-        transform: `translate(${x}%, ${y * 2}%)`,
-        filter: `blur(${blur}px)`,
-        opacity: opacity * 2,
-        backgroundColor: `rgba(127, 255, 195, 1)`,
+        transform: `translate(${x}%, ${y}%)`,
+        // filter: `blur(${blur}px)`,
+        // filter: `blur(${blur}px)`,
+        // opacity: opacity * 2,
+        // backgroundColor: `rgba(127, 255, 195, 1)`,
+        backgroundImage: `radial-gradient(circle at center, rgba(127, 255, 195, 1) 50%, rgba(127, 255, 195, 0) 70%)`,
       }}
     />
   )
