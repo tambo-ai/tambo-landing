@@ -29,7 +29,7 @@
       #80c1a2 0px,
       #80c1a2 1px,
       transparent 1px,
-      transparent 10px
+      transparent 8px
     );
 
     &.dpr1 {
@@ -38,7 +38,7 @@
         #80c1a2 0px,
         #80c1a2 2px,
         transparent 2px,
-        transparent 10px
+        transparent 8px
       );
     }
     /* border-radius: inherit; */

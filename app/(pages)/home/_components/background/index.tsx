@@ -38,7 +38,7 @@ export type BackgroundItemRef = {
 }
 
 export function BackgroundItem({
-  opacity,
+  opacity = 1,
   hashed,
   style,
   borderOpacity,
@@ -94,7 +94,7 @@ export function BackgroundItem({
             s.hashed,
             dpr === 1 && s.dpr1
           )}
-          style={{ opacity: opacity }}
+          style={{ opacity: `${opacity * 0.5}` }}
         />
       )}
       {outerBorder && (
