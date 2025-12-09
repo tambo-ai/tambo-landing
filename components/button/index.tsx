@@ -96,7 +96,7 @@ export function CTA({
       {snippet && (
         <button
           className={cn(
-            'dr-rounded-16 absolute w-full top-full left-0 dr-mt-4 dr-pl-16 dr-pr-8 dr-pb-16 dr-pt-8 border-2 border-solid border-dark-grey',
+            'dr-rounded-16 absolute top-full left-0 w-full dr-mt-2 dr-pl-16 dr-pr-8 dr-pb-16 dr-pt-8 border-2 border-solid border-dark-grey',
             s.snippet
           )}
           type="button"

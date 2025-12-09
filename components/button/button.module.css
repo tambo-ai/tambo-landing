@@ -1,6 +1,6 @@
 .button,
 .snippet {
-  --duration: 300ms;
+  --duration: 600ms;
   --ease: ease;
   --glow: 0 0 24px 8px rgba(127, 255, 195, 0.8);
 }
@@ -124,34 +124,51 @@
 .snippet {
   opacity: 0;
   pointer-events: none;
+  clip-path: inset(0 0 100% 0 round desktop-vw(16px));
+  transform-origin: top;
   transition:
     opacity var(--duration) var(--ease),
+    clip-path var(--duration) var(--ease),
     box-shadow var(--duration) var(--ease);
   background-color: var(--color-black);
   color: var(--color-teal);
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: -20px;
-    left: 0;
-    width: 100%;
-    height: desktop-vw(20px);
+  & > * {
+    transform: translateY(desktop-vw(20px));
+    transition: transform var(--duration) var(--ease);
   }
 }
 
 .wrapper {
   @media (--hover) {
+    &:has(.snippet)::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: desktop-vw(20px);
+    }
+
     &:hover {
       .snippet {
         opacity: 1;
         pointer-events: auto;
+        clip-path: inset(0 0 0 0 round desktop-vw(16px));
 
         &:hover {
+          clip-path: inset(
+            desktop-vw(-50px) desktop-vw(-50px) desktop-vw(-50px)
+              desktop-vw(-50px) round desktop-vw(16px)
+          );
           box-shadow: var(--glow);
           svg path {
             stroke: var(--color-teal);
           }
+        }
+
+        & > * {
+          transform: translateY(0);
         }
       }
 
@@ -174,6 +191,7 @@
         }
       }
 
+      /* Controls the button box */
       &:has(.snippet:hover) .isSnippet {
         border-color: var(--color-dark-grey);
         color: var(--color-white);
