@@ -2,6 +2,7 @@
 
 import cn from 'clsx'
 import { useImperativeHandle, useRef } from 'react'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import s from './background.module.css'
 import { BackgroundContext } from './context'
 
@@ -53,6 +54,8 @@ export function BackgroundItem({
 }) {
   const elementRef = useRef<HTMLDivElement>(null)
   const boxShadowRef = useRef<HTMLDivElement>(null)
+
+  const { dpr } = useDeviceDetection()
   //   const backgroundItemRef = useRef<BackgroundItemRef>()
 
   useImperativeHandle(ref, () => ({
@@ -88,13 +91,14 @@ export function BackgroundItem({
         <div
           className={cn(
             'absolute inset-0 rounded-[inherit] opacity-50',
-            s.hashed
+            s.hashed,
+            dpr === 1 && s.dpr1
           )}
         />
       )}
       {outerBorder && (
         <div
-          className="absolute -dr-inset-5 -dr-right-5 -dr-bottom-5 -dr-left-5 rounded-[inherit] border-solid border-[#ffffff] dr-border-10"
+          className="absolute inset-[-10] rounded-[inherit] border-solid border-[#ffffff] border-10"
           style={{
             opacity: borderOpacity,
           }}

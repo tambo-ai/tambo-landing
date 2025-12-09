@@ -29,8 +29,18 @@
       #80c1a2 0px,
       #80c1a2 1px,
       transparent 1px,
-      transparent 5px
+      transparent 10px
     );
+
+    &.dpr1 {
+      background: repeating-linear-gradient(
+        -45deg,
+        #80c1a2 0px,
+        #80c1a2 2px,
+        transparent 2px,
+        transparent 10px
+      );
+    }
     /* border-radius: inherit; */
   }
 }
