@@ -105,7 +105,7 @@ export function BackgroundItem({
           }}
         />
       )}
-      <div
+      {/* <div
         className={cn(
           'absolute inset-0 rounded-[inherit] border border-[#008346] border-1',
           s.border
@@ -113,7 +113,43 @@ export function BackgroundItem({
         style={{
           opacity: borderOpacity,
         }}
-      />
+      /> */}
+      {/* <div
+        className={cn(
+          'absolute inset-0 rounded-[inherit] translate-z-0',
+          s.border
+        )}
+        style={{
+          opacity: borderOpacity,
+          backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100%' ry='100%' stroke='%23333' stroke-width='1' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
+          borderRadius: '100%',
+        }}
+      /> */}
+      <svg
+        aria-hidden="true"
+        className={cn('absolute inset-0', s.border)}
+        width="100%"
+        height="100%"
+        // viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+        overflow="visible"
+        style={{
+          opacity: borderOpacity,
+        }}
+      >
+        <rect
+          width="100%"
+          height="100%"
+          fill="none"
+          rx="100%"
+          ry="100%"
+          stroke="#008346"
+          strokeWidth="1"
+          strokeDasharray="6, 6"
+          strokeDashoffset="0"
+          strokeLinecap="square"
+        />
+      </svg>
     </div>
   )
 }
