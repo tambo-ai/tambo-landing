@@ -94,6 +94,7 @@ export function BackgroundItem({
             s.hashed,
             dpr === 1 && s.dpr1
           )}
+          style={{ opacity: opacity }}
         />
       )}
       {outerBorder && (

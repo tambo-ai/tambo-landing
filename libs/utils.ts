@@ -184,14 +184,15 @@ export function ease(progress: number, ease: keyof typeof easings) {
   return easings[ease](progress)
 }
 
-export function fromTo(
+export function fromTo<T>(
   entries:
     | number
     | (number | HTMLElement | null | Element | undefined)[]
     | HTMLElement
     | Element
     | null
-    | undefined,
+    | undefined
+    | T[],
   from: number | Record<string, number | ((index: number) => number)> = 0,
   to: number | Record<string, number | ((index: number) => number)> = 1,
   progress = 0,
@@ -199,7 +200,7 @@ export function fromTo(
     ease?: keyof typeof easings
     stagger?: number
     render?: (
-      element: HTMLElement | number | Element,
+      element: HTMLElement | number | Element | T,
       value: Record<string, number>
     ) => void
   } = {}

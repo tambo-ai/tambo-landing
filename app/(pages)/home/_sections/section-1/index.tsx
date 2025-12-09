@@ -1,10 +1,13 @@
 'use client'
 
+import gsap from 'gsap'
 import { useRect } from 'hamo'
 import { useContext, useEffect } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
+
+// @refresh reset
 
 export function Section1() {
   const { getItems } = useContext(BackgroundContext)
@@ -15,6 +18,102 @@ export function Section1() {
   }, [getItems])
 
   const [setRectRef, rect] = useRect()
+
+  useEffect(() => {
+    const proxy = {
+      progress1: 0,
+      progress2: 0,
+    }
+
+    const timeline = gsap.timeline({
+      // delay:2
+    })
+
+    timeline
+      .to(proxy, {
+        progress1: 1,
+        duration: 1,
+        ease: 'linear',
+        onUpdate: () => {
+          const items = getItems()
+          // const elements = items.map((item) => item?.getElement()).filter(Boolean)
+
+          fromTo(
+            items,
+            {
+              width: (index) => 25 + (items.length - 1 - index) * 10,
+              boxShadowOpacity: 0,
+              y: 0,
+            },
+            {
+              y: 0,
+              boxShadowOpacity: 1,
+              width: (index) => 35 + (items.length - 1 - index) * 8,
+            },
+            proxy.progress1,
+            {
+              ease: 'easeOutQuad',
+              render: (item, { width, y, boxShadowOpacity }) => {
+                // if (item instanceof BackgroundItem) {
+                // if (item instanceof BackgroundItemRef) {
+                // @ts-expect-error
+                const element = item?.getElement()
+                // @ts-expect-error
+                const boxShadow = item?.getBoxShadow()
+
+                if (boxShadow) {
+                  boxShadow.style.opacity = `${boxShadowOpacity}`
+                }
+
+                element.style.width = `${width}%`
+                // element.style.opacity = `${opacity}`
+                element.style.transform = `translateY(${y}%)`
+                // }
+              },
+            }
+          )
+        },
+      })
+      .to(proxy, {
+        progress2: 1,
+        duration: 1,
+        ease: 'linear',
+        onUpdate: () => {
+          const items = getItems()
+          const elements = items
+            .map((item) => item?.getElement())
+            .filter(Boolean)
+
+          fromTo(
+            elements,
+            {
+              width: (index) => 35 + (items.length - 1 - index) * 8,
+              y: 0,
+            },
+            {
+              width: (index) => 125 - index * 15,
+              y: (index) => -25 - (elements.length - index) * 1.8,
+            },
+            proxy.progress2,
+            {
+              ease: 'easeOutQuad',
+              render: (element, { width, y }) => {
+                if (element instanceof HTMLElement) {
+                  element.style.width = `${width}%`
+                  element.style.transform = `translateY(${y}%)`
+                }
+              },
+            }
+          )
+        },
+      })
+
+    return () => {
+      timeline.kill()
+      proxy.progress1 = 0
+      proxy.progress2 = 0
+    }
+  }, [getItems])
 
   useScrollTrigger(
     {
