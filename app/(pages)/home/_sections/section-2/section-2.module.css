@@ -1,9 +1,0 @@
-.pattern {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(128, 193, 162, 0.2),
-    rgba(128, 193, 162, 0.2) 1px,
-    #0f1a17 1px,
-    #0f1a17 6px
-  );
-}

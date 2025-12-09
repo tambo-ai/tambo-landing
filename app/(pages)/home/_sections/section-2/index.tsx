@@ -1,14 +1,12 @@
 'use client'
 
 // import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import cn from 'clsx'
 import { useRect } from 'hamo'
 import { useContext, useEffect } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlusIcon from '~/assets/svgs/plus.svg'
 import { cards } from './data'
-import s from './section-2.module.css'
 
 export function Section2() {
   const { getItems } = useContext(BackgroundContext)
@@ -57,12 +55,7 @@ type CardProps = {
 function Card({ data }: CardProps) {
   return (
     <li className="dr-h-420 flex-1 dr-p-8 dr-rounded-20 overflow-hidden bg-off-white border border-dark-grey flex flex-col group transition-all duration-200 hover:flex-[1.35] hover:border-mint hover:bg-black hover:text-mint relative">
-      <div
-        className={cn(
-          'absolute inset-0 opacity-0 group-hover:opacity-100',
-          s.pattern
-        )}
-      />
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 dark-teal-pattern" />
       <div className="w-full dr-h-206 bg-white border border-dark-grey dr-rounded-12 dr-p-16 flex flex-col items-center overflow-hidden transition-all duration-300 group-hover:dr-h-50 group-hover:bg-black group-hover:border-mint relative z-10">
         <p className="typo-h4">{data.title}</p>
       </div>
