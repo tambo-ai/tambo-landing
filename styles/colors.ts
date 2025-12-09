@@ -37,7 +37,7 @@ const colorNames = ['primary', 'secondary', 'contrast'] as const
 
 const themes = {
   light: {
-    primary: colors.white,
+    primary: colors['off-white'],
     secondary: colors.black,
     contrast: colors.red,
   },

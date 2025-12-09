@@ -10,7 +10,7 @@ export default function Home() {
     <Wrapper
       theme="light"
       lenis={{}}
-      className="mx-auto"
+      className="mx-auto bg-primary"
       style={{
         maxWidth: `calc(var(--max-width) * 1px)`,
       }}

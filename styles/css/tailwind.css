@@ -9,7 +9,7 @@
 	--breakpoint-dt: 800px;
 
   --color-*: initial;
-	--color-primary: #ffffff;
+	--color-primary: #F2F8F6;
 	--color-secondary: #0F1A17;
 	--color-contrast: #e30613;
   --color-red: #e30613;
@@ -75,7 +75,7 @@
 
 /** Custom theme overwrites **/
 [data-theme=light] {
-  --color-primary: #ffffff;
+  --color-primary: #F2F8F6;
 	--color-secondary: #0F1A17;
 	--color-contrast: #e30613;
 }

@@ -167,7 +167,7 @@ export default function Background({
         getItems: () => itemsRef.current,
       }}
     >
-      <div className="fixed inset-0 -z-1">
+      <div className="fixed inset-0">
         <div className="absolute inset-0">
           <BackgroundItem
             opacity={0.4}
@@ -210,7 +210,7 @@ export default function Background({
         <BackgroundItem /> */}
         </div>
       </div>
-      {children}
+      <div className="relative">{children}</div>
     </BackgroundContext>
   )
 }
