@@ -125,7 +125,7 @@ const typography: TypeStyles = {
     'font-weight': 400,
     'line-height': '120%',
     'letter-spacing': '0.02em',
-    'font-size': { mobile: 14, desktop: 14 },
+    'font-size': { mobile: 12, desktop: 12 },
   },
 } as const
 

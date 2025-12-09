@@ -16,7 +16,7 @@
 	--color-blue: #0070f3;
 	--color-green: #00ff88;
 	--color-purple: #7928ca;
-	--color-pink: #ff0080;
+	--color-pink: #FFC4EB;
 	--color-ghost-mint: #D6FFEC;
 	--color-mint: #B6FFDD;
 	--color-teal: #7FFFC3;
@@ -222,8 +222,8 @@
 	font-weight: 400;
 	line-height: 120%;
 	letter-spacing: 0.02em;
-	font-size: calc(((14 * 100) / var(--device-width)) * 1vw);
-	@variant dt { font-size: calc(((14 * 100) / var(--device-width)) * 1vw); }
+	font-size: calc(((12 * 100) / var(--device-width)) * 1vw);
+	@variant dt { font-size: calc(((12 * 100) / var(--device-width)) * 1vw); }
 }
 
 @utility desktop-only {

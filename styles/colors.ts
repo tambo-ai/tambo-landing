@@ -3,7 +3,7 @@ const colors = {
   blue: '#0070f3',
   green: '#00ff88',
   purple: '#7928ca',
-  pink: '#ff0080',
+  pink: '#FFC4EB',
   // PRIMARY
   'ghost-mint': '#D6FFEC',
   mint: '#B6FFDD',

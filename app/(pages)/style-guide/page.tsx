@@ -3,7 +3,7 @@ import { Wrapper } from '../_components/wrapper'
 
 export default function StyleGuide() {
   return (
-    <Wrapper theme="light" lenis={{}}>
+    <Wrapper theme="light" lenis={{}} className="h-[200vh]">
       <div className="dr-pt-120 px-safe flex flex-col dr-gap-15">
         <h1 className="typo-h1">Heading 1</h1>
         <h2 className="typo-h2">Heading 2</h2>
@@ -86,7 +86,20 @@ export default function StyleGuide() {
         <CTA>White CTA</CTA>
         <CTA color="black">Black CTA</CTA>
         <CTA type="secondary">Secondary CTA</CTA>
-        <CTA snippet>Snippet CTA</CTA>
+        <CTA snippet>
+          Snippet CTA
+          <span className="typo-code-snippet">
+            <span className="text-pink">{'<TamboProvider'} </span>
+            <span className="text-teal">
+              {'components='}
+              <span className="text-pink">{'{components}'}</span>
+            </span>
+            <br />
+            <span className="text-white dt:dr-ml-16">{'<YourApp />'}</span>
+            <br />
+            <span className="text-pink">{'</TamboProvider>'}</span>
+          </span>
+        </CTA>
       </div>
     </Wrapper>
   )

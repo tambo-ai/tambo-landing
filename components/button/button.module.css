@@ -174,7 +174,7 @@
 
       /* Maintain snippet style on the button when hovering the wrapper (includes hovering the snippet) */
       .isSnippet {
-        gap: desktop-vw(150px);
+        gap: desktop-vw(143px);
         background-color: var(--color-black);
         color: var(--color-teal);
         border-color: var(--color-teal);

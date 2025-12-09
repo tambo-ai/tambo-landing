@@ -1,6 +1,7 @@
 'use client'
 
 import cn from 'clsx'
+import React from 'react'
 import ArrowSVG from '~/assets/svgs/arrow.svg'
 import ClipboardSVG from '~/assets/svgs/clipboard.svg'
 import { Link } from '~/components/link'
@@ -68,6 +69,21 @@ export function CTA({
   snippet = false,
   ...props
 }: ButtonProps) {
+  // Split children: first child = button text, rest = snippet content
+  const childrenArray = React.Children.toArray(children)
+  const buttonText =
+    snippet && childrenArray.length > 1 ? childrenArray[0] : children
+  const snippetContent =
+    snippet && childrenArray.length > 1 ? childrenArray.slice(1) : null
+
+  const contentRef = React.useRef<HTMLSpanElement>(null)
+
+  const handleCopy = () => {
+    if (!contentRef.current) return
+    const text = contentRef.current.innerText
+    navigator.clipboard.writeText(text)
+  }
+
   return (
     <div className={cn('relative', s.wrapper)}>
       <Button
@@ -83,7 +99,7 @@ export function CTA({
         as={as}
         {...props}
       >
-        <span className={cn(s.text, 'typo-button')}>{children}</span>
+        <span className={cn(s.text, 'typo-button')}>{buttonText}</span>
         <span
           className={cn(
             'dt:dr-w-32 dt:dr-h-32 bg-mint flex items-center justify-center dr-rounded-10',
@@ -100,6 +116,7 @@ export function CTA({
             s.snippet
           )}
           type="button"
+          onClick={handleCopy}
         >
           <span className="flex items-center justify-between dt:dr-mb-24">
             <span className="typo-label-s text-white">JSX</span>
@@ -108,7 +125,9 @@ export function CTA({
             </span>
           </span>
 
-          <p className="typo-code-snippet">testing</p>
+          <span ref={contentRef} className="block">
+            {snippetContent}
+          </span>
         </button>
       )}
     </div>
