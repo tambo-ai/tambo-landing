@@ -1,12 +1,13 @@
 'use client'
 
+import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Marquee } from '~/components/marquee'
-import { persons } from './data'
+import { buttons, persons } from './data'
 
 export function Section3() {
   return (
-    <section>
+    <section className="dt:dr-pt-156 dt:dr-pb-204">
       <Marquee repeat={2} speed={0.3} className="dt:dr-mb-56">
         <div className="flex dr-gap-x-24 dr-mr-24">
           {persons.map((person) => (
@@ -41,6 +42,17 @@ export function Section3() {
           ))}
         </div>
       </Marquee>
+      <div className="dr-gap-x-16 flex items-center justify-center w-full">
+        {buttons.map((button) => (
+          <CTA
+            key={button.text}
+            icon={button?.icon as 'github' | 'discord'}
+            href={button?.href}
+          >
+            {button.text}
+          </CTA>
+        ))}
+      </div>
     </section>
   )
 }

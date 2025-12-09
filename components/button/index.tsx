@@ -4,6 +4,8 @@ import cn from 'clsx'
 import React from 'react'
 import ArrowSVG from '~/assets/svgs/arrow.svg'
 import ClipboardSVG from '~/assets/svgs/clipboard.svg'
+import DiscordSVG from '~/assets/svgs/discord.svg'
+import GithubSVG from '~/assets/svgs/github.svg'
 import { Link } from '~/components/link'
 import s from './button.module.css'
 
@@ -13,6 +15,7 @@ type ButtonProps = {
   as?: React.ElementType
   type?: 'primary' | 'secondary'
   color?: 'white' | 'black'
+  icon?: 'arrow' | 'github' | 'discord'
   snippet?: boolean
   disabled?: boolean
   onClick?: () => void
@@ -67,6 +70,7 @@ export function CTA({
   type = 'primary',
   color = 'white',
   snippet = false,
+  icon = 'arrow',
   ...props
 }: ButtonProps) {
   // Split children: first child = button text, rest = snippet content
@@ -106,7 +110,15 @@ export function CTA({
             s.arrow
           )}
         >
-          <ArrowSVG className="dt:dr-w-16 dt:dr-h-16 z-1" />
+          {icon === 'arrow' && (
+            <ArrowSVG className="dt:dr-w-16 dt:dr-h-16 z-1" />
+          )}
+          {icon === 'github' && (
+            <GithubSVG className="dt:dr-w-24 dt:dr-h-24 z-1" />
+          )}
+          {icon === 'discord' && (
+            <DiscordSVG className="dt:dr-w-24 dt:dr-h-24 z-1" />
+          )}
         </span>
       </Button>
       {snippet && (

@@ -20,3 +20,16 @@ export const persons = [
       "Thanks. Though wish I'd known about @tambo_ai sooner. Would have saved me at least a hundred hours in a separate project.",
   },
 ]
+
+export const buttons = [
+  {
+    icon: 'github',
+    text: 'Star our Repo',
+    href: 'https://github.com/darkroomengineering',
+  },
+  {
+    icon: 'discord',
+    text: 'Join our Discord',
+    href: 'https://github.com/darkroomengineering',
+  },
+]
