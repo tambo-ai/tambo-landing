@@ -13,7 +13,7 @@ export function Section3() {
           {persons.map((person) => (
             <div
               key={person?.name}
-              className="dt:dr-w-322 dt:dr-h-126 dt:dr-p-16 dt:dr-rounded-20 border border-dark-grey flex dr-gap-x-16"
+              className="dt:dr-w-322 dt:dr-h-126 dt:dr-p-16 dt:dr-rounded-20 border border-dark-grey flex dr-gap-x-16 bg-white"
             >
               <div className="dt:dr-w-40 dt:dr-h-40 dt:dr-rounded-full relative">
                 <Image src={person?.image} alt={person?.name} fill />
