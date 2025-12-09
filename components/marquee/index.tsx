@@ -72,11 +72,10 @@ export function Marquee({
   })
 
   return (
-    <section
+    // biome-ignore lint/a11y/noStaticElementInteractions: <explanation>
+    <div
       ref={setIntersectionRef}
       className={cn(className, s.marquee)}
-      aria-live="off"
-      aria-label="Scrolling content"
       onMouseEnter={(e) => {
         isHovered.current = true
         onMouseEnter?.(e)
@@ -106,6 +105,6 @@ export function Marquee({
           {children}
         </div>
       ))}
-    </section>
+    </div>
   )
 }
