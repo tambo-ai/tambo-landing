@@ -182,7 +182,7 @@ export function Navigation() {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 z-2 dr-layout-grid-inner pt-gap pb-safe uppercase typo-button',
+        'fixed top-0 left-0 z-100 dr-layout-grid-inner pt-gap pb-safe uppercase typo-button',
         isVisible && 'opacity-100'
       )}
       onMouseEnter={() => toggleNavigation('show')}
@@ -190,7 +190,7 @@ export function Navigation() {
     >
       <Link
         href="/"
-        className="dr-size-48 rounded-full border border-dark-grey grid place-items-center"
+        className="dr-size-48 rounded-full border border-dark-grey grid place-items-center bg-white/50 backdrop-blur-[30px]"
         ref={githubRef}
       >
         <div className="group dr-w-32 aspect-square grid place-items-center bg-teal hover:bg-black hover:text-teal rounded-full hover:scale-110 transition-all duration-300">
@@ -201,7 +201,7 @@ export function Navigation() {
       <section className="col-start-3 col-end-11 flex justify-center">
         <div
           ref={centerRef}
-          className="w-full origin-center flex justify-between items-center border border-dark-grey pl-gap dr-pr-8 rounded-full overflow-hidden dr-h-48"
+          className="w-full origin-center flex justify-between items-center border border-dark-grey pl-gap dr-pr-8 rounded-full overflow-hidden dr-h-48 bg-white/50 backdrop-blur-[30px]"
         >
           <ul ref={leftRef} className="flex dr-gap-20">
             {LEFT_LINKS.map((link) => (
@@ -239,7 +239,7 @@ export function Navigation() {
 
       <Link
         href="/"
-        className="col-start-12 dr-size-48 rounded-full border border-dark-grey grid place-items-center"
+        className="col-start-12 dr-size-48 rounded-full border border-dark-grey grid place-items-center bg-white/50 backdrop-blur-[30px]"
         ref={discordRef}
       >
         <div className="group dr-w-32 aspect-square grid place-items-center bg-teal hover:bg-black hover:text-teal rounded-full hover:scale-110 transition-all duration-300">
