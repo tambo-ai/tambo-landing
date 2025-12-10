@@ -22,6 +22,7 @@ const RIGHT_LINKS = [
 
 export function Navigation() {
   const [isVisible, setIsVisible] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
   const centerRef = useRef<HTMLDivElement>(null)
   const leftRef = useRef<HTMLUListElement>(null)
   const rightRef = useRef<HTMLUListElement>(null)
@@ -44,6 +45,7 @@ export function Navigation() {
   }
 
   const hideNavigation = useEffectEvent(() => {
+    if (isHovered) return
     const tl = gsap.timeline()
 
     tl.to(centerRef.current, {
@@ -105,6 +107,10 @@ export function Navigation() {
       },
       '-=.3'
     )
+
+    return () => {
+      tl.kill()
+    }
   })
 
   const showNavigation = useEffectEvent(() => {
@@ -169,14 +175,17 @@ export function Navigation() {
       },
       '<'
     )
+
+    return () => {
+      tl.kill()
+    }
   })
 
   useEffect(() => {
     if (isVisible) {
-      showNavigation()
-    } else {
-      hideNavigation()
+      return showNavigation()
     }
+    return hideNavigation()
   }, [isVisible])
 
   return (
@@ -188,8 +197,14 @@ export function Navigation() {
       style={{
         maxWidth: `calc(var(--max-width) * 1px)`,
       }}
-      onMouseEnter={() => toggleNavigation('show')}
-      onMouseLeave={() => toggleNavigation('hide')}
+      onMouseEnter={() => {
+        setIsHovered(true)
+        toggleNavigation('show')
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        toggleNavigation('hide')
+      }}
     >
       <Link
         href="/"
