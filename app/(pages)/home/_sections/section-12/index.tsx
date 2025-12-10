@@ -1,7 +1,7 @@
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import CheckSVG from '~/assets/svgs/check.svg'
 import { CTA } from '~/components/button'
-import { pricingCards } from './data'
+import { banner, pricingCards } from './data'
 
 export function Section12() {
   return (
@@ -17,7 +17,7 @@ export function Section12() {
         </TitleBlock.Title>
       </TitleBlock>
       <div className="col-start-2 col-end-12">
-        <div className="grid grid-cols-3 dr-gap-24">
+        <div className="grid grid-cols-3 dr-gap-24 dt:dr-mb-32">
           {pricingCards.map((card, i) => (
             <div
               key={`${card?.plan}-${i}`}
@@ -30,7 +30,7 @@ export function Section12() {
                     {card?.plan}
                     {' >'}
                   </p>
-                  <h3 className="typo-h3 dt:dr-mb-8">{card?.title}</h3>
+                  <h2 className="typo-h3 dt:dr-mb-8">{card?.title}</h2>
                   <p className="typo-p">{card?.description}</p>
                 </div>
                 <ul className="flex flex-col dr-gap-12">
@@ -48,6 +48,27 @@ export function Section12() {
               </CTA>
             </div>
           ))}
+        </div>
+        {/* BANNER */}
+        <div className="w-full dt:dr-p-8 border border-dark-grey dr-rounded-20">
+          <div className="border bg-black w-full dr-rounded-12 dr-p-24 relative overflow-hidden flex  justify-between">
+            <div className="absolute inset-0 dark-teal-pattern z-0" />
+            <div className="relative text-teal">
+              <h3 className="typo-h3 dt:dr-mb-8">{banner?.title}</h3>
+              <p className="typo-p">{banner?.description}</p>
+            </div>
+            <ul className="flex dr-gap-40 relative">
+              {banner?.features.map((feature) => (
+                <li key={feature} className="flex items-center dr-gap-4">
+                  <CheckSVG className="dr-size-16 text-teal" />
+                  <p className="typo-label-s text-teal">{feature}</p>
+                </li>
+              ))}
+            </ul>
+            <CTA color="black" icon="github" href={banner?.button?.href}>
+              {banner?.button?.text}
+            </CTA>
+          </div>
         </div>
       </div>
     </section>

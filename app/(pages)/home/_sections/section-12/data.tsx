@@ -52,3 +52,17 @@ export const pricingCards = [
     ],
   },
 ]
+
+export const banner = {
+  title: 'Open Source',
+  description: 'Self-host for Free. Forever.',
+  features: [
+    'tambo.ai/react package',
+    'ui component library',
+    'tambo-ai/tambo-cloud',
+  ],
+  button: {
+    text: 'SIGNUP',
+    href: '/',
+  },
+}
