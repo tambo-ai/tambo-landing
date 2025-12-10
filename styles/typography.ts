@@ -16,6 +16,14 @@ const typography: TypeStyles = {
     'letter-spacing': '0em',
     'font-size': { mobile: 20, desktop: 24 },
   },
+  'hero-title': {
+    'font-family': `var(${fonts.sentient})`,
+    'font-style': 'normal',
+    'font-weight': 300,
+    'line-height': '110%',
+    'letter-spacing': '-0.05em',
+    'font-size': { mobile: 64, desktop: 64 },
+  },
   h1: {
     'font-family': `var(${fonts.sentient})`,
     'font-style': 'normal',

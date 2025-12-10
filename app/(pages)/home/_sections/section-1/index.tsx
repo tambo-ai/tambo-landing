@@ -156,7 +156,7 @@ export function Section1() {
       ref={setRectRef}
       className="flex flex-col items-center justify-center h-screen"
     >
-      <div className="dr-w-col-6 flex flex-col dr-gap-8 text-center items-center">
+      <div className="dr-w-col-8 flex flex-col dr-gap-8 text-center items-center">
         <div className="-dr-mb-90 dr-w-416">
           <video
             src="/videos/Octo-Juggle.webm"
@@ -167,12 +167,12 @@ export function Section1() {
             className="w-full h-full object-cover"
           />
         </div>
-        <h1 className="typo-h1">
+        <h1 className="typo-hero-title">
           You shouldn&apos;t need a PhD
           <br />
           to add AI to your app
         </h1>
-        <p className="typo-p-l">
+        <p className="typo-p-l text-black-70">
           Turn any React app into an AI-powered experience in minutes
         </p>
       </div>
