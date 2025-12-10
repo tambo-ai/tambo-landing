@@ -202,7 +202,6 @@ export function Section1() {
             ref={videoRef}
           >
             <video
-              src="/videos/Octo-Juggle.webm"
               autoPlay
               muted
               loop
