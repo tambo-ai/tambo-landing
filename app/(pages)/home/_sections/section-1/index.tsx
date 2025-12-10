@@ -172,7 +172,7 @@ export function Section1() {
           <br />
           to add AI to your app
         </h1>
-        <p className="typo-p-l text-black-70">
+        <p className="typo-p-l text-black/70">
           Turn any React app into an AI-powered experience in minutes
         </p>
       </div>

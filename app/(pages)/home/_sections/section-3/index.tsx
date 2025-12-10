@@ -21,7 +21,7 @@ export function Section3() {
               <div>
                 <div className="flex items-center dr-gap-x-4 w-full dr-mb-8">
                   <p className="typo-p">{person?.name ?? ''}</p>
-                  <p className="typo-label-m text-black-50">
+                  <p className="typo-label-m text-black/50">
                     {person?.account ?? ''}
                   </p>
                 </div>

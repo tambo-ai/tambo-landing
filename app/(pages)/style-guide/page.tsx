@@ -47,37 +47,37 @@ export default function StyleGuide() {
           <div className="dr-h-50 w-full bg-white">
             <p className="typo-p">White</p>
           </div>
-          <div className="dr-h-50 w-full bg-white-80">
+          <div className="dr-h-50 w-full bg-white/80">
             <p className="typo-p">White 80</p>
           </div>
-          <div className="dr-h-50 w-full bg-white-60">
+          <div className="dr-h-50 w-full bg-white/60">
             <p className="typo-p">White 60</p>
           </div>
-          <div className="dr-h-50 w-full bg-white-50">
+          <div className="dr-h-50 w-full bg-white/50">
             <p className="typo-p">White 50</p>
           </div>
           <div className="dr-h-50 w-full bg-black">
             <p className="typo-p text-white">Black</p>
           </div>
-          <div className="dr-h-50 w-full bg-black-70">
+          <div className="dr-h-50 w-full bg-black/70">
             <p className="typo-p">Black 70</p>
           </div>
-          <div className="dr-h-50 w-full bg-black-50">
+          <div className="dr-h-50 w-full bg-black/50">
             <p className="typo-p">Black 50</p>
           </div>
           <div className="dr-h-50 w-full bg-forest">
             <p className="typo-p">Forest</p>
           </div>
-          <div className="dr-h-50 w-full bg-forest-50">
+          <div className="dr-h-50 w-full bg-forest/50">
             <p className="typo-p">Forest 50</p>
           </div>
-          <div className="dr-h-50 w-full bg-forest-30">
+          <div className="dr-h-50 w-full bg-forest/30">
             <p className="typo-p">Forest 30</p>
           </div>
-          <div className="dr-h-50 w-full bg-forest-20">
+          <div className="dr-h-50 w-full bg-forest/20">
             <p className="typo-p">Forest 20</p>
           </div>
-          <div className="dr-h-50 w-full bg-forest-10">
+          <div className="dr-h-50 w-full bg-forest/10">
             <p className="typo-p">Forest 10</p>
           </div>
         </div>
