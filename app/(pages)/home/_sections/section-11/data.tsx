@@ -4,6 +4,7 @@ export const showcaseCards = [
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
+    href: '/',
     // image: '/images/app-1.png',
   },
   {
@@ -11,6 +12,7 @@ export const showcaseCards = [
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
+    href: '/',
     // image: '/images/app-1.png',
   },
   {
@@ -18,6 +20,7 @@ export const showcaseCards = [
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
+    href: '/',
     // image: '/images/app-1.png',
   },
 ]
