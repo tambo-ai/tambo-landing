@@ -44,7 +44,6 @@ export function Section11() {
                 )}
               />
 
-              {/* IMAGE WIP */}
               <div
                 className={cn(
                   'dt:dr-w-337 dt:dr-h-189 border-2 border-dark-grey dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white',

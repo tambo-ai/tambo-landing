@@ -5,6 +5,7 @@ import { Section2 } from './_sections/section-2'
 import { Section3 } from './_sections/section-3'
 import { Section8 } from './_sections/section-8'
 import { Section11 } from './_sections/section-11'
+import { Section12 } from './_sections/section-12'
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <Section3 />
         <Section8 />
         <Section11 />
+        <Section12 />
         <div className="h-[300vh]" />
       </Background>
     </Wrapper>
