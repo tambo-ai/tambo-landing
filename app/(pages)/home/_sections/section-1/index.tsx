@@ -1,13 +1,15 @@
 'use client'
 
+import cn from 'clsx'
 import gsap from 'gsap'
 import { useRect } from 'hamo'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
+import TamboLetters from '~/assets/svgs/tambo-letters.svg'
 import { CTA } from '~/components/button'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
-
+import s from './section1.module.css'
 // @refresh reset
 
 export function Section1() {
@@ -19,6 +21,10 @@ export function Section1() {
   }, [getItems])
 
   const [setRectRef, rect] = useRect()
+
+  const videoRef = useRef<HTMLDivElement>(null)
+  const subVideoRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const proxy = {
@@ -108,7 +114,37 @@ export function Section1() {
           )
         },
       })
-
+      .fromTo(
+        videoRef.current,
+        {
+          scale: 0.25,
+        },
+        {
+          scale: 1,
+          duration: 1,
+          ease: 'expo.out',
+        },
+        '<0'
+      )
+      .fromTo(
+        subVideoRef.current,
+        {
+          opacity: 1,
+        },
+        {
+          opacity: 0,
+        },
+        '<0'
+      )
+      .fromTo(
+        titleRef.current,
+        {
+          opacity: 0,
+        },
+        {
+          opacity: 1,
+        }
+      )
     return () => {
       timeline.kill()
       proxy.progress1 = 0
@@ -154,44 +190,64 @@ export function Section1() {
   return (
     <section
       ref={setRectRef}
-      className="flex flex-col items-center justify-center h-screen"
+      className="flex flex-col items-center justify-center h-screen relative"
     >
+      <div className="dr-w-480 aspect-[1/1] border-1 border-[red] rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]" />
       <div className="dr-w-col-8 flex flex-col dr-gap-8 text-center items-center">
-        <div className="-dr-mb-90 dr-w-416">
-          <video
-            src="/videos/Octo-Juggle.webm"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-          />
+        <div className="relative">
+          <div
+            className={cn('-dr-mb-90 dr-w-416 scale-[0.25]', s.video)}
+            ref={videoRef}
+          >
+            <video
+              src="/videos/Octo-Juggle.webm"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div
+            className="absolute left-[50%] translate-x-[-50%] top-[100%]"
+            ref={subVideoRef}
+          >
+            <div className="dr-h-26 dr-mb-8">
+              <TamboLetters className="h-full" />
+            </div>
+            <div className="typo-surtitle">{'< REACT SDK >'}</div>
+          </div>
         </div>
-        <h1 className="typo-hero-title">
-          You shouldn&apos;t need a PhD
-          <br />
-          to add AI to your app
-        </h1>
-        <p className="typo-p-l text-black/70">
-          Turn any React app into an AI-powered experience in minutes
-        </p>
-      </div>
-      <div className="flex dr-gap-16 dr-mt-40">
-        <CTA snippet className="bg-black! text-teal border-teal">
-          START BUILDING
-          <span className="typo-code-snippet">
-            <span className="text-pink">{'<TamboProvider'} </span>
-            <span className="text-teal">
-              {'components='}
-              <span className="text-pink">{'{components}'}</span>
-            </span>
+        <div
+          className="dr-w-col-8 flex flex-col dr-gap-8 text-center items-center"
+          ref={titleRef}
+        >
+          <h1 className="typo-hero-title">
+            You shouldn&apos;t need a PhD
             <br />
-            <span className="text-white dt:dr-ml-16">{'<YourApp />'}</span>
-            <br />
-            <span className="text-pink">{'</TamboProvider>'}</span>
-          </span>
-        </CTA>
-        <CTA>Try Live Demo</CTA>
+            to add AI to your app
+          </h1>
+          <p className="typo-p-l text-black-70">
+            Turn any React app into an AI-powered experience in minutes
+          </p>
+          <div className="flex dr-gap-16 dr-mt-40">
+            <CTA snippet className="bg-black! text-teal border-teal">
+              START BUILDING
+              <span className="typo-code-snippet">
+                <span className="text-pink">{'<TamboProvider'} </span>
+                <span className="text-teal">
+                  {'components='}
+                  <span className="text-pink">{'{components}'}</span>
+                </span>
+                <br />
+                <span className="text-white dt:dr-ml-16">{'<YourApp />'}</span>
+                <br />
+                <span className="text-pink">{'</TamboProvider>'}</span>
+              </span>
+            </CTA>
+            <CTA>Try Live Demo</CTA>
+          </div>
+        </div>
       </div>
     </section>
   )

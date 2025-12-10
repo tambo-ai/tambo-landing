@@ -2,7 +2,7 @@
 
 import cn from 'clsx'
 import { useImperativeHandle, useRef } from 'react'
-import { useTempus } from 'tempus/react'
+// import { useTempus } from 'tempus/react'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import s from './background.module.css'
 import { BackgroundContext } from './context'
@@ -66,14 +66,15 @@ export function BackgroundItem({
 
   const svgRectRef = useRef<SVGRectElement>(null)
 
-  useTempus((_, __, frameCount) => {
-    if (isSafari === false) {
-      svgRectRef.current?.setAttribute(
-        'stroke-dashoffset',
-        `${frameCount * 0.25}`
-      )
-    }
-  })
+  // this fucks GPU performance
+  // useTempus((_, __, frameCount) => {
+  //   if (isSafari === false) {
+  //     svgRectRef.current?.setAttribute(
+  //       'stroke-dashoffset',
+  //       `${frameCount * 0.25}`
+  //     )
+  //   }
+  // })
 
   return (
     <div

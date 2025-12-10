@@ -1,5 +1,6 @@
 import { CTA } from '~/components/button'
 import { Wrapper } from '../_components/wrapper'
+import { HashPattern } from '../home/_components/hash-pattern'
 
 export default function StyleGuide() {
   return (
@@ -82,7 +83,7 @@ export default function StyleGuide() {
           </div>
         </div>
       </div>
-      <div className="px-safe flex items-center w-full justify-center dr-gap-20">
+      <div className="px-safe flex items-center w-full justify-center dr-gap-20  dr-mb-50">
         <CTA>White CTA</CTA>
         <CTA color="black">Black CTA</CTA>
         <CTA type="secondary">Secondary CTA</CTA>
@@ -100,6 +101,18 @@ export default function StyleGuide() {
             <span className="text-pink">{'</TamboProvider>'}</span>
           </span>
         </CTA>
+      </div>
+      <div className="px-safe flex dr-gap-20">
+        <div className="flex-1 aspect-[566/297] bg-white  relative">
+          <HashPattern className="absolute inset-0 text-dark-teal/50" />
+        </div>
+        <div className="flex-1 aspect-[566/297] bg-white relative">
+          <HashPattern className="absolute inset-0 text-dark-teal/50 opacity-60 " />
+        </div>
+
+        <div className="flex-1 aspect-[566/297] bg-black relative">
+          <HashPattern className="absolute inset-0 text-dark-teal/20" />
+        </div>
       </div>
     </Wrapper>
   )

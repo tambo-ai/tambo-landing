@@ -1,0 +1,19 @@
+.hashed {
+  background: repeating-linear-gradient(
+    -45deg,
+    currentColor 0px,
+    currentColor 1px,
+    transparent 1px,
+    transparent 8px
+  );
+
+  &.dpr1 {
+    background: repeating-linear-gradient(
+      -45deg,
+      currentColor 0px,
+      currentColor 2px,
+      transparent 2px,
+      transparent 8px
+    );
+  }
+}
