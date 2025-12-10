@@ -42,6 +42,18 @@ function TitleBlockTitle({
   )
 }
 
+function TitleBlockSubtitle({
+  children,
+  className,
+  ...props
+}: ComponentProps<'p'>) {
+  return (
+    <p className={cn('typo-p-l text-center', className)} {...props}>
+      {children}
+    </p>
+  )
+}
+
 function TitleBlockButton({ children, ...props }: ComponentProps<typeof CTA>) {
   return <CTA {...props}>{children}</CTA>
 }
@@ -50,7 +62,9 @@ export const TitleBlock = TitleBlockRoot as typeof TitleBlockRoot & {
   LeadIn: typeof TitleBlockLeadIn
   Title: typeof TitleBlockTitle
   Button: typeof TitleBlockButton
+  Subtitle: typeof TitleBlockSubtitle
 }
 TitleBlock.LeadIn = TitleBlockLeadIn
 TitleBlock.Title = TitleBlockTitle
 TitleBlock.Button = TitleBlockButton
+TitleBlock.Subtitle = TitleBlockSubtitle

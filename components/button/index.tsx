@@ -110,15 +110,7 @@ export function CTA({
             s.arrow
           )}
         >
-          {icon === 'arrow' && (
-            <ArrowSVG className="dt:dr-w-16 dt:dr-h-16 z-1" />
-          )}
-          {icon === 'github' && (
-            <GithubSVG className="dt:dr-w-24 dt:dr-h-24 z-1" />
-          )}
-          {icon === 'discord' && (
-            <DiscordSVG className="dt:dr-w-24 dt:dr-h-24 z-1" />
-          )}
+          <ButtonIcon icon={icon} />
         </span>
       </Button>
       {snippet && (
@@ -143,5 +135,17 @@ export function CTA({
         </button>
       )}
     </div>
+  )
+}
+
+export function ButtonIcon({ icon }: { icon: 'arrow' | 'github' | 'discord' }) {
+  return (
+    <span className="dt:dr-w-32 dt:dr-h-32 bg-mint flex items-center justify-center dr-rounded-10">
+      {icon === 'arrow' && <ArrowSVG className="dt:dr-w-16 dt:dr-h-16 z-1" />}
+      {icon === 'github' && <GithubSVG className="dt:dr-w-24 dt:dr-h-24 z-1" />}
+      {icon === 'discord' && (
+        <DiscordSVG className="dt:dr-w-24 dt:dr-h-24 z-1" />
+      )}
+    </span>
   )
 }

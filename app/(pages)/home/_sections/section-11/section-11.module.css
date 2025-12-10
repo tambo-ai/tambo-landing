@@ -1,0 +1,41 @@
+.card {
+  transition:
+    padding-bottom 0.3s ease,
+    background-color 0.3s ease;
+
+  @media (--hover) {
+    &:hover {
+      cursor: pointer;
+
+      @media (--desktop) {
+        padding-bottom: desktop-vw(132px);
+        background-color: var(--color-black);
+      }
+
+      .title {
+        color: var(--color-teal);
+      }
+
+      .cardContent {
+        opacity: 1;
+      }
+
+      .cardImage {
+        border-color: var(--color-teal);
+      }
+    }
+  }
+}
+
+.cardImage {
+  transition: border-color 0.3s ease;
+}
+
+.title {
+  transition: color 0.3s ease;
+}
+
+.cardContent {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
