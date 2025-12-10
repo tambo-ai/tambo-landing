@@ -1,0 +1,128 @@
+.wrapper {
+  max-width: desktop-vw(600px);
+}
+
+.title {
+  color: var(--color-black);
+}
+
+.infoBox {
+  background-color: var(--color-light-gray);
+  border: 2px solid var(--color-dark-grey);
+}
+
+.seatGrid {
+  display: flex;
+  flex-direction: column;
+}
+
+.seatHeader {
+  color: var(--color-black-70);
+}
+
+.rowNumber {
+  color: var(--color-black-70);
+}
+
+.seat {
+  --duration: 200ms;
+  --ease: ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-dark-grey);
+  transition:
+    background-color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease),
+    transform var(--duration) var(--ease);
+
+  @media (--hover) {
+    &:hover:not(.isTaken):not(.isSelected) {
+      border-color: var(--color-teal);
+      background-color: var(--color-ghost-mint);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.isSelected {
+  background-color: var(--color-teal);
+  border-color: var(--color-teal);
+  color: var(--color-black);
+  box-shadow: 0 0 12px 4px rgba(127, 255, 195, 0.5);
+}
+
+.isTaken {
+  background-color: var(--color-grey);
+  border-color: var(--color-dark-grey);
+  color: var(--color-black-50);
+  cursor: not-allowed;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+}
+
+.legendDot {
+  border: 2px solid var(--color-dark-grey);
+}
+
+.legendAvailable {
+  background-color: var(--color-white);
+}
+
+.legendSelected {
+  background-color: var(--color-teal);
+  border-color: var(--color-teal);
+}
+
+.legendTaken {
+  background-color: var(--color-grey);
+}
+
+.button {
+  --duration: 300ms;
+  --ease: ease;
+  position: relative;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-dark-grey);
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease),
+    opacity var(--duration) var(--ease);
+
+  @media (--hover) {
+    &:hover:not(:disabled) {
+      background-color: var(--color-black);
+      color: var(--color-teal);
+      border-color: var(--color-teal);
+      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.buttonPrimary {
+  background-color: var(--color-teal);
+  border-color: var(--color-teal);
+  color: var(--color-black);
+
+  @media (--hover) {
+    &:hover:not(:disabled) {
+      background-color: var(--color-mint);
+      border-color: var(--color-mint);
+      color: var(--color-black);
+      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+    }
+  }
+}

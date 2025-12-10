@@ -1,3 +1,5 @@
+import { TamboIntegration } from '~/integrations/tambo'
+
 export function MCP() {
-  return <div className="size-full" />
+  return <TamboIntegration />
 }
