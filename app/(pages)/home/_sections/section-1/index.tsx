@@ -209,7 +209,7 @@ export function Section1() {
               className="w-full h-full object-cover"
             >
               <source
-                src="/videos/Octo-Juggle.mov"
+                src="/videos/Octo-Juggle-compressed.mov"
                 type='video/mp4; codecs="hvc1"'
               />
               <source src="/videos/Octo-Juggle.webm" type="video/webm" />
