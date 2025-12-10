@@ -208,7 +208,13 @@ export function Section1() {
               loop
               playsInline
               className="w-full h-full object-cover"
-            />
+            >
+              <source
+                src="/videos/Octo-Juggle.mov"
+                type='video/mp4; codecs="hvc1"'
+              />
+              <source src="/videos/Octo-Juggle.webm" type="video/webm" />
+            </video>
           </div>
           <div
             className="absolute left-[50%] translate-x-[-50%] top-[100%]"
