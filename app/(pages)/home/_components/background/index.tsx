@@ -2,7 +2,6 @@
 
 import cn from 'clsx'
 import { useImperativeHandle, useRef } from 'react'
-// import { useTempus } from 'tempus/react'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import s from './background.module.css'
 import { BackgroundContext } from './context'
@@ -10,8 +9,8 @@ import { BackgroundContext } from './context'
 function BoxShadow({
   x = 0,
   y = 0,
-  blur = 0,
-  opacity = 1,
+  blur: _blur = 0,
+  opacity: _opacity = 1,
 }: {
   x?: number
   y?: number
@@ -56,7 +55,7 @@ export function BackgroundItem({
   const elementRef = useRef<HTMLDivElement>(null)
   const boxShadowRef = useRef<HTMLDivElement>(null)
 
-  const { dpr, isSafari } = useDeviceDetection()
+  const { dpr } = useDeviceDetection()
   //   const backgroundItemRef = useRef<BackgroundItemRef>()
 
   useImperativeHandle(ref, () => ({
@@ -64,22 +63,10 @@ export function BackgroundItem({
     getBoxShadow: () => boxShadowRef.current,
   }))
 
-  const svgRectRef = useRef<SVGRectElement>(null)
-
-  // this fucks GPU performance
-  // useTempus((_, __, frameCount) => {
-  //   if (isSafari === false) {
-  //     svgRectRef.current?.setAttribute(
-  //       'stroke-dashoffset',
-  //       `${frameCount * 0.25}`
-  //     )
-  //   }
-  // })
-
   return (
     <div
       className={cn(
-        'absolute aspect-[1/1] rounded-full left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]',
+        'absolute aspect-square rounded-full left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]',
         s.item
       )}
       style={style}
@@ -112,7 +99,7 @@ export function BackgroundItem({
       )}
       {outerBorder && (
         <div
-          className="absolute inset-[-10] rounded-[inherit] border-solid border-[#ffffff] border-10"
+          className="absolute inset-[-10] rounded-[inherit] border-solid border-white border-10"
           style={{
             opacity: borderOpacity,
           }}
@@ -151,7 +138,6 @@ export function BackgroundItem({
         }}
       >
         <rect
-          ref={svgRectRef}
           width="100%"
           height="100%"
           fill="none"
@@ -162,7 +148,17 @@ export function BackgroundItem({
           strokeDasharray="6, 6"
           strokeDashoffset="0"
           strokeLinecap="square"
+          style={{
+            animation: 'dashoffset-move 0.4s linear infinite',
+          }}
         />
+        <style>
+          {`@keyframes dashoffset-move {
+          to {
+            stroke-dashoffset: +12;
+          }
+        }`}
+        </style>
       </svg>
     </div>
   )
