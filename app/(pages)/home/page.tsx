@@ -3,6 +3,7 @@ import Background from './_components/background'
 import { Section1 } from './_sections/section-1'
 import { Section2 } from './_sections/section-2'
 import { Section3 } from './_sections/section-3'
+import { Section4 } from './_sections/section-4'
 import { Section8 } from './_sections/section-8'
 import { Section10 } from './_sections/section-10'
 import { Section11 } from './_sections/section-11'
@@ -22,6 +23,7 @@ export default function Home() {
         <Section1 />
         <Section2 />
         <Section3 />
+        <Section4 />
         <Section8 />
         <Section10 />
         <Section11 />
