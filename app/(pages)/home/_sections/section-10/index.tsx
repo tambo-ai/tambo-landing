@@ -48,13 +48,18 @@ export function Section10() {
       <div className="text-center flex flex-col items-center dr-gap-24">
         <div className="dr-w-172 aspect-square">
           <video
-            src="/videos/Octo-Wave.webm"
             autoPlay
             muted
             loop
             playsInline
             className="w-full h-full object-cover"
-          />
+          >
+            <source
+              src="/videos/Octo-Juggle-compressed.mov"
+              type='video/mp4; codecs="hvc1"'
+            />
+            <source src="/videos/Octo-Juggle.webm" type="video/webm" />
+          </video>
         </div>
         <h3 className="typo-surtitle">{'< features >'}</h3>
         <h2 className="typo-h1">
