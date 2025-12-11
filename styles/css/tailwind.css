@@ -11,7 +11,7 @@
   --color-*: initial;
 	--color-primary: #F2F8F6;
 	--color-secondary: #0F1A17;
-	--color-contrast: #e30613;
+	--color-contrast: #B6FFDD;
   --color-red: #e30613;
 	--color-blue: #0070f3;
 	--color-green: #00ff88;
@@ -67,17 +67,7 @@
 [data-theme=light] {
   --color-primary: #F2F8F6;
 	--color-secondary: #0F1A17;
-	--color-contrast: #e30613;
-}
-[data-theme=dark] {
-  --color-primary: #0F1A17;
-	--color-secondary: #ffffff;
-	--color-contrast: #e30613;
-}
-[data-theme=red] {
-  --color-primary: #e30613;
-	--color-secondary: #0F1A17;
-	--color-contrast: #ffffff;
+	--color-contrast: #B6FFDD;
 }
   
 
@@ -263,8 +253,6 @@
 
 /** Custom variants **/
 @custom-variant light (&:where([data-theme=light], [data-theme=light] *));
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-@custom-variant red (&:where([data-theme=red], [data-theme=red] *));
 
 /** Custom function utilities **/
 @utility dr-text-* {

@@ -3,8 +3,24 @@
 import { useRect, useWindowSize } from 'hamo'
 import { useContext } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
+import { CTA } from '~/components/button'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
+
+const BUTTONS = [
+  {
+    title: 'streaming',
+    href: 'https://docs.tambo.co/concepts/streaming',
+    top: 10,
+    left: 10,
+  },
+  {
+    title: 'state management',
+    href: 'https://docs.tambo.co/',
+    top: 80,
+    left: 80,
+  },
+]
 
 export function Section10() {
   const [setRectRef, rect] = useRect()
@@ -74,7 +90,7 @@ export function Section10() {
   return (
     <section
       ref={setRectRef}
-      className="h-screen flex flex-col items-center justify-center"
+      className="h-screen flex flex-col items-center justify-center relative"
     >
       <div className="text-center flex flex-col items-center relative -dr-top-48">
         <div className="dr-w-172 aspect-square">
@@ -93,13 +109,24 @@ export function Section10() {
           </video>
         </div>
         <div className="text-center flex flex-col items-center dr-gap-24">
-          <h3 className="typo-surtitle">{'< features >'}</h3>
+          <h3 className="typo-surtitle text-black/70">{'< features >'}</h3>
           <h2 className="typo-h1">
             One SDK,
             <br />
             orchestrating <br /> everything
           </h2>
         </div>
+      </div>
+      <div className="absolute inset-0 pointer-events-none">
+        {BUTTONS.map((button) => (
+          <div
+            className="absolute pointer-events-auto"
+            style={{ top: `${button.top}%`, left: `${button.left}%` }}
+            key={button.title}
+          >
+            <CTA href={button.href}>{button.title}</CTA>
+          </div>
+        ))}
       </div>
     </section>
   )

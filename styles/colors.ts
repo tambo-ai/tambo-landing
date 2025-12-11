@@ -22,24 +22,14 @@ const colors = {
   forest: '#008346',
 } as const
 
-const themeNames = ['light', 'dark', 'red'] as const
+const themeNames = ['light'] as const
 const colorNames = ['primary', 'secondary', 'contrast'] as const
 
 const themes = {
   light: {
     primary: colors['off-white'],
     secondary: colors.black,
-    contrast: colors.red,
-  },
-  dark: {
-    primary: colors.black,
-    secondary: colors.white,
-    contrast: colors.red,
-  },
-  red: {
-    primary: colors.red,
-    secondary: colors.black,
-    contrast: colors.white,
+    contrast: colors.mint,
   },
 } as const satisfies Themes
 
