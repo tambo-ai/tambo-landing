@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import PlaneSVG from '~/assets/svgs/plane.svg'
 import SpreadsheetSVG from '~/assets/svgs/spreadsheet.svg'
 import StocksSVG from '~/assets/svgs/stocks.svg'
-import { MCP } from './mcp'
+import { TamboIntegration } from '~/integrations/tambo'
 import s from './section-8.module.css'
 
 export function Section8() {
@@ -11,8 +11,8 @@ export function Section8() {
     <section className="flex flex-col dr-gap-20 items-center justify-center h-screen">
       {/* TODO: Dashed border style*/}
       <div className="dr-w-col-8 outline-off-white/80 outline-6 dr-rounded-20 aspect-898/597">
-        <div className="relative z-1 size-full dr-rounded-20 border border-forest/50 shadow-m bg-white">
-          <MCP />
+        <div className="relative z-1 size-full dr-rounded-20 border border-forest/50 shadow-m bg-white dr-p-16">
+          <TamboIntegration />
         </div>
       </div>
       <div className="relative z-1 dr-rounded-20 border border-dark-grey outline-6 outline-off-white/80 dr-w-col-8 dr-p-8 bg-white">
