@@ -62,7 +62,12 @@ export function Button({
   )
 }
 
+type CTAProps = ButtonProps & {
+  wrapperRef?: React.RefObject<HTMLDivElement | null>
+}
+
 export function CTA({
+  wrapperRef,
   className,
   href,
   as,
@@ -72,7 +77,7 @@ export function CTA({
   snippet = false,
   icon = 'arrow',
   ...props
-}: ButtonProps) {
+}: CTAProps) {
   // Split children: first child = button text, rest = snippet content
   const childrenArray = React.Children.toArray(children)
   const buttonText =
@@ -89,7 +94,7 @@ export function CTA({
   }
 
   return (
-    <div className={cn('relative', s.wrapper)}>
+    <div ref={wrapperRef} className={cn('relative', s.wrapper)}>
       <Button
         className={cn(
           'dt:dr-rounded-16 flex items-center dt:dr-pl-16 dt:dr-pr-8 dt:dr-py-8 dt:dr-h-52',

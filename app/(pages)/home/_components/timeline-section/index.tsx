@@ -7,6 +7,7 @@ import type { messages as messagesType } from '~/app/(pages)/home/_sections/sect
 import { CTA } from '~/components/button'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { mapRange } from '~/libs/utils'
+import { colors } from '~/styles/colors'
 
 export function TimelineSection({
   messages,
@@ -18,6 +19,7 @@ export function TimelineSection({
   const [rectRef, rect] = useRect()
   const [messagesVisible, setMessagesVisible] = useState(0)
   const whiteLineRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLDivElement>(null)
 
   useScrollTrigger({
     rect,
@@ -33,17 +35,21 @@ export function TimelineSection({
         0,
         messages.length + 1
       )
+      const buttonProgress = mapRange(0.85, 1, scrollProgress, 0, 1)
       const visible = Math.floor(visibleProgress)
       setMessagesVisible(visible)
       if (whiteLineRef.current) {
         whiteLineRef.current.style.translate = `0 ${-Math.min(100 - translateProgress, 90)}%`
       }
+      if (buttonRef.current) {
+        buttonRef.current.style.opacity = `${buttonProgress}`
+      }
     },
   })
 
   return (
-    <section ref={rectRef} className="h-[300svh]">
-      <div className="sticky top-0 dr-layout-grid-inner h-screen">
+    <section ref={rectRef} className="h-[300svh] bg-light-gray">
+      <div className="sticky top-0 dr-layout-grid-inner h-screen overflow-clip">
         <div className="col-span-4 flex flex-col dr-mt-112">
           <h3 className="typo-h2">{title}</h3>
           <div
@@ -52,12 +58,11 @@ export function TimelineSection({
               maskImage: 'linear-gradient(to bottom, transparent 0%, black 5%)',
             }}
           >
-            <div className="absolute z-15 inset-y-0 dr-left-38 overflow-hidden">
+            <div className="absolute z-15 dr-w-32 inset-y-0 dr-left-27">
               <div
                 ref={whiteLineRef}
-                className="dr-w-8 h-[110%] bg-white rounded-full shadow-xs"
+                className="dr-w-8 h-[110%] bg-white rounded-full shadow-xs mx-auto"
               />
-              <div className="absolute inset-y-0 w-px left-1/2 -translate-x-1/2 bg-dark-grey" />
             </div>
             <ul className="flex flex-col dr-gap-4 items-start">
               {messages.map((message, idx) => (
@@ -70,7 +75,7 @@ export function TimelineSection({
               ))}
             </ul>
           </div>
-          <CTA>Get Started</CTA>
+          <CTA wrapperRef={buttonRef}>Get Started</CTA>
         </div>
       </div>
     </section>
@@ -97,7 +102,7 @@ function TimelineItem({
       {
         clipPath: 'inset(0 0% 0 0)',
         opacity: 1,
-        duration: 0.5,
+        duration: 0.35,
         ease: 'power2.inOut',
       },
       '<'
@@ -107,9 +112,9 @@ function TimelineItem({
       {
         width: '100%',
         height: '100%',
-        backgroundColor: 'white',
-        borderColor: '#cbe2db',
-        duration: 0.5,
+        backgroundColor: last ? colors['ghost-mint'] : colors['light-gray'],
+        borderColor: colors['dark-grey'],
+        duration: 0.35,
         ease: 'power2.inOut',
       },
       '<'
@@ -119,7 +124,7 @@ function TimelineItem({
       {
         clipPath: 'inset(0 0% 0 0)',
         opacity: 1,
-        duration: 0.5,
+        duration: 0.35,
         ease: 'power2.inOut',
       },
       '<'
@@ -136,7 +141,7 @@ function TimelineItem({
       backgroundRef.current,
       {
         clipPath: 'inset(0 100% 0 0)',
-        duration: 0.5,
+        duration: 0.35,
         ease: 'power2.inOut',
       },
       '<'
@@ -145,7 +150,7 @@ function TimelineItem({
       backgroundRef.current,
       {
         opacity: 0,
-        duration: 0.5,
+        duration: 0.35,
         ease: 'power2.inOut',
       },
       '<'
@@ -155,9 +160,9 @@ function TimelineItem({
       {
         width: '1vw',
         height: '1vw',
-        backgroundColor: 'transparent',
+        backgroundColor: colors['light-gray'],
         borderColor: '#79B599',
-        duration: 0.5,
+        duration: 0.35,
         ease: 'power2.inOut',
       },
       '<'
@@ -167,7 +172,7 @@ function TimelineItem({
       {
         clipPath: 'inset(0 100% 0 0)',
         opacity: 0,
-        duration: 0.5,
+        duration: 0.35,
         ease: 'power2.inOut',
       },
       '<'
