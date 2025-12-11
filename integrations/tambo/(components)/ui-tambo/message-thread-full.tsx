@@ -115,7 +115,7 @@ export function MessageThreadFull({
         className={className}
         {...props}
       >
-        <ScrollableMessageContainer className="p-4">
+        <ScrollableMessageContainer className="dr-p-4">
           <ThreadContent variant={variant}>
             <ThreadContentMessages />
           </ThreadContent>
@@ -127,9 +127,9 @@ export function MessageThreadFull({
         </MessageSuggestions>
 
         {/* Message input */}
-        <div className="px-4 pb-4">
+        <div className="dr-px-4 dr-pb-4">
           <MessageInput contextKey={contextKey}>
-            <MessageInputTextarea placeholder="Type your message or paste images..." />
+            <MessageInputTextarea placeholder="Lets pick your plane seat..." />
             <MessageInputToolbar>
               <MessageInputFileButton />
               <MessageInputMcpPromptButton />

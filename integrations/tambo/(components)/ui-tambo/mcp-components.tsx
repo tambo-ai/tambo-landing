@@ -76,8 +76,7 @@ export const McpPromptButton = React.forwardRef<
     return null
   }
 
-  const buttonClasses = cn(
-    'w-10 h-10 rounded-lg border border-border bg-background text-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  const buttonClasses = cn('dr-w-10 dr-h-10 dr-rounded-8 border border-border bg-background text-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     className
   )
 
@@ -98,26 +97,26 @@ export const McpPromptButton = React.forwardRef<
               data-slot="mcp-prompt-button"
               {...props}
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="dr-w-4 dr-h-4" />
             </button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Portal>
             <DropdownMenu.Content
-              className="z-50 min-w-[200px] max-w-[300px] overflow-hidden rounded-md border border-gray-200 bg-popover p-1 text-popover-foreground shadow-md"
+              className="z-50 min-w-[200px] max-w-[300px] overflow-hidden dr-rounded-6 border border-gray-200 bg-popover dr-p-1 text-popover-foreground shadow-md"
               side="top"
               align="start"
               sideOffset={5}
             >
               {isLoading ? (
                 <DropdownMenu.Item
-                  className="px-2 py-1.5 text-sm text-muted-foreground"
+                  className="dr-px-2 dr-py-1 dr-text-14 text-muted-foreground"
                   disabled
                 >
                   Loading prompts...
                 </DropdownMenu.Item>
               ) : !promptList || promptList.length === 0 ? (
                 <DropdownMenu.Item
-                  className="px-2 py-1.5 text-sm text-muted-foreground"
+                  className="dr-px-2 dr-py-1 dr-text-14 text-muted-foreground"
                   disabled
                 >
                   No prompts available
@@ -126,7 +125,7 @@ export const McpPromptButton = React.forwardRef<
                 promptList.map((promptEntry) => (
                   <DropdownMenu.Item
                     key={`${promptEntry.server.url}-${promptEntry.prompt.name}`}
-                    className="relative flex cursor-pointer select-none items-start flex-col rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                    className="relative flex cursor-pointer select-none items-start flex-col dr-rounded-2 dr-px-2 dr-py-1 dr-text-14 outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                     onSelect={() => {
                       setSelectedPromptName(promptEntry.prompt.name)
                     }}
@@ -135,7 +134,7 @@ export const McpPromptButton = React.forwardRef<
                       {promptEntry.prompt.name}
                     </span>
                     {promptEntry.prompt.description && (
-                      <span className="text-xs text-muted-foreground truncate max-w-full">
+                      <span className="dr-text-12 text-muted-foreground truncate max-w-full">
                         {promptEntry.prompt.description}
                       </span>
                     )}
@@ -178,7 +177,7 @@ const ResourceCombobox: React.FC<ResourceComboboxProps> = ({
   return (
     <DropdownMenu.Portal>
       <DropdownMenu.Content
-        className="z-50 w-[400px] max-h-[400px] overflow-hidden rounded-md border border-gray-200 bg-popover text-popover-foreground shadow-md"
+        className="z-50 w-[400px] max-h-[400px] overflow-hidden dr-rounded-6 border border-gray-200 bg-popover text-popover-foreground shadow-md"
         side="top"
         align="start"
         sideOffset={5}
@@ -188,15 +187,15 @@ const ResourceCombobox: React.FC<ResourceComboboxProps> = ({
         }}
       >
         {/* Search input */}
-        <div className="sticky top-0 bg-popover border-b border-border p-2 z-10">
+        <div className="sticky dr-top-0 bg-popover border-b border-border dr-p-2 z-10">
           <div className="relative">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+            <Search className="absolute dr-left-2 top-1/2 transform -translate-y-1/2 dr-w-4 dr-h-4 text-muted-foreground pointer-events-none" />
             <input
               type="text"
               placeholder="Search resources..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 text-sm bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              className="w-full dr-pl-8 dr-pr-3 dr-py-1 dr-text-14 bg-background border border-border dr-rounded-6 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => {
                 // Prevent dropdown from closing on key events
@@ -210,13 +209,13 @@ const ResourceCombobox: React.FC<ResourceComboboxProps> = ({
         </div>
 
         {/* Resource list */}
-        <div className="overflow-y-auto max-h-[320px] p-1">
+        <div className="overflow-y-auto max-h-[320px] dr-p-1">
           {isLoading ? (
-            <div className="px-2 py-8 text-center text-sm text-muted-foreground">
+            <div className="dr-px-2 dr-py-8 text-center dr-text-14 text-muted-foreground">
               Loading resources...
             </div>
           ) : !filteredResources || filteredResources.length === 0 ? (
-            <div className="px-2 py-8 text-center text-sm text-muted-foreground">
+            <div className="dr-px-2 dr-py-8 text-center dr-text-14 text-muted-foreground">
               {searchQuery
                 ? `No resources matching "${searchQuery}"`
                 : 'No resources available'}
@@ -225,21 +224,21 @@ const ResourceCombobox: React.FC<ResourceComboboxProps> = ({
             filteredResources.map((resourceEntry) => (
               <DropdownMenu.Item
                 key={`${resourceEntry.server.url}-${resourceEntry.resource.uri}`}
-                className="relative flex cursor-pointer select-none items-start flex-col rounded-sm px-2 py-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-accent focus:text-accent-foreground"
+                className="relative flex cursor-pointer select-none items-start flex-col dr-rounded-2 dr-px-2 dr-py-2 dr-text-14 outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-accent focus:text-accent-foreground"
                 onSelect={() => {
                   onSelectResource(resourceEntry.resource.uri)
                 }}
               >
-                <div className="flex items-start justify-between w-full gap-2">
-                  <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between w-full dr-gap-2">
+                  <div className="flex-1 dr-min-w-0">
                     <div className="font-medium truncate">
                       {resourceEntry.resource.name ?? 'Unnamed Resource'}
                     </div>
-                    <div className="text-xs text-muted-foreground truncate font-mono">
+                    <div className="dr-text-12 text-muted-foreground truncate font-mono">
                       {resourceEntry.resource.uri}
                     </div>
                     {resourceEntry.resource.description && (
-                      <div className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                      <div className="dr-text-12 text-muted-foreground dr-mt-0 line-clamp-2">
                         {resourceEntry.resource.description}
                       </div>
                     )}
@@ -322,8 +321,7 @@ export const McpResourceButton = React.forwardRef<
     return null
   }
 
-  const buttonClasses = cn(
-    'w-10 h-10 rounded-lg border border-border bg-background text-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  const buttonClasses = cn('dr-w-10 dr-h-10 dr-rounded-8 border border-border bg-background text-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     className
   )
 
@@ -344,7 +342,7 @@ export const McpResourceButton = React.forwardRef<
               data-slot="mcp-resource-button"
               {...props}
             >
-              <AtSign className="w-4 h-4" />
+              <AtSign className="dr-w-4 dr-h-4" />
             </button>
           </DropdownMenu.Trigger>
           <ResourceCombobox

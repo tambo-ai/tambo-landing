@@ -173,8 +173,7 @@ function MyApp() {
 
   const modalContent = (
     <motion.div
-      className={cn(
-        'fixed inset-0 bg-backdrop flex items-center justify-center z-50',
+      className={cn('fixed dr-inset-0 bg-backdrop flex items-center justify-center z-50',
         className
       )}
       onClick={handleBackdropClick}
@@ -182,38 +181,36 @@ function MyApp() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="bg-card rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-4">
-          <h2 className="text-lg font-semibold">MCP Server Configuration</h2>
+      <div className="bg-card dr-rounded-8 shadow-xl max-w-2xl w-full dr-mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between dr-p-4">
+          <h2 className="dr-text-18 font-semibold">MCP Server Configuration</h2>
           <button
             onClick={onClose}
-            className="hover:bg-muted rounded-lg transition-colors cursor-pointer"
+            className="hover:bg-muted dr-rounded-8 transition-colors cursor-pointer"
             aria-label="Close modal"
           >
-            <X className="w-4 h-4" />
+            <X className="dr-w-4 dr-h-4" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="px-4 pb-4">
-          <div className="mb-6 bg-container border border-muted rounded-lg">
+        <div className="dr-px-4 dr-pb-4">
+          <div className="dr-mb-6 bg-container border border-muted dr-rounded-8">
             <button
               onClick={() => setShowInstructions(!showInstructions)}
-              className="w-full flex items-center justify-between p-2 hover:bg-muted transition-colors cursor-pointer"
+              className="w-full flex items-center justify-between dr-p-2 hover:bg-muted transition-colors cursor-pointer"
               type="button"
             >
-              <span className="text-sm font-semibold text-foreground">
+              <span className="dr-text-14 font-semibold text-foreground">
                 Setup Instructions
               </span>
               <ChevronDown
-                className={`w-4 h-4 text-foreground transition-transform duration-200 ${
-                  showInstructions ? 'rotate-180' : ''
-                }`}
+                className={`dr-w-4 dr-h-4 text-foreground transition-transform duration-200 ${ showInstructions ? 'rotate-180' : '' }`}
               />
             </button>
             {showInstructions && (
               <motion.div
-                className="px-4 pb-4 border-t border-muted"
+                className="dr-px-4 dr-pb-4 border-t border-muted"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
@@ -225,8 +222,8 @@ function MyApp() {
             )}
           </div>
           {/* Description */}
-          <div className="mb-6">
-            <p className="text-foreground mb-3 text-sm leading-relaxed">
+          <div className="dr-mb-6">
+            <p className="text-foreground dr-mb-3 dr-text-14 leading-relaxed">
               Configure{' '}
               <span className="font-semibold text-foreground">client-side</span>{' '}
               MCP servers to extend the capabilities of your tambo application.
@@ -239,16 +236,16 @@ function MyApp() {
           </div>
 
           {/* Form */}
-          <form onSubmit={addServer} className="mb-8">
+          <form onSubmit={addServer} className="dr-mb-8">
             <div className="space-y-4">
               {/* Server URL */}
               <div>
                 <label
                   htmlFor="server-url"
-                  className="block text-sm font-semibold text-foreground mb-2"
+                  className="block dr-text-14 font-semibold text-foreground dr-mb-2"
                 >
                   Server URL
-                  <span className="text-muted-foreground font-normal ml-1">
+                  <span className="text-muted-foreground font-normal dr-ml-1">
                     (must be accessible from the browser)
                   </span>
                 </label>
@@ -258,7 +255,7 @@ function MyApp() {
                   value={serverUrl}
                   onChange={(e) => setServerUrl(e.target.value)}
                   placeholder="https://your-mcp-server-url.com"
-                  className="w-full px-3 py-2.5 border border-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-150 text-sm"
+                  className="w-full dr-px-3 dr-py-2 border border-muted dr-rounded-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-150 dr-text-14"
                   required
                 />
               </div>
@@ -267,10 +264,10 @@ function MyApp() {
               <div>
                 <label
                   htmlFor="server-name"
-                  className="block text-sm font-semibold text-foreground mb-2"
+                  className="block dr-text-14 font-semibold text-foreground dr-mb-2"
                 >
                   Server Name
-                  <span className="text-muted-foreground font-normal ml-1">
+                  <span className="text-muted-foreground font-normal dr-ml-1">
                     (optional)
                   </span>
                 </label>
@@ -280,37 +277,37 @@ function MyApp() {
                   value={serverName}
                   onChange={(e) => setServerName(e.target.value)}
                   placeholder="Custom server name"
-                  className="w-full px-3 py-2.5 border border-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-150 text-sm"
+                  className="w-full dr-px-3 dr-py-2 border border-muted dr-rounded-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-150 dr-text-14"
                 />
               </div>
 
               {/* Transport Type */}
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-2">
+                <label className="block dr-text-14 font-semibold text-foreground dr-mb-2">
                   Transport Type
                 </label>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button
                       type="button"
-                      className="w-full px-3 py-2.5 border border-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-card text-foreground text-sm flex items-center justify-between hover:bg-muted-backdrop cursor-pointer transition-all duration-150"
+                      className="w-full dr-px-3 dr-py-2 border border-muted dr-rounded-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-card text-foreground dr-text-14 flex items-center justify-between hover:bg-muted-backdrop cursor-pointer transition-all duration-150"
                     >
                       <span>{getTransportDisplayText(transportType)}</span>
-                      <ChevronDown className="w-4 h-4 text-foreground" />
+                      <ChevronDown className="dr-w-4 dr-h-4 text-foreground" />
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
-                    className="w-full min-w-[200px] bg-card border border-muted rounded-lg shadow-lg z-50 py-1 animate-in fade-in-0 zoom-in-95 duration-100"
+                    className="w-full min-w-[200px] bg-card border border-muted dr-rounded-8 shadow-lg z-50 dr-py-1 animate-in fade-in-0 zoom-in-95 duration-100"
                     align="start"
                   >
                     <DropdownMenuItem
-                      className="px-3 py-2 text-sm text-foreground hover:bg-muted-backdrop cursor-pointer focus:bg-muted-backdrop focus:outline-none"
+                      className="dr-px-3 dr-py-2 dr-text-14 text-foreground hover:bg-muted-backdrop cursor-pointer focus:bg-muted-backdrop focus:outline-none"
                       onClick={() => setTransportType(MCPTransport.HTTP)}
                     >
                       HTTP (default)
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      className="px-3 py-2 text-sm text-foreground hover:bg-muted-backdrop cursor-pointer focus:bg-muted-backdrop focus:outline-none"
+                      className="dr-px-3 dr-py-2 dr-text-14 text-foreground hover:bg-muted-backdrop cursor-pointer focus:bg-muted-backdrop focus:outline-none"
                       onClick={() => setTransportType(MCPTransport.SSE)}
                     >
                       SSE
@@ -322,7 +319,7 @@ function MyApp() {
 
             <button
               type="submit"
-              className="mt-6 w-full px-4 py-2.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-all duration-150 font-medium"
+              className="dr-mt-6 w-full dr-px-4 dr-py-2 bg-primary text-primary-foreground dr-rounded-8 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer transition-all duration-150 font-medium"
             >
               Add Server
             </button>
@@ -330,9 +327,9 @@ function MyApp() {
 
           {/* Success Message */}
           {savedSuccess && (
-            <div className="mb-6 p-3 bg-green-50 border border-green-200 text-green-800 rounded-lg text-sm animate-in slide-in-from-top-1 duration-200">
+            <div className="dr-mb-6 dr-p-3 bg-green-50 border border-green-200 text-green-800 dr-rounded-8 dr-text-14 animate-in slide-in-from-top-1 duration-200">
               <div className="flex items-center">
-                <span className="text-green-600 mr-2">✓</span>
+                <span className="text-green-600 dr-mr-2">✓</span>
                 Servers saved to browser storage
               </div>
             </div>
@@ -341,7 +338,7 @@ function MyApp() {
           {/* Server List */}
           {mcpServers.length > 0 ? (
             <div>
-              <h4 className="font-medium mb-3 text-foreground">
+              <h4 className="font-medium dr-mb-3 text-foreground">
                 Connected Servers ({mcpServers.length})
               </h4>
               <div className="space-y-2">
@@ -350,23 +347,23 @@ function MyApp() {
                   return (
                     <div
                       key={index}
-                      className="flex items-start justify-between p-4 border border-muted rounded-lg hover:border-muted-backdrop transition-colors duration-150"
+                      className="flex items-start justify-between dr-p-4 border border-muted dr-rounded-8 hover:border-muted-backdrop transition-colors duration-150"
                     >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center mb-1">
-                          <div className="w-2 h-2 bg-green-500 rounded-full mr-3 flex-shrink-0" />
+                      <div className="flex-1 dr-min-w-0">
+                        <div className="flex items-center dr-mb-1">
+                          <div className="dr-w-2 dr-h-2 bg-green-500 rounded-full dr-mr-3 flex-shrink-0" />
                           <span className="text-foreground font-medium truncate">
                             {serverInfo.url}
                           </span>
                         </div>
-                        <div className="ml-5 space-y-1">
+                        <div className="dr-ml-5 space-y-1">
                           {serverInfo.name && (
-                            <div className="text-sm text-muted-foreground">
+                            <div className="dr-text-14 text-muted-foreground">
                               <span className="font-medium">Name:</span>{' '}
                               {serverInfo.name}
                             </div>
                           )}
-                          <div className="text-sm text-muted-foreground">
+                          <div className="dr-text-14 text-muted-foreground">
                             <span className="font-medium">Transport:</span>{' '}
                             {serverInfo.transport}
                           </div>
@@ -374,9 +371,9 @@ function MyApp() {
                       </div>
                       <button
                         onClick={() => removeServer(index)}
-                        className="ml-4 px-3 py-1.5 text-sm bg-destructive/20 text-destructive rounded-md hover:bg-destructive/30 focus:outline-none focus:ring-2 focus:ring-destructive focus:ring-offset-1 transition-colors duration-150 flex-shrink-0"
+                        className="dr-ml-4 dr-px-3 dr-py-1 dr-text-14 bg-destructive/20 text-destructive dr-rounded-6 hover:bg-destructive/30 focus:outline-none focus:ring-2 focus:ring-destructive focus:ring-offset-1 transition-colors duration-150 flex-shrink-0"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="dr-w-4 dr-h-4" />
                       </button>
                     </div>
                   )
@@ -384,20 +381,20 @@ function MyApp() {
               </div>
             </div>
           ) : (
-            <div className="text-center p-8 border-2 border-dashed border-muted rounded-lg">
-              <p className="text-muted-foreground text-sm">
+            <div className="text-center dr-p-8 border-2 border-dashed border-muted dr-rounded-8">
+              <p className="text-muted-foreground dr-text-14">
                 No MCP servers configured yet
               </p>
-              <p className="text-muted-foreground text-xs mt-1">
+              <p className="text-muted-foreground dr-text-12 dr-mt-1">
                 Add your first server above to get started
               </p>
             </div>
           )}
 
           {/* Info Section */}
-          <div className="mt-8 bg-container border border-muted p-4 rounded-lg">
-            <h4 className="font-medium mb-2 text-foreground">What is MCP?</h4>
-            <p className="text-foreground text-sm leading-relaxed">
+          <div className="dr-mt-8 bg-container border border-muted dr-p-4 dr-rounded-8">
+            <h4 className="font-medium dr-mb-2 text-foreground">What is MCP?</h4>
+            <p className="text-foreground dr-text-14 leading-relaxed">
               The{' '}
               <a
                 href="https://docs.tambo.co/concepts/model-context-protocol"
@@ -413,8 +410,8 @@ function MyApp() {
             </p>
           </div>
 
-          <div className="mt-4">
-            <p className="text-sm text-muted-foreground">
+          <div className="dr-mt-4">
+            <p className="dr-text-14 text-muted-foreground">
               <span className="font-semibold text-foreground">Learn more:</span>{' '}
               <a
                 href="https://docs.tambo.co/concepts/model-context-protocol/clientside-mcp-connection"

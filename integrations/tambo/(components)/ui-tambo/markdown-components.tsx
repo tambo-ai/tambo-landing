@@ -67,17 +67,17 @@ const CodeHeader = ({
   }
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-t-md bg-container px-4 py-2 text-sm font-semibold text-foreground">
+    <div className="flex items-center justify-between dr-gap-4 dr-rounded-t-6 bg-container dr-px-4 dr-py-2 dr-text-14 font-semibold text-foreground">
       <span className="lowercase text-muted-foreground">{language}</span>
       <button
         onClick={copyToClipboard}
-        className="p-1 rounded-md hover:bg-backdrop transition-colors cursor-pointer"
+        className="dr-p-1 dr-rounded-6 hover:bg-backdrop transition-colors cursor-pointer"
         title="Copy code"
       >
         {!copied ? (
-          <Copy className="h-4 w-4" />
+          <Copy className="dr-h-4 dr-w-4" />
         ) : (
-          <Check className="h-4 w-4 text-green-500" />
+          <Check className="dr-h-4 dr-w-4 text-green-500" />
         )}
       </button>
     </div>
@@ -109,17 +109,16 @@ export const createMarkdownComponents = (): Record<
 
     if (match && looksLikeCode(content)) {
       return (
-        <div className="relative border border-border rounded-md bg-muted max-w-[80ch] text-sm my-4">
+        <div className="relative border border-border dr-rounded-6 bg-muted max-w-[80ch] dr-text-14 dr-my-4">
           <CodeHeader language={match[1]} code={content} />
           <div
-            className={cn(
-              'overflow-x-auto rounded-b-md bg-background',
+            className={cn('overflow-x-auto dr-rounded-b-6 bg-background',
               '[&::-webkit-scrollbar]:w-[6px]',
               '[&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-md',
               '[&::-webkit-scrollbar:horizontal]:h-[4px]'
             )}
           >
-            <pre className="p-4 whitespace-pre">
+            <pre className="dr-p-4 whitespace-pre">
               <code
                 className={className}
                 dangerouslySetInnerHTML={{
@@ -134,7 +133,7 @@ export const createMarkdownComponents = (): Record<
 
     return (
       <code
-        className={cn('bg-muted px-1.5 py-0.5 rounded text-sm', className)}
+        className={cn('bg-muted dr-px-1 dr-py-0 dr-rounded-4 dr-text-14', className)}
         {...props}
       >
         {children}
@@ -145,14 +144,14 @@ export const createMarkdownComponents = (): Record<
   /**
    * Paragraph component with minimal vertical margin
    */
-  p: ({ children }) => <p className="my-0">{children}</p>,
+  p: ({ children }) => <p className="dr-my-0">{children}</p>,
 
   /**
    * Heading 1 component with large text and proper spacing
    * Used for main section headers
    */
   h1: ({ children }) => (
-    <h1 className="text-2xl font-bold mb-4 mt-6">{children}</h1>
+    <h1 className="dr-text-24 font-bold dr-mb-4 dr-mt-6">{children}</h1>
   ),
 
   /**
@@ -160,7 +159,7 @@ export const createMarkdownComponents = (): Record<
    * Slightly smaller than h1 with adjusted spacing
    */
   h2: ({ children }) => (
-    <h2 className="text-xl font-bold mb-3 mt-5">{children}</h2>
+    <h2 className="dr-text-20 font-bold dr-mb-3 dr-mt-5">{children}</h2>
   ),
 
   /**
@@ -168,7 +167,7 @@ export const createMarkdownComponents = (): Record<
    * Used for smaller subdivisions within h2 sections
    */
   h3: ({ children }) => (
-    <h3 className="text-lg font-bold mb-2 mt-4">{children}</h3>
+    <h3 className="dr-text-18 font-bold dr-mb-2 dr-mt-4">{children}</h3>
   ),
 
   /**
@@ -176,20 +175,20 @@ export const createMarkdownComponents = (): Record<
    * Maintains consistent text size with adjusted spacing
    */
   h4: ({ children }) => (
-    <h4 className="text-base font-bold mb-2 mt-3">{children}</h4>
+    <h4 className="dr-text-16 font-bold dr-mb-2 dr-mt-3">{children}</h4>
   ),
 
   /**
    * Unordered list component with disc-style bullets
    * Indented from the left margin
    */
-  ul: ({ children }) => <ul className="list-disc pl-5">{children}</ul>,
+  ul: ({ children }) => <ul className="list-disc dr-pl-5">{children}</ul>,
 
   /**
    * Ordered list component with decimal numbering
    * Indented from the left margin
    */
-  ol: ({ children }) => <ol className="list-decimal pl-5">{children}</ol>,
+  ol: ({ children }) => <ol className="list-decimal dr-pl-5">{children}</ol>,
 
   /**
    * List item component with normal line height
@@ -202,7 +201,7 @@ export const createMarkdownComponents = (): Record<
    * Features a left border and italic text with proper spacing
    */
   blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-muted pl-4 italic my-4">
+    <blockquote className="border-l-4 border-muted dr-pl-4 italic dr-my-4">
       {children}
     </blockquote>
   ),
@@ -217,10 +216,10 @@ export const createMarkdownComponents = (): Record<
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 text-foreground underline underline-offset-4 decoration-muted-foreground hover:text-foreground hover:decoration-foreground transition-colors"
+      className="inline-flex items-center dr-gap-1 text-foreground underline underline-offset-4 decoration-muted-foreground hover:text-foreground hover:decoration-foreground transition-colors"
     >
       <span>{children}</span>
-      <ExternalLink className="w-3 h-3" />
+      <ExternalLink className="dr-w-3 dr-h-3" />
     </a>
   ),
 
@@ -228,14 +227,14 @@ export const createMarkdownComponents = (): Record<
    * Horizontal rule component
    * Creates a visual divider with proper spacing
    */
-  hr: () => <hr className="my-4 border-muted" />,
+  hr: () => <hr className="dr-my-4 border-muted" />,
 
   /**
    * Table container component
    * Handles overflow for wide tables with proper spacing
    */
   table: ({ children }) => (
-    <div className="overflow-x-auto my-4">
+    <div className="overflow-x-auto dr-my-4">
       <table className="min-w-full border border-border">{children}</table>
     </div>
   ),
@@ -245,7 +244,7 @@ export const createMarkdownComponents = (): Record<
    * Features bold text and distinct background
    */
   th: ({ children }) => (
-    <th className="border border-border px-4 py-2 bg-muted font-semibold">
+    <th className="border border-border dr-px-4 dr-py-2 bg-muted font-semibold">
       {children}
     </th>
   ),
@@ -255,7 +254,7 @@ export const createMarkdownComponents = (): Record<
    * Consistent styling with header cells
    */
   td: ({ children }) => (
-    <td className="border border-border px-4 py-2">{children}</td>
+    <td className="border border-border dr-px-4 dr-py-2">{children}</td>
   ),
 })
 

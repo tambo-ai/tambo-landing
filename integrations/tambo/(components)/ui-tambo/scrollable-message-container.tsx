@@ -98,8 +98,7 @@ export const ScrollableMessageContainer = React.forwardRef<
     <div
       ref={scrollContainerRef}
       onScroll={handleScroll}
-      className={cn(
-        'flex-1 overflow-y-auto',
+      className={cn('flex-1 overflow-y-auto',
         '[&::-webkit-scrollbar]:w-[6px]',
         '[&::-webkit-scrollbar-thumb]:bg-gray-300',
         '[&::-webkit-scrollbar:horizontal]:h-[4px]',

@@ -1,3 +1,4 @@
 - Create aliases for the components imports in tsconfig.json
 - Create a CVA to clsx utility function
 - Create Tambo styles and scripts to add it to setup styles
+- Migrate Tailwind to DR-* prefix with script

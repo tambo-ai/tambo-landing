@@ -135,7 +135,7 @@ const ThreadContentMessages = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn('flex flex-col gap-2', className)}
+      className={cn('flex flex-col dr-gap-2', className)}
       data-slot="thread-content-messages"
       {...props}
     >
@@ -153,14 +153,12 @@ const ThreadContentMessages = React.forwardRef<
               message={message}
               variant={variant}
               isLoading={isGenerating && index === filteredMessages.length - 1}
-              className={cn(
-                'flex w-full',
+              className={cn('flex w-full',
                 message.role === 'assistant' ? 'justify-start' : 'justify-end'
               )}
             >
               <div
-                className={cn(
-                  'flex flex-col',
+                className={cn('flex flex-col',
                   message.role === 'assistant' ? 'w-full' : 'max-w-3xl'
                 )}
               >

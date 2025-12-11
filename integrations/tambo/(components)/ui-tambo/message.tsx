@@ -168,10 +168,10 @@ const LoadingIndicator: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   return (
-    <div className={cn('flex items-center gap-1', className)} {...props}>
-      <span className="w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:-0.3s]" />
-      <span className="w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:-0.2s]" />
-      <span className="w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:-0.1s]" />
+    <div className={cn('flex items-center dr-gap-1', className)} {...props}>
+      <span className="dr-w-1 dr-h-1 bg-current rounded-full animate-bounce [animation-delay:-0.3s]" />
+      <span className="dr-w-1 dr-h-1 bg-current rounded-full animate-bounce [animation-delay:-0.2s]" />
+      <span className="dr-w-1 dr-h-1 bg-current rounded-full animate-bounce [animation-delay:-0.1s]" />
     </div>
   )
 }
@@ -198,14 +198,14 @@ const MessageImages = React.forwardRef<HTMLDivElement, MessageImagesProps>(
     return (
       <div
         ref={ref}
-        className={cn('flex flex-wrap gap-2 mb-2', className)}
+        className={cn('flex flex-wrap dr-gap-2 dr-mb-2', className)}
         data-slot="message-images"
         {...props}
       >
         {images.map((imageUrl: string, index: number) => (
           <div
             key={index}
-            className="w-32 h-32 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+            className="dr-w-32 dr-h-32 dr-rounded-6 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
           >
             <Image
               src={imageUrl}
@@ -262,8 +262,7 @@ const MessageContent = React.forwardRef<HTMLDivElement, MessageContentProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          'relative block rounded-3xl px-4 py-2 text-[15px] leading-relaxed transition-all duration-200 font-medium max-w-full [&_p]:py-1 [&_li]:list-item',
+        className={cn('relative block dr-rounded-12 dr-p-12 typo-p transition-all duration-200 max-w-full [&_p]:py-1 [&_li]:list-item',
           className
         )}
         data-slot="message-content"
@@ -271,7 +270,7 @@ const MessageContent = React.forwardRef<HTMLDivElement, MessageContentProps>(
       >
         {showLoading && !message.reasoning ? (
           <div
-            className="flex items-center justify-start h-4 py-1"
+            className="flex items-center justify-start dr-h-4 dr-py-1"
             data-slot="message-loading-indicator"
           >
             <LoadingIndicator />
@@ -295,7 +294,7 @@ const MessageContent = React.forwardRef<HTMLDivElement, MessageContentProps>(
               safeContent
             )}
             {message.isCancelled && (
-              <span className="text-muted-foreground text-xs">cancelled</span>
+              <span className="text-muted-foreground dr-text-12">cancelled</span>
             )}
           </div>
         )}
@@ -378,8 +377,7 @@ const ToolcallInfo = React.forwardRef<HTMLDivElement, ToolcallInfoProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          'flex flex-col items-start text-xs opacity-50',
+        className={cn('flex flex-col items-start dr-text-12 opacity-50',
           className
         )}
         data-slot="toolcall-info"
@@ -391,42 +389,39 @@ const ToolcallInfo = React.forwardRef<HTMLDivElement, ToolcallInfoProps>(
             aria-expanded={isExpanded}
             aria-controls={toolDetailsId}
             onClick={() => setIsExpanded(!isExpanded)}
-            className={cn(
-              'flex items-center gap-1 cursor-pointer hover:bg-gray-100 rounded-md p-1 select-none w-fit'
+            className={cn('flex items-center dr-gap-1 cursor-pointer hover:bg-gray-100 dr-rounded-6 dr-p-1 select-none w-fit'
             )}
           >
             {hasToolError ? (
-              <X className="w-3 h-3 text-bold text-red-500" />
+              <X className="dr-w-3 dr-h-3 text-bold text-red-500" />
             ) : isLoading ? (
-              <Loader2 className="w-3 h-3 text-muted-foreground text-bold animate-spin" />
+              <Loader2 className="dr-w-3 dr-h-3 text-muted-foreground text-bold animate-spin" />
             ) : (
-              <Check className="w-3 h-3 text-bold text-green-500" />
+              <Check className="dr-w-3 dr-h-3 text-bold text-green-500" />
             )}
             <span>{toolStatusMessage}</span>
             <ChevronDown
-              className={cn(
-                'w-3 h-3 transition-transform duration-200',
+              className={cn('dr-w-3 dr-h-3 transition-transform duration-200',
                 !isExpanded && '-rotate-90'
               )}
             />
           </button>
           <div
             id={toolDetailsId}
-            className={cn(
-              'flex flex-col gap-1 p-3 pl-7 overflow-auto transition-[max-height,opacity,padding] duration-300 w-full truncate',
-              isExpanded ? 'max-h-auto opacity-100' : 'max-h-0 opacity-0 p-0'
+            className={cn('flex flex-col dr-gap-1 dr-p-3 dr-pl-7 overflow-auto transition-[max-height,opacity,padding] duration-300 w-full truncate',
+              isExpanded ? 'max-h-auto opacity-100' : 'dr-max-h-0 opacity-0 dr-p-0'
             )}
           >
-            <span className="whitespace-pre-wrap pl-2">
+            <span className="whitespace-pre-wrap dr-pl-2">
               tool: {toolCallRequest?.toolName}
             </span>
-            <span className="whitespace-pre-wrap pl-2">
+            <span className="whitespace-pre-wrap dr-pl-2">
               parameters:{'\n'}
               {stringify(keyifyParameters(toolCallRequest?.parameters))}
             </span>
             <SamplingSubThread parentMessageId={message.id} />
             {associatedToolResponse && (
-              <div className="pl-2">
+              <div className="dr-pl-2">
                 <span className="whitespace-pre-wrap">result:</span>
                 <div>
                   {!associatedToolResponse.content ? (
@@ -473,43 +468,39 @@ const SamplingSubThread = ({
   if (!childMessages?.length) return null
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col dr-gap-1">
       <button
         type="button"
         aria-expanded={isExpanded}
         aria-controls={samplingDetailsId}
         onClick={() => setIsExpanded(!isExpanded)}
-        className={cn(
-          'flex items-center gap-1 cursor-pointer hover:bg-muted-foreground/10 rounded-md p-2 select-none w-fit'
+        className={cn('flex items-center dr-gap-1 cursor-pointer hover:bg-muted-foreground/10 dr-rounded-6 dr-p-2 select-none w-fit'
         )}
       >
         <span>{titleText}</span>
         <ChevronDown
-          className={cn(
-            'w-3 h-3 transition-transform duration-200',
+          className={cn('dr-w-3 dr-h-3 transition-transform duration-200',
             !isExpanded && '-rotate-90'
           )}
         />
       </button>
       <div
         id={samplingDetailsId}
-        className={cn(
-          'transition-[max-height,opacity] duration-300',
+        className={cn('transition-[max-height,opacity] duration-300',
           isExpanded
-            ? 'max-h-96 opacity-100 overflow-auto'
-            : 'max-h-0 opacity-0 overflow-hidden'
+            ? 'dr-max-h-96 opacity-100 overflow-auto'
+            : 'dr-max-h-0 opacity-0 overflow-hidden'
         )}
         aria-hidden={!isExpanded}
       >
-        <div className="pl-2">
-          <div className="border-l-2 border-muted-foreground p-2 flex flex-col gap-4">
+        <div className="dr-pl-2">
+          <div className="border-l-2 border-muted-foreground dr-p-2 flex flex-col dr-gap-4">
             {childMessages?.map((m: TamboThreadMessage) => (
               <div key={m.id} className={`${m.role === 'user' && 'pl-2'}`}>
                 <span
-                  className={cn(
-                    'whitespace-pre-wrap',
+                  className={cn('whitespace-pre-wrap',
                     m.role === 'assistant' &&
-                      'bg-muted/50 rounded-md p-2 inline-block w-fit'
+                      'bg-muted/50 dr-rounded-6 dr-p-2 inline-block w-fit'
                   )}
                 >
                   {getSafeContent(m.content)}
@@ -583,8 +574,7 @@ const ReasoningInfo = React.forwardRef<HTMLDivElement, ReasoningInfoProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          'flex flex-col items-start text-xs opacity-50',
+        className={cn('flex flex-col items-start dr-text-12 opacity-50',
           className
         )}
         data-slot="reasoning-info"
@@ -596,8 +586,7 @@ const ReasoningInfo = React.forwardRef<HTMLDivElement, ReasoningInfoProps>(
             aria-expanded={isExpanded}
             aria-controls={reasoningDetailsId}
             onClick={() => setIsExpanded(!isExpanded)}
-            className={cn(
-              'flex items-center gap-1 cursor-pointer hover:bg-muted-foreground/10 rounded-md px-3 py-1 select-none w-fit'
+            className={cn('flex items-center dr-gap-1 cursor-pointer hover:bg-muted-foreground/10 dr-rounded-6 dr-px-3 dr-py-1 select-none w-fit'
             )}
           >
             <span className={isLoading ? 'animate-thinking-gradient' : ''}>
@@ -611,8 +600,7 @@ const ReasoningInfo = React.forwardRef<HTMLDivElement, ReasoningInfoProps>(
                 : ''}
             </span>
             <ChevronDown
-              className={cn(
-                'w-3 h-3 transition-transform duration-200',
+              className={cn('dr-w-3 dr-h-3 transition-transform duration-200',
                 !isExpanded && '-rotate-90'
               )}
             />
@@ -620,20 +608,19 @@ const ReasoningInfo = React.forwardRef<HTMLDivElement, ReasoningInfoProps>(
           <div
             ref={scrollContainerRef}
             id={reasoningDetailsId}
-            className={cn(
-              'flex flex-col gap-1 px-3 py-3 overflow-auto transition-[max-height,opacity,padding] duration-300 w-full',
-              isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 p-0'
+            className={cn('flex flex-col dr-gap-1 dr-px-3 dr-py-3 overflow-auto transition-[max-height,opacity,padding] duration-300 w-full',
+              isExpanded ? 'dr-max-h-96 opacity-100' : 'dr-max-h-0 opacity-0 dr-p-0'
             )}
           >
             {message.reasoning.map((reasoningStep, index) => (
-              <div key={index} className="flex flex-col gap-1">
+              <div key={index} className="flex flex-col dr-gap-1">
                 {message.reasoning?.length && message.reasoning.length > 1 && (
-                  <span className="text-muted-foreground text-xs font-medium">
+                  <span className="text-muted-foreground dr-text-12 font-medium">
                     Step {index + 1}:
                   </span>
                 )}
                 {reasoningStep ? (
-                  <div className="bg-muted/50 rounded-md p-3 text-xs overflow-x-auto overflow-y-auto max-w-full">
+                  <div className="bg-muted/50 dr-rounded-6 dr-p-3 dr-text-12 overflow-x-auto overflow-y-auto max-w-full">
                     <div className="whitespace-pre-wrap break-words">
                       <Streamdown components={markdownComponents}>
                         {reasoningStep}
@@ -709,8 +696,7 @@ function formatToolResult(
       const parsed = JSON.parse(contentString)
       return (
         <pre
-          className={cn(
-            'bg-muted/50 rounded-md p-3 text-xs overflow-x-auto overflow-y-auto max-w-full max-h-64'
+          className={cn('bg-muted/50 dr-rounded-6 dr-p-3 dr-text-12 overflow-x-auto overflow-y-auto max-w-full dr-max-h-64'
           )}
         >
           <code className="font-mono break-words whitespace-pre-wrap">
@@ -787,7 +773,7 @@ const MessageRenderedComponentArea = React.forwardRef<
     >
       {children ??
         (canvasExists ? (
-          <div className="flex justify-start pl-4">
+          <div className="flex justify-start dr-pl-4">
             <button
               onClick={() => {
                 if (typeof window !== 'undefined') {
@@ -801,15 +787,15 @@ const MessageRenderedComponentArea = React.forwardRef<
                   )
                 }
               }}
-              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer group"
+              className="inline-flex items-center dr-gap-1 dr-text-12 text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer group"
               aria-label="View component in canvas"
             >
               View component
-              <ExternalLink className="w-3.5 h-3.5" />
+              <ExternalLink className="dr-w-3 dr-h-3" />
             </button>
           </div>
         ) : (
-          <div className="w-full pt-2 px-2">{message.renderedComponent}</div>
+          <div className="w-full dr-pt-2 dr-px-2">{message.renderedComponent}</div>
         ))}
     </div>
   )

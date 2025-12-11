@@ -205,7 +205,7 @@ const MessageSuggestions = React.forwardRef<
         <TooltipProvider>
           <div
             ref={ref}
-            className={cn('px-4 pb-2', className)}
+            className={cn('dr-px-4 dr-pb-2', className)}
             data-slot="message-suggestions-container"
             {...props}
           >
@@ -245,11 +245,10 @@ const MessageSuggestionsStatus = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn(
-        'p-2 rounded-md text-sm bg-transparent',
+      className={cn('dr-p-2 dr-rounded-6 dr-text-14 bg-transparent',
         !(error || isGenerating) &&
           (!thread?.generationStage || thread.generationStage === 'COMPLETE')
-          ? 'p-0 min-h-0 mb-0'
+          ? 'dr-p-0 dr-min-h-0 dr-mb-0'
           : '',
         className
       )}
@@ -258,7 +257,7 @@ const MessageSuggestionsStatus = React.forwardRef<
     >
       {/* Error state */}
       {error && (
-        <div className="p-2 rounded-md text-sm bg-red-50 text-red-500">
+        <div className="dr-p-2 dr-rounded-6 dr-text-14 bg-red-50 text-red-500">
           <p>{error.message}</p>
         </div>
       )}
@@ -268,8 +267,8 @@ const MessageSuggestionsStatus = React.forwardRef<
         {thread?.generationStage && thread.generationStage !== 'COMPLETE' ? (
           <MessageGenerationStage />
         ) : isGenerating ? (
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Loader2Icon className="h-4 w-4 animate-spin" />
+          <div className="flex items-center dr-gap-2 text-muted-foreground">
+            <Loader2Icon className="dr-h-4 dr-w-4 animate-spin" />
             <p>Generating suggestions...</p>
           </div>
         ) : null}
@@ -313,8 +312,7 @@ const MessageSuggestionsList = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn(
-        'flex space-x-2 overflow-x-auto pb-2 rounded-md bg-transparent min-h-[2.5rem]',
+      className={cn('flex dr-gap-12 overflow-x-auto dr-pb-2 dr-rounded-6 bg-transparent min-h-[2.5rem]',
         isGenerating ? 'opacity-70' : '',
         className
       )}
@@ -333,8 +331,7 @@ const MessageSuggestionsList = React.forwardRef<
               side="top"
             >
               <button
-                className={cn(
-                  'py-2 px-2.5 rounded-2xl text-xs transition-colors',
+                className={cn('dr-p-4 dr-rounded-8 typo-p transition-colors',
                   'border border-flat',
                   isGenerating
                     ? 'bg-muted/50 text-muted-foreground'
@@ -357,7 +354,7 @@ const MessageSuggestionsList = React.forwardRef<
           placeholders.map((_, index) => (
             <div
               key={`placeholder-${index}`}
-              className="py-2 px-2.5 rounded-2xl text-xs border border-flat bg-muted/20 text-transparent animate-pulse"
+              className="dr-p-4 dr-rounded-16 typo-p border border-flat bg-muted/20 text-transparent animate-pulse"
               data-placeholder-index={index}
             >
               <span className="invisible">Placeholder</span>

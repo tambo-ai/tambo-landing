@@ -39,17 +39,16 @@ const BooleanField: React.FC<FieldProps> = ({
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium text-foreground">
+      <label className="dr-text-14 font-medium text-foreground">
         {schema.description ?? name}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="text-destructive dr-ml-1">*</span>}
       </label>
-      <div className="flex gap-2">
+      <div className="flex dr-gap-2">
         <button
           type="button"
           autoFocus={autoFocus}
           onClick={() => onChange(true)}
-          className={cn(
-            'flex-1 px-4 py-2 rounded-lg border transition-colors',
+          className={cn('flex-1 dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
             boolValue === true
               ? 'bg-accent text-accent-foreground border-accent'
               : 'bg-background border-border hover:bg-muted'
@@ -60,8 +59,7 @@ const BooleanField: React.FC<FieldProps> = ({
         <button
           type="button"
           onClick={() => onChange(false)}
-          className={cn(
-            'flex-1 px-4 py-2 rounded-lg border transition-colors',
+          className={cn('flex-1 dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
             boolValue === false
               ? 'bg-accent text-accent-foreground border-accent'
               : 'bg-background border-border hover:bg-muted'
@@ -94,19 +92,18 @@ const EnumField: React.FC<FieldProps> = ({
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium text-foreground">
+      <label className="dr-text-14 font-medium text-foreground">
         {schema.description ?? name}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="text-destructive dr-ml-1">*</span>}
       </label>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap dr-gap-2">
         {options.map((option, index) => (
           <button
             key={option}
             type="button"
             autoFocus={autoFocus && index === 0}
             onClick={() => onChange(option)}
-            className={cn(
-              'px-4 py-2 rounded-lg border transition-colors',
+            className={cn('dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
               stringValue === option
                 ? 'bg-accent text-accent-foreground border-accent'
                 : 'bg-background border-border hover:bg-muted'
@@ -161,9 +158,9 @@ const StringField: React.FC<FieldProps> = ({
 
   return (
     <div className="space-y-2">
-      <label htmlFor={inputId} className="text-sm font-medium text-foreground">
+      <label htmlFor={inputId} className="dr-text-14 font-medium text-foreground">
         {schema.description ?? name}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="text-destructive dr-ml-1">*</span>}
       </label>
       <input
         id={inputId}
@@ -171,8 +168,7 @@ const StringField: React.FC<FieldProps> = ({
         autoFocus={autoFocus}
         value={stringValue}
         onChange={(e) => onChange(e.target.value)}
-        className={cn(
-          'w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2',
+        className={cn('w-full dr-px-3 dr-py-2 dr-rounded-8 border bg-background text-foreground focus:outline-none focus:ring-2',
           hasError
             ? 'border-destructive focus:ring-destructive'
             : 'border-border focus:ring-accent'
@@ -185,7 +181,7 @@ const StringField: React.FC<FieldProps> = ({
         aria-describedby={hasError ? errorId : undefined}
       />
       {validationError && (
-        <p id={errorId} className="text-xs text-destructive" aria-live="polite">
+        <p id={errorId} className="dr-text-12 text-destructive" aria-live="polite">
           {validationError}
         </p>
       )}
@@ -216,9 +212,9 @@ const NumberField: React.FC<FieldProps> = ({
 
   return (
     <div className="space-y-2">
-      <label htmlFor={inputId} className="text-sm font-medium text-foreground">
+      <label htmlFor={inputId} className="dr-text-14 font-medium text-foreground">
         {schema.description ?? name}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="text-destructive dr-ml-1">*</span>}
       </label>
       <input
         id={inputId}
@@ -233,8 +229,7 @@ const NumberField: React.FC<FieldProps> = ({
               : valueAsNumber
           )
         }}
-        className={cn(
-          'w-full px-3 py-2 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2',
+        className={cn('w-full dr-px-3 dr-py-2 dr-rounded-8 border bg-background text-foreground focus:outline-none focus:ring-2',
           hasError
             ? 'border-destructive focus:ring-destructive'
             : 'border-border focus:ring-accent'
@@ -248,7 +243,7 @@ const NumberField: React.FC<FieldProps> = ({
         aria-describedby={hasError ? errorId : undefined}
       />
       {validationError && (
-        <p id={errorId} className="text-xs text-destructive" aria-live="polite">
+        <p id={errorId} className="dr-text-12 text-destructive" aria-live="polite">
           {validationError}
         </p>
       )}
@@ -520,12 +515,11 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
 
     return (
       <div
-        className={cn(
-          'flex flex-col rounded-xl bg-background border border-border p-4 space-y-3',
+        className={cn('flex flex-col dr-rounded-12 bg-background border border-border dr-p-4 space-y-3',
           className
         )}
       >
-        <div className="text-base font-semibold text-foreground mb-2">
+        <div className="dr-text-16 font-semibold text-foreground dr-mb-2">
           {request.message}
         </div>
         <Field
@@ -537,18 +531,18 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
           autoFocus
           validationError={validationError}
         />
-        <div className="flex justify-end gap-2 pt-2">
+        <div className="flex justify-end dr-gap-2 dr-pt-2">
           <button
             type="button"
             onClick={handleCancel}
-            className="px-4 py-2 text-sm rounded-lg border border-destructive text-destructive hover:bg-destructive/10 transition-colors"
+            className="dr-px-4 dr-py-2 dr-text-14 dr-rounded-8 border border-destructive text-destructive hover:bg-destructive/10 transition-colors"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={handleDecline}
-            className="px-4 py-2 text-sm rounded-lg border border-border bg-background hover:bg-muted transition-colors"
+            className="dr-px-4 dr-py-2 dr-text-14 dr-rounded-8 border border-border bg-background hover:bg-muted transition-colors"
           >
             Decline
           </button>
@@ -560,12 +554,11 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
   // Multiple-entry mode
   return (
     <div
-      className={cn(
-        'flex flex-col rounded-xl bg-background border border-border p-4 space-y-4',
+      className={cn('flex flex-col dr-rounded-12 bg-background border border-border dr-p-4 space-y-4',
         className
       )}
     >
-      <div className="text-base font-semibold text-foreground">
+      <div className="dr-text-16 font-semibold text-foreground">
         {request.message}
       </div>
       <div className="space-y-3">
@@ -592,18 +585,18 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
           )
         })}
       </div>
-      <div className="flex justify-end gap-2 pt-2">
+      <div className="flex justify-end dr-gap-2 dr-pt-2">
         <button
           type="button"
           onClick={handleCancel}
-          className="px-4 py-2 text-sm rounded-lg border border-destructive text-destructive hover:bg-destructive/10 transition-colors"
+          className="dr-px-4 dr-py-2 dr-text-14 dr-rounded-8 border border-destructive text-destructive hover:bg-destructive/10 transition-colors"
         >
           Cancel
         </button>
         <button
           type="button"
           onClick={handleDecline}
-          className="px-4 py-2 text-sm rounded-lg border border-border bg-background hover:bg-muted transition-colors"
+          className="dr-px-4 dr-py-2 dr-text-14 dr-rounded-8 border border-border bg-background hover:bg-muted transition-colors"
         >
           Decline
         </button>
@@ -611,7 +604,7 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
           type="button"
           onClick={handleAccept}
           disabled={!isValid}
-          className="px-6 py-2 text-sm rounded-lg bg-black/80 text-white hover:bg-black/70 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="dr-px-6 dr-py-2 dr-text-14 dr-rounded-8 bg-black/80 text-white hover:bg-black/70 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           Submit
         </button>

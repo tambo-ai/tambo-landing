@@ -50,13 +50,12 @@ export function MessageGenerationStage({
 
   return (
     <div
-      className={cn(
-        'inline-flex items-center gap-2 px-2 py-1 text-xs rounded-md bg-transparent text-muted-foreground',
+      className={cn('inline-flex items-center dr-gap-2 dr-px-2 dr-py-1 dr-text-12 dr-rounded-6 bg-transparent text-muted-foreground',
         className
       )}
       {...props}
     >
-      <Loader2Icon className="h-3 w-3 animate-spin" />
+      <Loader2Icon className="dr-h-3 dr-w-3 animate-spin" />
       {showLabel && <span>{label}</span>}
     </div>
   )
