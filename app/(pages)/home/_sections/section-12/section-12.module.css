@@ -1,7 +1,7 @@
-.banner {
+.banner,
+.card {
   transition:
     box-shadow 0.3s ease,
-    border-style 0.3s ease,
     border-color 0.3s ease;
   background: var(--color-white);
 
@@ -10,6 +10,17 @@
       box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
       border-style: dashed;
       border-color: var(--color-teal);
+
+      .cardHeader {
+        background-color: var(--color-ghost-mint);
+        border-color: var(--color-dark-teal);
+      }
     }
   }
+}
+
+.cardHeader {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }

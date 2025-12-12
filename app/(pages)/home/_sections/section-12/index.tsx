@@ -23,10 +23,18 @@ export function Section12() {
           {pricingCards.map((card, i) => (
             <div
               key={`${card?.plan}-${i}`}
-              className="dt:dr-p-8 border border-dark-grey dt:dr-rounded-20 bg-white dt:dr-h-497 dt:flex dt:flex-col dt:justify-between"
+              className={cn(
+                'dt:dr-p-8 border border-dark-grey dt:dr-rounded-20 bg-white dt:dr-h-497 dt:flex dt:flex-col dt:justify-between',
+                s.card
+              )}
             >
               <div>
-                <div className="dt:dr-p-16 dt:dr-rounded-12 bg-off-white border border-dark-grey dt:dr-mb-32">
+                <div
+                  className={cn(
+                    'dt:dr-p-16 dt:dr-rounded-12 bg-off-white border border-dark-grey dt:dr-mb-32',
+                    s.cardHeader
+                  )}
+                >
                   <p className="typo-label-m dt:dr-mb-16">
                     {'< '}
                     {card?.plan}
