@@ -44,7 +44,7 @@ export function Section11() {
                 className={cn('absolute inset-0 text-dark-teal/20', s.pattern)}
               />
 
-              <span
+              <div
                 className={cn(
                   'dt:dr-w-337 dt:dr-h-189 border-2 border-dark-grey dt:dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block',
                   s.cardImage
@@ -57,12 +57,12 @@ export function Section11() {
                     <source src={card?.image} type="video/webm" />
                   </Video>
                 )}
-              </span>
+              </div>
 
-              <span className="dt:dr-ml-12 relative z-1 flex items-center justify-between">
+              <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between">
                 <p className={cn('typo-h4 w-fit', s.title)}>{card?.title}</p>
 
-                <span
+                <div
                   className={cn(
                     'dt:dr-w-32 dt:dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
                     s.button
@@ -77,10 +77,10 @@ export function Section11() {
                       s.arrow
                     )}
                   />
-                </span>
-              </span>
+                </div>
+              </div>
 
-              <span
+              <div
                 className={cn(
                   'absolute dt:dr-top-262 dt:dr-ml-12',
                   s.cardContent
@@ -90,7 +90,7 @@ export function Section11() {
                   {card?.paragraph}
                 </p>
                 <p className="typo-label-m text-mint">{card?.user}</p>
-              </span>
+              </div>
             </Button>
           ))}
         </div>
