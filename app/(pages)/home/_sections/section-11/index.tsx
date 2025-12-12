@@ -13,8 +13,8 @@ import s from './section-11.module.css'
 
 export function Section11() {
   return (
-    <section className="dt:dr-pt-141 dt:dr-pb-210 dr-layout-grid-inner">
-      <TitleBlock className="col-start-4 col-end-10 dt:dr-mb-56">
+    <section className="dt:dr-pt-141 dt:dr-pb-210 dt:dr-layout-grid-inner">
+      <TitleBlock className="dt:col-start-4 dt:col-end-10 dt:dr-mb-56">
         <TitleBlock.LeadIn>
           {'<'} SHowcase {'>'}
         </TitleBlock.LeadIn>
@@ -29,13 +29,13 @@ export function Section11() {
         <TitleBlock.Button href="/">Start Building</TitleBlock.Button>
       </TitleBlock>
       {/* SHOWCASE CARDS */}
-      <div className="col-start-2 col-end-12">
-        <div className="dr-grid dr-grid-cols-3 dr-gap-24 relative items-start">
+      <div className="dt:col-start-2 dt:col-end-12">
+        <div className="dt:dr-grid dt:dr-grid-cols-3 dt:dr-gap-24 relative items-start">
           {showcaseCards.map((card, i) => (
             <div
               key={`${card?.title}-${i}`}
               className={cn(
-                'relative border-2 border-dark-grey dr-p-12 bg-white dr-rounded-20 dt:dr-w-361 overflow-hidden',
+                'relative border-2 border-dark-grey dt:dr-p-12 bg-white dt:dr-rounded-20 dt:dr-w-361 overflow-hidden',
                 s.card
               )}
             >
@@ -45,7 +45,7 @@ export function Section11() {
 
               <div
                 className={cn(
-                  'dt:dr-w-337 dt:dr-h-189 border-2 border-dark-grey dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white',
+                  'dt:dr-w-337 dt:dr-h-189 border-2 border-dark-grey dt:dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white',
                   s.cardImage
                 )}
               >
