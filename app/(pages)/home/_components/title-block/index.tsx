@@ -23,7 +23,13 @@ function TitleBlockLeadIn({
   ...props
 }: ComponentProps<'p'>) {
   return (
-    <p className={cn('typo-surtitle uppercase dr-mb-24', className)} {...props}>
+    <p
+      className={cn(
+        'typo-label-m dt:typo-surtitle uppercase dr-mb-24',
+        className
+      )}
+      {...props}
+    >
       {children}
     </p>
   )
@@ -36,7 +42,10 @@ function TitleBlockTitle({
   ...props
 }: ComponentProps<'h2'> & { level: 'h2' | 'h3' | 'h4' }) {
   return (
-    <Tag className={cn('typo-h1 text-center dr-mb-40', className)} {...props}>
+    <Tag
+      className={cn('typo-h3 dt:typo-h1 text-center dr-mb-40', className)}
+      {...props}
+    >
       {children}
     </Tag>
   )

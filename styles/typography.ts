@@ -55,7 +55,7 @@ const typography: TypeStyles = {
     'line-height': '110%',
     'letter-spacing': '0.02em',
     'text-transform': 'uppercase',
-    'font-size': { mobile: 24, desktop: 16 },
+    'font-size': { mobile: 16, desktop: 16 },
   },
   surtitle: {
     'font-family': `var(${fonts.geistMono})`,

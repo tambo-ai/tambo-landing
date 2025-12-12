@@ -10,8 +10,8 @@ const screens = {
 
 const layout = {
   columns: { mobile: 4, desktop: 12 },
-  gap: { mobile: 16, desktop: 24 },
-  safe: { mobile: 16, desktop: 40 },
+  gap: { mobile: 12, desktop: 24 },
+  safe: { mobile: 24, desktop: 40 },
 }
 
 const maxWidth = 1800
