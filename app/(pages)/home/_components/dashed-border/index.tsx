@@ -3,9 +3,11 @@ import cn from 'clsx'
 export function DashedBorder({
   className,
   style,
+  ref,
 }: {
   className?: string
   style?: React.CSSProperties
+  ref?: React.Ref<SVGRectElement>
 }) {
   return (
     <svg
@@ -19,6 +21,7 @@ export function DashedBorder({
       style={style}
     >
       <rect
+        ref={ref}
         width="100%"
         height="100%"
         fill="none"

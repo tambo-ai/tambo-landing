@@ -3,6 +3,7 @@ import { maxWidth, screens } from '~/styles/config'
 import { easings } from './easings'
 
 export function desktopVW(value: number, width: number) {
+  // return (value * width) / screens.desktop.width
   return Math.min(
     (value * width) / screens.desktop.width,
     (value * maxWidth) / screens.desktop.width

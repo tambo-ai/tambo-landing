@@ -2,7 +2,7 @@
 
 import cn from 'clsx'
 import gsap from 'gsap'
-import { useRect } from 'hamo'
+import { useRect, useWindowSize } from 'hamo'
 import { useContext, useEffect, useRef } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
@@ -12,7 +12,7 @@ import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { fromTo } from '~/libs/utils'
+import { desktopVW, fromTo } from '~/libs/utils'
 import s from './section1.module.css'
 // @refresh reset
 
@@ -25,6 +25,8 @@ export function Section1() {
   }, [getItems])
 
   const [setRectRef, rect] = useRect()
+
+  const { width: windowWidth = 0 } = useWindowSize()
 
   const videoRef = useRef<HTMLDivElement>(null)
   const subVideoRef = useRef<HTMLDivElement>(null)
@@ -52,21 +54,24 @@ export function Section1() {
           fromTo(
             items,
             {
-              width: (index) => 25 + (items.length - 1 - index) * 10,
+              // width: (index) => 25 + (items.length - 1 - index) * 10,
+              width: (index) =>
+                desktopVW(windowWidth, 310 + (items.length - 1 - index) * 160),
+              // height: (index) => 25 + (items.length - 1 - index) * 10,
               boxShadowOpacity: 0,
               y: 0,
             },
             {
               y: 0,
               boxShadowOpacity: 1,
-              width: (index) => 35 + (items.length - 1 - index) * 8,
+              // width: (index) => 35 + (items.length - 1 - index) * 8,
+              width: (index) =>
+                desktopVW(windowWidth, 480 + (items.length - 1 - index) * 100),
             },
             proxy.progress1,
             {
               ease: 'easeOutQuad',
               render: (item, { width, y, boxShadowOpacity }) => {
-                // if (item instanceof BackgroundItem) {
-                // if (item instanceof BackgroundItemRef) {
                 // @ts-expect-error
                 const element = item?.getElement()
                 // @ts-expect-error
@@ -76,10 +81,14 @@ export function Section1() {
                   boxShadow.style.opacity = `${boxShadowOpacity}`
                 }
 
-                element.style.width = `${width}%`
-                // element.style.opacity = `${opacity}`
-                element.style.transform = `translateY(${y}%)`
-                // }
+                // @ts-expect-error
+                item?.setBorderRadius(`${width * 2}px`)
+
+                if (element instanceof HTMLElement) {
+                  element.style.width = `${width}px`
+                  element.style.height = `${width}px`
+                  element.style.transform = `translateY(${y}px)`
+                }
               },
             }
           )
@@ -91,27 +100,35 @@ export function Section1() {
         ease: 'linear',
         onUpdate: () => {
           const items = getItems()
-          const elements = items
-            .map((item) => item?.getElement())
-            .filter(Boolean)
 
           fromTo(
-            elements,
+            items,
             {
-              width: (index) => 35 + (items.length - 1 - index) * 8,
+              width: (index) =>
+                desktopVW(windowWidth, 480 + (items.length - 1 - index) * 100),
               y: 0,
             },
             {
-              width: (index) => 125 - index * 15,
-              y: (index) => -15 - (elements.length - index) * 1.8,
+              // width: (index) => 125 - index * 15,
+              width: (index) =>
+                desktopVW(windowWidth, 1134 + (items.length - 1 - index) * 240),
+              // y: (index) => -15 - (items.length - 1 - index) * 1.8,
+              y: (index) =>
+                -desktopVW(windowWidth, 225 + (items.length - 1 - index) * 90),
             },
             proxy.progress2,
             {
               ease: 'easeOutQuad',
-              render: (element, { width, y }) => {
+              render: (item, { width, y }) => {
+                // @ts-expect-error
+                const element = item?.getElement()
+                // @ts-expect-error
+                item?.setBorderRadius(`${width * 2}px`)
+
                 if (element instanceof HTMLElement) {
-                  element.style.width = `${width}%`
-                  element.style.transform = `translateY(${y}%)`
+                  element.style.width = `${width}px`
+                  element.style.height = `${width}px`
+                  element.style.transform = `translateY(${y}px)`
                 }
               },
             }
@@ -154,7 +171,7 @@ export function Section1() {
       proxy.progress1 = 0
       proxy.progress2 = 0
     }
-  }, [getItems])
+  }, [getItems, windowWidth])
 
   useScrollTrigger(
     {
@@ -163,32 +180,40 @@ export function Section1() {
       end: 'bottom top',
       onProgress: ({ progress }) => {
         const items = getItems()
-        const elements = items.map((item) => item?.getElement()).filter(Boolean)
 
         fromTo(
-          elements,
+          items,
           {
-            width: (index) => 125 - index * 15,
-            y: (index) => -15 - (elements.length - index) * 1.8,
+            width: (index) =>
+              desktopVW(windowWidth, 1134 + (items.length - 1 - index) * 240),
+            y: (index) =>
+              -desktopVW(windowWidth, 225 + (items.length - 1 - index) * 90),
           },
           {
             y: 0,
-            width: (index) => 125 - index * 15,
+            width: (index) =>
+              desktopVW(windowWidth, 1134 + (items.length - 1 - index) * 240),
           },
           progress,
           {
             ease: 'linear',
-            render: (element, { y, width }) => {
+            render: (item, { y, width }) => {
+              // @ts-expect-error
+              const element = item?.getElement()
+              // @ts-expect-error
+              item?.setBorderRadius(`${width * 2}px`)
+
               if (element instanceof HTMLElement) {
-                element.style.width = `${width}%`
-                element.style.transform = `translateY(${y}%)`
+                element.style.width = `${width}px`
+                element.style.height = `${width}px`
+                element.style.transform = `translateY(${y}px)`
               }
             },
           }
         )
       },
     },
-    [getItems]
+    [getItems, windowWidth]
   )
 
   return (

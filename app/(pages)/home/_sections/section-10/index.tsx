@@ -8,7 +8,7 @@ import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { fromTo } from '~/libs/utils'
+import { desktopVW, fromTo } from '~/libs/utils'
 
 const BUTTONS = [
   {
@@ -32,56 +32,70 @@ export function Section10() {
 
   const { getItems } = useContext(BackgroundContext)
 
-  useScrollTrigger({
-    rect,
-    start: 'top center',
-    end: 'top top',
-    onProgress: ({ progress }) => {
-      fromTo(
-        buttonsRef.current,
-        {
-          opacity: 0,
-          scale: 1.2,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-        },
-        progress,
-        {
-          ease: 'linear',
-          render: (element, { opacity, scale }) => {
-            if (element instanceof HTMLElement) {
-              element.style.opacity = `${opacity}`
-              element.style.transform = `scale(${scale})`
-            }
-          },
-        }
-      )
+  const { width: windowWidth = 0 } = useWindowSize()
 
-      const elements = getItems()
-        .map((item) => item?.getElement())
-        .filter(Boolean)
-      fromTo(
-        elements,
-        {
-          width: (index) => 125 + (elements.length - 1 - index) * 5,
-        },
-        {
-          width: (index) => 35 + (elements.length - 1 - index) * 20,
-        },
-        progress,
-        {
-          ease: 'linear',
-          render: (element, { width }) => {
-            if (element instanceof HTMLElement) {
-              element.style.width = `${width}%`
-            }
+  useScrollTrigger(
+    {
+      rect,
+      start: 'top center',
+      end: 'top top',
+      onProgress: ({ progress }) => {
+        fromTo(
+          buttonsRef.current,
+          {
+            opacity: 0,
+            scale: 1.2,
           },
-        }
-      )
+          {
+            opacity: 1,
+            scale: 1,
+          },
+          progress,
+          {
+            ease: 'linear',
+            render: (element, { opacity, scale }) => {
+              if (element instanceof HTMLElement) {
+                element.style.opacity = `${opacity}`
+                element.style.transform = `scale(${scale})`
+              }
+            },
+          }
+        )
+
+        const items = getItems()
+        fromTo(
+          items,
+          {
+            width: (index) =>
+              desktopVW(
+                windowWidth,
+                windowWidth * 1.5 + (items.length - 1 - index) * 100
+              ),
+          },
+          {
+            width: (index) =>
+              desktopVW(windowWidth, 496 + (items.length - 1 - index) * 260),
+          },
+          progress,
+          {
+            ease: 'linear',
+            render: (item, { width }) => {
+              // @ts-expect-error
+              const element = item?.getElement()
+              // @ts-expect-error
+              item?.setBorderRadius(`${width * 2}px`)
+
+              if (element instanceof HTMLElement) {
+                element.style.width = `${width}px`
+                element.style.height = `${width}px`
+              }
+            },
+          }
+        )
+      },
     },
-  })
+    [windowWidth]
+  )
 
   const { height: windowHeight = 0 } = useWindowSize()
 
@@ -90,11 +104,9 @@ export function Section10() {
     start: 'top top',
     end: `${rect?.top === undefined || rect?.height === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
     onProgress: ({ progress, height }) => {
-      const elements = getItems()
-        .map((item) => item?.getElement())
-        .filter(Boolean)
+      const items = getItems()
       fromTo(
-        elements,
+        items,
         {
           y: 0,
         },
@@ -104,7 +116,12 @@ export function Section10() {
         progress,
         {
           ease: 'linear',
-          render: (element, { y }) => {
+          render: (item, { y }) => {
+            // @ts-expect-error
+            const element = item?.getElement()
+
+            // item?.setBorderRadius(`${width * 2}px`)
+
             if (element instanceof HTMLElement) {
               element.style.transform = `translateY(${y}px)`
             }

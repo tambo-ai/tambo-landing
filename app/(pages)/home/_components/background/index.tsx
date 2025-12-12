@@ -37,6 +37,7 @@ function BoxShadow({
 export type BackgroundItemRef = {
   getElement: () => HTMLDivElement | null
   getBoxShadow: () => HTMLDivElement | null
+  setBorderRadius: (borderRadius: string) => void
 }
 
 export function BackgroundItem({
@@ -58,24 +59,34 @@ export function BackgroundItem({
 }) {
   const elementRef = useRef<HTMLDivElement>(null)
   const boxShadowRef = useRef<HTMLDivElement>(null)
+  const dashedBorderRef = useRef<SVGRectElement>(null)
 
   const { dpr } = useDeviceDetection()
 
   useImperativeHandle(ref, () => ({
     getElement: () => elementRef.current,
     getBoxShadow: () => boxShadowRef.current,
+    setBorderRadius: (borderRadius: string) => {
+      if (elementRef.current) {
+        elementRef.current.style.borderRadius = borderRadius
+      }
+      if (dashedBorderRef.current) {
+        dashedBorderRef.current.style.rx = borderRadius
+        dashedBorderRef.current.style.ry = borderRadius
+      }
+    },
   }))
 
   return (
     <div
       className={cn(
-        'absolute aspect-square rounded-full left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]',
+        'absolute rounded-full left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]',
         s.item
       )}
       style={style}
       ref={elementRef}
     >
-      <Kinesis className="absolute inset-0 rounded-[inherit]" index={index}>
+      <Kinesis className="absolute inset-0 rounded-[inherit]" index={0}>
         <div className="absolute inset-0 rounded-[inherit]" ref={boxShadowRef}>
           {/* <BoxShadow y={36} blur={231} opacity={0.02} />
         <BoxShadow y={20} blur={195} opacity={0.07} />
@@ -131,6 +142,7 @@ export function BackgroundItem({
       /> */}
 
         <DashedBorder
+          ref={dashedBorderRef}
           className={cn('absolute inset-0', s.border)}
           style={{
             opacity: borderOpacity,
@@ -155,7 +167,7 @@ export default function Background({
       }}
     >
       <div className="fixed inset-0">
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
           <BackgroundItem
             opacity={0.4}
             borderOpacity={0.1}
