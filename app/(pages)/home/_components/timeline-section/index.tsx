@@ -2,24 +2,46 @@
 import cn from 'clsx'
 import gsap from 'gsap'
 import { useRect } from 'hamo'
-import { useEffect, useEffectEvent, useRef, useState } from 'react'
+import {
+  createContext,
+  type RefObject,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from 'react'
 import type { messages as messagesType } from '~/app/(pages)/home/_sections/section-4/data'
 import { CTA } from '~/components/button'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { mapRange } from '~/libs/utils'
 import { colors } from '~/styles/colors'
 
+export const TimelineSectionContext = createContext<{
+  callbacks: RefObject<((progress: number) => void)[]>
+  addCallback: (callback: (progress: number) => void) => void
+}>({
+  callbacks: { current: [] },
+  addCallback: () => {},
+})
+
 export function TimelineSection({
   messages,
   title,
+  children,
 }: {
   messages: typeof messagesType
   title: string
+  children?: React.ReactNode
 }) {
   const [rectRef, rect] = useRect()
   const [messagesVisible, setMessagesVisible] = useState(0)
   const whiteLineRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
+  const callbacks = useRef<((progress: number) => void)[]>([])
+  const addCallback = useCallback((callback: (progress: number) => void) => {
+    callbacks.current.push(callback)
+  }, [])
 
   useScrollTrigger({
     rect,
@@ -44,43 +66,52 @@ export function TimelineSection({
       if (buttonRef.current) {
         buttonRef.current.style.opacity = `${buttonProgress}`
       }
+      for (const callback of callbacks.current) {
+        callback(progress)
+      }
     },
   })
 
   return (
-    <section ref={rectRef} className="h-[200svh] bg-light-gray">
-      <div className="sticky top-0 dr-layout-grid-inner h-screen overflow-clip">
-        <div className="col-span-4 flex flex-col dr-mt-112">
-          <h3 className="typo-h2">{title}</h3>
-          <div
-            className="relative dr-py-40"
-            style={{
-              maskImage: 'linear-gradient(to bottom, transparent 0%, black 5%)',
-            }}
-          >
-            <div className="absolute z-15 dr-w-32 inset-y-0 dr-left-27">
-              <div
-                ref={whiteLineRef}
-                className="dr-w-8 h-[110%] bg-white rounded-full shadow-xs mx-auto"
-              />
-            </div>
-            <ul className="flex flex-col dr-gap-4 items-start">
-              {messages.map((message, idx) => (
-                <TimelineItem
-                  key={message.id}
-                  message={message}
-                  visible={idx < messagesVisible}
-                  last={idx === messages.length - 1}
+    <TimelineSectionContext.Provider value={{ callbacks, addCallback }}>
+      <section ref={rectRef} className="h-[200svh] bg-light-gray">
+        <div className="sticky top-0 dr-layout-grid-inner h-screen overflow-clip">
+          <div className="col-span-4 flex flex-col dr-mt-112">
+            <h3 className="typo-h2">{title}</h3>
+            <div
+              className="relative dr-py-40"
+              style={{
+                maskImage:
+                  'linear-gradient(to bottom, transparent 0%, black 5%)',
+              }}
+            >
+              <div className="absolute z-15 dr-w-32 inset-y-0 dr-left-27">
+                <div
+                  ref={whiteLineRef}
+                  className="dr-w-8 h-[110%] bg-white rounded-full shadow-xs mx-auto"
                 />
-              ))}
-            </ul>
+              </div>
+              <ul className="flex flex-col dr-gap-4 items-start">
+                {messages.map((message, idx) => (
+                  <TimelineItem
+                    key={message.id}
+                    message={message}
+                    visible={idx < messagesVisible}
+                    last={idx === messages.length - 1}
+                  />
+                ))}
+              </ul>
+            </div>
+            <CTA wrapperRef={buttonRef} color="black">
+              Start building
+            </CTA>
           </div>
-          <CTA wrapperRef={buttonRef} color="black">
-            Start building
-          </CTA>
+          <div className="col-start-6 col-end-12 flex items-center justify-center">
+            {children}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </TimelineSectionContext.Provider>
   )
 }
 
