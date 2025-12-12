@@ -96,6 +96,7 @@ export const ScrollableMessageContainer = React.forwardRef<
 
   return (
     <div
+      data-lenis-prevent
       ref={scrollContainerRef}
       onScroll={handleScroll}
       className={cn('flex-1 overflow-y-auto',

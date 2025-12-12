@@ -1,23 +1,10 @@
 'use client'
 
-import { TamboProvider } from '@tambo-ai/react'
-import { seatExampleContext } from './(components)/context'
+import { TamboContextHelpersProvider, TamboProvider, useTamboThread } from '@tambo-ai/react'
+import { mapExampleContext, seatExampleContext } from './(components)/context'
 import { SeatSelector, SeatSelectorSchema } from './(components)/seat-selector'
 import { MessageThreadFull } from './(components)/ui-tambo/message-thread-full'
-
-export function TamboIntegration() {
-  return (
-    <TamboProvider
-      apiKey={process.env.NEXT_PUBLIC_TAMBO_API_KEY!}
-      components={components}
-      contextHelpers={{
-        instructions: () => seatExampleContext,
-      }}
-    >
-      <MessageThreadFull contextKey="tambo-template" variant="compact" />
-    </TamboProvider>
-  )
-}
+import { MessageThreadCollapsible } from './(components)/ui-tambo/message-thread-collapsible'
 
 const components = [
   {
@@ -27,3 +14,44 @@ const components = [
     propsSchema: SeatSelectorSchema,
   },
 ]
+
+export function TamboIntegration({children}: {children: React.ReactNode}) {
+  return (
+    <TamboProvider
+      apiKey={process.env.NEXT_PUBLIC_TAMBO_API_KEY!}
+      components={components}
+    >
+        {children}
+    </TamboProvider>
+  )
+}
+
+export function TravelAssistant({ selectedDemo }: { selectedDemo: 'travel' | 'map' }) {
+  if(selectedDemo === 'map') return null
+
+  return (
+    <TamboContextHelpersProvider
+      contextHelpers={{
+        instructions: () => seatExampleContext,
+      }}
+  >
+    <MessageThreadFull contextKey={selectedDemo} variant="compact" />
+  </TamboContextHelpersProvider>
+  )
+}
+
+export function MapAssistant({ selectedDemo }: { selectedDemo: 'travel' | 'map' }) {
+  if(selectedDemo === 'travel') return null
+
+  return (
+    <TamboContextHelpersProvider
+      contextHelpers={{
+        instructions: () => mapExampleContext,
+      }}
+  >
+    <MessageThreadCollapsible  contextKey={selectedDemo} variant="compact" defaultOpen={true}
+     className="absolute dr-bottom-6 dr-right-4" />
+  </TamboContextHelpersProvider>
+  )
+}
+
