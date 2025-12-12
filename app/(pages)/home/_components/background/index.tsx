@@ -86,7 +86,7 @@ export function BackgroundItem({
       style={style}
       ref={elementRef}
     >
-      <Kinesis className="absolute inset-0 rounded-[inherit]" index={0}>
+      <Kinesis className="absolute inset-0 rounded-[inherit]" index={index}>
         <div className="absolute inset-0 rounded-[inherit]" ref={boxShadowRef}>
           {/* <BoxShadow y={36} blur={231} opacity={0.02} />
         <BoxShadow y={20} blur={195} opacity={0.07} />

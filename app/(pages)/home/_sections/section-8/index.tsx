@@ -27,9 +27,6 @@ export function Section8() {
       start: 'top top',
       end: `${titleBlockRect?.top === undefined || titleBlockRect.height === undefined ? 'bottom' : titleBlockRect.top + titleBlockRect.height * 0.5} center`,
       onProgress: ({ progress }) => {
-        console.log('section8', progress)
-        return
-
         const items = getItems()
         fromTo(
           items,
@@ -53,10 +50,12 @@ export function Section8() {
           {
             ease: 'linear',
             render: (item, { borderRadius, width, height, y }) => {
+              // @ts-expect-error
               const element = item?.getElement()
+              // @ts-expect-error
+              item?.setBorderRadius(`${borderRadius}px`)
+
               if (element instanceof HTMLElement) {
-                // element.style.borderRadius = `${borderRadius}px`
-                item?.setBorderRadius(`${borderRadius}px`)
                 element.style.width = `${width}px`
                 element.style.height = `${height}px`
                 element.style.transform = `translateY(${y}px)`
