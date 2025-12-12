@@ -32,10 +32,11 @@ export function Section11() {
       <div className="dt:col-start-2 dt:col-end-12">
         <div className="dt:dr-grid dt:dr-grid-cols-3 dt:dr-gap-24 relative items-start">
           {showcaseCards.map((card, i) => (
-            <div
+            <Button
               key={`${card?.title}-${i}`}
+              href={card?.href}
               className={cn(
-                'relative border-2 border-dark-grey dt:dr-p-12 bg-white dt:dr-rounded-20 dt:dr-w-361 overflow-hidden',
+                'relative border-2 border-dark-grey dt:dr-p-12 bg-white dt:dr-rounded-20 dt:dr-w-361 dt:dr-max-h-371 overflow-hidden',
                 s.card
               )}
             >
@@ -43,9 +44,9 @@ export function Section11() {
                 className={cn('absolute inset-0 text-dark-teal/20', s.pattern)}
               />
 
-              <div
+              <span
                 className={cn(
-                  'dt:dr-w-337 dt:dr-h-189 border-2 border-dark-grey dt:dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white',
+                  'dt:dr-w-337 dt:dr-h-189 border-2 border-dark-grey dt:dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block',
                   s.cardImage
                 )}
               >
@@ -56,15 +57,14 @@ export function Section11() {
                     <source src={card?.image} type="video/webm" />
                   </Video>
                 )}
-              </div>
+              </span>
 
-              <div className="dt:dr-mb-16 dt:dr-ml-12 relative z-1 flex items-center justify-between">
+              <span className="dt:dr-ml-12 relative z-1 flex items-center justify-between">
                 <p className={cn('typo-h4 w-fit', s.title)}>{card?.title}</p>
 
-                <Button
-                  href={card?.href}
+                <span
                   className={cn(
-                    'dt:dr-w-32 dt:dr-h-32 bg-mint flex items-center justify-center dr-rounded-10',
+                    'dt:dr-w-32 dt:dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
                     s.button
                   )}
                 >
@@ -77,10 +77,10 @@ export function Section11() {
                       s.arrow
                     )}
                   />
-                </Button>
-              </div>
+                </span>
+              </span>
 
-              <div
+              <span
                 className={cn(
                   'absolute dt:dr-top-262 dt:dr-ml-12',
                   s.cardContent
@@ -90,8 +90,8 @@ export function Section11() {
                   {card?.paragraph}
                 </p>
                 <p className="typo-label-m text-mint">{card?.user}</p>
-              </div>
-            </div>
+              </span>
+            </Button>
           ))}
         </div>
       </div>
