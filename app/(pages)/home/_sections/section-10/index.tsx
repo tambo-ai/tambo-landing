@@ -3,6 +3,7 @@
 import { useRect, useWindowSize } from 'hamo'
 import { useContext, useRef } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
+import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
@@ -133,14 +134,24 @@ export function Section10() {
             <source src="/videos/Octo-Wave-compressed.webm" type="video/webm" />
           </Video>
         </div>
-        <div className="text-center flex flex-col items-center dr-gap-24">
+        {/* <div className="text-center flex flex-col items-center dr-gap-24">
           <h3 className="typo-surtitle text-black/70">{'< features >'}</h3>
           <h2 className="typo-h1">
             One SDK,
             <br />
             orchestrating <br /> everything
           </h2>
-        </div>
+        </div> */}
+        <TitleBlock>
+          <TitleBlock.LeadIn>
+            {'<'} FEATURES {'>'}
+          </TitleBlock.LeadIn>
+          <TitleBlock.Title level="h2" className="dt:dr-mb-8!">
+            One SDK,
+            <br />
+            orchestrating <br /> everything
+          </TitleBlock.Title>
+        </TitleBlock>
       </div>
       <div className="absolute inset-0 pointer-events-none" ref={buttonsRef}>
         {BUTTONS.map((button) => (

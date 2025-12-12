@@ -1,3 +1,5 @@
+import cn from 'clsx'
+
 export function DashedBorder({
   className,
   style,
@@ -13,7 +15,7 @@ export function DashedBorder({
       // viewBox="0 0 100 100"
       xmlns="http://www.w3.org/2000/svg"
       overflow="visible"
-      className={className}
+      className={cn('will-change-transform', className)}
       style={style}
     >
       <rect
@@ -31,7 +33,7 @@ export function DashedBorder({
           animation: 'dashoffset-move 0.4s linear infinite',
         }}
       />
-      {!process.env.NEXT_PUBLIC_DISABLE_STROKE_ANIMATION && (
+      {/* {!process.env.NEXT_PUBLIC_DISABLE_STROKE_ANIMATION && (
         <style>
           {`@keyframes dashoffset-move {
             to {
@@ -39,7 +41,7 @@ export function DashedBorder({
             }
         }`}
         </style>
-      )}
+      )} */}
     </svg>
   )
 }

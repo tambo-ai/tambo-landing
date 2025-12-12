@@ -121,7 +121,7 @@ export function CTA({
           <ButtonIcon icon={icon} />
         </span>
         <HashPattern
-          className={cn('absolute inset-0 text-dark-teal/50', s.hashPattern)}
+          className={cn('absolute inset-0 text-dark-teal/20', s.hashPattern)}
         />
       </Button>
       {snippet && (

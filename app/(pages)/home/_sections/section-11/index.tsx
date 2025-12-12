@@ -40,7 +40,7 @@ export function Section11() {
               )}
             >
               <HashPattern
-                className={cn('absolute inset-0 text-dark-teal/50', s.pattern)}
+                className={cn('absolute inset-0 text-dark-teal/20', s.pattern)}
               />
 
               <div

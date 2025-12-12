@@ -25,7 +25,7 @@ function TitleBlockLeadIn({
   return (
     <p
       className={cn(
-        'typo-label-m dt:typo-surtitle uppercase dr-mb-24',
+        'typo-label-m dt:typo-surtitle uppercase dr-mb-24 text-black/70',
         className
       )}
       {...props}
