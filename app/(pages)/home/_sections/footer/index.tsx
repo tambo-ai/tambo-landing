@@ -7,7 +7,6 @@ import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Link } from '~/components/link'
-import { Video } from '~/components/video'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { desktopVW, fromTo } from '~/libs/utils'
 
@@ -93,7 +92,7 @@ export function Footer() {
     >
       <div className="text-center flex flex-col items-center relative -dr-top-48">
         <div className="dr-w-172 aspect-square">
-          <Video
+          {/* <Video
             autoPlay
             fallback={
               <Image src="/videos/Octo-Wave.png" alt="Octo Wave" unoptimized />
@@ -104,7 +103,8 @@ export function Footer() {
               type='video/mp4; codecs="hvc1"'
             />
             <source src="/videos/Octo-Wave-compressed.webm" type="video/webm" />
-          </Video>
+          </Video> */}
+          <Image src="/images/Octo-Sight.png" alt="Octo Sight" unoptimized />
         </div>
 
         <TitleBlock>
