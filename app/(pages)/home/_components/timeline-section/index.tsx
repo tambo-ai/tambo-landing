@@ -18,12 +18,22 @@ import { mapRange } from '~/libs/utils'
 import { colors } from '~/styles/colors'
 
 export const TimelineSectionContext = createContext<{
-  callbacks: RefObject<((progress: number) => void)[]>
-  addCallback: (callback: (progress: number) => void) => void
+  callbacks: RefObject<TimelineCallback[]>
+  addCallback: (callback: TimelineCallback) => void
 }>({
   callbacks: { current: [] },
-  addCallback: () => {},
+  addCallback: () => {
+    /* NO OP */
+  },
 })
+
+const STEPS = 5
+type CallbackParams = {
+  progress: number
+  steps: number[]
+  currentStep: number
+}
+export type TimelineCallback = (params: CallbackParams) => void
 
 export function TimelineSection({
   messages,
@@ -38,8 +48,8 @@ export function TimelineSection({
   const [messagesVisible, setMessagesVisible] = useState(0)
   const whiteLineRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
-  const callbacks = useRef<((progress: number) => void)[]>([])
-  const addCallback = useCallback((callback: (progress: number) => void) => {
+  const callbacks = useRef<TimelineCallback[]>([])
+  const addCallback = useCallback((callback: TimelineCallback) => {
     callbacks.current.push(callback)
   }, [])
 
@@ -47,29 +57,24 @@ export function TimelineSection({
     rect,
     start: 'top center',
     end: 'bottom bottom',
-    onProgress: ({ progress }) => {
-      const scrollProgress = mapRange(0, 0.75, progress - 0.25, 0, 1)
-      const translateProgress = mapRange(0.1, 1, scrollProgress, 0, 100)
-      const visibleProgress = mapRange(
-        0,
-        1,
-        scrollProgress,
-        0,
-        messages.length + 1
-      )
-      const buttonProgress = mapRange(0.85, 1, scrollProgress, 0, 1)
-      const visible = Math.floor(visibleProgress)
-      setMessagesVisible(visible)
+    onProgress: ({ progress, steps }) => {
+      const currentStep = Math.max(0, steps.lastIndexOf(1) + 1)
+      setMessagesVisible(currentStep)
+      const lineProgress =
+        (100 / STEPS) * steps[currentStep] + (100 / STEPS) * currentStep
+      console.log('lineProgress', steps[currentStep])
       if (whiteLineRef.current) {
-        whiteLineRef.current.style.translate = `0 ${-Math.min(100 - translateProgress, 90)}%`
+        const mappedLineProgress = mapRange(0, 100, lineProgress, 100, 8)
+        whiteLineRef.current.style.translate = `0 -${Math.min(mappedLineProgress, 90)}%`
       }
       if (buttonRef.current) {
-        buttonRef.current.style.opacity = `${buttonProgress}`
+        buttonRef.current.style.opacity = `${steps[STEPS - 1] === 1 ? 1 : 0}`
       }
       for (const callback of callbacks.current) {
-        callback(progress)
+        callback({ progress, steps, currentStep })
       }
     },
+    steps: STEPS,
   })
 
   return (
@@ -102,7 +107,11 @@ export function TimelineSection({
                 ))}
               </ul>
             </div>
-            <CTA wrapperRef={buttonRef} color="black">
+            <CTA
+              wrapperRef={buttonRef}
+              wrapperClassName="opacity-0 transition-opacity duration-300 ease-gleasing"
+              color="black"
+            >
               Start building
             </CTA>
           </div>

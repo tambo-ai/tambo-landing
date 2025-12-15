@@ -6,7 +6,10 @@ import {
   useEffectEvent,
   useRef,
 } from 'react'
-import { TimelineSectionContext } from '~/app/(pages)/home/_components/timeline-section'
+import {
+  type TimelineCallback,
+  TimelineSectionContext,
+} from '~/app/(pages)/home/_components/timeline-section'
 import s from './animation.module.css'
 import Selection from './selection.svg'
 
@@ -16,8 +19,8 @@ export function Animation() {
   const introRef = useRef<HTMLDivElement>(null)
   const seatsQuestionRef = useRef<HTMLParagraphElement>(null)
 
-  const scrollAnimation = useEffectEvent((progress: number) => {
-    console.log('scrollAnimation', progress)
+  const scrollAnimation = useEffectEvent<TimelineCallback>(({ progress }) => {
+    // console.log('scrollAnimation', progress)
   })
 
   useEffect(() => {

@@ -65,10 +65,12 @@ export function Button({
 
 type CTAProps = ButtonProps & {
   wrapperRef?: React.RefObject<HTMLDivElement | null>
+  wrapperClassName?: string
 }
 
 export function CTA({
   wrapperRef,
+  wrapperClassName,
   className,
   href,
   as,
@@ -95,7 +97,10 @@ export function CTA({
   }
 
   return (
-    <div ref={wrapperRef} className={cn('relative', s.wrapper)}>
+    <div
+      ref={wrapperRef}
+      className={cn('relative', s.wrapper, wrapperClassName)}
+    >
       <Button
         className={cn(
           'dt:dr-rounded-16 flex items-center dt:dr-pl-16 dt:dr-pr-8 dt:dr-py-8 dt:dr-h-52 relative overflow-hidden',
