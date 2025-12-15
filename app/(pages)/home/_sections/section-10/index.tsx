@@ -8,7 +8,7 @@ import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { desktopVW, fromTo } from '~/libs/utils'
+import { desktopVW, fromTo, mapRange } from '~/libs/utils'
 
 const BUTTONS = [
   {
@@ -23,16 +23,28 @@ const BUTTONS = [
     top: 80,
     left: 80,
   },
+  {
+    title: 'streaming',
+    href: 'https://docs.tambo.co/concepts/streaming',
+    top: 80,
+    left: 10,
+  },
+  {
+    title: 'state management',
+    href: 'https://docs.tambo.co/',
+    top: 10,
+    left: 80,
+  },
 ]
 
 export function Section10() {
-  const buttonsRef = useRef<HTMLDivElement>(null)
+  const buttonsRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const [setRectRef, rect] = useRect()
 
   const { getItems } = useContext(BackgroundContext)
 
-  const { width: windowWidth = 0 } = useWindowSize()
+  const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
 
   useScrollTrigger(
     {
@@ -40,27 +52,27 @@ export function Section10() {
       start: 'top center',
       end: 'top top',
       onProgress: ({ progress }) => {
-        fromTo(
-          buttonsRef.current,
-          {
-            opacity: 0,
-            scale: 1.2,
-          },
-          {
-            opacity: 1,
-            scale: 1,
-          },
-          progress,
-          {
-            ease: 'linear',
-            render: (element, { opacity, scale }) => {
-              if (element instanceof HTMLElement) {
-                element.style.opacity = `${opacity}`
-                element.style.transform = `scale(${scale})`
-              }
-            },
-          }
-        )
+        // fromTo(
+        //   buttonsRef.current,
+        //   {
+        //     opacity: 0,
+        //     scale: 1.2,
+        //   },
+        //   {
+        //     opacity: 1,
+        //     scale: 1,
+        //   },
+        //   progress,
+        //   {
+        //     ease: 'linear',
+        //     render: (element, { opacity, scale }) => {
+        //       if (element instanceof HTMLElement) {
+        //         element.style.opacity = `${opacity}`
+        //         element.style.transform = `scale(${scale})`
+        //       }
+        //     },
+        //   }
+        // )
 
         const items = getItems()
         fromTo(
@@ -102,11 +114,24 @@ export function Section10() {
     [windowWidth]
   )
 
-  const { height: windowHeight = 0 } = useWindowSize()
-
   useScrollTrigger({
     rect,
     start: 'top top',
+    end: 'bottom bottom',
+    steps: BUTTONS.length,
+    onProgress: ({ steps }) => {
+      for (const [index, button] of buttonsRefs.current.entries()) {
+        if (button) {
+          button.style.opacity = `${steps[index]}`
+          button.style.transform = `scale(${mapRange(0, 1, steps[index], 1.1, 1)})`
+        }
+      }
+    },
+  })
+
+  useScrollTrigger({
+    rect,
+    start: 'bottom bottom',
     end: `${rect?.top === undefined || rect?.height === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
     onProgress: ({ progress, height }) => {
       const items = getItems()
@@ -137,26 +162,31 @@ export function Section10() {
   })
 
   return (
-    <section
-      ref={setRectRef}
-      className="h-screen flex flex-col items-center justify-center relative overflow-x-clip"
-    >
-      <div className="text-center flex flex-col items-center relative -dr-top-48">
-        <div className="dr-w-172 aspect-square">
-          <Video
-            autoPlay
-            fallback={
-              <Image src="/videos/Octo-Wave.png" alt="Octo Wave" unoptimized />
-            }
-          >
-            <source
-              src="/videos/Octo-Wave-compressed.mov"
-              type='video/mp4; codecs="hvc1"'
-            />
-            <source src="/videos/Octo-Wave-compressed.webm" type="video/webm" />
-          </Video>
-        </div>
-        {/* <div className="text-center flex flex-col items-center dr-gap-24">
+    <section ref={setRectRef} className="relative overflow-x-clip h-[200vh]">
+      <div className="h-screen sticky top-0 w-full flex flex-col items-center justify-center">
+        <div className="text-center flex flex-col items-center relative -dr-top-48">
+          <div className="dr-w-172 aspect-square">
+            <Video
+              autoPlay
+              fallback={
+                <Image
+                  src="/videos/Octo-Wave.png"
+                  alt="Octo Wave"
+                  unoptimized
+                />
+              }
+            >
+              <source
+                src="/videos/Octo-Wave-compressed.mov"
+                type='video/mp4; codecs="hvc1"'
+              />
+              <source
+                src="/videos/Octo-Wave-compressed.webm"
+                type="video/webm"
+              />
+            </Video>
+          </div>
+          {/* <div className="text-center flex flex-col items-center dr-gap-24">
           <h3 className="typo-surtitle text-black/70">{'< features >'}</h3>
           <h2 className="typo-h1">
             One SDK,
@@ -164,29 +194,33 @@ export function Section10() {
             orchestrating <br /> everything
           </h2>
         </div> */}
-        <TitleBlock>
-          <TitleBlock.LeadIn>
-            {'<'} FEATURES {'>'}
-          </TitleBlock.LeadIn>
-          <TitleBlock.Title level="h2" className="dt:dr-mb-8!">
-            One SDK,
-            <br />
-            orchestrating <br /> everything
-          </TitleBlock.Title>
-        </TitleBlock>
-      </div>
-      <div className="absolute inset-0 pointer-events-none" ref={buttonsRef}>
-        {BUTTONS.map((button) => (
-          <div
-            className="absolute pointer-events-auto"
-            style={{ top: `${button.top}%`, left: `${button.left}%` }}
-            key={button.title}
-          >
-            <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-              <CTA href={button.href}>{button.title}</CTA>
+          <TitleBlock>
+            <TitleBlock.LeadIn>
+              {'<'} FEATURES {'>'}
+            </TitleBlock.LeadIn>
+            <TitleBlock.Title level="h2" className="dt:dr-mb-8!">
+              One SDK,
+              <br />
+              orchestrating <br /> everything
+            </TitleBlock.Title>
+          </TitleBlock>
+        </div>
+        <div className="absolute inset-0 pointer-events-none">
+          {BUTTONS.map((button, index) => (
+            <div
+              className="absolute pointer-events-auto"
+              style={{ top: `${button.top}%`, left: `${button.left}%` }}
+              key={button.title}
+              ref={(node) => {
+                buttonsRefs.current[index] = node
+              }}
+            >
+              <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                <CTA href={button.href}>{button.title}</CTA>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   )
