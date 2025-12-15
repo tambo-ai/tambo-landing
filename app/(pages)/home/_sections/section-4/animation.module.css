@@ -1,10 +1,20 @@
 .card {
-  --deg: -10deg;
   --index: 0;
 
   transform-origin: left center;
-  transform: translateX(calc(var(--index) * -8%))
-    translateY(calc(var(--index) * -8%)) skewY(var(--deg));
+  /* transform: translateX(calc(var(--index) * -8%))
+    translateY(calc(var(--index) * -8%)) skewY(var(--deg)); */
+  transform: translateX(calc(var(--index) * -8% * var(--skew-progress, 0)))
+    translateY(
+      calc(
+        var(--index) *
+        -8% *
+        var(--skew-progress, 0) +
+        -20% *
+        var(--highlight-progress, 0)
+      )
+    )
+    skewY(var(--deg, 0deg));
 }
 
 .card:nth-of-type(1) {

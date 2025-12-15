@@ -55,14 +55,13 @@ export function TimelineSection({
 
   useScrollTrigger({
     rect,
-    start: 'top center',
+    start: 'top top',
     end: 'bottom bottom',
     onProgress: ({ progress, steps }) => {
       const currentStep = Math.max(0, steps.lastIndexOf(1) + 1)
       setMessagesVisible(currentStep)
       const lineProgress =
         (100 / STEPS) * steps[currentStep] + (100 / STEPS) * currentStep
-      console.log('lineProgress', steps[currentStep])
       if (whiteLineRef.current) {
         const mappedLineProgress = mapRange(0, 100, lineProgress, 100, 8)
         whiteLineRef.current.style.translate = `0 -${Math.min(mappedLineProgress, 90)}%`
@@ -79,7 +78,7 @@ export function TimelineSection({
 
   return (
     <TimelineSectionContext.Provider value={{ callbacks, addCallback }}>
-      <section ref={rectRef} className="h-[200svh] bg-light-gray">
+      <section ref={rectRef} className="h-[400svh] bg-light-gray">
         <div className="sticky top-0 dr-layout-grid-inner h-screen overflow-clip">
           <div className="col-span-4 flex flex-col dr-mt-112">
             <h3 className="typo-h2">{title}</h3>
