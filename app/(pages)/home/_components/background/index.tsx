@@ -1,9 +1,12 @@
 'use client'
 
 import cn from 'clsx'
-import { useImperativeHandle, useRef } from 'react'
+import { useRect } from 'hamo'
+import { useContext, useImperativeHandle, useRef } from 'react'
 import { Kinesis } from '~/components/kinesis'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
+import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { mapRange } from '~/libs/utils'
 import { DashedBorder } from '../dashed-border'
 import s from './background.module.css'
 import { BackgroundContext } from './context'
@@ -172,11 +175,13 @@ export default function Background({
   children?: React.ReactNode
 }) {
   const itemsRef = useRef<BackgroundItemRef[] | null[]>([])
+  const solidBackgroundRef = useRef<HTMLDivElement>(null)
 
   return (
     <BackgroundContext
       value={{
         getItems: () => itemsRef.current,
+        getSolidBackground: () => solidBackgroundRef.current,
       }}
     >
       <div className="fixed inset-0">
@@ -217,8 +222,52 @@ export default function Background({
             index={50}
           />
         </div>
+        <div
+          className={cn('absolute inset-0 bg-black')}
+          ref={solidBackgroundRef}
+        />
       </div>
+
       <div className="relative">{children}</div>
     </BackgroundContext>
+  )
+}
+
+export function SolidBackground({ children }: { children?: React.ReactNode }) {
+  const [setRectRef, rect] = useRect()
+
+  const { getSolidBackground } = useContext(BackgroundContext)
+
+  useScrollTrigger({
+    rect,
+    start: 'top bottom',
+    end: 'top center',
+    onProgress: ({ progress }) => {
+      const solidBackground = getSolidBackground()
+      if (solidBackground) {
+        solidBackground.style.backgroundColor = `rgba(15, 26, 23, ${progress})`
+      }
+    },
+  })
+
+  useScrollTrigger({
+    rect,
+    start: 'bottom bottom',
+    end: 'bottom center',
+    onProgress: ({ progress }) => {
+      const solidBackground = getSolidBackground()
+      if (solidBackground) {
+        const r = mapRange(0, 1, progress, 15, 255)
+        const g = mapRange(0, 1, progress, 26, 255)
+        const b = mapRange(0, 1, progress, 23, 255)
+        solidBackground.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${1})`
+      }
+    },
+  })
+
+  return (
+    <div className="relative" ref={setRectRef}>
+      {children}
+    </div>
   )
 }

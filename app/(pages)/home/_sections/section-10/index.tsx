@@ -162,7 +162,10 @@ export function Section10() {
   })
 
   return (
-    <section ref={setRectRef} className="relative overflow-x-clip h-[200vh]">
+    <section
+      ref={setRectRef}
+      className="relative overflow-x-clip h-[200vh] dr-mb-400"
+    >
       <div className="h-screen sticky top-0 w-full flex flex-col items-center justify-center">
         <div className="text-center flex flex-col items-center relative -dr-top-48">
           <div className="dr-w-172 aspect-square">

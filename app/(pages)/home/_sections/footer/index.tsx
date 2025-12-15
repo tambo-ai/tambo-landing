@@ -39,18 +39,18 @@ export function Footer() {
   useScrollTrigger(
     {
       rect,
-      start: 'top center',
+      start: `${rect?.top === undefined || rect?.height === undefined ? 'top' : rect?.top - windowHeight} bottom`,
       end: 'top top',
-      onProgress: ({ progress }) => {
+      onProgress: ({ progress, height }) => {
         const items = getItems()
         fromTo(
           items,
           {
-            y: 0,
+            y: height,
             width: (index) =>
               desktopVW(
                 windowWidth,
-                windowWidth * 1.5 + (items.length - 1 - index) * 100,
+                496 + (items.length - 1 - index) * 260,
                 true
               ),
           },

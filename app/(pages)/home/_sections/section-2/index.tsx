@@ -113,7 +113,7 @@ function Card({ data }: CardProps) {
           s.cardHeader
         )}
       >
-        <p className="typo-h4">
+        <p className="typo-h5">
           {'< '}
           {data.title}
           {' >'}

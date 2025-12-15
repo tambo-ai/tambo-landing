@@ -105,3 +105,10 @@ html.screenshot {
 .shadow-m {
   box-shadow: 0 64px 56px 8px rgba(127, 255, 195, 0.25);
 }
+
+.fullwidth {
+  width: calc(100vw - var(--scrollbar-width));
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+}

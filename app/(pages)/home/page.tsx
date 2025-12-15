@@ -1,6 +1,7 @@
 import { Wrapper } from '../_components/wrapper'
 import Background from './_components/background'
 import { Footer } from './_sections/footer'
+import { HowItWorks } from './_sections/how-it-works'
 import { Section1 } from './_sections/section-1'
 import { Section2 } from './_sections/section-2'
 import { Section4 } from './_sections/section-4'
@@ -27,6 +28,7 @@ export default function Home() {
         <Section5 />
         <Section8 />
         <Section10 />
+        <HowItWorks />
         <Section11 />
         <Section12 />
         <Footer />
