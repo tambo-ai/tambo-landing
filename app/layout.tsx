@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 import type { PropsWithChildren } from 'react'
 import { ReactTempus } from 'tempus/react'
