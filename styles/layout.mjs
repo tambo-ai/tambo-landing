@@ -14,7 +14,7 @@ const layout = {
   safe: { mobile: 24, desktop: 40 },
 }
 
-const maxWidth = 1800
+const maxWidth = 1440
 
 const customSizes = {
   'header-height': { mobile: 58, desktop: 98 },

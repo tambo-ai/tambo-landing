@@ -11,7 +11,7 @@
 :root {
 	--device-width: 375;
 	--device-height: 650;
-	--max-width: 1800;
+	--max-width: 1440;
 	
 	--columns: 4;
 	--gap: min(calc(((12 * 100) / var(--device-width)) * 1vw), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));

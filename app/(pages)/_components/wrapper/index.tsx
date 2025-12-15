@@ -38,10 +38,7 @@ export function Wrapper({
         />
       )}
       <Navigation />
-      <main
-        className={cn('relative flex flex-col grow w-full', className)}
-        {...props}
-      >
+      <main className={cn('relative flex flex-col grow', className)} {...props}>
         {children}
       </main>
       <Footer />
