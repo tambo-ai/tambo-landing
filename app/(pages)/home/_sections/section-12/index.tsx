@@ -7,7 +7,7 @@ import s from './section-12.module.css'
 
 export function Section12() {
   return (
-    <section className="dt:dr-layout-grid-inner  dt:dr-pt-122 dt:dr-pb-137">
+    <section className="dt:dr-layout-grid-inner  dt:dr-pt-65 dt:dr-pb-137">
       <TitleBlock className="dt:col-start-4 dt:col-end-10 dt:dr-mb-56">
         <TitleBlock.LeadIn>
           {'<'} PRICING {'>'}

@@ -1,6 +1,8 @@
 'use client'
 
 import cn from 'clsx'
+import { useIntersectionObserver } from 'hamo'
+import { useEffect, useState } from 'react'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import ArrowSVG from '~/assets/svgs/arrow.svg'
@@ -13,22 +15,39 @@ import { buttons, persons, showcaseCards } from './data'
 import s from './section-11.module.css'
 
 export function Section11() {
+  const [isInViewport, setIsInViewport] = useState(false)
+  const [setIntersectionRef, intersection] = useIntersectionObserver({
+    rootMargin: '0px',
+  })
+
+  useEffect(() => {
+    setIsInViewport(intersection?.isIntersecting ?? false)
+  }, [intersection])
+
   return (
-    <section className="dt:dr-pt-847 dt:dr-pb-203 relative">
+    <section
+      ref={setIntersectionRef}
+      className={cn(
+        'dt:dr-pt-847 dt:dr-pb-203 relative',
+        isInViewport && s.inViewport
+      )}
+    >
       <div className="dt:dr-layout-grid-inner absolute dt:dr-top-141">
-        <TitleBlock className="dt:col-start-4 dt:col-end-10 dt:dr-mb-56">
-          <TitleBlock.LeadIn>
+        <TitleBlock className="dt:col-start-4 dt:col-end-10 dt:dr-mb-56 text-teal">
+          <TitleBlock.LeadIn className="text-teal">
             {'<'} SHowcase {'>'}
           </TitleBlock.LeadIn>
           <TitleBlock.Title level="h2" className="dt:dr-mb-8!">
             Built with Tambo
           </TitleBlock.Title>
-          <TitleBlock.Subtitle className="text-black/70 dt:dr-mb-40">
+          <TitleBlock.Subtitle className="dt:dr-mb-40 text-dark-teal">
             Generative UI unlocks new possibilities.
             <br />
             Here are some of the best apps from our developer community.
           </TitleBlock.Subtitle>
-          <TitleBlock.Button href="/">Start Building</TitleBlock.Button>
+          <TitleBlock.Button href="/" color="black">
+            Start Building
+          </TitleBlock.Button>
         </TitleBlock>
         {/* SHOWCASE CARDS */}
         <div className="dt:col-start-2 dt:col-end-12">
@@ -38,7 +57,7 @@ export function Section11() {
                 key={`${card?.title}-${i}`}
                 href={card?.href}
                 className={cn(
-                  'relative border-2 border-dark-grey dt:dr-p-12 bg-white dt:dr-rounded-20 dt:dr-w-361 dt:dr-max-h-371 overflow-hidden',
+                  'relative border-2 border-teal dt:dr-p-12 bg-black dt:dr-rounded-20 dt:dr-w-361 dt:dr-max-h-371 overflow-hidden',
                   s.card
                 )}
               >
@@ -65,23 +84,25 @@ export function Section11() {
                 </div>
 
                 <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between">
-                  <p className={cn('typo-h4 w-fit', s.title)}>{card?.title}</p>
+                  <p className={cn('typo-h5 w-fit text-teal', s.title)}>
+                    {card?.title}
+                  </p>
 
                   <div
                     className={cn(
-                      'dt:dr-w-32 dt:dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
+                      'dt:dr-w-32 dt:dr-h-32 bg-black border border-teal flex items-center justify-center dr-rounded-10 relative',
                       s.button
                     )}
                   >
                     <PlusSVG
                       className={cn(
-                        'dt:dr-w-16 dt:dr-h-16 z-1 absolute',
+                        'dt:dr-w-16 dt:dr-h-16 z-1 absolute ',
                         s.plus
                       )}
                     />
                     <ArrowSVG
                       className={cn(
-                        'dt:dr-w-16 dt:dr-h-16 z-1 absolute',
+                        'dt:dr-w-16 dt:dr-h-16 z-1 absolute ',
                         s.arrow
                       )}
                     />
@@ -103,6 +124,14 @@ export function Section11() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Marquee section */}
+      <div className="text-center dt:dr-mb-40 text-teal">
+        <h3 className="typo-h3">Backing our vision.</h3>
+        <p className="typo-p-l ">
+          Trusted by industry leaders in AI, product, and engineering.
+        </p>
       </div>
 
       <Marquee repeat={2} speed={0.3} className="dt:dr-mb-56 ">
@@ -149,6 +178,7 @@ export function Section11() {
             key={button.text}
             icon={button?.icon as 'github' | 'discord'}
             href={button?.href}
+            color="black"
           >
             {button.text}
           </CTA>

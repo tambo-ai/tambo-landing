@@ -45,6 +45,8 @@
       }
 
       .button {
+        background-color: var(--color-teal);
+
         &::before {
           transform: scale(1.25);
         }
@@ -93,6 +95,10 @@
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
+
+  path {
+    stroke: var(--color-teal);
+  }
 }
 
 .arrow {
@@ -117,7 +123,7 @@
   }
 
   &::before {
-    z-index: 0;
+    z-index: -1;
     opacity: 0.4;
   }
 
@@ -139,4 +145,9 @@
       border-style: dashed;
     }
   }
+}
+
+.inViewport {
+  background-color: var(--color-black);
+  transition: background-color 600ms ease;
 }
