@@ -41,19 +41,27 @@ export function Section8() {
         fromTo(
           items,
           {
-            borderRadius: desktopVW(windowWidth, 20),
-            width: desktopVW(windowWidth, 704),
-            height: desktopVW(windowWidth, 497),
+            borderRadius: desktopVW(windowWidth, 20, true),
+            width: desktopVW(windowWidth, 704, true),
+            height: desktopVW(windowWidth, 497, true),
             y: 0,
           },
           {
-            borderRadius: desktopVW(windowWidth, 20),
+            borderRadius: desktopVW(windowWidth, 20, true),
             width: (index) =>
-              desktopVW(windowWidth, 704) -
-              desktopVW(windowWidth, (index - (items.length - 1)) * 105 * 2),
+              desktopVW(windowWidth, 704, true) -
+              desktopVW(
+                windowWidth,
+                (index - (items.length - 1)) * 105 * 2,
+                true
+              ),
             height: (index) =>
-              desktopVW(windowWidth, 497) -
-              desktopVW(windowWidth, (index - (items.length - 1)) * 74 * 2),
+              desktopVW(windowWidth, 497, true) -
+              desktopVW(
+                windowWidth,
+                (index - (items.length - 1)) * 74 * 2,
+                true
+              ),
             y: 0,
           },
           progress,

@@ -69,12 +69,17 @@ export function Section10() {
             width: (index) =>
               desktopVW(
                 windowWidth,
-                windowWidth * 1.5 + (items.length - 1 - index) * 100
+                windowWidth * 1.5 + (items.length - 1 - index) * 100,
+                true
               ),
           },
           {
             width: (index) =>
-              desktopVW(windowWidth, 496 + (items.length - 1 - index) * 260),
+              desktopVW(
+                windowWidth,
+                496 + (items.length - 1 - index) * 260,
+                true
+              ),
           },
           progress,
           {

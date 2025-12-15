@@ -3,7 +3,7 @@
 import cn from 'clsx'
 import gsap from 'gsap'
 import { useRect, useWindowSize } from 'hamo'
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useEffectEvent, useRef } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
@@ -32,7 +32,8 @@ export function Section1() {
   const subVideoRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  const appear = useEffectEvent(() => {
+    console.log('appear', windowWidth)
     const proxy = {
       progress1: 0,
       progress2: 0,
@@ -56,7 +57,11 @@ export function Section1() {
             {
               // width: (index) => 25 + (items.length - 1 - index) * 10,
               width: (index) =>
-                desktopVW(windowWidth, 310 + (items.length - 1 - index) * 160),
+                desktopVW(
+                  windowWidth,
+                  310 + (items.length - 1 - index) * 160,
+                  true
+                ),
               // height: (index) => 25 + (items.length - 1 - index) * 10,
               boxShadowOpacity: 0,
               y: 0,
@@ -66,7 +71,11 @@ export function Section1() {
               boxShadowOpacity: 1,
               // width: (index) => 35 + (items.length - 1 - index) * 8,
               width: (index) =>
-                desktopVW(windowWidth, 480 + (items.length - 1 - index) * 100),
+                desktopVW(
+                  windowWidth,
+                  480 + (items.length - 1 - index) * 100,
+                  true
+                ),
             },
             proxy.progress1,
             {
@@ -105,16 +114,28 @@ export function Section1() {
             items,
             {
               width: (index) =>
-                desktopVW(windowWidth, 480 + (items.length - 1 - index) * 100),
+                desktopVW(
+                  windowWidth,
+                  480 + (items.length - 1 - index) * 100,
+                  true
+                ),
               y: 0,
             },
             {
               // width: (index) => 125 - index * 15,
               width: (index) =>
-                desktopVW(windowWidth, 1134 + (items.length - 1 - index) * 240),
+                desktopVW(
+                  windowWidth,
+                  1134 + (items.length - 1 - index) * 240,
+                  true
+                ),
               // y: (index) => -15 - (items.length - 1 - index) * 1.8,
               y: (index) =>
-                -desktopVW(windowWidth, 225 + (items.length - 1 - index) * 90),
+                -desktopVW(
+                  windowWidth,
+                  225 + (items.length - 1 - index) * 90,
+                  true
+                ),
             },
             proxy.progress2,
             {
@@ -171,7 +192,13 @@ export function Section1() {
       proxy.progress1 = 0
       proxy.progress2 = 0
     }
-  }, [getItems, windowWidth])
+  })
+
+  useEffect(() => {
+    setTimeout(() => {
+      appear()
+    }, 0)
+  }, [])
 
   useScrollTrigger(
     {
@@ -185,14 +212,26 @@ export function Section1() {
           items,
           {
             width: (index) =>
-              desktopVW(windowWidth, 1134 + (items.length - 1 - index) * 240),
+              desktopVW(
+                windowWidth,
+                1134 + (items.length - 1 - index) * 240,
+                true
+              ),
             y: (index) =>
-              -desktopVW(windowWidth, 225 + (items.length - 1 - index) * 90),
+              -desktopVW(
+                windowWidth,
+                225 + (items.length - 1 - index) * 90,
+                true
+              ),
           },
           {
             y: 0,
             width: (index) =>
-              desktopVW(windowWidth, 1134 + (items.length - 1 - index) * 240),
+              desktopVW(
+                windowWidth,
+                1134 + (items.length - 1 - index) * 240,
+                true
+              ),
           },
           progress,
           {
