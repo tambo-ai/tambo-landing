@@ -7,8 +7,9 @@ import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Link } from '~/components/link'
+import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { desktopVW, fromTo } from '~/libs/utils'
+import { fromTo } from '~/libs/utils'
 
 const BOTTOM_LINKS = [
   {
@@ -37,6 +38,8 @@ export function Footer() {
   const { getItems, getBackground } = useContext(BackgroundContext)
 
   const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
+
+  const desktopVW = useDesktopVW()
 
   useScrollTrigger({
     rect,
@@ -69,20 +72,12 @@ export function Footer() {
           {
             y: height,
             width: (index) =>
-              desktopVW(
-                windowWidth,
-                496 + (items.length - 1 - index) * 260,
-                true
-              ),
+              desktopVW(496 + (items.length - 1 - index) * 260, true),
           },
           {
             y: 0,
             width: (index) =>
-              desktopVW(
-                windowWidth,
-                496 + (items.length - 1 - index) * 260,
-                true
-              ),
+              desktopVW(496 + (items.length - 1 - index) * 260, true),
           },
           progress,
           {

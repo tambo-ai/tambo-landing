@@ -7,6 +7,7 @@ import { BackgroundContext } from '~/app/(pages)/home/_components/background/con
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlaneSVG from '~/assets/svgs/plane.svg'
 import StocksSVG from '~/assets/svgs/stocks.svg'
+import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import {
   MapAssistant,
@@ -15,7 +16,7 @@ import {
   useAssitant,
 } from '~/integrations/tambo'
 import { InterctableMap } from '~/integrations/tambo/(components)/map'
-import { desktopVW, fromTo } from '~/libs/utils'
+import { fromTo } from '~/libs/utils'
 import s from './section-8.module.css'
 
 const demos = [
@@ -40,6 +41,8 @@ export function Section8() {
 
   const { width: windowWidth = 0 } = useWindowSize()
 
+  const desktopVW = useDesktopVW()
+
   useScrollTrigger(
     {
       rect,
@@ -50,27 +53,19 @@ export function Section8() {
         fromTo(
           items,
           {
-            borderRadius: desktopVW(windowWidth, 20, true),
-            width: desktopVW(windowWidth, 704, true),
-            height: desktopVW(windowWidth, 497, true),
+            borderRadius: desktopVW(20),
+            width: desktopVW(704, true),
+            height: desktopVW(497, true),
             y: 0,
           },
           {
-            borderRadius: desktopVW(windowWidth, 20, true),
+            borderRadius: desktopVW(20),
             width: (index) =>
-              desktopVW(windowWidth, 704, true) -
-              desktopVW(
-                windowWidth,
-                (index - (items.length - 1)) * 105 * 2,
-                true
-              ),
+              desktopVW(704, true) -
+              desktopVW((index - (items.length - 1)) * 105 * 2, true),
             height: (index) =>
-              desktopVW(windowWidth, 497, true) -
-              desktopVW(
-                windowWidth,
-                (index - (items.length - 1)) * 74 * 2,
-                true
-              ),
+              desktopVW(497, true) -
+              desktopVW((index - (items.length - 1)) * 74 * 2, true),
             y: 0,
           },
           progress,
@@ -92,7 +87,7 @@ export function Section8() {
         )
       },
     },
-    [windowWidth]
+    []
   )
 
   useScrollTrigger({
@@ -105,23 +100,19 @@ export function Section8() {
         items,
 
         {
-          borderRadius: desktopVW(windowWidth, 20, true),
+          borderRadius: desktopVW(20),
           width: (index) =>
-            desktopVW(windowWidth, 704, true) -
-            desktopVW(
-              windowWidth,
-              (index - (items.length - 1)) * 105 * 2,
-              true
-            ),
+            desktopVW(704, true) -
+            desktopVW((index - (items.length - 1)) * 105 * 2, true),
           height: (index) =>
-            desktopVW(windowWidth, 497, true) -
-            desktopVW(windowWidth, (index - (items.length - 1)) * 74 * 2, true),
+            desktopVW(497, true) -
+            desktopVW((index - (items.length - 1)) * 74 * 2, true),
           y: 0,
           kinesis: 1,
           opacity: 1,
         },
         {
-          borderRadius: desktopVW(windowWidth, 20, true),
+          borderRadius: desktopVW(20),
           width: (index) => {
             if (index === items.length - 1) {
               return tamboRect?.width ?? 0

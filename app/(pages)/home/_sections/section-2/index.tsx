@@ -1,10 +1,6 @@
 'use client'
 
 import cn from 'clsx'
-// import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { useRect } from 'hamo'
-import { useContext, useEffect } from 'react'
-import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlusIcon from '~/assets/svgs/plus.svg'
 import { Button, CTA } from '~/components/button'
@@ -15,26 +11,8 @@ import { cards, persons } from './data'
 import s from './section-2.module.css'
 
 export function Section2() {
-  const { getItems } = useContext(BackgroundContext)
-
-  useEffect(() => {
-    const items = getItems()
-    console.log(items)
-  }, [getItems])
-
-  const [setRectRef, rect] = useRect()
-
-  //   useScrollTrigger({
-  //     rect,
-  //     start: 'top bottom',
-  //     end: 'bottom bottom',
-  //     onProgress: ({ progress }) => {
-  //       console.log('section2', progress)
-  //     },
-  //   })
-
   return (
-    <section ref={setRectRef} className="dt:dr-pt-188 dt:dr-pb-204">
+    <section className="dt:dr-pt-188 dt:dr-pb-204">
       <div className="dt:dr-layout-grid-inner ">
         <TitleBlock className="dt:dr-mb-56 dt:col-start-4 dt:col-end-10">
           <TitleBlock.LeadIn>

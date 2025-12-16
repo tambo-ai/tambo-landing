@@ -7,8 +7,9 @@ import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
+import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { desktopVW, fromTo, mapRange } from '~/libs/utils'
+import { fromTo, mapRange } from '~/libs/utils'
 
 const BUTTONS = [
   {
@@ -46,6 +47,8 @@ export function Section10() {
 
   const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
 
+  const desktopVW = useDesktopVW()
+
   useScrollTrigger(
     {
       rect,
@@ -63,7 +66,6 @@ export function Section10() {
           {
             width: (index) =>
               desktopVW(
-                windowWidth,
                 windowWidth * 1.5 + (items.length - 1 - index) * 100,
                 true
               ),
@@ -72,11 +74,7 @@ export function Section10() {
           },
           {
             width: (index) =>
-              desktopVW(
-                windowWidth,
-                496 + (items.length - 1 - index) * 260,
-                true
-              ),
+              desktopVW(496 + (items.length - 1 - index) * 260, true),
             opacity: 1,
             kinesis: 1,
           },

@@ -39,10 +39,12 @@ export function TimelineSection({
   messages,
   title,
   children,
+  ref,
 }: {
   messages: typeof messagesType
   title: string
   children?: React.ReactNode
+  ref?: React.RefCallback<HTMLElement | null>
 }) {
   const [rectRef, rect] = useRect()
   const [messagesVisible, setMessagesVisible] = useState(0)
@@ -78,7 +80,15 @@ export function TimelineSection({
 
   return (
     <TimelineSectionContext.Provider value={{ callbacks, addCallback }}>
-      <section ref={rectRef} className="h-[400svh]">
+      <section
+        ref={(node) => {
+          rectRef(node)
+          if (ref) {
+            ref?.(node)
+          }
+        }}
+        className="h-[400svh]"
+      >
         <div className="sticky top-0 dr-layout-grid-inner h-screen">
           <div className="col-span-4 flex flex-col dr-mt-112">
             <h3 className="typo-h2">{title}</h3>

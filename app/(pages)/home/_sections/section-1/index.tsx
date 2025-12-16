@@ -11,18 +11,14 @@ import TamboLetters from '~/assets/svgs/tambo-letters.svg'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
+import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { desktopVW, fromTo } from '~/libs/utils'
+import { fromTo } from '~/libs/utils'
 import s from './section1.module.css'
 // @refresh reset
 
 export function Section1() {
   const { getItems } = useContext(BackgroundContext)
-
-  useEffect(() => {
-    const items = getItems()
-    console.log(items)
-  }, [getItems])
 
   const [setRectRef, rect] = useRect()
 
@@ -32,6 +28,8 @@ export function Section1() {
   const subVideoRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const arrowDownRef = useRef<HTMLDivElement>(null)
+
+  const desktopVW = useDesktopVW()
 
   const appear = useEffectEvent(() => {
     console.log('appear', windowWidth)
@@ -58,11 +56,7 @@ export function Section1() {
             {
               // width: (index) => 25 + (items.length - 1 - index) * 10,
               width: (index) =>
-                desktopVW(
-                  windowWidth,
-                  310 + (items.length - 1 - index) * 160,
-                  true
-                ),
+                desktopVW(310 + (items.length - 1 - index) * 160, true),
               // height: (index) => 25 + (items.length - 1 - index) * 10,
               boxShadowOpacity: 0,
               y: 0,
@@ -72,11 +66,7 @@ export function Section1() {
               boxShadowOpacity: 1,
               // width: (index) => 35 + (items.length - 1 - index) * 8,
               width: (index) =>
-                desktopVW(
-                  windowWidth,
-                  480 + (items.length - 1 - index) * 100,
-                  true
-                ),
+                desktopVW(480 + (items.length - 1 - index) * 100, true),
             },
             proxy.progress1,
             {
@@ -115,28 +105,16 @@ export function Section1() {
             items,
             {
               width: (index) =>
-                desktopVW(
-                  windowWidth,
-                  480 + (items.length - 1 - index) * 100,
-                  true
-                ),
+                desktopVW(480 + (items.length - 1 - index) * 100, true),
               y: 0,
             },
             {
               // width: (index) => 125 - index * 15,
               width: (index) =>
-                desktopVW(
-                  windowWidth,
-                  1134 + (items.length - 1 - index) * 240,
-                  true
-                ),
+                desktopVW(1134 + (items.length - 1 - index) * 240, true),
               // y: (index) => -15 - (items.length - 1 - index) * 1.8,
               y: (index) =>
-                -desktopVW(
-                  windowWidth,
-                  225 + (items.length - 1 - index) * 90,
-                  true
-                ),
+                -desktopVW(225 + (items.length - 1 - index) * 90, true),
             },
             proxy.progress2,
             {
@@ -231,26 +209,14 @@ export function Section1() {
           items,
           {
             width: (index) =>
-              desktopVW(
-                windowWidth,
-                1134 + (items.length - 1 - index) * 240,
-                true
-              ),
+              desktopVW(1134 + (items.length - 1 - index) * 240, true),
             y: (index) =>
-              -desktopVW(
-                windowWidth,
-                225 + (items.length - 1 - index) * 90,
-                true
-              ),
+              -desktopVW(225 + (items.length - 1 - index) * 90, true),
           },
           {
             y: 0,
             width: (index) =>
-              desktopVW(
-                windowWidth,
-                1134 + (items.length - 1 - index) * 240,
-                true
-              ),
+              desktopVW(1134 + (items.length - 1 - index) * 240, true),
           },
           progress,
           {
@@ -271,7 +237,7 @@ export function Section1() {
         )
       },
     },
-    [getItems, windowWidth]
+    [getItems]
   )
 
   useScrollTrigger({

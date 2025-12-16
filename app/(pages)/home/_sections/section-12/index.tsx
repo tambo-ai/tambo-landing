@@ -1,14 +1,15 @@
 'use client'
 
 import cn from 'clsx'
-import { useRect, useWindowSize } from 'hamo'
+import { useRect } from 'hamo'
 import { useContext } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import CheckSVG from '~/assets/svgs/check.svg'
 import { CTA } from '~/components/button'
+import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { desktopVW, mapRange } from '~/libs/utils'
+import { mapRange } from '~/libs/utils'
 import { banner, pricingCards } from './data'
 import s from './section-12.module.css'
 
@@ -17,7 +18,7 @@ export function Section12() {
 
   const { getSolidBackground } = useContext(BackgroundContext)
 
-  const { width: windowWidth = 0 } = useWindowSize()
+  const desktopVW = useDesktopVW()
 
   useScrollTrigger(
     {
@@ -27,20 +28,8 @@ export function Section12() {
       onProgress: ({ progress, height }) => {
         const solidBackground = getSolidBackground()
         if (solidBackground) {
-          const inset = mapRange(
-            0,
-            1,
-            progress,
-            0,
-            desktopVW(windowWidth, 40, true)
-          )
-          const radius = mapRange(
-            0,
-            1,
-            progress,
-            0,
-            desktopVW(windowWidth, 20, true)
-          )
+          const inset = mapRange(0, 1, progress, 0, desktopVW(40, true))
+          const radius = mapRange(0, 1, progress, 0, desktopVW(20, true))
 
           solidBackground.style.clipPath = `inset(0 ${inset}px 0px ${inset}px round ${radius}px)`
 
@@ -48,7 +37,7 @@ export function Section12() {
         }
       },
     },
-    [windowWidth]
+    []
   )
 
   return (
