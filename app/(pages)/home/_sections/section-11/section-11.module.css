@@ -141,7 +141,7 @@
   @media (--hover) {
     &:hover {
       box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
-      border-color: color-mix(in srgb, var(--color-forest), transparent);
+      border-color: var(--color-teal);
       border-style: dashed;
     }
   }

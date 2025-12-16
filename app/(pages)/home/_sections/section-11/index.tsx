@@ -140,7 +140,7 @@ export function Section11() {
               <Button
                 key={person?.name}
                 className={cn(
-                  'dt:dr-w-322 dt:h-fit dt:dr-p-16 dt:dr-rounded-20 border border-dark-grey flex dr-gap-x-16 bg-white',
+                  'dt:dr-w-322 dt:h-fit dt:dr-p-16 dt:dr-rounded-20 border border-dark-teal/50 flex dr-gap-x-16 bg-black',
                   s.personCard
                 )}
                 href={person?.url}
@@ -150,24 +150,13 @@ export function Section11() {
                 </div>
                 <div className="flex flex-col">
                   <div className="flex items-center dr-gap-x-4 w-full dr-mb-8">
-                    <p className="typo-p">{person?.name ?? ''}</p>
-                    <p className="typo-label-m text-black/50">
+                    <p className="typo-p text-teal">{person?.name ?? ''}</p>
+                    <p className="typo-label-m text-dark-teal/50">
                       {person?.account ?? ''}
                     </p>
                   </div>
                   <div className="dt:dr-max-w-234 whitespace-normal">
-                    <p className="typo-p-s ">
-                      {(person?.tweet ?? '').split(' ').map((word, index) => (
-                        <span
-                          key={`${index}-${person?.name}`}
-                          className={
-                            word.startsWith('@') ? 'text-[#1D9BF0]' : ''
-                          }
-                        >
-                          {word}{' '}
-                        </span>
-                      ))}
-                    </p>
+                    <p className="typo-p-s text-dark-teal">{person?.tweet}</p>
                   </div>
                 </div>
               </Button>
