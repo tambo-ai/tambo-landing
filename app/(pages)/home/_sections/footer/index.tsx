@@ -46,8 +46,13 @@ export function Footer() {
       const background = getBackground()
 
       if (innerRef.current && background) {
-        innerRef.current.style.transform =
-          background.style.transform = `translateY(${-windowHeight * 0.5 * (1 - progress)}px)`
+        if (progress === 0) {
+          innerRef.current.style.transform =
+            background.style.transform = `translateY(0px)`
+        } else {
+          innerRef.current.style.transform =
+            background.style.transform = `translateY(${-windowHeight * 0.5 * (1 - progress)}px)`
+        }
       }
     },
   })
