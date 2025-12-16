@@ -154,8 +154,24 @@
 
 .marquee {
   position: relative;
+  padding: desktop-vw(40px) 0;
+  margin-top: calc(-1 * desktop-vw(40px));
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black desktop-vw(50px),
+    black calc(100% - desktop-vw(50px)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black desktop-vw(50px),
+    black calc(100% - desktop-vw(50px)),
+    transparent 100%
+  );
 
-  &::before {
+  /* &::before {
     content: "";
     position: absolute;
     top: 0;
@@ -185,5 +201,5 @@
     );
     z-index: 1;
     pointer-events: none;
-  }
+  } */
 }

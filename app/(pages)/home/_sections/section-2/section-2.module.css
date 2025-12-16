@@ -32,6 +32,8 @@
 .marquee {
   position: relative;
   padding: desktop-vw(40px) 0;
+  margin: calc(-1 * desktop-vw(40px)) 0;
+
   mask-image: linear-gradient(
     to right,
     transparent 0,

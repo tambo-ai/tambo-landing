@@ -137,7 +137,7 @@ export function Section11() {
         <Marquee
           repeat={2}
           speed={0.3}
-          className={cn(s.marquee, 'dt:dr-mb-56')}
+          className={cn(s.marquee, 'dt:dr-mb-40')}
         >
           <div className="flex dr-gap-x-24 dr-mr-24">
             {persons?.map((person) => (
@@ -167,7 +167,7 @@ export function Section11() {
             ))}
           </div>
         </Marquee>
-        <div className="dr-gap-x-16 flex items-center justify-center w-full">
+        <div className="dr-gap-x-16 flex items-center justify-center w-full dt:-dr-mt-40">
           {buttons.map((button) => (
             <CTA
               key={button.text}
