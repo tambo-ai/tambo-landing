@@ -31,6 +31,7 @@ export function Section1() {
   const videoRef = useRef<HTMLDivElement>(null)
   const subVideoRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
+  const arrowDownRef = useRef<HTMLDivElement>(null)
 
   const appear = useEffectEvent(() => {
     console.log('appear', windowWidth)
@@ -255,17 +256,43 @@ export function Section1() {
     [getItems, windowWidth]
   )
 
+  useScrollTrigger({
+    rect,
+    start: 'top top',
+    end: 'bottom center',
+    onProgress: ({ progress }) => {
+      fromTo(
+        arrowDownRef.current,
+        {
+          opacity: 1,
+        },
+        {
+          opacity: 0,
+        },
+        progress,
+        {
+          ease: 'linear',
+          render: (element, { opacity }) => {
+            if (element instanceof HTMLElement) {
+              element.style.opacity = `${opacity}`
+            }
+          },
+        }
+      )
+    },
+  })
+
   return (
     <section
       ref={setRectRef}
       className="flex flex-col items-center justify-center h-screen relative"
     >
       <div className="dr-w-480 aspect-square border-1 border-[red] rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]" />
-      <div className="dr-w-col-8 flex flex-col dr-gap-8 text-center items-center">
+      <div className="dr-w-col-8 flex flex-col dr-gap-8 text-center items-center relative top-[-2%]">
         <div className="relative">
           <div
             className={cn(
-              '-dr-mb-90 dr-w-416 aspect-square scale-[0.25]',
+              '-dr-mb-60 dr-w-300 aspect-square scale-[0.25]',
               s.video
             )}
             ref={videoRef}
@@ -305,12 +332,12 @@ export function Section1() {
           className="dr-w-col-8 flex flex-col dr-gap-8 text-center items-center"
           ref={titleRef}
         >
-          <h1 className="typo-hero-title">
+          <h1 className="typo-h1">
             You shouldn&apos;t need a PhD
             <br />
             to add AI to your app.
           </h1>
-          <p className="typo-p-l text-black-70">
+          <p className="typo-p-l text-black/70">
             Turn any React app into an AI-powered experience in minutes
           </p>
           <div className="flex dr-gap-16 dr-mt-40">
@@ -333,7 +360,10 @@ export function Section1() {
           </div>
         </div>
       </div>
-      <div className="dr-w-136 aspect-square bg-white absolute bottom-0 left-[50%] translate-x-[-50%] translate-y-[50%] rounded-full">
+      <div
+        ref={arrowDownRef}
+        className="dr-w-136 aspect-square bg-white bottom-0 left-[50%] translate-x-[-50%] translate-y-[50%] rounded-full fixed"
+      >
         <DashedBorder className="absolute inset-0" />
         <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
       </div>

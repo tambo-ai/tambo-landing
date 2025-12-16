@@ -210,7 +210,7 @@ function ThreadsOptions({
             <div className="dr-size-32 grid place-items-center rounded-full">
               <demo.icon className="dr-size-16 icon text-black" />
             </div>
-            <span className="block">{demo.label}</span>
+            <span className="block typo-h5">{demo.label}</span>
           </label>
         </Fragment>
       ))}
