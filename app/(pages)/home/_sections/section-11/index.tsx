@@ -33,7 +33,7 @@ export function Section11() {
         )}
       >
         <div className="dt:dr-layout-grid-inner dt:dr-top-141 dr-mb-156">
-          <TitleBlock className="dt:col-start-4 dt:col-end-10 dt:dr-mb-56 text-teal">
+          <TitleBlock className="dt:col-start-4 dt:col-end-10 dt:dr-mb-40 text-teal">
             <TitleBlock.LeadIn className="text-teal">
               {'<'} SHowcase {'>'}
             </TitleBlock.LeadIn>
@@ -57,7 +57,7 @@ export function Section11() {
                   key={`${card?.title}-${i}`}
                   href={card?.href}
                   className={cn(
-                    'relative border-2 border-teal dt:dr-p-12 bg-black dt:dr-rounded-20 dt:dr-w-361 dt:dr-max-h-371 overflow-hidden',
+                    'relative border border-dark-teal/50 dt:dr-p-12 bg-black dt:dr-rounded-20 dt:dr-w-361 dt:dr-max-h-371 overflow-hidden',
                     s.card
                   )}
                 >
@@ -70,7 +70,7 @@ export function Section11() {
 
                   <div
                     className={cn(
-                      'dt:dr-w-337 dt:dr-h-189 border-2 border-dark-grey dt:dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block',
+                      'dt:dr-w-337 dt:dr-h-189 border border-dark-teal/50 dt:dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block',
                       s.cardImage
                     )}
                   >
