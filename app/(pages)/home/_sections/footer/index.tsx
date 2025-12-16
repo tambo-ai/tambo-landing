@@ -164,7 +164,7 @@ export function Footer() {
           </span>
           <div className="col-[3/-3] flex items-center justify-center dr-gap-24">
             {BOTTOM_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className='link'>
+              <Link key={link.href} href={link.href} className="link">
                 {link.label}
               </Link>
             ))}
