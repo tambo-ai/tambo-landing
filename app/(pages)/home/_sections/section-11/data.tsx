@@ -8,16 +8,15 @@ export const showcaseCards = [
     image: '/assets/showcases/showcase-1.png',
   },
   {
-    title: 'CheatSheet',
+    title: 'Strudel AI',
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
     href: '/',
-    // image: '/assets/showcases/showcase-2.png',
     image: '/videos/Octo-Juggle.webm',
   },
   {
-    title: 'db-thing',
+    title: 'CheatSheet',
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
@@ -57,7 +56,7 @@ export const buttons = [
   {
     icon: 'github',
     text: 'Star our Repo',
-    href: 'https://github.com/darkroomengineering',
+    href: 'https://github.com/tambo-ai',
   },
   {
     icon: 'discord',

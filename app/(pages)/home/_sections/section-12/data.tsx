@@ -62,7 +62,7 @@ export const banner = {
     'tambo-ai/tambo-cloud',
   ],
   button: {
-    text: 'SIGNUP',
-    href: '/',
+    text: 'GITHUB',
+    href: 'https://github.com/tambo-ai',
   },
 }
