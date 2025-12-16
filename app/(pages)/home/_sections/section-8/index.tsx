@@ -128,13 +128,13 @@ export function Section8() {
           borderRadius: desktopVW(windowWidth, 20, true),
           width: (index) => {
             if (index === items.length - 1) {
-              return desktopVW(windowWidth, 898, true)
+              return tamboRect?.width ?? 0
             }
             return windowWidth
           },
           height: (index) => {
             if (index === items.length - 1) {
-              return desktopVW(windowWidth, 597, true)
+              return tamboRect?.height ?? 0
             }
             return windowWidth
           },

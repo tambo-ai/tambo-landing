@@ -176,6 +176,22 @@ export function Section1() {
         },
         {
           opacity: 0,
+          ease: 'expo.out',
+          duration: 1,
+        },
+        '<0'
+      )
+      .fromTo(
+        arrowDownRef.current,
+        {
+          opacity: 0,
+          y: '100%',
+        },
+        {
+          opacity: 1,
+          y: '50%',
+          ease: 'expo.out',
+          duration: 1,
         },
         '<0'
       )
@@ -186,6 +202,8 @@ export function Section1() {
         },
         {
           opacity: 1,
+          ease: 'expo.out',
+          duration: 1,
         }
       )
     return () => {
@@ -363,7 +381,7 @@ export function Section1() {
       </div>
       <div
         ref={arrowDownRef}
-        className="dr-w-136 aspect-square bg-white bottom-0 left-[50%] translate-x-[-50%] translate-y-[50%] rounded-full fixed"
+        className="dr-w-136 aspect-square bg-white bottom-0 left-[50%] translate-x-[-50%] translate-y-[50%] rounded-full fixed opacity-0"
       >
         <DashedBorder className="absolute inset-0" />
         <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />

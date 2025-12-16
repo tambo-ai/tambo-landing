@@ -78,7 +78,7 @@ export function TimelineSection({
 
   return (
     <TimelineSectionContext.Provider value={{ callbacks, addCallback }}>
-      <section ref={rectRef} className="h-[400svh] bg-light-gray">
+      <section ref={rectRef} className="h-[400svh]">
         <div className="sticky top-0 dr-layout-grid-inner h-screen">
           <div className="col-span-4 flex flex-col dr-mt-112">
             <h3 className="typo-h2">{title}</h3>
