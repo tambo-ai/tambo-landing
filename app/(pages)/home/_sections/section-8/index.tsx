@@ -7,7 +7,6 @@ import { Fragment, useContext, useEffect, useState } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlaneSVG from '~/assets/svgs/plane.svg'
-import SpreadsheetSVG from '~/assets/svgs/spreadsheet.svg'
 import StocksSVG from '~/assets/svgs/stocks.svg'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import {
@@ -20,6 +19,19 @@ import s from './section-8.module.css'
 
 type Demo = 'travel' | 'map'
 type Threads = [string | null, string | null]
+
+const demos = [
+  {
+    id: 'travel',
+    label: 'travel assistant',
+    icon: PlaneSVG,
+  },
+  {
+    id: 'map',
+    label: 'map assistant',
+    icon: StocksSVG,
+  },
+]
 
 export function Section8() {
   const [selectedDemo, setSelectedDemo] = useState<Demo>('travel')
@@ -87,7 +99,7 @@ export function Section8() {
   )
 
   return (
-    <TamboIntegration selectedDemo={selectedDemo}>
+    <TamboIntegration>
       <section
         className="h-screen flex flex-col items-center justify-end"
         ref={setRectRef}
@@ -105,14 +117,15 @@ export function Section8() {
       </section>
       <section className="flex flex-col dr-gap-20 items-center justify-center h-screen">
         {/* TODO: Dashed border style*/}
-        <div className="dr-w-col-8 outline-off-white/80 outline-6 dr-rounded-20 aspect-898/597">
-          <div className="relative z-1 size-full dr-rounded-20 border border-forest/50 shadow-m bg-white dr-p-16">
+        <div className="dr-w-col-8 outline-off-white/80 outline-6 dr-rounded-20 aspect-898/597 dr-h-597">
+          <div className="relative z-1 size-full dr-rounded-20 border border-forest/50 shadow-m bg-white overflow-hidden">
             <TravelAssistant selectedDemo={selectedDemo} />
             <MapAssistant selectedDemo={selectedDemo} />
           </div>
         </div>
-        <div className="relative z-1 dr-rounded-20 border border-dark-grey outline-6 outline-off-white/80 dr-w-col-8 dr-p-8 bg-white">
+        <div className="relative z-1 dr-rounded-20 border border-dark-grey outline-6 outline-off-white/80 dr-p-8 bg-white">
           <ThreadsOptions
+            selectedDemo={selectedDemo}
             threads={threads}
             setThreads={setThreads}
             onSelect={setSelectedDemo}
@@ -124,10 +137,12 @@ export function Section8() {
 }
 
 function ThreadsOptions({
+  selectedDemo,
   threads,
   setThreads,
   onSelect,
 }: {
+  selectedDemo: Demo
   threads: Threads
   setThreads: React.Dispatch<React.SetStateAction<Threads>>
   onSelect: (demo: Demo) => void
@@ -158,16 +173,17 @@ function ThreadsOptions({
     <div
       className={cn(
         s.tabs,
-        'h-full relative grid grid-flow-col dr-rounded-12 typo-h4 uppercase bg-off-white'
+        'relative grid grid-flow-col dr-rounded-12 typo-h4 uppercase bg-off-white'
       )}
     >
       {demos.map((demo) => (
         <Fragment key={demo.id}>
           <input
+            name="demo"
             type="radio"
             id={demo.id}
-            name="demo"
             value={demo.id}
+            checked={selectedDemo === demo.id}
             onChange={() => {
               onSelect(demo.id as 'travel' | 'map')
 
@@ -201,21 +217,3 @@ function ThreadsOptions({
     </div>
   )
 }
-
-const demos = [
-  {
-    id: 'travel',
-    label: 'travel assistant',
-    icon: PlaneSVG,
-  },
-  {
-    id: 'map',
-    label: 'map assistant',
-    icon: StocksSVG,
-  },
-  {
-    id: 'demo-3',
-    label: 'AI spreadsheet',
-    icon: SpreadsheetSVG,
-  },
-]

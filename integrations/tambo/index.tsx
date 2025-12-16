@@ -6,6 +6,7 @@ import { mapExampleContext, seatExampleContext } from './(components)/context'
 import { MessageThreadCollapsible } from './(components)/ui-tambo/message-thread-collapsible'
 import { MessageThreadFull } from './(components)/ui-tambo/message-thread-full'
 import { SeatSelector, SeatSelectorSchema } from './(components)/seat-selector'
+import { InterctableMap } from './(components)/map'
 
 const components = [
   {
@@ -57,12 +58,15 @@ export function MapAssistant({ selectedDemo }: { selectedDemo: 'travel' | 'map' 
 
   if (selectedDemo === 'travel') return null
   return (
+    <>
+    <InterctableMap height={650} />  
     <MessageThreadCollapsible
       contextKey={selectedDemo}
       variant="compact"
       defaultOpen={true}
-      className="absolute dr-bottom-6 dr-right-4"
+      className="absolute dr-bottom-6 dr-right-4 dr-mr-8"
     />
+    </>
   )
 }
 
