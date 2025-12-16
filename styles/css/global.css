@@ -112,3 +112,20 @@ html.screenshot {
   position: relative;
   transform: translateX(-50%);
 }
+
+.fade-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black desktop-vw(50px),
+    black calc(100% - desktop-vw(50px)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black desktop-vw(50px),
+    black calc(100% - desktop-vw(50px)),
+    transparent 100%
+  );
+}

@@ -137,7 +137,7 @@ export function Section11() {
         <Marquee
           repeat={2}
           speed={0.3}
-          className={cn(s.marquee, 'dt:dr-mb-40')}
+          className={cn(s.marquee, 'dt:dr-mb-40 fade-mask')}
         >
           <div className="flex dr-gap-x-24 dr-mr-24">
             {persons?.map((person) => (
