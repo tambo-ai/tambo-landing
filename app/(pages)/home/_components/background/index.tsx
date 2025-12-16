@@ -244,30 +244,18 @@ export function SolidBackground({ children }: { children?: React.ReactNode }) {
 
   const { getSolidBackground } = useContext(BackgroundContext)
 
-  // Initialize CSS custom property with transparent background
-  // useEffect(() => {
-  //   const wrapper = wrapperRef.current
-  //   if (wrapper) {
-  //     wrapper.style.setProperty('--solid-bg-color', 'rgba(15, 26, 23, 0)')
-  //   }
-  // }, [])
-
   useScrollTrigger({
     rect,
     start: 'bottom bottom',
     end: 'bottom center',
     onProgress: ({ progress }) => {
       const solidBackground = getSolidBackground()
-      const wrapper = wrapperRef.current
       if (solidBackground) {
         const r = mapRange(0, 1, progress, 15, 255)
         const g = mapRange(0, 1, progress, 26, 255)
         const b = mapRange(0, 1, progress, 23, 255)
         const bgColor = `rgba(${r}, ${g}, ${b}, ${1})`
         solidBackground.style.backgroundColor = bgColor
-        if (wrapper) {
-          wrapper.style.setProperty('--solid-bg-color', bgColor)
-        }
       }
     },
   })
@@ -278,14 +266,10 @@ export function SolidBackground({ children }: { children?: React.ReactNode }) {
     end: 'top center',
     onProgress: ({ progress }) => {
       const solidBackground = getSolidBackground()
-      const wrapper = wrapperRef.current
       if (solidBackground) {
         const bgColor = `rgba(15, 26, 23, ${progress})`
         solidBackground.style.backgroundColor = bgColor
         solidBackground.style.opacity = '1'
-        if (wrapper) {
-          wrapper.style.setProperty('--solid-bg-color', bgColor)
-        }
       }
     },
   })
