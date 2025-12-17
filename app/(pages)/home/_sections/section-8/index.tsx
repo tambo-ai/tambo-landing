@@ -11,7 +11,7 @@ import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import {
   AssistantNotifications,
-  MapAssistant,
+  MapAssistantWrapper,
   TamboIntegration,
   TravelAssistant,
   useAssitant,
@@ -205,7 +205,7 @@ export function Section8() {
             <div className="relative z-1 size-full dr-rounded-20 border border-forest/50 shadow-m bg-white overflow-hidden">
               <InterctableMap height={650} />
               <TravelAssistant />
-              <MapAssistant />
+              <MapAssistantWrapper />
             </div>
           </div>
           {/* <div className="relative z-1 dr-rounded-20 border border-dark-grey outline-6 outline-off-white/80 dr-p-8 bg-white">

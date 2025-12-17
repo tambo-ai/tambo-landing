@@ -152,7 +152,6 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
             const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
             console.error('Search failed:', errorData.error || 'Unknown error')
             
-            // Show user-friendly error message
             if (res.status === 503 || res.status === 504) {
               console.warn('Map service is busy. Please try again in a moment.')
             }
@@ -178,6 +177,7 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
   useEffect(() => {
     if (mapRef.current) return
     if (!containerRef.current) return
+    if (containerRef.current.querySelector('.mapboxgl-map')) return
 
     // Use NYC as default center
     const fcLng = DEFAULT_CENTER[0]
