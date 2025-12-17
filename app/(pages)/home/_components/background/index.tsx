@@ -91,7 +91,6 @@ export function BackgroundItem({
     },
     setKinesis: (value: number) => {
       kinesisRef.current = value
-      console.log(kinesisRef.current)
     },
   }))
 

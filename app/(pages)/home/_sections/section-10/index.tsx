@@ -80,7 +80,7 @@ export function Section10() {
           },
           progress,
           {
-            ease: 'linear',
+            ease: 'easeOutSine',
             render: (item, { width, opacity, kinesis }) => {
               // @ts-expect-error
               const element = item?.getElement()

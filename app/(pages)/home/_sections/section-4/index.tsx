@@ -12,19 +12,30 @@ import { messages } from './data'
 export function Section4() {
   const [setRectRef, rect] = useRect()
 
-  const { getItems } = useContext(BackgroundContext)
-
-  const { width: windowWidth = 0 } = useWindowSize()
+  const { getItems, getBackground } = useContext(BackgroundContext)
 
   const desktopVW = useDesktopVW()
+
+  const { width: windowWidth = 0 } = useWindowSize()
 
   useScrollTrigger(
     {
       rect,
       start: 'top bottom',
-      end: 'top top',
+      end: 'center center',
       onProgress: ({ progress }) => {
+        const background = getBackground()
+
+        if (background) {
+          background.style.opacity = progress === 1 ? '0' : '1'
+        }
+
+        if (rect?.element) {
+          rect.element.style.opacity = progress === 1 ? '1' : '0'
+        }
+
         const items = getItems()
+
         fromTo(
           items,
           {
@@ -34,18 +45,20 @@ export function Section4() {
               desktopVW(1134 + (items.length - 1 - index) * 240, true),
             borderRadius: (index) =>
               desktopVW(1134 + (items.length - 1 - index) * 240, true) / 2,
+            x: 0,
             kinesis: 1,
           },
           {
             width: desktopVW(668),
             height: desktopVW(470),
             borderRadius: desktopVW(20),
+            x: -windowWidth / 2 + (rect?.left ?? 0) + desktopVW(668 / 2),
             kinesis: 0,
           },
           progress,
           {
-            ease: 'linear',
-            render: (item, { width, height, borderRadius, kinesis }) => {
+            ease: 'easeOutSine',
+            render: (item, { width, height, borderRadius, kinesis, x }) => {
               // @ts-expect-error
               const element = item?.getElement()
               // @ts-expect-error
@@ -56,6 +69,7 @@ export function Section4() {
               if (element instanceof HTMLElement) {
                 element.style.width = `${width}px`
                 element.style.height = `${height}px`
+                element.style.transform = `translateX(${x}px)`
               }
             },
           }
@@ -67,11 +81,10 @@ export function Section4() {
 
   return (
     <TimelineSection
-      ref={setRectRef}
       messages={messages}
       title="AI-generated interfaces, powered by your own components."
     >
-      <Animation />
+      <Animation ref={setRectRef} />
     </TimelineSection>
   )
 }

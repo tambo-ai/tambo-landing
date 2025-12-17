@@ -49,6 +49,11 @@ export function Section8() {
       start: 'top top',
       end: `${titleBlockRect?.top === undefined || titleBlockRect.height === undefined ? 'bottom' : titleBlockRect.top + titleBlockRect.height * 0.5} center`,
       onProgress: ({ progress }) => {
+        const background = getBackground()
+        if (background && progress >= 0) {
+          background.style.opacity = '1'
+        }
+
         const items = getItems()
         fromTo(
           items,
@@ -136,7 +141,7 @@ export function Section8() {
         },
         progress,
         {
-          ease: 'linear',
+          ease: 'easeOutSine',
           render: (
             item,
             { borderRadius, width, height, y, kinesis, opacity }

@@ -17,7 +17,11 @@ import { colors } from '~/styles/colors'
 import s from './animation.module.css'
 import Selection from './selection.svg'
 
-export function Animation() {
+export function Animation({
+  ref,
+}: {
+  ref?: React.RefCallback<HTMLDivElement>
+}) {
   const { addCallback } = use(TimelineSectionContext)
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -161,7 +165,10 @@ export function Animation() {
 
   return (
     <div
-      ref={containerRef}
+      ref={(el) => {
+        containerRef.current = el
+        ref?.(el)
+      }}
       className="w-full aspect-668/470 dr-rounded-20 typo-p grid grid-cols-1 grid-rows-1"
     >
       <Card
