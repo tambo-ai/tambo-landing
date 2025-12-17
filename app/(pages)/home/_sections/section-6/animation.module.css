@@ -1,0 +1,4 @@
+.container {
+  transform: rotate(calc(var(--highlight-progress, 0) * 5deg))
+    skewX(calc(var(--highlight-progress, 0) * -10deg));
+}
