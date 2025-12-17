@@ -30,27 +30,12 @@ type Props = {
   className?: string
   height?: number | string
   pinSvgPath?: string
-  useUserLocationOnLoad?: boolean
-  fallbackCenter?: [number, number] // [lng, lat]
   fallbackZoom?: number
-  userZoom?: number
   onResult?: (result: AreaAnalyzeResponse) => void
   onBBoxSelected?: (bbox: BBox) => void
 }
 
-const DEFAULT_FALLBACK_CENTER: [number, number] = [-74.00594, 40.71278] // NYC [lng, lat]
-
-function getBrowserLocation(): Promise<{ lng: number; lat: number }> {
-  return new Promise((resolve, reject) => {
-    if (!('geolocation' in navigator))
-      return reject(new Error('Geolocation not supported'))
-    navigator.geolocation.getCurrentPosition(
-      (pos) => resolve({ lng: pos.coords.longitude, lat: pos.coords.latitude }),
-      reject,
-      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60_000 }
-    )
-  })
-}
+const DEFAULT_CENTER: [number, number] = [-74.00594, 40.71278] // NYC [lng, lat]
 
 function bboxFromLngLats(a: mapboxgl.LngLat, b: mapboxgl.LngLat): BBox {
   return {
@@ -81,10 +66,7 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
       className,
       height = 520,
       pinSvgPath = 'assets/maps/pin.png',
-      useUserLocationOnLoad = true,
-      fallbackCenter = DEFAULT_FALLBACK_CENTER,
       fallbackZoom = 12,
-      userZoom = 13,
       onResult,
       onBBoxSelected,
     },
@@ -189,12 +171,13 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
       getCurrentBBox: () => currentBBoxRef.current,
     }))
 
-  const fcLng = fallbackCenter[0]
-  const fcLat = fallbackCenter[1]
-
   useEffect(() => {
     if (mapRef.current) return
     if (!containerRef.current) return
+
+    // Use NYC as default center
+    const fcLng = DEFAULT_CENTER[0]
+    const fcLat = DEFAULT_CENTER[1]
 
     let map: mapboxgl.Map | null = null
     let isLoaded = false
@@ -223,19 +206,10 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
     window.addEventListener('keyup', onKeyUp)
 
     ;(async () => {
-      let center: [number, number] = [fcLng, fcLat]
-      let zoom = fallbackZoom
+      const center: [number, number] = [fcLng, fcLat]
+      const zoom = fallbackZoom
 
-      if (useUserLocationOnLoad) {
-        try {
-          const loc = await getBrowserLocation()
-          center = [loc.lng, loc.lat]
-          zoom = userZoom
-          console.log('📍 Using user location:', loc)
-        } catch {
-          console.log('📍 Location not available, using fallback center.')
-        }
-      }
+      console.log('📍 Using default location (NYC):', { lng: center[0], lat: center[1] })
 
       map = new mapboxgl.Map({
         container: containerRef.current!,
@@ -473,12 +447,8 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
     }
   }, [
     // ✅ stable dependencies (numbers, not the array reference)
-    fcLng,
-    fcLat,
     fallbackZoom,
     pinSvgPath,
-    useUserLocationOnLoad,
-    userZoom,
   ])
 
     return (
