@@ -71,23 +71,31 @@ export function Section10() {
               ),
             opacity: 1,
             kinesis: 1,
+            boxShadowOpacity: 1,
           },
           {
             width: (index) =>
               desktopVW(496 + (items.length - 1 - index) * 260, true),
             opacity: 1,
             kinesis: 1,
+            boxShadowOpacity: 1,
           },
           progress,
           {
             ease: 'easeOutSine',
-            render: (item, { width, opacity, kinesis }) => {
+            render: (item, { width, opacity, kinesis, boxShadowOpacity }) => {
               // @ts-expect-error
               const element = item?.getElement()
               // @ts-expect-error
               item?.setBorderRadius(`${width * 2}px`)
               // @ts-expect-error
               item?.setKinesis(kinesis)
+
+              // @ts-expect-error
+              const boxShadow = item?.getBoxShadow()
+              if (boxShadow) {
+                boxShadow.style.opacity = `${boxShadowOpacity}`
+              }
 
               if (element instanceof HTMLElement) {
                 element.style.width = `${width}px`

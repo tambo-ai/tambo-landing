@@ -14,15 +14,6 @@ import { buttons, persons, showcaseCards } from './data'
 import s from './section-11.module.css'
 
 export function Section11() {
-  // const [isInViewport, setIsInViewport] = useState(false)
-  // const [setIntersectionRef, intersection] = useIntersectionObserver({
-  //   rootMargin: '0px',
-  // })
-
-  // useEffect(() => {
-  //   setIsInViewport(intersection?.isIntersecting ?? false)
-  // }, [intersection])
-
   return (
     <SolidBackground>
       <section

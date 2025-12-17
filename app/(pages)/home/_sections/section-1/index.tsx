@@ -15,7 +15,6 @@ import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
 import s from './section1.module.css'
-// @refresh reset
 
 export function Section1() {
   const { getItems } = useContext(BackgroundContext)

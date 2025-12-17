@@ -1,7 +1,8 @@
 'use client'
 
+import gsap from 'gsap'
 import { useRect, useWindowSize } from 'hamo'
-import { useContext, useRef } from 'react'
+import { useContext, useEffectEvent, useRef } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
@@ -60,46 +61,133 @@ export function Footer() {
     },
   })
 
-  useScrollTrigger(
-    {
-      rect,
-      start: `${rect?.top === undefined || rect?.height === undefined ? 'top' : rect?.top - windowHeight} bottom`,
-      end: 'top top',
-      onProgress: ({ progress, height }) => {
-        const items = getItems()
-        fromTo(
-          items,
-          {
-            y: height,
-            width: (index) =>
-              desktopVW(496 + (items.length - 1 - index) * 260, true),
-          },
-          {
-            y: 0,
-            width: (index) =>
-              desktopVW(496 + (items.length - 1 - index) * 260, true),
-          },
-          progress,
-          {
-            ease: 'linear',
-            render: (item, { width, y }) => {
-              // @ts-expect-error
-              const element = item?.getElement()
-              // @ts-expect-error
-              item?.setBorderRadius(`${width * 2}px`)
+  useScrollTrigger({
+    rect,
+    start: `${rect?.top === undefined || rect?.height === undefined ? 'top' : rect?.top - windowHeight} bottom`,
+    end: 'top top',
+    onProgress: ({ progress, height }) => {
+      const items = getItems()
 
-              if (element instanceof HTMLElement) {
-                element.style.width = `${width}px`
-                element.style.height = `${width}px`
-                element.style.transform = `translateY(${y}px)`
-              }
-            },
+      if (progress === 0) {
+        items.forEach((item, index) => {
+          const width = desktopVW(666 + (items.length - 1 - index) * 260, true)
+
+          const element = item?.getElement()
+
+          const boxShadow = item?.getBoxShadow()
+          if (boxShadow) {
+            boxShadow.style.opacity = '0'
           }
-        )
-      },
+
+          item?.setBorderRadius(`${width * 2}px`)
+
+          if (element instanceof HTMLElement) {
+            element.style.width = `${width}px`
+            element.style.height = `${width}px`
+            element.style.transform = `translateY(0px)`
+          }
+        })
+      }
+
+      fromTo(
+        items,
+        {
+          y: height,
+          // width: (index) =>
+          //   desktopVW(496 + (items.length - 1 - index) * 260, true),
+        },
+        {
+          y: 0,
+          // width: (index) =>
+          //   desktopVW(496 + (items.length - 1 - index) * 260, true),
+        },
+        progress,
+        {
+          ease: 'linear',
+          render: (item, { y }) => {
+            // @ts-expect-error
+            const element = item?.getElement()
+
+            if (element instanceof HTMLElement) {
+              element.style.transform = `translateY(${y}px)`
+            }
+          },
+        }
+      )
     },
-    [windowWidth, windowHeight]
-  )
+  })
+
+  // useTempus(() => {
+  //   const items = getItems()
+  //   items.forEach((item) => {
+  //     const boxShadow = item?.getBoxShadow()
+  //     if (boxShadow) {
+  //       boxShadow.style.opacity = `${hoverProgressRef.current}`
+  //     }
+  //   })
+  // })
+
+  const onMouseEnter = useEffectEvent(() => {
+    const items = getItems()
+    items.forEach((item, index) => {
+      const boxShadow = item?.getBoxShadow()
+      if (boxShadow) {
+        gsap.to(boxShadow, {
+          opacity: 1,
+          duration: 1,
+          ease: 'expo.out',
+        })
+      }
+
+      const element = item?.getElement()
+      if (element instanceof HTMLElement) {
+        const width = desktopVW(596 + (items.length - 1 - index) * 260, true)
+
+        gsap.to(element, {
+          width: width,
+          height: width,
+          duration: 1,
+          ease: 'expo.out',
+        })
+      }
+    })
+
+    // gsap.to(hoverProgressRef, {
+    //   current: 1,
+    //   duration: 1,
+    //   ease: 'expo.out',
+    // })
+  })
+  const onMouseLeave = useEffectEvent(() => {
+    const items = getItems()
+    items.forEach((item, index) => {
+      const boxShadow = item?.getBoxShadow()
+      if (boxShadow) {
+        gsap.to(boxShadow, {
+          opacity: 0,
+          duration: 1,
+          ease: 'expo.out',
+        })
+      }
+
+      const element = item?.getElement()
+      if (element instanceof HTMLElement) {
+        const width = desktopVW(666 + (items.length - 1 - index) * 260, true)
+
+        gsap.to(element, {
+          width: width,
+          height: width,
+          duration: 1,
+          ease: 'expo.out',
+        })
+      }
+    })
+    // gsap.to(hoverProgressRef, {
+    //   current: 0,
+    //   duration: 1,
+    //   ease: 'expo.out',
+    // })
+  })
 
   return (
     <section ref={setRectRef} className="overflow-clip">
@@ -132,7 +220,12 @@ export function Footer() {
               Ship an ai assistant with generative ui in minutes.
             </TitleBlock.Subtitle>
             <div className="flex dr-gap-8 dr-mt-40">
-              <CTA snippet className="bg-black! text-teal border-teal">
+              <CTA
+                snippet
+                className="bg-black! text-teal border-teal"
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+              >
                 START BUILDING
                 <span className="typo-code-snippet">
                   <span className="text-pink">{'<TamboProvider'} </span>
@@ -149,7 +242,9 @@ export function Footer() {
                   <span className="text-pink">{'</TamboProvider>'}</span>
                 </span>
               </CTA>
-              <CTA>Try Live Demo</CTA>
+              <CTA onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                Try Live Demo
+              </CTA>
             </div>
           </TitleBlock>
         </div>
