@@ -1,11 +1,107 @@
 .card {
-  &:hover {
-    box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+  --ease: var(--ease-gleasing);
+  --transition-duration: 600ms;
 
-    .cardHeader {
-      box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
+  transition:
+    width var(--ease) var(--transition-duration),
+    background-color var(--ease) var(--transition-duration),
+    border-color var(--ease) var(--transition-duration);
+
+  @media (--desktop) {
+    width: desktop-vw(212px);
+  }
+
+  @media (--hover) {
+    &:hover {
+      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+      width: desktop-vw(322px);
+      background-color: var(--color-black);
+
+      .cardHeader {
+        box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
+        border-color: var(--color-teal);
+        height: desktop-vw(50px);
+        background-color: var(--color-teal);
+
+        .cardTitle {
+          transform: translateY(
+            calc(-1 * (desktop-vw(24px) - desktop-vw(16px)))
+          );
+        }
+      }
+
+      .cardVideo {
+        transform: scale(0.3);
+        transform-origin: top;
+        opacity: 0;
+      }
+
+      .plusButton {
+        opacity: 0;
+      }
+
+      .cardContent {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+
+      .cardCTA {
+        opacity: 1;
+        transform: translateX(-20%);
+      }
+
+      .hashPattern {
+        opacity: 1;
+      }
     }
   }
+}
+
+.cardContent {
+  transition:
+    opacity var(--ease) var(--transition-duration),
+    transform var(--ease) var(--transition-duration);
+  opacity: 0;
+  transform: translate(desktop-vw(-80px), desktop-vw(30px));
+}
+
+.cardCTA {
+  position: absolute;
+  transition:
+    opacity var(--ease) var(--transition-duration),
+    transform var(--ease) var(--transition-duration);
+  opacity: 0;
+
+  @media (--desktop) {
+    left: 40%;
+    bottom: desktop-vw(20px);
+  }
+}
+
+.plusButton {
+  position: absolute;
+  transition: opacity var(--ease) 0.3s;
+  @media (--desktop) {
+    left: 50%;
+    bottom: desktop-vw(32px);
+    transform: translateX(-50%);
+  }
+}
+
+.cardVideo {
+  transition:
+    transform var(--ease) var(--transition-duration),
+    opacity var(--ease) var(--transition-duration);
+}
+
+.cardHeader {
+  transition:
+    height var(--ease) var(--transition-duration),
+    background-color var(--ease) var(--transition-duration);
+}
+
+.cardTitle {
+  transition: transform var(--ease) var(--transition-duration);
 }
 
 .person {

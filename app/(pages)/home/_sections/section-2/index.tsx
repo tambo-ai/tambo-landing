@@ -1,6 +1,7 @@
 'use client'
 
 import cn from 'clsx'
+import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlusIcon from '~/assets/svgs/plus.svg'
 import { Button, CTA } from '~/components/button'
@@ -24,7 +25,7 @@ export function Section2() {
           </TitleBlock.Title>
           <TitleBlock.Button>Read Documentation</TitleBlock.Button>
         </TitleBlock>
-        <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12">
+        <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12 ">
           {cards.map((card) => (
             <Card key={card.title} data={card} />
           ))}
@@ -86,24 +87,28 @@ function Card({ data }: CardProps) {
     <Button
       href={data.button.href}
       className={cn(
-        'dt:dr-h-420 dr-h-158 max-dt:hover:dr-h-327 shrink-0  dt:aspect-264/420 dr-p-8 dr-rounded-20 overflow-hidden bg-off-white/80 border border-dark-grey flex flex-col group transition-all duration-200 hover:aspect-square dt:hover:aspect-3/4 hover:border-mint hover:bg-black hover:text-mint relative',
+        'dt:dr-h-420 dr-h-158 shrink-0 dr-p-8 dr-rounded-20 bg-off-white/80 border border-dark-grey flex flex-col relative',
         s.card
       )}
     >
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 dark-teal-pattern" />
+      <HashPattern
+        className={cn(
+          'absolute inset-0 text-dark-teal/20 opacity-0',
+          s.hashPattern
+        )}
+      />
       <div
         className={cn(
-          'w-full h-full bg-white border border-dark-grey dr-rounded-12 dr-p-16 dr-py-12 dt:dr-py-24 flex flex-col items-center overflow-hidden transition-all duration-250 ease-gleasing group-hover:dr-h-42 dt:group-hover:dr-h-50 dt:group-hover:dr-py-16 group-hover:border-teal group-hover:bg-teal group-hover:text-black relative z-10',
+          'w-full h-full bg-white border border-dark-grey dr-rounded-12 dr-p-16 dr-py-12 dt:dr-py-24 flex flex-col items-center  relative z-10 ',
           s.cardHeader
         )}
       >
-        <p className="typo-h5">
+        <p className={cn('typo-h5', s.cardTitle)}>
           {'< '}
           {data.title}
           {' >'}
         </p>
-        <div className="flex-1 grid place-items-center">
-          {/* TODO: Video here */}
+        <div className={cn('flex-1 grid place-items-center', s.cardVideo)}>
           <div className="aspect-square w-144">
             <Video
               autoPlay
@@ -128,17 +133,26 @@ function Card({ data }: CardProps) {
             </Video>
           </div>
         </div>
-        <div className="max-dt:absolute dr-top-4 dr-right-4 dr-size-32 max-dt:group-hover:text-teal max-dt:group-hover:bg-black grid place-items-center dr-rounded-10 bg-mint dt:group-hover:opacity-0 dt:group-hover:translate-y-full transition-all duration-200">
-          <PlusIcon className="dr-size-16 icon max-dt:group-hover:rotate-45 transition-all duration-200" />
-        </div>
       </div>
-      <div className="flex-1 grid place-items-center relative">
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-between dr-py-16">
-          <div className="dr-h-28" />
-          <p className="typo-p text-center dr-w-258 mx-auto">{data.text}</p>
-          <CTA type="secondary">{data.button.text}</CTA>
-        </div>
+      <div
+        className={cn(
+          'absolute dt:dr-top-135 dt:dr-left-32 text-teal',
+          s.cardContent
+        )}
+      >
+        <p className="typo-p text-center dr-w-258">{data.text}</p>
       </div>
+      <div
+        className={cn(
+          'dr-size-32 absolute  grid place-items-center dr-rounded-10 bg-mint z-10',
+          s.plusButton
+        )}
+      >
+        <PlusIcon className="dr-size-16 icon" />
+      </div>
+      <CTA type="secondary" wrapperClassName={s.cardCTA}>
+        {data?.button?.text}
+      </CTA>
     </Button>
   )
 }
