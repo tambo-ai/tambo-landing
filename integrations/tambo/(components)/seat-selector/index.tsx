@@ -217,7 +217,7 @@ export function SeatSelector(props: SeatSelectorProps) {
             s.button,
             s.buttonPrimary
           )}
-          onClick={() => finishSeatSelection()}
+          onClick={() => finishSeatSelection(selectedSeats.join(','))}
         >
           Confirm Selection
         </button>

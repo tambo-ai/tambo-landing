@@ -10,6 +10,12 @@ import { SeatSelectorSchema } from './(components)/seat-selector/schema'
 import { useTamboThread } from '@tambo-ai/react'
 import { MapProvider } from './(components)/map/map-context'
 import { useMapSearch } from './(components)/map/use-map-search'
+import cn from 'clsx'
+
+const introMessages = {
+  travel: 'You have to select your seat ASAP before the flight starts, do you want me to help you?',
+  map: 'While your waiting for your flight, you can search for entrainment options in your destination, do you want me to help you?',
+}
 
 const components = [
   {
@@ -33,9 +39,39 @@ export function TamboIntegration({children}: {children: React.ReactNode}) {
   )
 }
 
+export function AssistantNotifications({className}: {className: string}) {
+  const {finishSeatSelection, choosedSeat} = useAssitant()
+
+  return (
+    <ul className={cn('flex flex-col dr-gap-8 border border-dark-grey dr-rounded-8 dr-p-16', className)}>
+      <label className='typo-surtitle'>Travel assistant</label>
+      <li>
+        <span className='typo-label-m'>Hotel: </span>
+        <span className='typo-label-s'> Booked</span>
+      </li>
+      <li>
+        <span className='typo-label-m'>Flight: </span>
+        <span className='typo-label-s'> NYC La Guardia</span>
+      </li>
+      <li>
+        <span className='typo-label-m'>Seat selection: </span>
+        <span className='typo-label-s'>{choosedSeat.length > 0 ? choosedSeat.join(', ') : 'None'}</span>
+        <button className='typo-label-s' onClick={() => finishSeatSelection('7E')}>
+          Random seat
+        </button>
+      </li>
+      <li>
+        <span className='typo-label-m'>Itinerary: </span>
+        <span className='typo-label-s'>Empty</span>
+      </li>
+    </ul>
+  )
+}
+
 export function TravelAssistant() {
   const { selectedDemo } = useAssitant()
   const { addContextHelper, removeContextHelper } = useTamboContextHelpers()
+  const { thread, addThreadMessage } = useTamboThread()
 
   useEffect(() => {
     if (selectedDemo === 'travel') {
@@ -46,6 +82,26 @@ export function TravelAssistant() {
     return () => removeContextHelper('assistantBehavior')
   }, [selectedDemo, addContextHelper, removeContextHelper])
 
+  useEffect(() => {
+    if(selectedDemo !== 'travel') return
+
+    if (!thread?.messages?.length) {
+      addThreadMessage({
+        id: 'welcome-message',
+        role: 'assistant',
+        content: [
+          {
+            type: 'text',
+            text: introMessages[selectedDemo],
+          }
+        ],
+        createdAt: new Date().toISOString(),
+        threadId: thread.id,
+        componentState: {},
+      }, false) // false = don't send to server, just add locally
+    }
+  }, [thread?.messages?.length, selectedDemo])
+
   if (selectedDemo === 'map') return null
   return <MessageThreadFull className="absolue z-1" contextKey={selectedDemo} variant="compact" />
 }
@@ -53,7 +109,7 @@ export function TravelAssistant() {
 export function MapAssistant() {
   const { selectedDemo } = useAssitant()
   const { addContextHelper, removeContextHelper } = useTamboContextHelpers()
-  
+  const { thread, addThreadMessage } = useTamboThread()
   // Enable map search - pass contextKey to listen to correct thread
   useMapSearch(selectedDemo)
 
@@ -65,6 +121,26 @@ export function MapAssistant() {
     }
     return () => removeContextHelper('assistantBehavior')
   }, [selectedDemo, addContextHelper, removeContextHelper])
+
+  useEffect(() => {
+    if(selectedDemo !== 'map') return
+
+    if (!thread?.messages?.length) {
+      addThreadMessage({
+        id: 'welcome-message',
+        role: 'assistant',
+        content: [
+          {
+            type: 'text',
+            text: introMessages[selectedDemo],
+          }
+        ],
+        createdAt: new Date().toISOString(),
+        threadId: thread.id,
+        componentState: {},
+      }, false) // false = don't send to server, just add locally
+    }
+  }, [thread?.messages?.length, selectedDemo])
 
   if (selectedDemo === 'travel') return null
   return (
@@ -83,14 +159,16 @@ type Threads = [string | null, string | null]
 const AssistantContext = createContext<{
   selectedDemo: Demo
   threads: Threads
+  choosedSeat: string[]
   setSelectedDemo: React.Dispatch<React.SetStateAction<Demo>>
   setThreads: React.Dispatch<React.SetStateAction<Threads>>
   switchToTravelThread: () => void
   switchToMapThread: () => void
-  finishSeatSelection: () => void
+  finishSeatSelection: (seat: string) => void
 }>({
   selectedDemo: 'travel',
   threads: [null, null],
+  choosedSeat: [],
   setSelectedDemo: () => {},
   setThreads: () => {},
   switchToTravelThread: () => {},
@@ -99,8 +177,9 @@ const AssistantContext = createContext<{
 })
 
 function AssistantProvider({ children, }: { children: React.ReactNode }) {
-  const [threads, setThreads] = useState<Threads>([null, null])
   const [selectedDemo, setSelectedDemo] = useState<Demo>('travel')
+  const [choosedSeat, setChoosedSeat] = useState<string[]>([])
+  const [threads, setThreads] = useState<Threads>([null, null])
   const { thread, startNewThread, switchCurrentThread } = useTamboThread()
   
 useEffect(() => {
@@ -137,12 +216,13 @@ const switchToMapThread = useCallback(() => {
   }
 }, [threads, switchCurrentThread])
 
-const finishSeatSelection = useCallback(() => {
+const finishSeatSelection = useCallback((seat: string) => {
   setSelectedDemo('map')
   switchToMapThread()
+  setChoosedSeat([seat])
 }, [setSelectedDemo, switchToMapThread])
 
-  return (<AssistantContext.Provider value={{ selectedDemo, threads, setSelectedDemo, setThreads, switchToTravelThread, switchToMapThread, finishSeatSelection }}>
+  return (<AssistantContext.Provider value={{ selectedDemo, threads, choosedSeat, setSelectedDemo, setThreads, switchToTravelThread, switchToMapThread, finishSeatSelection }}>
     {children}
   </AssistantContext.Provider>)
 }

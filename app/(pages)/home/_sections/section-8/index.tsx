@@ -10,6 +10,7 @@ import StocksSVG from '~/assets/svgs/stocks.svg'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import {
+  AssistantNotifications,
   MapAssistant,
   TamboIntegration,
   TravelAssistant,
@@ -194,11 +195,12 @@ export function Section8() {
         </TitleBlock>
       </section>
       <TamboIntegration>
-        <section className="flex flex-col dr-gap-20 items-center justify-center h-screen">
+        <section className="dr-layout-grid-inner dr-gap-20 items-center justify-center h-screen">
+          <AssistantNotifications className="col-span-2" />
           {/* TODO: Dashed border style*/}
           <div
             ref={setTamboRectRef}
-            className="dr-w-col-8 outline-off-white/80 outline-6 dr-rounded-20 aspect-898/597 dr-h-597"
+            className="col-start-3 col-end-10 outline-off-white/80 outline-6 dr-rounded-20 aspect-898/597 dr-h-597"
           >
             <div className="relative z-1 size-full dr-rounded-20 border border-forest/50 shadow-m bg-white overflow-hidden">
               <InterctableMap height={650} />
