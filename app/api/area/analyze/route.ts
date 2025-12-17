@@ -58,6 +58,29 @@ function getOSMTags(query: string): string[] {
     return ['tourism']
   }
 
+  // Entertainment queries (theaters, cinemas, clubs, etc.)
+  if (
+    normalizedQuery.includes('entertainment') ||
+    normalizedQuery.includes('entertain') ||
+    normalizedQuery.includes('theater') ||
+    normalizedQuery.includes('cinema') ||
+    normalizedQuery.includes('club') ||
+    normalizedQuery.includes('nightlife') ||
+    normalizedQuery.includes('show') ||
+    normalizedQuery.includes('more places') ||
+    normalizedQuery.includes('more options')
+  ) {
+    // Return multiple categories for entertainment
+    return [
+      'amenity=cafe',
+      'amenity=restaurant',
+      'amenity=bar',
+      'amenity=pub',
+      'tourism',
+      'leisure',
+    ]
+  }
+
   // Default: search for cafes (backward compatibility)
   return ['amenity=cafe']
 }

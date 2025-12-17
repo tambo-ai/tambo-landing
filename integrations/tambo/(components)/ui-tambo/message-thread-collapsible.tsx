@@ -1,26 +1,23 @@
-"use client";
+'use client'
 
+import { XIcon } from 'lucide-react'
+import { Collapsible } from 'radix-ui'
+import * as React from 'react'
+import type { messageVariants, VariantProps } from '@/components/tambo/message'
 import {
   MessageInput,
+  MessageInputError,
+  MessageInputSubmitButton,
   MessageInputTextarea,
   MessageInputToolbar,
-  MessageInputSubmitButton,
-  MessageInputError,
   // MessageInputMcpConfigButton,
-} from "@/components/tambo/message-input";
-import {
-  messageVariants,
-  type VariantProps,
-} from "@/components/tambo/message";
+} from '@/components/tambo/message-input'
+import { ScrollableMessageContainer } from '@/components/tambo/scrollable-message-container'
 import {
   ThreadContent,
   ThreadContentMessages,
-} from "@/components/tambo/thread-content";
-import { Collapsible } from "radix-ui";
-import { ScrollableMessageContainer } from "@/components/tambo/scrollable-message-container";
-import { cn } from "@/lib/utils";
-import { XIcon } from "lucide-react";
-import * as React from "react";
+} from '@/components/tambo/thread-content'
+import { cn } from '@/lib/utils'
 
 /**
  * Props for the MessageThreadCollapsible component
@@ -30,16 +27,16 @@ import * as React from "react";
 export interface MessageThreadCollapsibleProps
   extends React.HTMLAttributes<HTMLDivElement> {
   /** Optional context key for the thread */
-  contextKey?: string;
+  contextKey?: string
   /** Whether the collapsible should be open by default (default: false) */
-  defaultOpen?: boolean;
+  defaultOpen?: boolean
   /**
    * Controls the visual styling of messages in the thread.
    * Possible values include: "default", "compact", etc.
    * These values are defined in messageVariants from "@/components/tambo/message".
    * @example variant="compact"
    */
-  variant?: VariantProps<typeof messageVariants>["variant"];
+  variant?: VariantProps<typeof messageVariants>['variant']
 }
 
 /**
@@ -60,71 +57,78 @@ export interface MessageThreadCollapsibleProps
  * Custom hook for managing collapsible state with keyboard shortcuts
  */
 const useCollapsibleState = (defaultOpen = false) => {
-  const [isOpen, setIsOpen] = React.useState(defaultOpen);
+  const [isOpen, setIsOpen] = React.useState(defaultOpen)
   const isMac =
-    typeof navigator !== "undefined" && navigator.platform.startsWith("Mac");
-  const shortcutText = isMac ? "⌘K" : "Ctrl+K";
+    typeof navigator !== 'undefined' && navigator.platform.startsWith('Mac')
+  const shortcutText = isMac ? '⌘K' : 'Ctrl+K'
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-        event.preventDefault();
-        setIsOpen((prev) => !prev);
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault()
+        setIsOpen((prev) => !prev)
       }
-    };
+    }
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
-  return { isOpen, setIsOpen, shortcutText };
-};
+  return { isOpen, setIsOpen, shortcutText }
+}
 
 /**
  * Props for the CollapsibleContainer component
  */
 interface CollapsibleContainerProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  children: React.ReactNode;
+  isOpen: boolean
+  onOpenChange: (open: boolean) => void
+  children: React.ReactNode
 }
 
 /**
  * Container component for the collapsible panel
  */
-function CollapsibleContainer({ className, isOpen, onOpenChange, children, ...props }: CollapsibleContainerProps) {
+function CollapsibleContainer({
+  className,
+  isOpen,
+  onOpenChange,
+  children,
+  ...props
+}: CollapsibleContainerProps) {
   return (
-  <Collapsible.Root
-    open={isOpen}
-    onOpenChange={onOpenChange}
-    className={cn(
-      "flex flex-col dr-w-177 dr-rounded-12 shadow-lg bg-background border border-border",
-      "transition-all duration-300 ease-in-out",
-      className,
-    )}
-    {...props}
-  >
-    {children}
-  </Collapsible.Root>
-  );
+    <Collapsible.Root
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      //:TODO i've changed the width to 277 for dev, originally was 177
+      className={cn(
+        'flex flex-col dr-w-277 dr-rounded-12 shadow-lg bg-background border border-border',
+        'transition-all duration-300 ease-in-out',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </Collapsible.Root>
+  )
 }
 
 /**
  * Props for the CollapsibleTrigger component
  */
 interface CollapsibleTriggerProps {
-  isOpen: boolean;
-  shortcutText: string;
-  onClose: () => void;
-  contextKey?: string;
-  onThreadChange: () => void;
+  isOpen: boolean
+  shortcutText: string
+  onClose: () => void
+  contextKey?: string
+  onThreadChange: () => void
   config: {
     labels: {
-      openState: string;
-      closedState: string;
-    };
-  };
+      openState: string
+      closedState: string
+    }
+  }
 }
 
 /**
@@ -135,61 +139,69 @@ function CollapsibleTrigger({
   shortcutText,
   onClose,
   config,
-}: CollapsibleTriggerProps) { 
+}: CollapsibleTriggerProps) {
   return (
-  <>
-    {!isOpen && (
-      <Collapsible.Trigger asChild className="typo-p-s uppercase">
-        <button
-          className={cn(
-            "flex items-center justify-between w-full dr-p-4",
-            "hover:bg-muted/50 transition-colors",
-          )}
-          aria-expanded={isOpen}
-          aria-controls="message-thread-content"
-        >
-          <span>{config.labels.closedState}</span>
-          <span
-            className="typo-label-s uppercase text-muted-foreground"
-            suppressHydrationWarning
+    <>
+      {!isOpen && (
+        <Collapsible.Trigger asChild className="typo-p-s uppercase">
+          <button
+            type="button"
+            className={cn(
+              'flex items-center justify-between w-full dr-p-4',
+              'hover:bg-muted/50 transition-colors'
+            )}
+            aria-expanded={isOpen}
+            aria-controls="message-thread-content"
           >
-            {`(${shortcutText})`}
-          </span>
-        </button>
-      </Collapsible.Trigger>
-    )}
-    {isOpen && (
-      <div className="flex items-center justify-between w-full dr-p-4">
-        <button
-          className="rounded-full hover:bg-muted/70 transition-colors cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
-          aria-label="Close"
-        >
-          <XIcon className="dr-h-16 aspect-square" />
-        </button>
-      </div>
-    )}
-  </>
-  );
+            <span>{config.labels.closedState}</span>
+            <span
+              className="typo-label-s uppercase text-muted-foreground"
+              suppressHydrationWarning
+            >
+              {`(${shortcutText})`}
+            </span>
+          </button>
+        </Collapsible.Trigger>
+      )}
+      {isOpen && (
+        <div className="flex items-center justify-between w-full dr-p-4">
+          <button
+            type="button"
+            className="rounded-full hover:bg-muted/70 transition-colors cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation()
+              onClose()
+            }}
+            aria-label="Close"
+          >
+            <XIcon className="dr-h-16 aspect-square" />
+          </button>
+        </div>
+      )}
+    </>
+  )
 }
-CollapsibleTrigger.displayName = "CollapsibleTrigger";
+CollapsibleTrigger.displayName = 'CollapsibleTrigger'
 
 const THREAD_CONFIG = {
   labels: {
-    openState: "Conversations",
-    closedState: "Ask tambo",
+    openState: 'Conversations',
+    closedState: 'Ask tambo',
   },
-};
+}
 
-export function MessageThreadCollapsible({ className, contextKey, defaultOpen = false, variant, ...props }: MessageThreadCollapsibleProps) {
-  const { isOpen, setIsOpen, shortcutText } = useCollapsibleState(defaultOpen);
+export function MessageThreadCollapsible({
+  className,
+  contextKey,
+  defaultOpen = false,
+  variant,
+  ...props
+}: MessageThreadCollapsibleProps) {
+  const { isOpen, setIsOpen, shortcutText } = useCollapsibleState(defaultOpen)
 
   const handleThreadChange = React.useCallback(() => {
-    setIsOpen(true);
-  }, [setIsOpen]);
+    setIsOpen(true)
+  }, [setIsOpen])
 
   return (
     <CollapsibleContainer
@@ -206,9 +218,9 @@ export function MessageThreadCollapsible({ className, contextKey, defaultOpen = 
         onThreadChange={handleThreadChange}
         config={THREAD_CONFIG}
       />
-      <Collapsible.Content >
-          {/* Message thread content */}
-          <div className="flex flex-col dr-h-550">
+      <Collapsible.Content>
+        {/* Message thread content */}
+        <div className="flex flex-col dr-h-550">
           <ScrollableMessageContainer className="dr-p-8">
             <ThreadContent variant={variant}>
               <ThreadContentMessages />
@@ -224,8 +236,8 @@ export function MessageThreadCollapsible({ className, contextKey, defaultOpen = 
               <MessageInputError />
             </MessageInput>
           </div>
-          </div>
+        </div>
       </Collapsible.Content>
     </CollapsibleContainer>
-  );
+  )
 }

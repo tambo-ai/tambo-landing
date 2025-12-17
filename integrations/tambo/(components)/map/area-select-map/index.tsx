@@ -53,12 +53,39 @@ function poisToFeatureCollection(pois: POI[]) {
     type: 'FeatureCollection' as const,
     features: pois
       .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lon))
-      .map((p) => ({
-        type: 'Feature' as const,
-        id: p.id,
-        properties: { name: p.name ?? 'Point of interest' },
-        geometry: { type: 'Point' as const, coordinates: [p.lon, p.lat] },
-      })),
+      .map((p) => {
+        // Try to get name from various possible fields in tags
+        let displayName: string | null = p.name
+        if (!displayName && p.tags) {
+          // Common OSM name fields - ensure they're strings
+          const getStringTag = (key: string): string | null => {
+            const value = p.tags[key]
+            return typeof value === 'string' ? value : null
+          }
+
+          displayName =
+            getStringTag('name') ||
+            getStringTag('name:en') ||
+            getStringTag('name:es') ||
+            getStringTag('name:fr') ||
+            getStringTag('name:de') ||
+            getStringTag('alt_name') ||
+            getStringTag('official_name') ||
+            // Try to infer from amenity/leisure/shop type
+            getStringTag('amenity') ||
+            getStringTag('leisure') ||
+            getStringTag('shop') ||
+            getStringTag('tourism') ||
+            null
+        }
+
+        return {
+          type: 'Feature' as const,
+          id: p.id,
+          properties: { name: displayName ?? 'Point of interest' },
+          geometry: { type: 'Point' as const, coordinates: [p.lon, p.lat] },
+        }
+      }),
   }
 }
 
@@ -108,17 +135,18 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
       const handleWheel = (e: WheelEvent) => {
         // Check if event is from Mapbox canvas (let it handle zoom)
         const target = e.target as HTMLElement
-        const isMapboxCanvas = target.tagName === 'CANVAS' && 
-          (target.classList.contains('mapboxgl-canvas') || 
-           container.querySelector('.mapboxgl-canvas') === target)
-        
+        const isMapboxCanvas =
+          target.tagName === 'CANVAS' &&
+          (target.classList.contains('mapboxgl-canvas') ||
+            container.querySelector('.mapboxgl-canvas') === target)
+
         // If it's on the Mapbox canvas, let Mapbox handle it for zoom
         // but still prevent page scroll by preventing default
         if (isMapboxCanvas) {
           e.preventDefault()
           return
         }
-        
+
         // For other elements in the container, prevent page scroll
         e.preventDefault()
         e.stopPropagation()
@@ -141,116 +169,326 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
           return
         }
 
-        try {
-          const res = await fetch('/api/area/analyze', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ bbox, query }),
-          })
+        const maxRetries = 3
+        let lastError: Error | null = null
 
-          if (!res.ok) {
-            const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
-            console.error('Search failed:', errorData.error || 'Unknown error')
-            
-            if (res.status === 503 || res.status === 504) {
-              console.warn('Map service is busy. Please try again in a moment.')
+        // Retry logic with exponential backoff for 503/504 errors
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+          try {
+            const res = await fetch('/api/area/analyze', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ bbox, query }),
+            })
+
+            if (!res.ok) {
+              const errorData = await res
+                .json()
+                .catch(() => ({ error: 'Unknown error' }))
+
+              // Retry on 503/504 (service busy/timeout) with exponential backoff
+              if (
+                (res.status === 503 || res.status === 504) &&
+                attempt < maxRetries - 1
+              ) {
+                const delay = Math.min(1000 * 2 ** attempt, 5000) // Max 5 seconds
+                console.warn(
+                  `Map service busy (attempt ${attempt + 1}/${maxRetries}). Retrying in ${delay}ms...`
+                )
+                await new Promise((resolve) => setTimeout(resolve, delay))
+                continue // Retry
+              }
+
+              // For other errors or final retry, log and return
+              console.error(
+                'Search failed:',
+                errorData.error || 'Unknown error'
+              )
+              if (res.status === 503 || res.status === 504) {
+                console.warn(
+                  'Map service is busy. Please try again in a moment.'
+                )
+              }
+              return
             }
-            return
+
+            // Success - parse and display results
+            const data = (await res.json()) as AreaAnalyzeResponse
+
+            const pois = data.points_of_interest?.items ?? []
+            const poiSrc = mapRef.current?.getSource('pois') as
+              | mapboxgl.GeoJSONSource
+              | undefined
+            poiSrc?.setData(poisToFeatureCollection(pois))
+
+            onResultRef.current?.(data)
+            return // Success, exit retry loop
+          } catch (error) {
+            lastError =
+              error instanceof Error ? error : new Error(String(error))
+
+            // Only retry on network errors, not on final attempt
+            if (attempt < maxRetries - 1) {
+              const delay = Math.min(1000 * 2 ** attempt, 5000)
+              console.warn(
+                `Search request failed (attempt ${attempt + 1}/${maxRetries}). Retrying in ${delay}ms...`,
+                error
+              )
+              await new Promise((resolve) => setTimeout(resolve, delay))
+            }
           }
-
-          const data = (await res.json()) as AreaAnalyzeResponse
-
-          const pois = data.points_of_interest?.items ?? []
-          const poiSrc = mapRef.current?.getSource('pois') as
-            | mapboxgl.GeoJSONSource
-            | undefined
-          poiSrc?.setData(poisToFeatureCollection(pois))
-
-          onResultRef.current?.(data)
-        } catch (error) {
-          console.error('Search request failed:', error)
         }
+
+        // All retries exhausted
+        console.error('Search request failed after all retries:', lastError)
       },
       getCurrentBBox: () => currentBBoxRef.current,
     }))
 
-  useEffect(() => {
-    if (mapRef.current) return
-    if (!containerRef.current) return
-    if (containerRef.current.querySelector('.mapboxgl-map')) return
+    useEffect(() => {
+      if (mapRef.current) return
+      if (!containerRef.current) return
+      if (containerRef.current.querySelector('.mapboxgl-map')) return
 
-    // Use NYC as default center
-    const fcLng = DEFAULT_CENTER[0]
-    const fcLat = DEFAULT_CENTER[1]
+      // Use NYC as default center
+      const fcLng = DEFAULT_CENTER[0]
+      const fcLat = DEFAULT_CENTER[1]
 
-    let map: mapboxgl.Map | null = null
-    let isLoaded = false
+      let map: mapboxgl.Map | null = null
+      let isLoaded = false
 
-    const setPanMode = (enabled: boolean) => {
-      panModeRef.current = enabled
-      if (!mapRef.current) return
+      const setPanMode = (enabled: boolean) => {
+        panModeRef.current = enabled
+        if (!mapRef.current) return
 
-      if (enabled) {
-        mapRef.current.dragPan.enable()
-        mapRef.current.getCanvas().style.cursor = 'grab'
-      } else {
-        mapRef.current.dragPan.disable()
-        mapRef.current.getCanvas().style.cursor = ''
+        if (enabled) {
+          mapRef.current.dragPan.enable()
+          mapRef.current.getCanvas().style.cursor = 'grab'
+        } else {
+          mapRef.current.dragPan.disable()
+          mapRef.current.getCanvas().style.cursor = ''
+        }
       }
-    }
 
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Meta' || e.key === 'Control') setPanMode(true)
-    }
-    const onKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'Meta' || e.key === 'Control') setPanMode(false)
-    }
+      const onKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Meta' || e.key === 'Control') setPanMode(true)
+      }
+      const onKeyUp = (e: KeyboardEvent) => {
+        if (e.key === 'Meta' || e.key === 'Control') setPanMode(false)
+      }
 
-    window.addEventListener('keydown', onKeyDown)
-    window.addEventListener('keyup', onKeyUp)
+      window.addEventListener('keydown', onKeyDown)
+      window.addEventListener('keyup', onKeyUp)
 
-    ;(async () => {
-      const center: [number, number] = initialCenter ?? [fcLng, fcLat]
-      const zoom = fallbackZoom
+      ;(async () => {
+        const center: [number, number] = initialCenter ?? [fcLng, fcLat]
+        const zoom = fallbackZoom
 
-      console.log('📍 Using location:', { lng: center[0], lat: center[1] })
+        console.log('📍 Using location:', { lng: center[0], lat: center[1] })
 
-      map = new mapboxgl.Map({
-        container: containerRef.current!,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center,
-        zoom,
-      })
-
-      mapRef.current = map
-
-      map.on('load', () => {
-        isLoaded = true
-
-        // default: draw mode (no pan until Cmd/Ctrl)
-        map!.dragPan.disable()
-
-        // prevent double click zoom
-        map!.doubleClickZoom.disable()
-
-        // attribution can’t be removed; compact is allowed
-        map!.addControl(new mapboxgl.AttributionControl({ compact: true }))
-
-        // optional marker for initial center
-        new mapboxgl.Marker().setLngLat(center).addTo(map!)
-
-        map!.addSource('selection', {
-          type: 'geojson',
-          data: { type: 'FeatureCollection', features: [] },
+        map = new mapboxgl.Map({
+          container: containerRef.current!,
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center,
+          zoom,
         })
 
-        map!.addSource('pois', {
-          type: 'geojson',
-          data: { type: 'FeatureCollection', features: [] },
+        mapRef.current = map
+
+        map.on('load', () => {
+          isLoaded = true
+
+          // default: draw mode (no pan until Cmd/Ctrl)
+          map!.dragPan.disable()
+
+          // prevent double click zoom
+          map!.doubleClickZoom.disable()
+
+          // attribution can’t be removed; compact is allowed
+          map!.addControl(new mapboxgl.AttributionControl({ compact: true }))
+
+          // optional marker for initial center
+          new mapboxgl.Marker().setLngLat(center).addTo(map!)
+
+          map!.addSource('selection', {
+            type: 'geojson',
+            data: { type: 'FeatureCollection', features: [] },
+          })
+
+          map!.addSource('pois', {
+            type: 'geojson',
+            data: { type: 'FeatureCollection', features: [] },
+          })
+
+          // If initialBBox is provided, draw it on the map
+          if (initialBBox) {
+            const poly = {
+              type: 'Feature' as const,
+              properties: {},
+              geometry: {
+                type: 'Polygon' as const,
+                coordinates: [
+                  [
+                    [initialBBox.west, initialBBox.south],
+                    [initialBBox.east, initialBBox.south],
+                    [initialBBox.east, initialBBox.north],
+                    [initialBBox.west, initialBBox.north],
+                    [initialBBox.west, initialBBox.south],
+                  ],
+                ],
+              },
+            }
+
+            const src = map!.getSource('selection') as
+              | mapboxgl.GeoJSONSource
+              | undefined
+            src?.setData({ type: 'FeatureCollection', features: [poly] })
+
+            // Store the bbox
+            currentBBoxRef.current = initialBBox
+
+            // Notify parent
+            onBBoxSelectedRef.current?.(initialBBox)
+          }
+
+          // selection layers (visible)
+          map!.addLayer({
+            id: 'selection-fill',
+            type: 'fill',
+            source: 'selection',
+            paint: {
+              'fill-color': '#22c55e',
+              'fill-opacity': 0.25,
+            },
+          })
+
+          map!.addLayer({
+            id: 'selection-line',
+            type: 'line',
+            source: 'selection',
+            paint: {
+              'line-color': '#16a34a',
+              'line-width': 3,
+            },
+            layout: {
+              'line-join': 'round',
+              'line-cap': 'round',
+            },
+          })
+
+          // load pin image + add layers
+          map!.loadImage('/' + pinSvgPath.replace(/^\//, ''), (err, image) => {
+            if (err || !image) {
+              console.error('❌ Failed to load pin icon:', err)
+              return
+            }
+
+            if (!map!.hasImage('coffee-pin')) {
+              map!.addImage('coffee-pin', image, { pixelRatio: 2 })
+            }
+
+            map!.addLayer({
+              id: 'pois-points',
+              type: 'symbol',
+              source: 'pois',
+              layout: {
+                'icon-image': 'coffee-pin',
+                'icon-anchor': 'bottom',
+                'icon-allow-overlap': true,
+                'icon-size': 1.0,
+              },
+            })
+
+            map!.addLayer({
+              id: 'pois-points-selected',
+              type: 'symbol',
+              source: 'pois',
+              filter: ['==', ['id'], -1],
+              layout: {
+                'icon-image': 'coffee-pin',
+                'icon-anchor': 'bottom',
+                'icon-allow-overlap': true,
+                'icon-size': 1.4,
+              },
+            })
+
+            map!.addLayer({
+              id: 'pois-labels',
+              type: 'symbol',
+              source: 'pois',
+              layout: {
+                'text-field': ['get', 'name'],
+                'text-size': 12,
+                'text-offset': [0, 1.4],
+                'text-anchor': 'top',
+              },
+            })
+
+            // click highlight
+            const selectFeature = (feature: mapboxgl.MapboxGeoJSONFeature) => {
+              if (feature.id == null) return
+              const id = Number(feature.id)
+              map!.setFilter('pois-points-selected', ['==', ['id'], id])
+            }
+
+            map!.on('click', 'pois-points', (e) => {
+              const f = e.features?.[0]
+              if (f) selectFeature(f)
+            })
+            map!.on('click', 'pois-points-selected', (e) => {
+              const f = e.features?.[0]
+              if (f) selectFeature(f)
+            })
+          })
         })
 
-        // If initialBBox is provided, draw it on the map
-        if (initialBBox) {
+        // draw rectangle with mouse; Cmd/Ctrl pans
+        map.on('mousedown', (e) => {
+          if (!isLoaded) return
+          if (e.originalEvent.button !== 0) return
+
+          // don't start drawing if clicking on a POI pin
+          const features = map!.queryRenderedFeatures(e.point, {
+            layers: ['pois-points', 'pois-points-selected', 'pois-labels'],
+          })
+          if (features.length > 0) {
+            // let the click handler on cafes handle this
+            return
+          }
+
+          if (
+            e.originalEvent.metaKey ||
+            e.originalEvent.ctrlKey ||
+            panModeRef.current
+          ) {
+            map!.dragPan.enable()
+            return
+          }
+
+          drawingRef.current = true
+          startRef.current = e.lngLat
+
+          // clear only when starting a NEW draw
+          const src = map!.getSource('selection') as
+            | mapboxgl.GeoJSONSource
+            | undefined
+          src?.setData({ type: 'FeatureCollection', features: [] })
+
+          // clear POIs when starting a new draw
+          const poiSrc = map!.getSource('pois') as
+            | mapboxgl.GeoJSONSource
+            | undefined
+          poiSrc?.setData({ type: 'FeatureCollection', features: [] })
+
+          map!.dragPan.disable()
+          map!.getCanvas().style.cursor = 'crosshair'
+          e.preventDefault()
+        })
+
+        map.on('mousemove', (e) => {
+          if (!(drawingRef.current && startRef.current)) return
+
+          const bbox = bboxFromLngLats(startRef.current, e.lngLat)
           const poly = {
             type: 'Feature' as const,
             properties: {},
@@ -258,11 +496,11 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
               type: 'Polygon' as const,
               coordinates: [
                 [
-                  [initialBBox.west, initialBBox.south],
-                  [initialBBox.east, initialBBox.south],
-                  [initialBBox.east, initialBBox.north],
-                  [initialBBox.west, initialBBox.north],
-                  [initialBBox.west, initialBBox.south],
+                  [bbox.west, bbox.south],
+                  [bbox.east, bbox.south],
+                  [bbox.east, bbox.north],
+                  [bbox.west, bbox.north],
+                  [bbox.west, bbox.south],
                 ],
               ],
             },
@@ -272,232 +510,65 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
             | mapboxgl.GeoJSONSource
             | undefined
           src?.setData({ type: 'FeatureCollection', features: [poly] })
-
-          // Store the bbox
-          currentBBoxRef.current = initialBBox
-          
-          // Notify parent
-          onBBoxSelectedRef.current?.(initialBBox)
-        }
-
-        // selection layers (visible)
-        map!.addLayer({
-          id: 'selection-fill',
-          type: 'fill',
-          source: 'selection',
-          paint: {
-            'fill-color': '#22c55e',
-            'fill-opacity': 0.25,
-          },
         })
 
-        map!.addLayer({
-          id: 'selection-line',
-          type: 'line',
-          source: 'selection',
-          paint: {
-            'line-color': '#16a34a',
-            'line-width': 3,
-          },
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round',
-          },
-        })
+        map.on('mouseup', (e) => {
+          if (!(drawingRef.current && startRef.current)) return
 
-        // load pin image + add layers
-        map!.loadImage('/' + pinSvgPath.replace(/^\//, ''), (err, image) => {
-          if (err || !image) {
-            console.error('❌ Failed to load pin icon:', err)
-            return
+          drawingRef.current = false
+          const bbox = bboxFromLngLats(startRef.current, e.lngLat)
+          startRef.current = null
+
+          map!.getCanvas().style.cursor = ''
+
+          // ✅ Store the bbox for later searches
+          currentBBoxRef.current = bbox
+
+          // ✅ Notify parent that bbox was selected (but don't search yet)
+          onBBoxSelectedRef.current?.(bbox)
+
+          // ✅ DO NOT clear selection here => rectangle stays visible
+          // ✅ DO NOT search automatically - wait for user query
+
+          if (
+            !(
+              e.originalEvent.metaKey ||
+              e.originalEvent.ctrlKey ||
+              panModeRef.current
+            )
+          ) {
+            map!.dragPan.disable()
           }
-
-          if (!map!.hasImage('coffee-pin')) {
-            map!.addImage('coffee-pin', image, { pixelRatio: 2 })
-          }
-
-          map!.addLayer({
-            id: 'pois-points',
-            type: 'symbol',
-            source: 'pois',
-            layout: {
-              'icon-image': 'coffee-pin',
-              'icon-anchor': 'bottom',
-              'icon-allow-overlap': true,
-              'icon-size': 1.0,
-            },
-          })
-
-          map!.addLayer({
-            id: 'pois-points-selected',
-            type: 'symbol',
-            source: 'pois',
-            filter: ['==', ['id'], -1],
-            layout: {
-              'icon-image': 'coffee-pin',
-              'icon-anchor': 'bottom',
-              'icon-allow-overlap': true,
-              'icon-size': 1.4,
-            },
-          })
-
-          map!.addLayer({
-            id: 'pois-labels',
-            type: 'symbol',
-            source: 'pois',
-            layout: {
-              'text-field': ['get', 'name'],
-              'text-size': 12,
-              'text-offset': [0, 1.4],
-              'text-anchor': 'top',
-            },
-          })
-
-          // click highlight
-          const selectFeature = (feature: mapboxgl.MapboxGeoJSONFeature) => {
-            if (feature.id == null) return
-            const id = Number(feature.id)
-            map!.setFilter('pois-points-selected', ['==', ['id'], id])
-          }
-
-          map!.on('click', 'pois-points', (e) => {
-            const f = e.features?.[0]
-            if (f) selectFeature(f)
-          })
-          map!.on('click', 'pois-points-selected', (e) => {
-            const f = e.features?.[0]
-            if (f) selectFeature(f)
-          })
         })
-      })
+      })()
 
-      // draw rectangle with mouse; Cmd/Ctrl pans
-      map.on('mousedown', (e) => {
-        if (!isLoaded) return
-        if (e.originalEvent.button !== 0) return
+      return () => {
+        window.removeEventListener('keydown', onKeyDown)
+        window.removeEventListener('keyup', onKeyUp)
 
-        // don't start drawing if clicking on a POI pin
-        const features = map!.queryRenderedFeatures(e.point, {
-          layers: ['pois-points', 'pois-points-selected', 'pois-labels'],
-        })
-        if (features.length > 0) {
-          // let the click handler on cafes handle this
-          return
+        if (mapRef.current) {
+          mapRef.current.remove()
+          mapRef.current = null
         }
-
-        if (
-          e.originalEvent.metaKey ||
-          e.originalEvent.ctrlKey ||
-          panModeRef.current
-        ) {
-          map!.dragPan.enable()
-          return
-        }
-
-        drawingRef.current = true
-        startRef.current = e.lngLat
-
-        // clear only when starting a NEW draw
-        const src = map!.getSource('selection') as
-          | mapboxgl.GeoJSONSource
-          | undefined
-        src?.setData({ type: 'FeatureCollection', features: [] })
-
-        // clear POIs when starting a new draw
-        const poiSrc = map!.getSource('pois') as
-          | mapboxgl.GeoJSONSource
-          | undefined
-        poiSrc?.setData({ type: 'FeatureCollection', features: [] })
-
-        map!.dragPan.disable()
-        map!.getCanvas().style.cursor = 'crosshair'
-        e.preventDefault()
-      })
-
-      map.on('mousemove', (e) => {
-        if (!(drawingRef.current && startRef.current)) return
-
-        const bbox = bboxFromLngLats(startRef.current, e.lngLat)
-        const poly = {
-          type: 'Feature' as const,
-          properties: {},
-          geometry: {
-            type: 'Polygon' as const,
-            coordinates: [
-              [
-                [bbox.west, bbox.south],
-                [bbox.east, bbox.south],
-                [bbox.east, bbox.north],
-                [bbox.west, bbox.north],
-                [bbox.west, bbox.south],
-              ],
-            ],
-          },
-        }
-
-        const src = map!.getSource('selection') as
-          | mapboxgl.GeoJSONSource
-          | undefined
-        src?.setData({ type: 'FeatureCollection', features: [poly] })
-      })
-
-      map.on('mouseup', (e) => {
-        if (!(drawingRef.current && startRef.current)) return
-
-        drawingRef.current = false
-        const bbox = bboxFromLngLats(startRef.current, e.lngLat)
-        startRef.current = null
-
-        map!.getCanvas().style.cursor = ''
-
-        // ✅ Store the bbox for later searches
-        currentBBoxRef.current = bbox
-
-        // ✅ Notify parent that bbox was selected (but don't search yet)
-        onBBoxSelectedRef.current?.(bbox)
-
-        // ✅ DO NOT clear selection here => rectangle stays visible
-        // ✅ DO NOT search automatically - wait for user query
-
-        if (
-          !(
-            e.originalEvent.metaKey ||
-            e.originalEvent.ctrlKey ||
-            panModeRef.current
-          )
-        ) {
-          map!.dragPan.disable()
-        }
-      })
-    })()
-
-    return () => {
-      window.removeEventListener('keydown', onKeyDown)
-      window.removeEventListener('keyup', onKeyUp)
-
-      if (mapRef.current) {
-        mapRef.current.remove()
-        mapRef.current = null
       }
-    }
-  }, [
-    // ✅ stable dependencies (numbers, not the array reference)
-    fallbackZoom,
-    pinSvgPath,
-    initialCenter?.[0],
-    initialCenter?.[1],
-    initialBBox?.west,
-    initialBBox?.east,
-    initialBBox?.south,
-    initialBBox?.north,
-  ])
+    }, [
+      // ✅ stable dependencies (numbers, not the array reference)
+      fallbackZoom,
+      pinSvgPath,
+      initialCenter?.[0],
+      initialCenter?.[1],
+      initialBBox?.west,
+      initialBBox?.east,
+      initialBBox?.south,
+      initialBBox?.north,
+    ])
 
     return (
       <div className={className} style={{ width: '100%' }}>
-        <div 
-          ref={containerRef} 
+        <div
+          ref={containerRef}
           data-lenis-prevent
-          style={{ height, width: '100%' }} 
+          style={{ height, width: '100%' }}
         />
       </div>
     )

@@ -7,6 +7,7 @@ import { useAssitant } from '../..'
 import { mapExampleContext } from '../context'
 import { MessageThreadCollapsible } from '../ui-tambo/message-thread-collapsible'
 import { useMap } from './map-context'
+import { useAutoSearch } from './use-auto-search'
 import { useMapSearch } from './use-map-search'
 
 const introMessages = {
@@ -27,7 +28,10 @@ export function MapAssistant() {
     north: number
   } | null>(null)
 
-  // Enable map search - pass contextKey to listen to correct thread
+  // Auto-search for entertainment when area is selected
+  useAutoSearch(selectedDemo === demo, 'entertainment')
+
+  // Enable map search - pass contextKey to listen to correct thread (for user queries)
   useMapSearch(selectedDemo)
 
   // Poll for bbox changes to update context helper
