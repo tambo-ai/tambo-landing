@@ -114,6 +114,38 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
     // ✅ Cmd/Ctrl to pan; otherwise drag draws rectangle
     const panModeRef = useRef(false)
 
+    // Prevent page scroll when using mouse wheel on map (allow map zoom only)
+    useEffect(() => {
+      const container = containerRef.current
+      if (!container) return
+
+      const handleWheel = (e: WheelEvent) => {
+        // Check if event is from Mapbox canvas (let it handle zoom)
+        const target = e.target as HTMLElement
+        const isMapboxCanvas = target.tagName === 'CANVAS' && 
+          (target.classList.contains('mapboxgl-canvas') || 
+           container.querySelector('.mapboxgl-canvas') === target)
+        
+        // If it's on the Mapbox canvas, let Mapbox handle it for zoom
+        // but still prevent page scroll by preventing default
+        if (isMapboxCanvas) {
+          e.preventDefault()
+          return
+        }
+        
+        // For other elements in the container, prevent page scroll
+        e.preventDefault()
+        e.stopPropagation()
+      }
+
+      // Use bubble phase so Mapbox can handle canvas events first
+      container.addEventListener('wheel', handleWheel, { passive: false })
+
+      return () => {
+        container.removeEventListener('wheel', handleWheel)
+      }
+    }, [])
+
     // ✅ Expose search function via ref
     useImperativeHandle(ref, () => ({
       search: async (query: string) => {
@@ -451,7 +483,11 @@ export const AreaSelectMap = forwardRef<AreaSelectMapHandle, Props>(
 
     return (
       <div className={className} style={{ width: '100%' }}>
-        <div ref={containerRef} style={{ height, width: '100%' }} />
+        <div 
+          ref={containerRef} 
+          data-lenis-prevent
+          style={{ height, width: '100%' }} 
+        />
       </div>
     )
   }
