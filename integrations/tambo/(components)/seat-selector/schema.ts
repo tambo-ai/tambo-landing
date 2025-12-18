@@ -30,20 +30,35 @@ export const seatComponent: TamboComponent[] = [
       'A seat selector component for airplane seats. When the user mentions a specific seat (like "5A" or "row 3 window"), use the userSelectedSeats prop to highlight that seat.',
     propsSchema: SeatSelectorSchema,
     associatedTools: [
+      //Zod V3
       {
         name: 'get-airplane-seats',
         description: 'Get airplane seats information',
         tool: async () => ({ seats: SEATS }),
         toolSchema: z
           .function()
-          .input(z.object({}))
-          .output(
+          .args(z.object({}))
+          .returns(
             z.object({
               seats: z.array(SeatSChema),
             })
           )
           .describe('Get airplane seats information'),
       },
+      // {
+      //   name: 'get-airplane-seats',
+      //   description: 'Get airplane seats information',
+      //   tool: async () => ({ seats: SEATS }),
+      //   toolSchema: z
+      //     .function()
+      //     .input(z.object({}))
+      //     .output(
+      //       z.object({
+      //         seats: z.array(SeatSChema),
+      //       })
+      //     )
+      //     .describe('Get airplane seats information'),
+      // },
     ],
   },
 ]

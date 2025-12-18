@@ -132,6 +132,8 @@ const ThreadContentMessages = React.forwardRef<
     (message) => message.role !== 'system' && !message.parentMessageId
   )
 
+  // console.log('thread messages', messages)
+
   return (
     <div
       ref={ref}
