@@ -3,6 +3,7 @@
 import cn from 'clsx'
 import { useRect, useWindowSize } from 'hamo'
 import { Fragment, useContext } from 'react'
+import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlaneSVG from '~/assets/svgs/plane.svg'
@@ -42,6 +43,8 @@ export function Section8() {
   const { width: windowWidth = 0 } = useWindowSize()
 
   const desktopVW = useDesktopVW()
+
+  const setSnapRef = useLenisSnap('center')
 
   useScrollTrigger(
     {
@@ -206,7 +209,10 @@ export function Section8() {
         </TitleBlock>
       </section>
       <TamboIntegration>
-        <section className="dr-layout-grid-inner dr-gap-20 items-center justify-center h-screen">
+        <section
+          ref={setSnapRef}
+          className="dr-layout-grid-inner dr-gap-20 items-center justify-center h-screen"
+        >
           <AssistantNotifications className="col-span-2" />
           {/* TODO: Dashed border style*/}
           <div

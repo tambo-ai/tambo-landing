@@ -49,66 +49,63 @@ export function Section10() {
 
   const desktopVW = useDesktopVW()
 
-  useScrollTrigger(
-    {
-      rect,
-      start: 'top center',
-      end: 'top top',
-      onProgress: ({ progress }) => {
-        const background = getBackground()
-        if (progress > 0 && background) {
-          background.style.opacity = '1'
+  useScrollTrigger({
+    rect,
+    start: 'top center',
+    end: 'top top',
+    onProgress: ({ progress }) => {
+      const background = getBackground()
+      if (progress > 0 && background) {
+        background.style.opacity = '1'
+      }
+
+      const items = getItems()
+      fromTo(
+        items,
+        {
+          width: (index) =>
+            desktopVW(
+              windowWidth * 1.5 + (items.length - 1 - index) * 100,
+              true
+            ),
+          opacity: 1,
+          kinesis: 1,
+          boxShadowOpacity: 1,
+        },
+        {
+          width: (index) =>
+            desktopVW(496 + (items.length - 1 - index) * 260, true),
+          opacity: 1,
+          kinesis: 1,
+          boxShadowOpacity: 1,
+        },
+        progress,
+        {
+          ease: 'easeOutSine',
+          render: (item, { width, opacity, kinesis, boxShadowOpacity }) => {
+            // @ts-expect-error
+            const element = item?.getElement()
+            // @ts-expect-error
+            item?.setBorderRadius(`${width * 2}px`)
+            // @ts-expect-error
+            item?.setKinesis(kinesis)
+
+            // @ts-expect-error
+            const boxShadow = item?.getBoxShadow()
+            if (boxShadow) {
+              boxShadow.style.opacity = `${boxShadowOpacity}`
+            }
+
+            if (element instanceof HTMLElement) {
+              element.style.width = `${width}px`
+              element.style.height = `${width}px`
+              element.style.opacity = `${opacity}`
+            }
+          },
         }
-
-        const items = getItems()
-        fromTo(
-          items,
-          {
-            width: (index) =>
-              desktopVW(
-                windowWidth * 1.5 + (items.length - 1 - index) * 100,
-                true
-              ),
-            opacity: 1,
-            kinesis: 1,
-            boxShadowOpacity: 1,
-          },
-          {
-            width: (index) =>
-              desktopVW(496 + (items.length - 1 - index) * 260, true),
-            opacity: 1,
-            kinesis: 1,
-            boxShadowOpacity: 1,
-          },
-          progress,
-          {
-            ease: 'easeOutSine',
-            render: (item, { width, opacity, kinesis, boxShadowOpacity }) => {
-              // @ts-expect-error
-              const element = item?.getElement()
-              // @ts-expect-error
-              item?.setBorderRadius(`${width * 2}px`)
-              // @ts-expect-error
-              item?.setKinesis(kinesis)
-
-              // @ts-expect-error
-              const boxShadow = item?.getBoxShadow()
-              if (boxShadow) {
-                boxShadow.style.opacity = `${boxShadowOpacity}`
-              }
-
-              if (element instanceof HTMLElement) {
-                element.style.width = `${width}px`
-                element.style.height = `${width}px`
-                element.style.opacity = `${opacity}`
-              }
-            },
-          }
-        )
-      },
+      )
     },
-    [windowWidth]
-  )
+  })
 
   useScrollTrigger({
     rect,
@@ -135,16 +132,24 @@ export function Section10() {
         items,
         {
           y: 0,
+          boxShadowOpacity: 1,
         },
         {
           y: -height,
+          boxShadowOpacity: 1,
         },
         progress,
         {
           ease: 'linear',
-          render: (item, { y }) => {
+          render: (item, { y, boxShadowOpacity }) => {
             // @ts-expect-error
             const element = item?.getElement()
+
+            // @ts-expect-error
+            const boxShadow = item?.getBoxShadow()
+            if (boxShadow) {
+              boxShadow.style.opacity = `${boxShadowOpacity}`
+            }
 
             // item?.setBorderRadius(`${width * 2}px`)
 

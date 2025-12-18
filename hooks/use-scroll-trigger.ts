@@ -132,6 +132,7 @@ export type UseScrollTriggerOptions = {
     progress: number
     lastProgress: number
     steps: number[]
+    lastSteps: number[]
   }) => void
   steps?: number
 }
@@ -237,6 +238,9 @@ export function useScrollTrigger(
         lastProgress: lastProgress,
         steps: Array.from({ length: steps }).map((_, i) =>
           clamp(0, mapRange(i / steps, (i + 1) / steps, progress, 0, 1), 1)
+        ),
+        lastSteps: Array.from({ length: steps }).map((_, i) =>
+          clamp(0, mapRange(i / steps, (i + 1) / steps, lastProgress, 0, 1), 1)
         ),
       })
     }

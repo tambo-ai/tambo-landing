@@ -32,7 +32,7 @@ const BOTTOM_LINKS = [
 ]
 
 export function Footer() {
-  const [setRectRef, rect] = useRect()
+  const [setRectRef, rect] = useRect({ ignoreTransform: true })
 
   const innerRef = useRef<HTMLDivElement>(null)
 
@@ -44,9 +44,30 @@ export function Footer() {
 
   useScrollTrigger({
     rect,
-    start: 'top bottom',
+    start: `top bottom`,
     end: 'bottom bottom',
-    onProgress: ({ progress }) => {
+    onEnter: () => {
+      const items = getItems()
+      items.forEach((item, index) => {
+        const width = desktopVW(666 + (items.length - 1 - index) * 260, true)
+
+        const element = item?.getElement()
+
+        const boxShadow = item?.getBoxShadow()
+        if (boxShadow) {
+          boxShadow.style.opacity = '0'
+        }
+
+        item?.setBorderRadius(`${width * 2}px`)
+
+        if (element instanceof HTMLElement) {
+          element.style.width = `${width}px`
+          element.style.height = `${width}px`
+          element.style.transform = `translateY(0px)`
+        }
+      })
+    },
+    onProgress: ({ progress, height }) => {
       const background = getBackground()
 
       if (innerRef.current && background) {
@@ -58,48 +79,16 @@ export function Footer() {
             background.style.transform = `translateY(${-windowHeight * 0.5 * (1 - progress)}px)`
         }
       }
-    },
-  })
 
-  useScrollTrigger({
-    rect,
-    start: `${rect?.top === undefined || rect?.height === undefined ? 'top' : rect?.top - windowHeight} bottom`,
-    end: 'top top',
-    onProgress: ({ progress, height }) => {
       const items = getItems()
-
-      if (progress === 0) {
-        items.forEach((item, index) => {
-          const width = desktopVW(666 + (items.length - 1 - index) * 260, true)
-
-          const element = item?.getElement()
-
-          const boxShadow = item?.getBoxShadow()
-          if (boxShadow) {
-            boxShadow.style.opacity = '0'
-          }
-
-          item?.setBorderRadius(`${width * 2}px`)
-
-          if (element instanceof HTMLElement) {
-            element.style.width = `${width}px`
-            element.style.height = `${width}px`
-            element.style.transform = `translateY(0px)`
-          }
-        })
-      }
 
       fromTo(
         items,
         {
           y: height,
-          // width: (index) =>
-          //   desktopVW(496 + (items.length - 1 - index) * 260, true),
         },
         {
           y: 0,
-          // width: (index) =>
-          //   desktopVW(496 + (items.length - 1 - index) * 260, true),
         },
         progress,
         {
@@ -116,16 +105,6 @@ export function Footer() {
       )
     },
   })
-
-  // useTempus(() => {
-  //   const items = getItems()
-  //   items.forEach((item) => {
-  //     const boxShadow = item?.getBoxShadow()
-  //     if (boxShadow) {
-  //       boxShadow.style.opacity = `${hoverProgressRef.current}`
-  //     }
-  //   })
-  // })
 
   const onMouseEnter = useEffectEvent(() => {
     const items = getItems()

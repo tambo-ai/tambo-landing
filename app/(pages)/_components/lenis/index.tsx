@@ -3,7 +3,8 @@
 import type { LenisOptions } from 'lenis'
 import 'lenis/dist/lenis.css'
 import type { LenisRef, LenisProps as ReactLenisProps } from 'lenis/react'
-import { ReactLenis } from 'lenis/react'
+import { ReactLenis, useLenis } from 'lenis/react'
+import LenisSnap from 'lenis/snap'
 import { useEffect, useRef } from 'react'
 import { useTempus } from 'tempus/react'
 import { useStore } from '~/libs/store'
@@ -15,6 +16,7 @@ interface LenisProps extends Omit<ReactLenisProps, 'ref'> {
 
 export function Lenis({ root, options }: LenisProps) {
   const lenisRef = useRef<LenisRef>(null)
+  const setLenisSnap = useStore((state) => state.setLenisSnap)
   const isNavOpened = useStore((state) => state.isNavOpened)
 
   useTempus((time: number) => {
@@ -30,6 +32,14 @@ export function Lenis({ root, options }: LenisProps) {
       isOverflowHidden
     )
   }, [isNavOpened])
+
+  const lenis = useLenis()
+
+  useEffect(() => {
+    if (lenis) {
+      setLenisSnap(new LenisSnap(lenis))
+    }
+  }, [lenis, setLenisSnap])
 
   return (
     <ReactLenis
