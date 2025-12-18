@@ -15,6 +15,7 @@ import {
 } from '~/app/(pages)/home/_components/timeline-section'
 import { mapRange } from '~/libs/utils'
 import s from './animation.module.css'
+import { LogoCircle, type LogoCircleRef } from './logo-circle'
 
 export function Animation() {
   const { addCallback } = use(TimelineSectionContext)
@@ -22,7 +23,7 @@ export function Animation() {
   const containerRef = useRef<HTMLDivElement>(null)
   const chatRef = useRef<HTMLDivElement>(null)
   const chatMessagesRef = useRef<HTMLDivElement>(null)
-  const logoCircleRef = useRef<LogoCircleRef>(null)
+  const logoCircleRef = useRef<LogoCircleRef | null>(null)
 
   const scrollAnimation = useEffectEvent<TimelineCallback>(({ steps }) => {
     // Elements
@@ -165,7 +166,7 @@ export function Animation() {
       </div>
       <LogoCircle ref={logoCircleRef} />
 
-      <div className="absolute top-0 -translate-y-full dr-pb-8 flex justify-start dr-gap-12 uppercase">
+      {/* <div className="absolute top-0 -translate-y-full dr-pb-8 flex justify-start dr-gap-12 uppercase">
         <div className="flex items-center dr-gap-4 rounded-full border-2 border-dark-grey dr-p-2 dr-pr-12">
           <div className="dr-size-24 bg-off-white rounded-full" />
           <p className="typo-button">Prompts</p>
@@ -182,211 +183,201 @@ export function Animation() {
           <div className="dr-size-24 bg-off-white rounded-full" />
           <p className="typo-button">Sampling</p>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
 
-type LogoCircleRef = {
-  scrollAnimation: (progress: number) => void
-  highlightAnimation: (progress: number) => void
-  chatMessagesAnimation: (progress: number) => void
-}
+// function LogoCircle({ ref }: LogoCircleProps) {
+//   const containerRef = useRef<HTMLDivElement>(null)
+//   const smallCircleRef = useRef<HTMLDivElement>(null)
+//   const midCircleRef = useRef<HTMLDivElement>(null)
+//   const largeCircleRef = useRef<HTMLDivElement>(null)
+//   const gcalLogoRef = useRef<HTMLDivElement>(null)
+//   const largeCircleOtherLogosRef = useRef<HTMLDivElement>(null)
 
-type LogoCircleProps = {
-  ref: React.RefObject<LogoCircleRef | null>
-}
+//   const scrollAnimation = useCallback((progress: number) => {
+//     const container = containerRef.current
+//     const smallCircle = smallCircleRef.current
+//     const midCircle = midCircleRef.current
+//     const largeCircle = largeCircleRef.current
 
-function LogoCircle({ ref }: LogoCircleProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const smallCircleRef = useRef<HTMLDivElement>(null)
-  const midCircleRef = useRef<HTMLDivElement>(null)
-  const largeCircleRef = useRef<HTMLDivElement>(null)
-  const gcalLogoRef = useRef<HTMLDivElement>(null)
-  const largeCircleOtherLogosRef = useRef<HTMLDivElement>(null)
+//     if (!(container && smallCircle && midCircle && largeCircle)) return
 
-  const scrollAnimation = useCallback((progress: number) => {
-    const container = containerRef.current
-    const smallCircle = smallCircleRef.current
-    const midCircle = midCircleRef.current
-    const largeCircle = largeCircleRef.current
+//     container.style.scale = `${1 + progress * 0.5}`
+//     container.style.opacity = `${progress}`
+//     smallCircle.style.transform = `rotate(${progress * -90}deg)`
+//     midCircle.style.transform = `rotate(${progress * 90}deg)`
+//     largeCircle.style.transform = `rotate(${progress * -90}deg)`
+//   }, [])
 
-    if (!(container && smallCircle && midCircle && largeCircle)) return
+//   const highlightAnimation = useCallback((progress: number) => {
+//     const smallCircle = smallCircleRef.current
+//     const midCircle = midCircleRef.current
+//     const largeCircleOtherLogos = largeCircleOtherLogosRef.current
+//     const gcalLogo = gcalLogoRef.current
 
-    container.style.scale = `${1 + progress * 0.5}`
-    container.style.opacity = `${progress}`
-    smallCircle.style.transform = `rotate(${progress * -90}deg)`
-    midCircle.style.transform = `rotate(${progress * 90}deg)`
-    largeCircle.style.transform = `rotate(${progress * -90}deg)`
-  }, [])
+//     if (!(smallCircle && midCircle && largeCircleOtherLogos && gcalLogo)) return
 
-  const highlightAnimation = useCallback((progress: number) => {
-    const smallCircle = smallCircleRef.current
-    const midCircle = midCircleRef.current
-    const largeCircleOtherLogos = largeCircleOtherLogosRef.current
-    const gcalLogo = gcalLogoRef.current
+//     smallCircle.style.opacity = `${mapRange(0, 1, progress, 1, 0.3)}`
+//     largeCircleOtherLogos.style.opacity = `${mapRange(0, 1, progress, 1, 0.3)}`
+//     midCircle.style.opacity = `${mapRange(0, 1, progress, 1, 0.3)}`
+//     // gcalLogo.style.translate = `${mapRange(0, 1, progress, 0, 40)}%`
+//   }, [])
 
-    if (!(smallCircle && midCircle && largeCircleOtherLogos && gcalLogo)) return
+//   const chatMessagesAnimation = useCallback((progress: number) => {
+//     const container = containerRef.current
+//     const smallCircle = smallCircleRef.current
+//     const midCircle = midCircleRef.current
+//     const largeCircle = largeCircleRef.current
+//     const gcalLogo = gcalLogoRef.current
 
-    smallCircle.style.opacity = `${mapRange(0, 1, progress, 1, 0.3)}`
-    largeCircleOtherLogos.style.opacity = `${mapRange(0, 1, progress, 1, 0.3)}`
-    midCircle.style.opacity = `${mapRange(0, 1, progress, 1, 0.3)}`
-    gcalLogo.style.translate = `${mapRange(0, 1, progress, 0, 40)}%`
-  }, [])
+//     if (!(container && smallCircle && midCircle && largeCircle && gcalLogo))
+//       return
 
-  const chatMessagesAnimation = useCallback((progress: number) => {
-    const container = containerRef.current
-    const smallCircle = smallCircleRef.current
-    const midCircle = midCircleRef.current
-    const largeCircle = largeCircleRef.current
-    const gcalLogo = gcalLogoRef.current
+//     // container.style.scale = `${1.5 - progress * 0.5}`
+//     // smallCircle.style.transform = `rotate(${-90 - progress * 90}deg)`
+//     // midCircle.style.transform = `rotate(${90 + progress * 90}deg)`
+//     // largeCircle.style.transform = `rotate(${-90 - progress * 90}deg)`
+//     // gcalLogo.style.translate = `${mapRange(0, 1, progress, 40, 150)}%`
+//   }, [])
 
-    if (!(container && smallCircle && midCircle && largeCircle && gcalLogo))
-      return
+//   useImperativeHandle(ref, () => ({
+//     scrollAnimation,
+//     highlightAnimation,
+//     chatMessagesAnimation,
+//   }))
 
-    container.style.scale = `${1.5 - progress * 0.5}`
-    smallCircle.style.transform = `rotate(${-90 - progress * 90}deg)`
-    midCircle.style.transform = `rotate(${90 + progress * 90}deg)`
-    largeCircle.style.transform = `rotate(${-90 - progress * 90}deg)`
-    gcalLogo.style.translate = `${mapRange(0, 1, progress, 40, 150)}%`
-  }, [])
-
-  useImperativeHandle(ref, () => ({
-    scrollAnimation,
-    highlightAnimation,
-    chatMessagesAnimation,
-  }))
-
-  return (
-    <div
-      ref={containerRef}
-      className="absolute top-1/2 left-1/2 -translate-1/2 dr-size-470 flex items-center justify-center opacity-0"
-    >
-      <div
-        ref={smallCircleRef}
-        className="absolute dr-size-136 rounded-full border border-dark-grey flex items-center justify-center"
-      >
-        <SmallLogoFrame
-          rotate={0}
-          src="/assets/logos/ms-teams.svg"
-          alt="Microsoft Teams logo"
-        />
-        <SmallLogoFrame
-          rotate={90}
-          src="/assets/logos/framer.svg"
-          alt="Framer logo"
-        />
-        <SmallLogoFrame
-          rotate={180}
-          src="/assets/logos/claude.svg"
-          alt="Claude logo"
-        />
-        <SmallLogoFrame
-          rotate={270}
-          src="/assets/logos/youtube.svg"
-          alt="YouTube logo"
-        />
-      </div>
-      <div
-        ref={midCircleRef}
-        className="absolute dr-size-250 rounded-full border border-dark-grey flex items-center justify-center -rotate-22"
-      >
-        <MidLogoFrame
-          rotate={45 * 1}
-          src="/assets/logos/g-sheets.svg"
-          alt="Google Sheets logo"
-        />
-        <MidLogoFrame
-          rotate={45 * 2}
-          src="/assets/logos/g-mail.svg"
-          alt="Google Mail logo"
-        />
-        <MidLogoFrame
-          rotate={45 * 3}
-          src="/assets/logos/stripe.svg"
-          alt="Stripe logo"
-        />
-        <MidLogoFrame
-          rotate={45 * 4}
-          src="/assets/logos/airtable.svg"
-          alt="Airtable logo"
-        />
-        <MidLogoFrame
-          rotate={45 * 5}
-          src="/assets/logos/hubspot.svg"
-          alt="Hubspot logo"
-        />
-        <MidLogoFrame
-          rotate={45 * 6}
-          src="/assets/logos/shopify.svg"
-          alt="Shopify logo"
-        />
-        <MidLogoFrame
-          rotate={45 * 7}
-          src="/assets/logos/booking.svg"
-          alt="Booking.com logo"
-        />
-        <MidLogoFrame
-          rotate={45 * 8}
-          src="/assets/logos/figma.svg"
-          alt="Figma logo"
-        />
-      </div>
-      <div
-        ref={largeCircleRef}
-        className="absolute dr-size-400 flex items-center justify-center"
-      >
-        <LargeLogoFrame
-          ref={gcalLogoRef}
-          rotate={45 * 1}
-          src="/assets/logos/g-cal.svg"
-          alt="Google Calendar logo"
-        />
-        <div
-          ref={largeCircleOtherLogosRef}
-          className="size-full translate-[40%] -z-1"
-        >
-          <div className="absolute inset-0 rounded-full border border-dark-grey -translate-[40%]" />
-          <LargeLogoFrame
-            rotate={45 * 0}
-            src="/assets/logos/linear.svg"
-            alt="Linear logo"
-          />
-          <LargeLogoFrame
-            rotate={45 * 2}
-            src="/assets/logos/github.svg"
-            alt="GitHub logo"
-          />
-          <LargeLogoFrame
-            rotate={45 * 3}
-            src="/assets/logos/outlook.svg"
-            alt="Outlook logo"
-          />
-          <LargeLogoFrame
-            rotate={45 * 4}
-            src="/assets/logos/g-drive.svg"
-            alt="Google Drive logo"
-          />
-          <LargeLogoFrame
-            rotate={45 * 5}
-            src="/assets/logos/zapier.svg"
-            alt="Zapier logo"
-          />
-          <LargeLogoFrame
-            rotate={45 * 6}
-            src="/assets/logos/airbnb.svg"
-            alt="Airbnb logo"
-          />
-          <LargeLogoFrame
-            rotate={45 * 7}
-            src="/assets/logos/notion.svg"
-            alt="Notion logo"
-          />
-        </div>
-      </div>
-    </div>
-  )
-}
+//   return (
+//     <div
+//       ref={containerRef}
+//       className="absolute top-1/2 left-1/2 -translate-1/2 dr-size-470 flex items-center justify-center opacity-0"
+//     >
+//       <div
+//         ref={smallCircleRef}
+//         className="absolute dr-size-136 rounded-full border border-dark-grey flex items-center justify-center"
+//       >
+//         <SmallLogoFrame
+//           rotate={0}
+//           src="/assets/logos/ms-teams.svg"
+//           alt="Microsoft Teams logo"
+//         />
+//         <SmallLogoFrame
+//           rotate={90}
+//           src="/assets/logos/framer.svg"
+//           alt="Framer logo"
+//         />
+//         <SmallLogoFrame
+//           rotate={180}
+//           src="/assets/logos/claude.svg"
+//           alt="Claude logo"
+//         />
+//         <SmallLogoFrame
+//           rotate={270}
+//           src="/assets/logos/youtube.svg"
+//           alt="YouTube logo"
+//         />
+//       </div>
+//       <div
+//         ref={midCircleRef}
+//         className="absolute dr-size-250 rounded-full border border-dark-grey flex items-center justify-center -rotate-22"
+//       >
+//         <MidLogoFrame
+//           rotate={45 * 1}
+//           src="/assets/logos/g-sheets.svg"
+//           alt="Google Sheets logo"
+//         />
+//         <MidLogoFrame
+//           rotate={45 * 2}
+//           src="/assets/logos/g-mail.svg"
+//           alt="Google Mail logo"
+//         />
+//         <MidLogoFrame
+//           rotate={45 * 3}
+//           src="/assets/logos/stripe.svg"
+//           alt="Stripe logo"
+//         />
+//         <MidLogoFrame
+//           rotate={45 * 4}
+//           src="/assets/logos/airtable.svg"
+//           alt="Airtable logo"
+//         />
+//         <MidLogoFrame
+//           rotate={45 * 5}
+//           src="/assets/logos/hubspot.svg"
+//           alt="Hubspot logo"
+//         />
+//         <MidLogoFrame
+//           rotate={45 * 6}
+//           src="/assets/logos/shopify.svg"
+//           alt="Shopify logo"
+//         />
+//         <MidLogoFrame
+//           rotate={45 * 7}
+//           src="/assets/logos/booking.svg"
+//           alt="Booking.com logo"
+//         />
+//         <MidLogoFrame
+//           rotate={45 * 8}
+//           src="/assets/logos/figma.svg"
+//           alt="Figma logo"
+//         />
+//       </div>
+//       <div
+//         ref={largeCircleRef}
+//         className="absolute dr-size-400 flex items-center justify-center"
+//       >
+//         <LargeLogoFrame
+//           ref={gcalLogoRef}
+//           rotate={45 * 1}
+//           src="/assets/logos/g-cal.svg"
+//           alt="Google Calendar logo"
+//         />
+//         <div
+//           ref={largeCircleOtherLogosRef}
+//           className="size-full translate-[40%] -z-1"
+//         >
+//           <div className="absolute inset-0 rounded-full border border-dark-grey -translate-[40%]" />
+//           <LargeLogoFrame
+//             rotate={45 * 0}
+//             src="/assets/logos/linear.svg"
+//             alt="Linear logo"
+//           />
+//           <LargeLogoFrame
+//             rotate={45 * 2}
+//             src="/assets/logos/github.svg"
+//             alt="GitHub logo"
+//           />
+//           <LargeLogoFrame
+//             rotate={45 * 3}
+//             src="/assets/logos/outlook.svg"
+//             alt="Outlook logo"
+//           />
+//           <LargeLogoFrame
+//             rotate={45 * 4}
+//             src="/assets/logos/g-drive.svg"
+//             alt="Google Drive logo"
+//           />
+//           <LargeLogoFrame
+//             rotate={45 * 5}
+//             src="/assets/logos/zapier.svg"
+//             alt="Zapier logo"
+//           />
+//           <LargeLogoFrame
+//             rotate={45 * 6}
+//             src="/assets/logos/airbnb.svg"
+//             alt="Airbnb logo"
+//           />
+//           <LargeLogoFrame
+//             rotate={45 * 7}
+//             src="/assets/logos/notion.svg"
+//             alt="Notion logo"
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
 
 function SmallLogoFrame({
   alt,

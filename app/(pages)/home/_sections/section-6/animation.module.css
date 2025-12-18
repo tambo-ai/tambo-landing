@@ -9,8 +9,7 @@
   );
 }
 
-.logo {
+/* .logo {
   transform: rotate(calc(var(--logo-rotate, 0) * 1deg))
     translateY(calc(var(--logo-translate-y, 0) * desktop-vw(-1) + 50%));
-  /* box-shadow: 0 44.669px 39.086px 5.584px rgba(127, 255, 195, 0.25); */
-}
+} */

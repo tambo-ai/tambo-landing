@@ -87,7 +87,7 @@ export function TimelineSection({
             ref?.(node)
           }
         }}
-        className="h-[400svh]"
+        className="h-[400svh] overflow-x-clip"
       >
         <div className="sticky top-0 dr-layout-grid-inner h-screen">
           <div className="col-span-4 flex flex-col dr-mt-112">

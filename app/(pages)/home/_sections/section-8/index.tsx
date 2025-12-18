@@ -173,7 +173,11 @@ export function Section8() {
       if (tamboRect?.element) {
         tamboRect.element.style.opacity = `${progress}`
         const y = -height * (1 - progress)
-        tamboRect.element.style.transform = `translateY(${y}px)`
+        if (y !== 0) {
+          tamboRect.element.style.transform = `translateY(${y}px) translateZ(0)`
+        } else {
+          tamboRect.element.style.removeProperty('transform')
+        }
       }
 
       const background = getBackground()
