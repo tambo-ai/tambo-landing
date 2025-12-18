@@ -118,17 +118,53 @@ function getRadialPosition(index: number, total: number, offset = 0) {
   }
 }
 
+type LogosRingRef = {
+  getElement: () => HTMLDivElement | null
+  progressHighlight: (progress: number) => void
+}
+
 function LogosRing({
   logos,
   size,
   offset = 0,
   ref,
 }: {
-  ref?: React.RefObject<HTMLDivElement | null>
+  ref?: React.RefObject<LogosRingRef | null>
   logos: { src: string; alt: string; highlight?: boolean }[]
   size: 'l' | 'm' | 's'
   offset?: number
 }) {
+  const elementRef = useRef<HTMLDivElement>(null)
+  const borderRef = useRef<HTMLDivElement | null>(null)
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const highlightRef = useRef<HTMLDivElement | null>(null)
+  const highlightItemsRef = useRef<HTMLDivElement | null>(null)
+
+  useImperativeHandle(ref, () => ({
+    // scrollAnimation: () => {},
+    // highlightAnimation: () => {},
+    // chatMessagesAnimation: () => {},
+    getElement: () => elementRef.current,
+    progressHighlight: (progress: number) => {
+      // console.log('progressHighlight', progress)
+      if (borderRef.current) {
+        borderRef.current.style.opacity = `${mapRange(0, 1, progress, 1, 0.25)}`
+      }
+      itemsRef.current.forEach((item) => {
+        if (item) {
+          item.style.opacity = `${mapRange(0, 1, progress, 1, 0.25)}`
+        }
+      })
+      if (highlightRef.current) {
+        highlightRef.current.style.opacity = `${mapRange(0, 1, progress, 0, 1)}`
+        highlightRef.current.style.transform = `scale(${mapRange(0, 1, progress, 0.5, 1)})`
+      }
+      // if (highlightItemsRef.current) {
+      //   highlightItemsRef.current.style.transform = `scale(${mapRange(0, 1, progress, 1, 1.1)})`
+      // }
+    },
+  }))
+
   return (
     <div
       className={cn(
@@ -137,9 +173,12 @@ function LogosRing({
         size === 'm' && 'dr-w-479 absolute',
         size === 's' && 'dr-w-231 absolute'
       )}
-      ref={ref}
+      ref={elementRef}
     >
-      <div className="absolute inset-0 border-1 border-dashed border-dark-teal rounded-[inherit]" />
+      <div
+        ref={borderRef}
+        className="absolute inset-0 border-1 border-dashed border-dark-teal rounded-[inherit]"
+      />
       {logos.map((logo, index) => (
         <LogoFrame
           src={logo.src}
@@ -151,8 +190,15 @@ function LogosRing({
             left: `${truncate((getRadialPosition(index, logos.length, offset).y + 1) * 50, 2)}%`,
             transform: `translate(-50%, -50%) rotate(${truncate(getRadialPosition(index, logos.length, offset).rotate, 2)}deg)`,
           }}
+          ref={(node) => {
+            if (logo.highlight) {
+              highlightItemsRef.current = node
+            } else {
+              itemsRef.current[index] = node
+            }
+          }}
         >
-          {logo.highlight && <Highlight />}
+          {logo.highlight && <Highlight ref={highlightRef} />}
         </LogoFrame>
       ))}
     </div>
@@ -162,9 +208,9 @@ function LogosRing({
 export function LogoCircle({ ref }: LogoCircleProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const smallCircleRef = useRef<HTMLDivElement>(null)
-  const midCircleRef = useRef<HTMLDivElement>(null)
-  const largeCircleRef = useRef<HTMLDivElement>(null)
+  const smallCircleRef = useRef<LogosRingRef | null>(null)
+  const midCircleRef = useRef<LogosRingRef | null>(null)
+  const largeCircleRef = useRef<LogosRingRef | null>(null)
 
   const scrollAnimation = useEffectEvent((progress: number) => {
     const container = containerRef.current
@@ -176,15 +222,16 @@ export function LogoCircle({ ref }: LogoCircleProps) {
 
     container.style.transform = `scale(${mapRange(0, 1, progress, 0.5, 1)})`
     container.style.opacity = `${progress}`
-    smallCircle.style.transform = `rotate(${mapRange(0, 1, progress, -90, 0)}deg)`
-    midCircle.style.transform = `rotate(${mapRange(0, 1, progress, 0, 90)}deg)`
-    largeCircle.style.transform = `rotate(${mapRange(0, 1, progress, -90, 0)}deg)`
+    smallCircle.getElement()!.style.transform = `rotate(${mapRange(0, 1, progress, -90, 0)}deg)`
+    midCircle.getElement()!.style.transform = `rotate(${mapRange(0, 1, progress, 90, 0)}deg)`
+    largeCircle.getElement()!.style.transform = `rotate(${mapRange(0, 1, progress, -90, 0)}deg)`
   })
 
   const highlightAnimation = useEffectEvent((progress: number) => {
     console.log('highlightAnimation', progress)
-    // const smallCircle = smallCircleRef.current
-    // const midCircle = midCircleRef.current
+    const smallCircle = smallCircleRef.current
+    const midCircle = midCircleRef.current
+    const largeCircle = largeCircleRef.current
     // const largeCircleOtherLogos = largeCircleOtherLogosRef.current
     // const gcalLogo = gcalLogoRef.current
 
@@ -194,12 +241,21 @@ export function LogoCircle({ ref }: LogoCircleProps) {
     // largeCircleOtherLogos.style.opacity = `${mapRange(0, 1, progress, 1, 0.3)}`
     // midCircle.style.opacity = `${mapRange(0, 1, progress, 1, 0.3)}`
     // gcalLogo.style.translate = `${mapRange(0, 1, progress, 0, 40)}%`
+
+    if (smallCircle && midCircle && largeCircle) {
+      smallCircle!.progressHighlight(progress)
+      midCircle!.progressHighlight(progress)
+      largeCircle!.progressHighlight(progress)
+    }
   })
 
   useImperativeHandle(ref, () => ({
     scrollAnimation,
-    highlightAnimation: highlightAnimation,
-    chatMessagesAnimation: () => {},
+    highlightAnimation,
+    chatMessagesAnimation: (progress: number) => {
+      scrollAnimation(1 - progress)
+      highlightAnimation(1 - progress)
+    },
   }))
 
   return (
@@ -255,7 +311,7 @@ function LogoFrame({
   )
 }
 
-function Highlight({ ref }: { ref?: React.RefObject<HTMLDivElement> }) {
+function Highlight({ ref }: { ref?: React.RefObject<HTMLDivElement | null> }) {
   return (
     <div
       ref={ref}
