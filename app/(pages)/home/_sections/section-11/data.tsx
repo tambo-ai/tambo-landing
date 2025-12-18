@@ -4,7 +4,7 @@ export const showcaseCards = [
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
-    href: '/',
+    href: 'https://docs.tambo.co',
     image: '/assets/showcases/showcase-1.png',
   },
   {
@@ -12,7 +12,7 @@ export const showcaseCards = [
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
-    href: '/',
+    href: 'https://docs.tambo.co',
     image: '/videos/Octo-Juggle.webm',
   },
   {
@@ -20,7 +20,7 @@ export const showcaseCards = [
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
-    href: '/',
+    href: 'https://docs.tambo.co',
     image: '/assets/showcases/showcase-1.png',
   },
 ]
@@ -61,6 +61,6 @@ export const buttons = [
   {
     icon: 'discord',
     text: 'Join our Discord',
-    href: 'https://github.com/darkroomengineering',
+    href: 'https://discord.com/invite/dJNvPEHth6',
   },
 ]

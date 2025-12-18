@@ -23,7 +23,9 @@ export function Section2() {
             Tambo is the React SDK that lets users control your app through
             natural language.
           </TitleBlock.Title>
-          <TitleBlock.Button>Read Documentation</TitleBlock.Button>
+          <TitleBlock.Button href="https://docs.tambo.co/">
+            Read Documentation
+          </TitleBlock.Button>
         </TitleBlock>
         <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12 ">
           {cards.map((card) => (

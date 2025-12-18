@@ -8,7 +8,7 @@ export const cards = [
     },
     button: {
       text: 'See more',
-      href: '/',
+      href: 'https://docs.tambo.co/concepts/components',
     },
   },
   {
@@ -20,7 +20,7 @@ export const cards = [
     },
     button: {
       text: 'See more',
-      href: '/',
+      href: 'https://docs.tambo.co',
     },
   },
   {
@@ -32,7 +32,7 @@ export const cards = [
     },
     button: {
       text: 'See more',
-      href: '/',
+      href: 'https://docs.tambo.co',
     },
   },
   {
@@ -44,7 +44,7 @@ export const cards = [
     },
     button: {
       text: 'See more',
-      href: '/',
+      href: 'https://docs.tambo.co',
     },
   },
 ] as const
