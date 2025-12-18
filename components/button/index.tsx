@@ -103,7 +103,7 @@ export function CTA({
     >
       <Button
         className={cn(
-          'dt:dr-rounded-16 flex items-center dt:dr-pl-16 dt:dr-pr-8 dt:dr-py-8 dt:dr-h-52 relative overflow-hidden',
+          'dt:dr-rounded-16 flex items-center dr-pl-16 dr-pr-8 dr-py-8 dr-h-48 relative overflow-hidden',
           s.button,
           color === 'black' && s.isBlack,
           type === 'secondary' && s.isSecondary,

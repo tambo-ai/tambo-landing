@@ -1,0 +1,34 @@
+.iconWrapper {
+  transition:
+    background-color 300ms,
+    color 300ms,
+    transform 300ms;
+
+  @media (--hover) {
+    &:hover {
+      background-color: var(--color-black);
+      color: var(--color-teal);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.loginButton {
+  transition:
+    background-color 300ms,
+    color 300ms;
+  @media (--hover) {
+    &:hover {
+      background-color: var(--color-black);
+      color: var(--color-mint);
+    }
+  }
+}
+
+.mobileNavContainer {
+  transition: height 300ms ease;
+}
+
+.mobileNavOpened {
+  height: mobile-vw(403px);
+}

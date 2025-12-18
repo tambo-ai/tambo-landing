@@ -6,8 +6,11 @@ import { useLenis } from 'lenis/react'
 import { useEffect, useEffectEvent, useRef, useState } from 'react'
 import DiscordIcon from '~/assets/svgs/discord.svg'
 import GithubIcon from '~/assets/svgs/github.svg'
+import NavMobile from '~/assets/svgs/nav-mobile.svg'
 import TamboLogo from '~/assets/svgs/tambo.svg'
+import { Button, CTA } from '~/components/button'
 import { Link } from '~/components/link'
+import s from './navigation.module.css'
 
 const LEFT_LINKS = [
   { href: '/docs', label: 'Docs', external: true },
@@ -23,6 +26,7 @@ const RIGHT_LINKS = [
 export function Navigation() {
   const [isVisible, setIsVisible] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
+  const [isMobileNavOpened, setIsMobileNavOpened] = useState(false)
 
   const centerRef = useRef<HTMLDivElement>(null)
   const leftRef = useRef<HTMLUListElement>(null)
@@ -209,20 +213,26 @@ export function Navigation() {
     >
       <Link
         href="/"
-        className="dr-size-48 rounded-full border border-dark-grey grid place-items-center bg-white/50 backdrop-blur-[30px]"
+        className="desktop-only dr-size-48 rounded-full border border-dark-grey grid place-items-center bg-white/50 backdrop-blur-[30px]"
         ref={githubRef}
       >
-        <div className="group dr-w-32 aspect-square grid place-items-center bg-teal hover:bg-black hover:text-teal rounded-full hover:scale-110 transition-all duration-300">
+        <div
+          className={cn(
+            'group dr-w-32 aspect-square grid place-items-center bg-teal rounded-full',
+            s.iconWrapper
+          )}
+        >
           <GithubIcon className="dr-w-16 icon" />
         </div>
       </Link>
 
-      <section className="col-start-3 col-end-11 flex justify-center">
+      <section className="col-span-full dt:col-start-3 dt:col-end-11 flex justify-center">
+        {/* Desktop Nav */}
         <div
           ref={centerRef}
-          className="w-full origin-center flex justify-between items-center border border-dark-grey pl-gap dr-pr-8 rounded-full overflow-hidden dr-h-48 bg-white/50 backdrop-blur-[30px]"
+          className="w-full dt:origin-center flex justify-between items-center  border border-dark-grey dt:pl-gap  dt:dr-pr-8  dt:rounded-full overflow-hidden dr-h-48  bg-white/50 backdrop-blur-[30px] desktop-only"
         >
-          <ul ref={leftRef} className="flex dr-gap-20">
+          <ul ref={leftRef} className=" flex dr-gap-20">
             {LEFT_LINKS.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="link">
@@ -232,7 +242,7 @@ export function Navigation() {
               </li>
             ))}
           </ul>
-          <div className="absolute left-1/2 -translate-x-1/2 grid place-items-center">
+          <div className="dt:absolute dt:left-1/2 dt:-translate-x-1/2 dt:grid dt:place-items-center">
             <TamboLogo className="dr-h-24" ref={logoRef} />
           </div>
           <ul
@@ -249,21 +259,87 @@ export function Navigation() {
             <li>
               <Link
                 href="/login"
-                className="dr-px-16 dr-h-32 rounded-full bg-mint grid place-items-center hover:bg-black hover:text-mint transition-all duration-300"
+                className={cn(
+                  'dr-px-16 dr-h-32 rounded-full bg-mint grid place-items-center',
+                  s.loginButton
+                )}
               >
                 Log in
               </Link>
             </li>
           </ul>
         </div>
+        {/* Mobile Nav */}
+        <div
+          className={cn(
+            'mobile-only border border-dark-grey w-full dr-h-48 dr-rounded-24 relative overflow-hidden',
+            s.mobileNavContainer,
+            isMobileNavOpened && s.mobileNavOpened
+          )}
+        >
+          <div className="absolute dr-h-48 dr-pl-24 dr-pr-20  flex justify-between items-center w-full ">
+            <TamboLogo className="dr-h-24" ref={logoRef} />
+            <Button
+              onClick={() => {
+                setIsMobileNavOpened((prev) => !prev)
+              }}
+              className="flex dr-gap-4"
+            >
+              {isMobileNavOpened ? 'Close' : 'Open'}
+              <NavMobile className="dr-w-16" />
+            </Button>
+          </div>
+          {/* Mobile content */}
+          <div
+            className={cn(
+              'absolute dr-top-80 dr-left-24 transition-opacity duration-300 ease-in-expo',
+              isMobileNavOpened ? 'opacity-100' : 'opacity-0'
+            )}
+          >
+            <div className="flex flex-col dr-gap-y-16 dr-mb-40">
+              {[...LEFT_LINKS, ...RIGHT_LINKS].map((link) => (
+                <Link key={link.href} href={link.href} className="link">
+                  {link.label}
+                  {'external' in link && ' ↗'}
+                </Link>
+              ))}
+            </div>
+            <div className="flex dr-gap-x-12 dr-mb-40">
+              <Link
+                href="/login"
+                className={cn(
+                  'rounded-full bg-mint grid place-items-center dr-h-32 dr-w-32',
+                  s.loginButton
+                )}
+              >
+                <GithubIcon className="dr-w-16 icon" />
+              </Link>
+              <Link
+                href="/login"
+                className={cn(
+                  'rounded-full bg-mint grid place-items-center dr-h-32 dr-w-32',
+                  s.loginButton
+                )}
+              >
+                <DiscordIcon className="dr-w-16 icon" />
+              </Link>
+            </div>
+            <CTA>Sign In</CTA>
+          </div>
+        </div>
       </section>
 
       <Link
         href="/"
-        className="col-start-12 dr-size-48 rounded-full border border-dark-grey grid place-items-center bg-white/50 backdrop-blur-[30px] justify-self-end"
+        className="desktop-only col-start-12 dr-size-48 rounded-full border border-dark-grey grid place-items-center bg-white/50 backdrop-blur-[30px] justify-self-end"
         ref={discordRef}
       >
-        <div className="group dr-w-32 aspect-square grid place-items-center bg-teal hover:bg-black hover:text-teal rounded-full hover:scale-110 transition-all duration-300">
+        <div
+          className={cn(
+            'group dr-w-32 aspect-square grid place-items-center bg-teal rounded-full',
+            s.iconWrapper
+          )}
+        >
           <DiscordIcon className="dr-w-16 icon" />
         </div>
       </Link>
