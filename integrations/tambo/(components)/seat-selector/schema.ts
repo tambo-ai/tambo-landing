@@ -14,6 +14,7 @@ type SeatProps = z.infer<typeof SeatSchema>
 const SeatSelectorSchema = z.object({
   userSelectedSeats: z
     .array(z.string())
+    .default([])
     .describe('Seat selected by user. Array of seat IDs.'),
   maxSelections: z
     .number()

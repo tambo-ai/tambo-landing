@@ -24,7 +24,9 @@ function getCurrentPage(currentPage: CurrentPage) {
   return Math.min(ROWS_PER_PAGE, ROWS - currentPage * ROWS_PER_PAGE)
 }
 
-export function SeatMap({ maxSelections, userSelectedSeats }: SeatMapProps) {
+// Props passed from AI are wrapped in a value object
+export function SeatMap({ value }: { value: SeatMapProps }) {
+  const { userSelectedSeats, maxSelections } = value
   const [currentPage, setCurrentPage] = useState<CurrentPage>(0)
   const [selectedSeats, setSelectedSeats] =
     useTamboComponentState<SelectedSeats>(
