@@ -25,3 +25,31 @@
 .thinking {
   width: calc(desktop-vw(80) + var(--activities-progress, 0) * desktop-vw(280));
 }
+
+.spinner {
+  --border-width: 1.5px;
+
+  --mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - var(--border-width) - 0.5px),
+    #000 calc(100% - var(--border-width) + 0.5px)
+  );
+  mask: var(--mask);
+  scale: -1 1;
+
+  background:
+    linear-gradient(to top, rgba(127, 255, 195, 1), rgba(127, 255, 195, 0.5))
+    100% 0 / 50% 100% no-repeat,
+    linear-gradient(rgba(127, 255, 195, 0.5) 0%, transparent 65%) 0 0 / 50% 100%
+    no-repeat;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

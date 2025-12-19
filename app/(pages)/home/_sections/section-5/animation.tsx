@@ -49,6 +49,12 @@ export function Animation() {
   const cursorPinRef = useRef<SVGSVGElement>(null)
   const pinAnimateRef = useRef<PinAnimateRef>(null)
   const greatPickTextRef = useRef<HTMLParagraphElement>(null)
+  const whatCanIDoText2Ref = useRef<HTMLSpanElement>(null)
+  const checkingTextRef = useRef<HTMLSpanElement>(null)
+  const foundTextRef = useRef<HTMLSpanElement>(null)
+  const checkingContainerRef = useRef<HTMLDivElement>(null)
+  const spinnerRef = useRef<HTMLDivElement>(null)
+  const checkmarkRef = useRef<SVGSVGElement>(null)
 
   const scrollAnimation = useEffectEvent<TimelineCallback>(({ steps }) => {
     // Elements
@@ -77,6 +83,12 @@ export function Animation() {
     const cursorPin = cursorPinRef.current
     const pinAnimate = pinAnimateRef.current
     const greatPickText = greatPickTextRef.current
+    const whatCanIDoText2 = whatCanIDoText2Ref.current
+    const checkingText = checkingTextRef.current
+    const foundText = foundTextRef.current
+    const checkingContainer = checkingContainerRef.current
+    const spinner = spinnerRef.current
+    const checkmark = checkmarkRef.current
 
     if (
       !(
@@ -104,7 +116,13 @@ export function Animation() {
         dot3 &&
         cursorPin &&
         pinAnimate &&
-        greatPickText
+        greatPickText &&
+        whatCanIDoText2 &&
+        checkingText &&
+        foundText &&
+        checkingContainer &&
+        spinner &&
+        checkmark
       )
     )
       return
@@ -147,6 +165,7 @@ export function Animation() {
         `${mapRange(0, 1, whatCanIDoProgress, 0, 148, true)}`
       )
       whatCanIDo.style.opacity = `${mapRange(0.5, 1, whatCanIDoProgress, 0, 1)}`
+      cursor.style.opacity = `${1 - whatCanIDoProgress}`
     }
 
     if (whatCanIDoProgress === 1) {
@@ -161,7 +180,6 @@ export function Animation() {
         '#F2F8F680',
         thinkingProgress
       )
-      cursor.style.opacity = `${1 - thinkingProgress}`
     }
 
     if (thinkingProgress === 1) {
@@ -183,6 +201,13 @@ export function Animation() {
     if (highlightProgress === 1) {
       mapHighlightImage.style.transform = `translate(${mapRange(0, 1, mergeProgress, -10, -150, true)}%, ${mapRange(0, 1, mergeProgress, -10, 220, true)}%) scale(${1 - mergeProgress})`
       whatCanIDoText.style.transform = `translate(${mapRange(0, 1, mergeProgress, -10, -280, true)}%, ${mapRange(0, 1, mergeProgress, -30, 170, true)}%) scale(${1 - mergeProgress})`
+      whatCanIDoText2.style.opacity = `${mergeProgress}`
+      whatCanIDoBackground.style.opacity = `${mapRange(0, 1, mergeProgress, 0.3, 1)}`
+      whatCanIDoBackground.style.backgroundColor = gsap.utils.interpolate(
+        colors['ghost-mint'],
+        colors['off-white'],
+        mergeProgress
+      )
       thinking.style.transform = `translate(${mapRange(0, 1, mergeProgress, 0, -10, true)}%, ${mapRange(0, 1, mergeProgress, 0, -40, true)}%)`
       thinking.style.backgroundColor = `rgba(214, 255, 236, ${mergeProgress})`
       map.style.opacity = `${mapRange(0, 1, mergeProgress, 0.3, 1)}`
@@ -220,6 +245,15 @@ export function Animation() {
       dot3.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
       pin3.style.opacity = `${activitiesProgress}`
       pin3.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
+
+      checkingText.style.opacity = `${mapRange(0, 0.6, activitiesProgress, 1, 0)}`
+      foundText.style.opacity = `${mapRange(0.4, 1, activitiesProgress, 0, 1)}`
+      checkingContainer.style.setProperty(
+        '--width',
+        `${mapRange(0, 1, activitiesProgress, 306, 173, true)}`
+      )
+      spinner.style.opacity = `${mapRange(0, 0.6, activitiesProgress, 1, 0)}`
+      checkmark.style.opacity = `${mapRange(0.4, 1, activitiesProgress, 0, 1)}`
     }
 
     if (activitiesProgress === 1) {
@@ -299,7 +333,7 @@ export function Animation() {
             >
               <div
                 ref={mapHighlightBackgroundRef}
-                className="size-full relative bg-[#B6FFDD]/50 border-2 border-forest/50 dr-rounded-12"
+                className="size-full relative border-2 border-forest/50 dr-rounded-12"
               />
               <Image
                 ref={mapHighlightImageRef}
@@ -312,7 +346,7 @@ export function Animation() {
             </div>
             <Cursor
               ref={cursorRef}
-              className="absolute left-full top-full dr-size-24 -translate-1/3"
+              className="absolute left-full top-full dr-size-24 -translate-1/3 z-20"
             />
           </div>
         </div>
@@ -325,7 +359,7 @@ export function Animation() {
             ref={chatBorderRef}
             className="absolute -inset-[6px] bg-white/80 -z-2 dr-rounded-26"
           />
-          <div className="size-full overflow-hidden dr-p-14 dashed-border dr-rounded-20">
+          <div className="size-full overflow-hidden dr-p-14 dr-pb-13 dashed-border dr-rounded-20">
             <div
               ref={chatMessagesRef}
               className={cn(
@@ -349,7 +383,11 @@ export function Animation() {
                 <div
                   ref={whatCanIDoBackgroundRef}
                   className="absolute inset-0 bg-ghost-mint dr-rounded-12 dr-p-24 border border-dark-grey"
-                />
+                >
+                  <span ref={whatCanIDoText2Ref} className="opacity-0">
+                    What can I do here?
+                  </span>
+                </div>
                 <p
                   ref={whatCanIDoTextRef}
                   className="bg-ghost-mint dr-rounded-12 dr-p-24 border border-dark-grey"
@@ -358,7 +396,53 @@ export function Animation() {
                 </p>
               </div>
               <div className="self-start dr-mt-14">
-                <div className="dr-w-306 dr-h-32 border border-grey rounded-full dr-mb-9" />
+                <div
+                  ref={checkingContainerRef}
+                  style={{
+                    '--width': 306,
+                  }}
+                  className="w-[calc(var(--width)*desktop-vw(1))] dr-h-32 border border-grey dr-rounded-12 dr-mb-9 font-geist dr-text-10 flex items-center justify-start dr-pl-8 overflow-hidden"
+                >
+                  <div className="relative flex justify-center items-center">
+                    <div
+                      ref={spinnerRef}
+                      className={cn(
+                        'dr-size-14 rounded-full dr-mr-6',
+                        s.spinner
+                      )}
+                    />
+                    <svg
+                      ref={checkmarkRef}
+                      className="absolute w-full -dr-left-3 opacity-0"
+                      width="13"
+                      height="10"
+                      viewBox="0 0 13 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title>Checkmark Icon</title>
+                      <path
+                        d="M0.75 5.25L4.25 8.75L12.25 0.75"
+                        stroke="#7FFFC3"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <div className="relative">
+                    <span ref={checkingTextRef} className="whitespace-nowrap">
+                      checking activities matching the area and your trip
+                      dates...
+                    </span>
+                    <span
+                      ref={foundTextRef}
+                      className="absolute left-0 whitespace-nowrap opacity-0"
+                    >
+                      found some activities for you
+                    </span>
+                  </div>
+                </div>
                 <div
                   ref={thinkingRef}
                   className={cn(

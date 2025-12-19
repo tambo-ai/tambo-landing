@@ -132,7 +132,7 @@ export function Animation({
       introCard.style.opacity = `${mapRange(0, 1, swapProgress, 0.2, 0)}`
       emptyCard.style.opacity = `${mapRange(0, 1, swapProgress, 0.2, 0)}`
       selection.style.opacity = `${mapRange(0, 1, swapProgress, 1, 0)}`
-      seatMapContainer.style.transform = `translateY(${mapRange(0, 1, swapProgress, 0, 26)}%)`
+      seatMapContainer.style.transform = `translate(${mapRange(0, 1, swapProgress, 1.2, 0)}%, ${mapRange(0, 1, swapProgress, 0.2, 26)}%)`
       // seatMap.style.outlineWidth = `${mapRange(0, 1, swapProgress, 4, 0)}px`
       // seatMap.style.setProperty('--size-progress', `${swapProgress}`)
       seatMapContainer.style.scale = `${mapRange(0, 1, swapProgress, 0.65, 1)}`
@@ -177,7 +177,10 @@ export function Animation({
         containerRef.current = el
         ref?.(el)
       }}
-      className="w-full aspect-668/470 dr-rounded-20 typo-p grid grid-cols-1 grid-rows-1"
+      className={cn(
+        'w-full aspect-668/470 dr-rounded-20 typo-p grid grid-cols-1 grid-rows-1',
+        s.container
+      )}
     >
       <Card
         ref={introCardRef}

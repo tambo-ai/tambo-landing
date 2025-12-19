@@ -1,3 +1,7 @@
+.container {
+  transform: translateY(calc(var(--skew-progress, 0) * 15%));
+}
+
 .card {
   --index: 0;
 

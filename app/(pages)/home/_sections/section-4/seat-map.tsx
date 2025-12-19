@@ -35,10 +35,12 @@ export function SeatMap({ ref, selected }: SeatMapProps) {
   const seatRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLParagraphElement>(null)
   const seatMapTitleRef = useRef<HTMLParagraphElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const highlightTitleAnimation = useCallback((progress: number) => {
+    const container = containerRef.current
     const seatMapTitle = seatMapTitleRef.current
-    if (!seatMapTitle) return
+    if (!(seatMapTitle && container)) return
 
     seatMapTitle.style.transform = `translateY(${mapRange(0, 1, progress, 50, 0)}%)`
     seatMapTitle.style.opacity = `${mapRange(0, 1, progress, 0, 1)}`
@@ -98,7 +100,10 @@ export function SeatMap({ ref, selected }: SeatMapProps) {
   }))
 
   return (
-    <div className="relative dr-w-340 dr-h-344 dr-rounded-12 outline-4 outline-mint bg-white dr-p-20 shadow-xs">
+    <div
+      ref={containerRef}
+      className="relative dr-w-340 dr-h-344 dr-rounded-12 bg-white dr-p-20 shadow-xs border border-dark-grey"
+    >
       <p
         ref={seatMapTitleRef}
         className={cn(
