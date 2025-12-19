@@ -1,6 +1,7 @@
 'use client'
 
 import cn from 'clsx'
+import { useIntersectionObserver } from 'hamo'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlusIcon from '~/assets/svgs/plus.svg'
@@ -13,31 +14,40 @@ import s from './section-2.module.css'
 
 export function Section2() {
   return (
-    <section className="dt:dr-pt-188 dt:dr-pb-204">
-      <div className="dt:dr-layout-grid-inner ">
+    <section className="dt:dr-pt-188 dr-pt-128 dt:dr-pb-204 dr-pb-200">
+      <div className="dt:dr-layout-grid-inner">
         <TitleBlock className="dt:dr-mb-56 dt:col-start-4 dt:col-end-10">
-          <TitleBlock.LeadIn>
+          <TitleBlock.LeadIn className="dr-mb-16 dt:dr-mb-24">
             {'<'} Meet tambo {'>'}
           </TitleBlock.LeadIn>
           <TitleBlock.Title level="h2">
             Tambo is the React SDK that lets users control your app through
             natural language.
           </TitleBlock.Title>
-          <TitleBlock.Button href="https://docs.tambo.co/">
+          <TitleBlock.Button
+            href="https://docs.tambo.co/"
+            className="desktop-only"
+          >
             Read Documentation
           </TitleBlock.Button>
         </TitleBlock>
-        <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12 ">
+        <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12 px-safe dt:px-0 ">
           {cards.map((card) => (
             <Card key={card.title} data={card} />
           ))}
         </div>
+        <CTA
+          href="https://docs.tambo.co/"
+          className="mobile-only place-self-center dr-mt-56 dr-mb-80"
+        >
+          Read Documentation
+        </CTA>
       </div>
 
       <div className="text-center">
-        <div className="dt:dr-mb-40">
-          <h3 className="typo-h3 ">Bring our vision.</h3>
-          <p className="typo-p-l text-black/70">
+        <div className="dr-mb-40">
+          <h3 className="dt:typo-h3 typo-h4 dt:dr-mb-8">Bring our vision.</h3>
+          <p className="typo-p-l  text-black/70">
             Trusted by industry leaders in AI, product, and engineering.
           </p>
         </div>
@@ -47,36 +57,54 @@ export function Section2() {
           repeat={3}
           speed={0.3}
         >
-          <div className="flex dt:dr-gap-x-24 dr-mr-24">
+          <div className="flex dt:dr-gap-x-24 dr-gap-x-12 dt:dr-mr-24 dr-mr-12">
             {persons.map((person) => (
-              <div
-                key={person?.name}
-                className={cn(
-                  'flex items-center dt:dr-gap-x-32 dt:dr-w-322 border w-fit dt:dr-py-8 dt:dr-pl-8 bg-white border-dark-grey dt:dr-rounded-20',
-                  s.person
-                )}
-              >
-                <div className="dt:dr-w-80 dt:dr-h-80 dr-rounded-12 relative overflow-hidden border border-dark-grey">
-                  <Image src={person?.image} alt={person?.name} fill />
-                </div>
-
-                <div className="flex flex-col dt:dr-gap-y-4 text-left">
-                  <p className="typo-p-bold">{person?.name}</p>
-                  <span
-                    className={cn(
-                      'dt:dr-py-4 dt:dr-px-8 bg-off-white dt:dr-rounded-16 w-fit',
-                      s.role
-                    )}
-                  >
-                    <p className="typo-label-s">{person?.roles?.join(', ')}</p>
-                  </span>
-                </div>
-              </div>
+              <PersonCard key={person?.name} person={person} />
             ))}
           </div>
         </Marquee>
       </div>
     </section>
+  )
+}
+
+type PersonCardProps = {
+  person: (typeof persons)[number]
+}
+
+function PersonCard({ person }: PersonCardProps) {
+  const [setIntersectionRef, intersection] = useIntersectionObserver({
+    rootMargin: '30%',
+    threshold: 0.8,
+  })
+
+  const isInViewport = intersection?.isIntersecting
+
+  return (
+    <div
+      ref={setIntersectionRef}
+      className={cn(
+        'flex items-center dr-gap-x-32 dr-w-322 border dr-p-8 dt:dr-py-8 dt:dr-pl-8 bg-white border-dark-grey dr-rounded-20',
+        s.person,
+        isInViewport && s.personInViewport
+      )}
+    >
+      <div className="dr-w-80 dr-h-80 dr-rounded-12 relative overflow-hidden border border-dark-grey">
+        <Image src={person?.image} alt={person?.name} fill />
+      </div>
+
+      <div className="flex flex-col dr-gap-y-4 text-left">
+        <p className="typo-p-bold">{person?.name}</p>
+        <span
+          className={cn(
+            'dr-py-4 dr-px-8 bg-off-white dr-rounded-16 w-fit',
+            s.role
+          )}
+        >
+          <p className="typo-label-s">{person?.roles?.join(', ')}</p>
+        </span>
+      </div>
+    </div>
   )
 }
 
@@ -89,7 +117,7 @@ function Card({ data }: CardProps) {
     <Button
       href={data.button.href}
       className={cn(
-        'dt:dr-h-420 dr-h-158 shrink-0 dr-p-8 dr-rounded-20 bg-off-white/80 border border-dark-grey flex flex-col relative',
+        'dt:dr-h-420 dr-h-155 shrink-0 dr-p-8 dr-rounded-20 bg-off-white/80 border border-dark-grey flex flex-col relative',
         s.card
       )}
     >
@@ -107,11 +135,13 @@ function Card({ data }: CardProps) {
       >
         <p className={cn('typo-h5', s.cardTitle)}>
           {'< '}
-          {data.title}
+          {data?.title}
           {' >'}
         </p>
-        <div className={cn('flex-1 grid place-items-center', s.cardVideo)}>
-          <div className="aspect-square w-144">
+        <div
+          className={cn('dt:flex-1 dt:grid dt:place-items-center', s.cardVideo)}
+        >
+          <div className="aspect-square dt:dr-w-144 dr-w-80">
             <Video
               autoPlay
               priority
@@ -136,7 +166,7 @@ function Card({ data }: CardProps) {
           s.cardContent
         )}
       >
-        <p className="typo-p text-center dr-w-258">{data.text}</p>
+        <p className="typo-p text-center dr-w-258">{data?.text}</p>
       </div>
       <div
         className={cn(

@@ -134,6 +134,19 @@
       }
     }
   }
+
+  /* Apply hover styles on mobile when card is in viewport */
+  @media (hover: none) {
+    &.personInViewport {
+      border-style: dashed;
+      border-color: color-mix(in srgb, var(--color-forest) 50%, transparent);
+      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+
+      .role {
+        background-color: var(--color-ghost-mint);
+      }
+    }
+  }
 }
 
 .role {
@@ -142,6 +155,8 @@
 
 .marquee {
   position: relative;
+  padding: mobile-vw(40px) 0;
+  margin: calc(-1 * mobile-vw(40px)) 0;
 
   @media (--desktop) {
     padding: desktop-vw(40px) 0;
