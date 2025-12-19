@@ -424,9 +424,9 @@ export function Animation() {
                       <path
                         d="M0.75 5.25L4.25 8.75L12.25 0.75"
                         stroke="#7FFFC3"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </div>
