@@ -1,6 +1,6 @@
 import { defineTool, type TamboTool } from '@tambo-ai/react'
 import { z } from 'zod'
-import { dispatchMapSearch } from './mapbox/events'
+import { dispatchMapNavigation, dispatchMapSearch } from './mapbox/events'
 
 type BBox = {
   west: number
@@ -124,9 +124,20 @@ async function searchLocation(params: {
       placeType: feature.place_type?.[0] || 'place',
     }))
 
+    // Navigate to the first result
+    if (results.length > 0) {
+      const firstResult = results[0]
+      // Calculate zoom from bbox if available, otherwise use default
+      const zoom = firstResult.bbox ? 10 : 12
+      dispatchMapNavigation({
+        center: firstResult.center,
+        zoom,
+      })
+    }
+
     return {
       found: true,
-      message: `Found ${results.length} locations matching "${params.location}"`,
+      message: `Found ${results.length} locations matching "${params.location}" and navigated to ${results[0]?.name || 'the location'}`,
       results,
     }
   } catch (error) {
@@ -196,7 +207,8 @@ export const mapTools: TamboTool[] = [
   defineTool({
     name: 'search_location',
     description:
-      'Search for a location by name (e.g., "New York City", "Paris, France", "Central Park") and get coordinates and bounding box',
+      'Search for a location by name (e.g., "New York City", "Paris, France", "Central Park") and navigate the map to that location. ' +
+      'The map will automatically fly to the first matching result.',
     tool: searchLocation,
     inputSchema: z.object({
       location: z.string().describe('The location name to search for'),

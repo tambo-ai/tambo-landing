@@ -56,3 +56,39 @@ export function useMapSearchListener(
     return () => window.removeEventListener(MAP_SEARCH_EVENT, stableHandler)
   }, [])
 }
+
+export const MAP_NAVIGATION_EVENT = 'tambo:map:navigation'
+
+/** Navigation parameters for flying to a location */
+export type MapNavigationParams = {
+  center: { lng: number; lat: number }
+  zoom?: number
+}
+
+/**
+ * Dispatch a navigation request to the map component.
+ * The map will fly to the specified center location.
+ */
+export function dispatchMapNavigation(params: MapNavigationParams): void {
+  window.dispatchEvent(
+    new CustomEvent(MAP_NAVIGATION_EVENT, { detail: params })
+  )
+}
+
+/**
+ * Hook to listen for map navigation events.
+ * Calls the handler when a navigation event is dispatched.
+ */
+export function useMapNavigationListener(
+  handler: (params: MapNavigationParams) => void
+) {
+  const stableHandler = useEffectEvent((event: Event) => {
+    const params = (event as CustomEvent<MapNavigationParams>).detail
+    handler(params)
+  })
+
+  useEffect(() => {
+    window.addEventListener(MAP_NAVIGATION_EVENT, stableHandler)
+    return () => window.removeEventListener(MAP_NAVIGATION_EVENT, stableHandler)
+  }, [])
+}

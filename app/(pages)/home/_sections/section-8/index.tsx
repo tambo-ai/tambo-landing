@@ -220,7 +220,11 @@ export function Section8() {
             className="col-start-3 col-end-10 card-outline outline-off-white/80 dr-rounded-20 aspect-898/597 dr-h-597"
           >
             <div className="relative z-1 size-full dr-rounded-20 shadow-m dashed-border bg-white overflow-hidden">
-              <InterctableMap height={650} />
+              <InterctableMap
+                height={650}
+                center={{ lng: -74.00594, lat: 40.71278 }}
+                zoom={12}
+              />
               <SeatAssistant />
               <MapAssistant />
             </div>

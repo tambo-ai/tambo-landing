@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl'
 import { useEffect, useRef, useState } from 'react'
 import { useAssitant } from '~/integrations/tambo'
 import { useRectangleMapDrawing } from './drawing'
+import { useMapNavigationListener } from './events'
 import { useMapSearch } from './search'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!
@@ -41,6 +42,16 @@ export function MapBox({
   useRectangleMapDrawing({ center })
   useMapSearch({ center })
 
+  // Listen for navigation events from tools
+  useMapNavigationListener((params) => {
+    if (!mapRef.current) return
+    mapRef.current.flyTo({
+      center: [params.center.lng, params.center.lat],
+      zoom: params.zoom ?? fallbackZoom,
+      essential: true,
+    })
+  })
+
   // Map Initialization
   useEffect(() => {
     if (mapRef.current) return
@@ -66,6 +77,16 @@ export function MapBox({
       }
     }
   }, [fallbackZoom, center, setMap])
+
+  // Fly to center on change
+  useEffect(() => {
+    if (!mapRef.current) return
+
+    mapRef.current.flyTo({
+      center,
+      essential: true,
+    })
+  }, [center])
 
   return (
     <div

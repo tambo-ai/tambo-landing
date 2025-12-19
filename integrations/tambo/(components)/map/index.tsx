@@ -13,6 +13,7 @@ import { MapSchema, mapExampleContext } from './schema'
 const introMessages = {
   map: 'While your waiting for your flight, you can search for entrainment options in your destination, do you want me to help you?',
 }
+const demo = DEMOS.MAP
 
 type MapComponentProps = {
   height: number
@@ -22,13 +23,12 @@ type MapComponentProps = {
 
 function MapComponent({ height, center, zoom }: MapComponentProps) {
   return (
-    <div className="absolute top-0 left-0 w-full">
-      <MapBox
-        height={height}
-        fallbackZoom={zoom}
-        center={center ? [center.lng, center.lat] : undefined}
-      />
-    </div>
+    <MapBox
+      className="absolute top-0 left-0 w-full"
+      height={height}
+      fallbackZoom={zoom}
+      center={center ? [center.lng, center.lat] : undefined}
+    />
   )
 }
 
@@ -38,8 +38,6 @@ export const InterctableMap = withInteractable(MapComponent, {
     'A map component for selecting an area on a map and analyzing the area for things to do and add pins to the map',
   propsSchema: MapSchema,
 })
-
-const demo = DEMOS.MAP
 
 export function MapAssistant() {
   const { selectedDemo, currentBBox } = useAssitant()
@@ -84,7 +82,10 @@ export function MapAssistant() {
         - When the user asks about things to do, places to visit, restaurants, cafes, or any points of interest in this area, you can help them search
         - The map component will automatically search for points of interest when the user asks questions
         - You can describe what types of activities or places might be available in this geographic area
-        - If the user asks "what can I do with this selection?" or similar questions, explain that they can search for entertainment options, restaurants, cafes, attractions, etc. in the selected area`
+        - If the user asks "what can I do with this selection?" or similar questions, explain that they can search for entertainment options, restaurants, cafes, attractions, etc. in the selected area
+        
+          **Navigation:**
+     - You can navigate the map to any location by using search_location and then updating the interactable map's center prop`
       })
     }
 
