@@ -1,15 +1,15 @@
-import type { TamboComponent } from '@tambo-ai/react'
+import { defineTool, type TamboComponent } from '@tambo-ai/react'
 import { z } from 'zod'
 import { SeatMap } from '~/integrations/tambo/(components)/seat-selector/seatmap'
 
-const SeatSChema = z.object({
+const SeatSchema = z.object({
   id: z.string(),
   taken: z.boolean(),
   price: z.number(),
   position: z.enum(['window', 'middle', 'aisle']),
   emergencyExit: z.boolean(),
 })
-type SeatProps = z.infer<typeof SeatSChema>
+type SeatProps = z.infer<typeof SeatSchema>
 
 const SeatSelectorSchema = z.object({
   userSelectedSeats: z
@@ -30,35 +30,17 @@ export const seatComponent: TamboComponent[] = [
       'A seat selector component for airplane seats. When the user mentions a specific seat (like "5A" or "row 3 window"), use the userSelectedSeats prop to highlight that seat.',
     propsSchema: SeatSelectorSchema,
     associatedTools: [
-      //Zod V3
-      {
+      defineTool({
         name: 'get-airplane-seats',
         description: 'Get airplane seats information',
         tool: async () => ({ seats: SEATS }),
-        toolSchema: z
-          .function()
-          .args(z.object({}))
-          .returns(
-            z.object({
-              seats: z.array(SeatSChema),
-            })
-          )
+        inputSchema: z.object({}),
+        outputSchema: z
+          .object({
+            seats: z.array(SeatSchema),
+          })
           .describe('Get airplane seats information'),
-      },
-      // {
-      //   name: 'get-airplane-seats',
-      //   description: 'Get airplane seats information',
-      //   tool: async () => ({ seats: SEATS }),
-      //   toolSchema: z
-      //     .function()
-      //     .input(z.object({}))
-      //     .output(
-      //       z.object({
-      //         seats: z.array(SeatSChema),
-      //       })
-      //     )
-      //     .describe('Get airplane seats information'),
-      // },
+      }),
     ],
   },
 ]
