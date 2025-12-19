@@ -12,7 +12,7 @@ import {
   TimelineSectionContext,
 } from '~/app/(pages)/home/_components/timeline-section'
 import Cursor from '~/assets/svgs/cursor.svg'
-import { mapRange } from '~/libs/utils'
+import { mapRangeWithSnap as mapRange } from '~/libs/utils'
 import { colors } from '~/styles/colors'
 import s from './animation.module.css'
 import Package from './package.svg'
@@ -139,9 +139,11 @@ export function Animation({
       seatMapComponent.highlightSeatsAnimation(swapProgress)
       yourApp.style.opacity = `${mapRange(0, 1, swapProgress, 1, 0)}`
       availableSeats.style.opacity = `${mapRange(0.6, 1, swapProgress, 0, 1)}`
+      selectionCard.style.overflow = 'visible'
     }
 
     if (swapProgress === 1) {
+      selectionCard.style.overflow = 'hidden'
       cursor.style.transform = `translate(${mapRange(0, 0.5, selectProgress, 150, 0, true)}px, ${mapRange(0, 0.5, selectProgress, 150, 0, true)}px)`
       cursor.style.opacity = `${mapRange(0, 0.5, selectProgress, 0, 1)}`
       seatMapContainer.style.transform = `translateY(${mapRange(0.6, 1, selectProgress, 26, 2, true)}%)`
@@ -204,7 +206,7 @@ export function Animation({
 
       <Card
         ref={selectionCardRef}
-        className="relative z-30 outline-7 outline-white/80 overflow-hidden"
+        className="relative z-30 outline-7 outline-white/80"
       >
         <div
           ref={yourAppRef}

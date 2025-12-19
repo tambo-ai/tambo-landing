@@ -16,7 +16,7 @@ import {
 } from '~/app/(pages)/home/_components/timeline-section'
 import Cursor from '~/assets/svgs/cursor.svg'
 import { Image } from '~/components/image'
-import { mapRange } from '~/libs/utils'
+import { mapRangeWithSnap as mapRange } from '~/libs/utils'
 import { colors } from '~/styles/colors'
 import { SeatMap } from '../section-4/seat-map'
 import s from './animation.module.css'
@@ -253,9 +253,7 @@ export function Animation() {
         )}
       >
         <div className="absolute inset-0 bg-white -z-1 dr-rounded-20 shadow-m border border-forest/50 dr-p-14 dr-gap-20 flex flex-col items-start justify-end">
-          <div className="dr-w-340">
-            <SeatMap />
-          </div>
+          <SeatMap selected />
           <p className="typo-p-sentient bg-light-gray dr-rounded-12 dr-p-24 border border-dark-grey">
             Window seat confirmed. Booking 12F!
           </p>
@@ -327,7 +325,7 @@ export function Animation() {
             ref={chatBorderRef}
             className="absolute -inset-[6px] bg-white/80 -z-2 dr-rounded-26"
           />
-          <div className="size-full overflow-hidden dr-p-16 dashed-border dr-rounded-20">
+          <div className="size-full overflow-hidden dr-p-14 dashed-border dr-rounded-20">
             <div
               ref={chatMessagesRef}
               className={cn(
@@ -339,9 +337,7 @@ export function Animation() {
                 ref={seatMapRef}
                 className="self-start flex flex-col items-start justify-end dr-gap-20"
               >
-                <div className="dr-w-340">
-                  <SeatMap />
-                </div>
+                <SeatMap selected />
                 <p className="typo-p-sentient bg-light-gray dr-rounded-12 dr-p-24 border border-dark-grey">
                   Window seat confirmed. Booking 12F!
                 </p>

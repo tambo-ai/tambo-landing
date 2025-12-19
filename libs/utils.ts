@@ -165,6 +165,39 @@ export function mapRange(
   return shouldClamp ? clamp(outMin, result, outMax) : result
 }
 
+export function mapRangeWithSnap(
+  inMin: number,
+  inMax: number,
+  input: number,
+  outMin: number,
+  outMax: number,
+  shouldClamp = false,
+  snapThreshold = 0.02
+) {
+  const result =
+    ((input - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
+
+  const isInverted = outMin > outMax
+
+  const output = isInverted
+    ? // biome-ignore lint/style/noNestedTernary: needed
+      shouldClamp
+      ? clamp(outMax, result, outMin)
+      : result
+    : shouldClamp
+      ? clamp(outMin, result, outMax)
+      : result
+
+  // Snap to edges
+  const range = Math.abs(outMax - outMin)
+  const snapDistance = range * snapThreshold
+
+  if (Math.abs(output - outMin) < snapDistance) return outMin
+  if (Math.abs(output - outMax) < snapDistance) return outMax
+
+  return output
+}
+
 export function lerp(start: number, end: number, amount: number) {
   return (1 - amount) * start + amount * end
 }
