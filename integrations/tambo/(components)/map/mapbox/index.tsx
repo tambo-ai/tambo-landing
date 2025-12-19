@@ -35,11 +35,11 @@ export function MapBox({
 }: Props) {
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const { setMap } = useAssitant()
+  const lenis = useLenis()
 
   useRectangleMapDrawing({ center })
   useMapSearch({ center })
-  const { setMap } = useAssitant()
-  const lenis = useLenis()
 
   // Map Initialization
   useEffect(() => {

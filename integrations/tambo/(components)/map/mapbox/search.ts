@@ -4,11 +4,18 @@ import { type BBox, useAssitant } from '~/integrations/tambo'
 import type { POI } from './'
 import { getGeoJSONSource } from './'
 import { fetchWithRetry, updateMapPOIs } from './api'
-import { useMapSearchListener } from './events'
+import {
+  type SearchParams,
+  type SearchResult,
+  useMapSearchListener,
+} from './events'
 
 type AreaAnalyzeResponse = {
   area: { bbox: BBox }
   points_of_interest: { items: POI[] }
+  // Unknown category response fields
+  unknownCategory?: boolean
+  suggestedCategories?: string[]
 }
 
 export function useMapSearch({
@@ -20,37 +27,59 @@ export function useMapSearch({
 }) {
   const { map, currentBBox } = useAssitant()
 
-  const handleSearch = useEffectEvent(async (query: string) => {
-    if (!map) {
-      throw new Error('Map is not initialized. Please wait for it to load.')
-    }
-
-    const bbox = currentBBox
-    if (!bbox) {
-      throw new Error(
-        'No area selected. Please draw a rectangle on the map first.'
-      )
-    }
-
-    const result = await fetchWithRetry<AreaAnalyzeResponse>(
-      '/api/area/analyze',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bbox, query }),
+  const handleSearch = useEffectEvent(
+    async (params: SearchParams): Promise<SearchResult> => {
+      if (!map) {
+        throw new Error('Map is not initialized. Please wait for it to load.')
       }
-    )
 
-    if (!result.ok) {
-      throw new Error(result.error || 'Search failed')
+      const bbox = currentBBox
+      if (!bbox) {
+        throw new Error(
+          'No area selected. Please draw a rectangle on the map first.'
+        )
+      }
+
+      const result = await fetchWithRetry<AreaAnalyzeResponse>(
+        '/api/area/analyze',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bbox,
+            category: params.category,
+            brandFilter: params.brandFilter,
+          }),
+        }
+      )
+
+      if (!result.ok) {
+        throw new Error(result.error || 'Search failed')
+      }
+
+      // Check if API returned unknown category
+      if (result.data.unknownCategory) {
+        console.log(
+          `❓ Unknown category "${params.category}", suggestions:`,
+          result.data.suggestedCategories
+        )
+        return {
+          unknownCategory: true,
+          suggestedCategories: result.data.suggestedCategories,
+        }
+      }
+
+      const pois = result.data.points_of_interest?.items ?? []
+      console.log(
+        `🗺️ Updating map with ${pois.length} POIs for category: "${params.category}"${params.brandFilter ? ` (brand: ${params.brandFilter})` : ''}`
+      )
+
+      updateMapPOIs(map, pois, getGeoJSONSource, poisToFeatureCollection)
+      onResult?.(result.data)
+
+      return {}
     }
-
-    const pois = result.data.points_of_interest?.items ?? []
-    console.log(`🗺️ Updating map with ${pois.length} POIs for query: "${query}"`)
-
-    updateMapPOIs(map, pois, getGeoJSONSource, poisToFeatureCollection)
-    onResult?.(result.data)
-  })
+  )
 
   // Map Sources and Layers Setup
   useEffect(() => {
