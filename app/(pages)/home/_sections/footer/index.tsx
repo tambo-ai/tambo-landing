@@ -2,7 +2,7 @@
 
 import gsap from 'gsap'
 import { useRect, useWindowSize } from 'hamo'
-import { useContext, useEffectEvent, useRef } from 'react'
+import { useContext, useEffect, useEffectEvent, useRef, useState } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
@@ -36,11 +36,17 @@ export function Footer() {
 
   const innerRef = useRef<HTMLDivElement>(null)
 
+  const [currentYear, setCurrentYear] = useState<number | null>(2026)
+
   const { getItems, getBackground } = useContext(BackgroundContext)
 
   const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
 
   const desktopVW = useDesktopVW()
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear())
+  }, [])
 
   useScrollTrigger({
     rect,
@@ -229,7 +235,7 @@ export function Footer() {
         </div>
         <div className="absolute dr-layout-grid-inner w-full dr-bottom-16 typo-label-m">
           <span className="col-span-2">
-            Fractal Dynamics Inc © {new Date().getFullYear()}
+            Fractal Dynamics Inc © {currentYear ?? 2025}
           </span>
           <div className="col-[3/-3] flex items-center justify-center dr-gap-24">
             {BOTTOM_LINKS.map((link, index) => (
