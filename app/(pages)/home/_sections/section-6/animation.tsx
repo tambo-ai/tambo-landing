@@ -88,7 +88,7 @@ export function Animation() {
           // ref={chatBorderRef}
           className="absolute -inset-[6px] bg-white/80 -z-2 dr-rounded-26"
         />
-        <div className="size-full overflow-hidden dr-p-16 border border-forest/50 dr-rounded-20">
+        <div className="size-full overflow-hidden dr-p-16 dashed-border dr-rounded-20">
           <div
             ref={chatMessagesRef}
             className={cn(

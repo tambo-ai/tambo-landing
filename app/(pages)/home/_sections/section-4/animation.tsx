@@ -253,7 +253,7 @@ function Card({ children, className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn(
-        'relative z-20 size-full col-start-1 col-end-1 row-start-1 row-end-1 border border-dark-grey bg-white dr-p-16 dr-rounded-20',
+        'relative z-20 size-full col-start-1 col-end-1 row-start-1 row-end-1 dashed-border bg-white dr-p-16 dr-rounded-20',
         s.card,
         className
       )}

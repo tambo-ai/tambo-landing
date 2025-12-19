@@ -270,7 +270,7 @@ export function Section1() {
       ref={setRectRef}
       className="flex flex-col items-center justify-center h-screen relative  dt:px-0"
     >
-      <div className="dt:dr-w-480 dt:aspect-square dt:border dt:border-[red] dt:rounded-full dt:absolute dt:left-[50%] dt:translate-x-[-50%] dt:top-[50%] dt:translate-y-[-50%]" />
+      {/* <div className="dt:dr-w-480 dt:aspect-square dt:border dt:border-[red] dt:rounded-full dt:absolute dt:left-[50%] dt:translate-x-[-50%] dt:top-[50%] dt:translate-y-[-50%]" /> */}
       <div className="dt:dr-w-col-8 flex flex-col dt:dr-gap-8 text-center items-center dt:relative dt:top-[-2%]">
         <div className="relative">
           <div
