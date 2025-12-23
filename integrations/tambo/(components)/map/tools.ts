@@ -1,6 +1,11 @@
 import { defineTool, type TamboTool } from '@tambo-ai/react'
 import { z } from 'zod'
-import { dispatchMapNavigation, dispatchMapSearch } from './mapbox/events'
+import {
+  dispatchAddToItinerary,
+  dispatchMapNavigation,
+  dispatchMapSearch,
+} from './mapbox/events'
+import { type POI } from '~/integrations/tambo'
 
 type BBox = {
   west: number
@@ -37,6 +42,7 @@ type AnalyzeAreaResult = {
   message: string
   count: number
   names: string[]
+  points_of_interest: POI[]
 }
 
 // Tool 1: Search and display results on the map
@@ -62,6 +68,7 @@ async function analyzeArea(params: {
       message,
       count: result.count,
       names: result.names,
+      points_of_interest: result.pois,
     }
   } catch (error) {
     console.error('Search failed', error)
@@ -165,6 +172,31 @@ async function getAreaSuggestions(): Promise<{
   }
 }
 
+type AddToItineraryToolResult = {
+  success: boolean
+  message: string
+  addedItem: { name: string; id: string | number }
+}
+
+// Tool 4: Add a POI to the itinerary
+async function addPoiToItinerary(params: {
+  poi: POI
+  selectedDate?: string
+}): Promise<AddToItineraryToolResult> {
+  try {
+    const result = await dispatchAddToItinerary(params)
+    return {
+      success: result.success,
+      message: `Added "${result.addedItem.name}" to your itinerary`,
+      addedItem: result.addedItem,
+    }
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? error.message : 'Failed to add to itinerary'
+    )
+  }
+}
+
 export const mapTools: TamboTool[] = [
   defineTool({
     name: 'analyze_selected_area',
@@ -243,6 +275,35 @@ export const mapTools: TamboTool[] = [
           queries: z.array(z.string()),
         })
       ),
+    }),
+  }),
+  defineTool({
+    name: 'add_to_itinerary',
+    description:
+      'Add a point of interest (POI) to the user\'s travel itinerary. ' +
+      'Use this when the user wants to save a location they found on the map to their itinerary. ' +
+      'The POI must have been returned from a previous search or analysis.',
+    tool: addPoiToItinerary,
+    inputSchema: z.object({
+      poi: z.object({
+        id: z.union([z.string(), z.number()]).describe('Unique identifier for the POI'),
+        type: z.string().describe('Type of the POI (e.g., "restaurant", "museum")'),
+        name: z.string().nullable().describe('Name of the POI'),
+        lat: z.number().describe('Latitude coordinate'),
+        lon: z.number().describe('Longitude coordinate'),
+      }).describe('The point of interest to add to the itinerary'),
+      selectedDate: z
+        .string()
+        .optional()
+        .describe('Optional date for when to visit this location (YYYY-MM-DD format)'),
+    }),
+    outputSchema: z.object({
+      success: z.boolean(),
+      message: z.string(),
+      addedItem: z.object({
+        name: z.string(),
+        id: z.union([z.string(), z.number()]),
+      }),
     }),
   }),
 ]

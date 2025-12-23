@@ -41,8 +41,6 @@ export function MapBox({
 
   useRectangleMapDrawing({ center })
   useMapSearch({ center })
-
-  // Listen for navigation events from tools
   useMapNavigationListener((params) => {
     if (!mapRef.current) return
     mapRef.current.flyTo({

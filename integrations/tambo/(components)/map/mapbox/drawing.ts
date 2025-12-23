@@ -58,8 +58,10 @@ export function useRectangleMapDrawing({
 
     map.getCanvas().style.cursor = ''
 
-    logBBoxSelection(bbox)
-    setCurrentBBox(bbox)
+    if (isValidBBox(bbox)) {
+      logBBoxSelection(bbox)
+      setCurrentBBox(bbox)
+    }
 
     if (!isPanModeActive(e, panMode)) {
       map.dragPan.disable()
@@ -104,8 +106,8 @@ export function useRectangleMapDrawing({
       type: 'fill',
       source: 'selection',
       paint: {
-        'fill-color': '#22c55e',
-        'fill-opacity': 0.25,
+        'fill-color': '#B6FFDD',
+        'fill-opacity': 0.5,
       },
     })
 
@@ -114,8 +116,8 @@ export function useRectangleMapDrawing({
       type: 'line',
       source: 'selection',
       paint: {
-        'line-color': '#16a34a',
-        'line-width': 3,
+        'line-color': '#80C1A2',
+        'line-width': 2,
       },
       layout: {
         'line-join': 'round',
@@ -191,4 +193,11 @@ function logBBoxSelection(bbox: BBox): void {
       west: bbox.west.toFixed(4),
     },
   })
+}
+
+function isValidBBox(bbox: BBox): boolean {
+  const MIN_SIZE = 0.0001 // ~11 meters at equator
+  const width = Math.abs(bbox.east - bbox.west)
+  const height = Math.abs(bbox.north - bbox.south)
+  return width > MIN_SIZE && height > MIN_SIZE
 }

@@ -2,7 +2,7 @@ import cn from 'clsx'
 import { useAssitant } from '~/integrations/tambo'
 
 export function AssistantNotifications({ className }: { className: string }) {
-  const { finishSeatSelection, choosedSeat } = useAssitant()
+  const { finishSeatSelection, choosedSeat, itinerary } = useAssitant()
 
   return (
     <ul
@@ -35,7 +35,7 @@ export function AssistantNotifications({ className }: { className: string }) {
       </li>
       <li>
         <span className="typo-label-m">Itinerary: </span>
-        <span className="typo-label-s">Empty</span>
+        <span className="typo-label-s">{itinerary.length > 0 ? itinerary.sort((a,b) => new Date(a.selectedDate).getTime() - new Date(b.selectedDate).getTime()).map((item) => `${item.poi.name} ${item.selectedDate ? `(Selected date: ${item.selectedDate})` : ''}`).join(', ') : 'Empty'}</span>
       </li>
     </ul>
   )

@@ -20,10 +20,12 @@ type MapboxFeature = {
     name_preferred?: string
     full_address?: string
     place_formatted?: string
+    context: string
     poi_category?: string[]
     poi_category_ids?: string[]
     brand?: string
     brand_id?: string
+    metadata?: Record<string, unknown>
     [key: string]: unknown
   }
 }
@@ -100,7 +102,9 @@ export async function POST(req: Request) {
         place_formatted: feature.properties.place_formatted,
         category: feature.properties.poi_category,
         brand: feature.properties.brand,
+        context: feature.properties.context,
       },
+      metadata: feature.properties.metadata,
     }))
 
     const result = {

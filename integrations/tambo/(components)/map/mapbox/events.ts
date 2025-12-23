@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent } from 'react'
+import { type POI } from '~/integrations/tambo'
 
 export const MAP_SEARCH_EVENT = 'tambo:map:search'
 
@@ -12,6 +13,7 @@ export type SearchParams = {
 export type SearchResult = {
   count: number
   names: string[]
+  pois: POI[]
 }
 
 type SearchEventDetail = {
@@ -90,5 +92,64 @@ export function useMapNavigationListener(
   useEffect(() => {
     window.addEventListener(MAP_NAVIGATION_EVENT, stableHandler)
     return () => window.removeEventListener(MAP_NAVIGATION_EVENT, stableHandler)
+  }, [])
+}
+
+export const ITINERARY_ADD_EVENT = 'tambo:itinerary:add'
+
+/** Parameters for adding a POI to the itinerary */
+export type AddToItineraryParams = {
+  poi: POI
+  selectedDate?: string
+}
+
+/** Result returned from itinerary add handler */
+export type AddToItineraryResult = {
+  success: boolean
+  addedItem: { name: string; id: string | number }
+}
+
+type ItineraryEventDetail = {
+  params: AddToItineraryParams
+  resolve: (result: AddToItineraryResult) => void
+  reject: (error: Error) => void
+}
+
+/**
+ * Dispatch a request to add a POI to the itinerary.
+ * Returns a promise that resolves with the result after the item is added.
+ */
+export function dispatchAddToItinerary(
+  params: AddToItineraryParams
+): Promise<AddToItineraryResult> {
+  return new Promise((resolve, reject) => {
+    const detail: ItineraryEventDetail = { params, resolve, reject }
+    window.dispatchEvent(new CustomEvent(ITINERARY_ADD_EVENT, { detail }))
+  })
+}
+
+/**
+ * Hook to listen for itinerary add events.
+ * Calls the handler when an add event is dispatched and resolves/rejects the promise.
+ */
+export function useAddToItineraryListener(
+  handler: (params: AddToItineraryParams) => AddToItineraryResult
+) {
+  const stableHandler = useEffectEvent((event: Event) => {
+    const { params, resolve, reject } = (
+      event as CustomEvent<ItineraryEventDetail>
+    ).detail
+
+    try {
+      const result = handler(params)
+      resolve(result)
+    } catch (error) {
+      reject(error instanceof Error ? error : new Error(String(error)))
+    }
+  })
+
+  useEffect(() => {
+    window.addEventListener(ITINERARY_ADD_EVENT, stableHandler)
+    return () => window.removeEventListener(ITINERARY_ADD_EVENT, stableHandler)
   }, [])
 }
