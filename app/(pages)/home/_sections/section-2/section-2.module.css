@@ -67,6 +67,12 @@
       }
     }
   }
+
+  &.cardOpen {
+    @media (--mobile) {
+      height: mobile-vw(311px);
+    }
+  }
 }
 
 .cardContent {
@@ -95,6 +101,8 @@
   transition:
     opacity var(--ease) 0.3s,
     transform var(--ease) var(--transition-duration);
+  bottom: mobile-vw(12px);
+  right: mobile-vw(12px);
 
   @media (--desktop) {
     left: 50%;

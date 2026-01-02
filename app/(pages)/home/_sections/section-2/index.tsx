@@ -2,6 +2,7 @@
 
 import cn from 'clsx'
 import { useIntersectionObserver } from 'hamo'
+// import { useState } from 'react'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlusIcon from '~/assets/svgs/plus.svg'
@@ -9,18 +10,19 @@ import { Button, CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Marquee } from '~/components/marquee'
 import { Video } from '~/components/video'
+// import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { cards, persons } from './data'
 import s from './section-2.module.css'
 
 export function Section2() {
   return (
     <section className="dt:dr-pt-188 dr-pt-128 dt:dr-pb-204 dr-pb-200">
-      <div className="dt:dr-layout-grid-inner">
-        <TitleBlock className="dt:dr-mb-56 dt:col-start-4 dt:col-end-10">
+      <div className="dt:dr-layout-grid-inner px-safe dt:px-0">
+        <TitleBlock className="dr-mb-56  dt:col-start-4 dt:col-end-10">
           <TitleBlock.LeadIn className="dr-mb-16 dt:dr-mb-24">
             {'<'} Meet tambo {'>'}
           </TitleBlock.LeadIn>
-          <TitleBlock.Title level="h2">
+          <TitleBlock.Title level="h2" className="dr-mb-0! dt:dr-mb-40!">
             Tambo is the React SDK that lets users control your app through
             natural language.
           </TitleBlock.Title>
@@ -31,7 +33,7 @@ export function Section2() {
             Read Documentation
           </TitleBlock.Button>
         </TitleBlock>
-        <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12 px-safe dt:px-0 ">
+        <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12">
           {cards.map((card) => (
             <Card key={card.title} data={card} />
           ))}
@@ -113,13 +115,22 @@ type CardProps = {
 }
 
 function Card({ data }: CardProps) {
+  // const { isDesktop, isMobile } = useDeviceDetection()
+  // const [isOpen, setIsOpen] = useState(false)
+
   return (
     <Button
-      href={data.button.href}
+      href={data?.button?.href}
       className={cn(
         'dt:dr-h-420 dr-h-155 shrink-0 dr-p-8 dr-rounded-20 bg-off-white/80 border border-dark-grey flex flex-col relative',
+        // isOpen && s.cardOpen,
         s.card
       )}
+      // onClick={() => {
+      //   if (isMobile) {
+      //     setIsOpen(true)
+      //   }
+      // }}
     >
       <HashPattern
         className={cn(
@@ -176,7 +187,11 @@ function Card({ data }: CardProps) {
       >
         <PlusIcon className="dr-size-16 icon" />
       </div>
-      <CTA type="secondary" wrapperClassName={s.cardCTA}>
+      <CTA
+        className="desktop-only"
+        type="secondary"
+        wrapperClassName={s.cardCTA}
+      >
         {data?.button?.text}
       </CTA>
     </Button>
