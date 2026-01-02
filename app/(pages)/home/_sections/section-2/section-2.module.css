@@ -1,78 +1,136 @@
-.card {
+/* Card Wrapper & Card */
+.cardWrapper {
   --ease: var(--ease-gleasing);
   --transition-duration: 600ms;
+  overflow: hidden;
 
-  transition:
-    width var(--ease) var(--transition-duration),
-    background-color var(--ease) var(--transition-duration),
-    border-color var(--ease) var(--transition-duration);
+  .card {
+    width: 100%;
+    transition:
+      width var(--ease) var(--transition-duration),
+      background-color var(--ease) var(--transition-duration),
+      border-color var(--ease) var(--transition-duration),
+      height var(--ease) var(--transition-duration);
 
-  @media (--desktop) {
-    width: desktop-vw(262.5px);
+    @media (--desktop) {
+      width: desktop-vw(262.5px);
+    }
+
+    &.cardOpen {
+      @media (--mobile) {
+        background-color: var(--color-black);
+        height: mobile-vw(311px);
+
+        .plusButton {
+          opacity: 0;
+        }
+
+        .cardHeader {
+          height: mobile-vw(40px);
+          box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
+          border-color: var(--color-teal);
+          background-color: var(--color-teal);
+        }
+
+        .cardVideo {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+
+        .cardTitle {
+          transform: translateY(mobile-vw(-4px));
+        }
+
+        .cardContent {
+          opacity: 1;
+          transform: translate(0, 0);
+        }
+
+        .hashPattern {
+          opacity: 1;
+        }
+      }
+    }
   }
 
   @media (--hover) {
     &:hover {
-      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
-      background-color: var(--color-black);
-
-      @media (--desktop) {
-        width: desktop-vw(322px);
-      }
-
-      .cardHeader {
-        box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
-        border-color: var(--color-teal);
-        background-color: var(--color-teal);
+      .card {
+        box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+        background-color: var(--color-black);
 
         @media (--desktop) {
-          height: desktop-vw(50px);
+          width: desktop-vw(322px);
         }
 
-        .cardTitle {
+        .cardHeader {
+          box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
+          border-color: var(--color-teal);
+          background-color: var(--color-teal);
+
           @media (--desktop) {
-            transform: translateY(
-              calc(-1 * (desktop-vw(24px) - desktop-vw(16px)))
-            );
+            height: desktop-vw(50px);
+          }
+
+          .cardTitle {
+            @media (--desktop) {
+              transform: translateY(
+                calc(-1 * (desktop-vw(24px) - desktop-vw(16px)))
+              );
+            }
           }
         }
-      }
 
-      .cardVideo {
-        transform: scale(0.3);
-        transform-origin: top;
-        opacity: 0;
-      }
-
-      .plusButton {
-        opacity: 0;
-        pointer-events: none;
-        @media (--desktop) {
-          transform: translateX(desktop-vw(-80px));
+        .cardVideo {
+          transform: scale(0.3);
+          transform-origin: top;
+          opacity: 0;
         }
-      }
 
-      .cardContent {
-        opacity: 1;
-        transform: translate(0, 0);
+        .plusButton {
+          opacity: 0;
+          pointer-events: none;
+
+          @media (--desktop) {
+            transform: translateX(desktop-vw(-80px));
+          }
+        }
+
+        .cardContent {
+          opacity: 1;
+          transform: translate(0, 0);
+        }
+
+        .hashPattern {
+          opacity: 1;
+        }
       }
 
       .cardCTA {
-        opacity: 1;
-        transform: translateX(-20%);
-      }
-
-      .hashPattern {
-        opacity: 1;
+        @media (--desktop) {
+          opacity: 1;
+          transform: translateX(-20%);
+        }
       }
     }
   }
+}
 
-  &.cardOpen {
-    @media (--mobile) {
-      height: mobile-vw(311px);
-    }
-  }
+/* Card Components */
+.cardHeader {
+  transition:
+    height var(--ease) var(--transition-duration),
+    background-color var(--ease) var(--transition-duration);
+}
+
+.cardTitle {
+  transition: transform var(--ease) var(--transition-duration);
+}
+
+.cardVideo {
+  transition:
+    transform var(--ease) var(--transition-duration),
+    opacity var(--ease) var(--transition-duration);
 }
 
 .cardContent {
@@ -85,14 +143,25 @@
 
 .cardCTA {
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   transition:
     opacity var(--ease) var(--transition-duration),
     transform var(--ease) var(--transition-duration);
-  opacity: 0;
+
+  @media (--mobile) {
+    top: mobile-vw(239px);
+    z-index: 10;
+
+    svg {
+      transform: rotate(135deg);
+    }
+  }
 
   @media (--desktop) {
     left: 40%;
     bottom: desktop-vw(20px);
+    opacity: 0;
   }
 }
 
@@ -111,26 +180,12 @@
   }
 }
 
-.cardVideo {
-  transition:
-    transform var(--ease) var(--transition-duration),
-    opacity var(--ease) var(--transition-duration);
-}
-
-.cardHeader {
-  transition:
-    height var(--ease) var(--transition-duration),
-    background-color var(--ease) var(--transition-duration);
-}
-
-.cardTitle {
-  transition: transform var(--ease) var(--transition-duration);
-}
-
+/* Person Card */
 .person {
   transition:
     border-color 0.3s ease,
     box-shadow 0.3s ease;
+
   @media (--hover) {
     &:hover {
       border-style: dashed;
@@ -161,6 +216,7 @@
   transition: background-color 0.3s ease;
 }
 
+/* Marquee */
 .marquee {
   position: relative;
   padding: mobile-vw(40px) 0;
