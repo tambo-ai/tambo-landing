@@ -51,10 +51,7 @@ export function Animation() {
   const greatPickTextRef = useRef<HTMLParagraphElement>(null)
   const whatCanIDoText2Ref = useRef<HTMLSpanElement>(null)
   const checkingTextRef = useRef<HTMLSpanElement>(null)
-  const foundTextRef = useRef<HTMLSpanElement>(null)
-  const checkingContainerRef = useRef<HTMLDivElement>(null)
-  const spinnerRef = useRef<HTMLDivElement>(null)
-  const checkmarkRef = useRef<SVGSVGElement>(null)
+  const processBubbleRef = useRef<ProcessBubbleAnimateRef>(null)
 
   const scrollAnimation = useEffectEvent<TimelineCallback>(({ steps }) => {
     // Elements
@@ -84,11 +81,7 @@ export function Animation() {
     const pinAnimate = pinAnimateRef.current
     const greatPickText = greatPickTextRef.current
     const whatCanIDoText2 = whatCanIDoText2Ref.current
-    const checkingText = checkingTextRef.current
-    const foundText = foundTextRef.current
-    const checkingContainer = checkingContainerRef.current
-    const spinner = spinnerRef.current
-    const checkmark = checkmarkRef.current
+    const processBubble = processBubbleRef.current
 
     if (
       !(
@@ -118,11 +111,7 @@ export function Animation() {
         pinAnimate &&
         greatPickText &&
         whatCanIDoText2 &&
-        checkingText &&
-        foundText &&
-        checkingContainer &&
-        spinner &&
-        checkmark
+        processBubble
       )
     )
       return
@@ -241,14 +230,8 @@ export function Animation() {
       pin3.style.opacity = `${activitiesProgress}`
       pin3.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
 
-      checkingText.style.opacity = `${mapRange(0, 0.6, activitiesProgress, 1, 0)}`
-      foundText.style.opacity = `${mapRange(0.4, 1, activitiesProgress, 0, 1)}`
-      checkingContainer.style.setProperty(
-        '--width',
-        `${mapRange(0, 1, activitiesProgress, 306, 173, true)}`
-      )
-      spinner.style.opacity = `${mapRange(0, 0.6, activitiesProgress, 1, 0)}`
-      checkmark.style.opacity = `${mapRange(0.4, 1, activitiesProgress, 0, 1)}`
+      // Animation here
+      processBubble.animateDetail(activitiesProgress)
       chatBackground.style.opacity = `${mapRange(0, 1, activitiesProgress, 0.3, 1)}`
       chatBorder.style.opacity = `${mapRange(0, 1, activitiesProgress, 0.3, 1)}`
     }
@@ -382,49 +365,13 @@ export function Animation() {
               </p>
             </div>
             <div className="self-start dr-mt-14">
-              <div
-                ref={checkingContainerRef}
-                style={{
-                  '--width': 306,
-                }}
-                className="w-[calc(var(--width)*desktop-vw(1))] dr-h-32 border border-grey dr-rounded-12 dr-mb-9 font-geist dr-text-10 flex items-center justify-start dr-pl-8 overflow-hidden"
-              >
-                <div className="relative flex justify-center items-center">
-                  <div
-                    ref={spinnerRef}
-                    className={cn('dr-size-14 rounded-full dr-mr-6', s.spinner)}
-                  />
-                  <svg
-                    ref={checkmarkRef}
-                    className="absolute w-full -dr-left-3 opacity-0"
-                    width="13"
-                    height="10"
-                    viewBox="0 0 13 10"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <title>Checkmark Icon</title>
-                    <path
-                      d="M0.75 5.25L4.25 8.75L12.25 0.75"
-                      stroke="#7FFFC3"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <div className="relative">
-                  <span ref={checkingTextRef} className="whitespace-nowrap">
-                    checking activities matching the area and your trip dates...
-                  </span>
-                  <span
-                    ref={foundTextRef}
-                    className="absolute left-0 whitespace-nowrap opacity-0"
-                  >
-                    found some activities for you
-                  </span>
-                </div>
-              </div>
+              <ProcessBubble
+                animateRef={processBubbleRef}
+                text1="checking activities matching the area and your trip dates..."
+                text2="found some activities for you"
+                width1={306}
+                width2={173}
+              />
               <div
                 ref={thinkingRef}
                 className={cn(
@@ -453,6 +400,103 @@ export function Animation() {
             </p>
           </div>
         </div>
+      </div>
+    </div>
+  )
+}
+
+export type ProcessBubbleAnimateRef = {
+  animateDetail: (progress: number) => void
+}
+
+type ProcessBubbleProps = {
+  animateRef?: RefObject<ProcessBubbleAnimateRef | null>
+  text1: string
+  text2: string
+  width1: number
+  width2: number
+}
+
+export function ProcessBubble({
+  animateRef,
+  text1,
+  text2,
+  width1,
+  width2,
+}: ProcessBubbleProps) {
+  const checkingContainerRef = useRef<HTMLDivElement>(null)
+  const spinnerRef = useRef<HTMLDivElement>(null)
+  const checkmarkRef = useRef<SVGSVGElement>(null)
+  const text1Ref = useRef<HTMLSpanElement>(null)
+  const text2Ref = useRef<HTMLSpanElement>(null)
+
+  const animateDetail = useCallback(
+    (progress: number) => {
+      const checkingContainer = checkingContainerRef.current
+      const spinner = spinnerRef.current
+      const checkmark = checkmarkRef.current
+      const text1 = text1Ref.current
+      const text2 = text2Ref.current
+
+      if (!(checkingContainer && spinner && checkmark && text1 && text2)) return
+      text1.style.opacity = `${mapRange(0, 0.6, progress, 1, 0)}`
+      text2.style.opacity = `${mapRange(0.4, 1, progress, 0, 1)}`
+      checkingContainer.style.setProperty(
+        '--width',
+        `${mapRange(0, 1, progress, width1, width2, true)}`
+      )
+      spinner.style.opacity = `${mapRange(0, 0.6, progress, 1, 0)}`
+      checkmark.style.opacity = `${mapRange(0.4, 1, progress, 0, 1)}`
+    },
+    [width1, width2]
+  )
+
+  useImperativeHandle(animateRef, () => ({
+    animateDetail,
+  }))
+
+  return (
+    <div
+      ref={checkingContainerRef}
+      style={{
+        '--width': width1,
+      }}
+      className="w-[calc(var(--width)*desktop-vw(1))] dr-h-32 border border-grey dr-rounded-12 dr-mb-9 font-geist dr-text-10 flex items-center justify-start dr-pl-8 overflow-hidden"
+    >
+      <div className="relative flex justify-center items-center">
+        <div
+          ref={spinnerRef}
+          className={cn('dr-size-14 rounded-full dr-mr-6', s.spinner)}
+        />
+        <svg
+          ref={checkmarkRef}
+          className="absolute w-full -dr-left-3 opacity-0"
+          width="13"
+          height="10"
+          viewBox="0 0 13 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>Checkmark Icon</title>
+          <path
+            d="M0.75 5.25L4.25 8.75L12.25 0.75"
+            stroke="#7FFFC3"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+      <div className="relative">
+        <span ref={text1Ref} className="whitespace-nowrap">
+          {text1}
+        </span>
+        <span
+          ref={text2Ref}
+          className="absolute left-0 whitespace-nowrap opacity-0"
+        >
+          {text2}
+        </span>
       </div>
     </div>
   )

@@ -21,3 +21,23 @@
     desktop-vw(247)
   );
 }
+
+.chatOverlayBackground {
+  background: repeating-linear-gradient(
+    -45deg,
+    #d3f0e3,
+    #d3f0e3 1px,
+    rgba(255, 255, 255, 0.7) 1px,
+    rgba(255, 255, 255, 0.7) 6px
+  );
+}
+
+.yesButtonBackground {
+  background: repeating-linear-gradient(
+    -45deg,
+    #bfe0d1,
+    #bfe0d1 1px,
+    rgba(255, 255, 255, 0) 1px,
+    rgba(255, 255, 255, 0) 6px
+  );
+}

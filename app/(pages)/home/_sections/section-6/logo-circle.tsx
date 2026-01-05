@@ -177,7 +177,7 @@ function LogosRing({
     >
       <div
         ref={borderRef}
-        className="absolute inset-0 border-1 border-dashed border-dark-teal rounded-[inherit]"
+        className="absolute inset-0 border border-dashed border-dark-teal rounded-[inherit]"
       />
       {logos.map((logo, index) => (
         <LogoFrame
@@ -261,7 +261,7 @@ export function LogoCircle({ ref }: LogoCircleProps) {
     <div className="flex items-center justify-center absolute top-1/2 left-1/2 -translate-1/2">
       <div
         ref={containerRef}
-        className="absolute flex items-center justify-center"
+        className="absolute flex items-center justify-center opacity-0"
       >
         <LogosRing logos={LARGE_CIRCLE_LOGOS} size="l" ref={largeCircleRef} />
         <LogosRing

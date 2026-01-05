@@ -7,10 +7,18 @@ import {
   TimelineSectionContext,
 } from '~/app/(pages)/home/_components/timeline-section'
 import Cursor from '~/assets/svgs/cursor.svg'
+import PlusIcon from '~/assets/svgs/plus.svg'
 import { mapRange } from '~/libs/utils'
 import { colors } from '~/styles/colors'
+import {
+  ProcessBubble,
+  type ProcessBubbleAnimateRef,
+} from '../section-5/animation'
 import s from './animation.module.css'
+import CalendarIcon from './calendar.svg'
+import ClockIcon from './clock.svg'
 import { LogoCircle, type LogoCircleRef } from './logo-circle'
+import QuestionMarkIcon from './question-mark.svg'
 
 export function Animation() {
   const { addCallback } = use(TimelineSectionContext)
@@ -29,6 +37,10 @@ export function Animation() {
   const confirmingTextRef = useRef<HTMLParagraphElement>(null)
   const confirmingThinkingRef = useRef<HTMLDivElement>(null)
   const addFreedomTrailRef = useRef<HTMLParagraphElement>(null)
+  const calendarRef = useRef<HTMLDivElement>(null)
+  const chatOverlayBackgroundRef = useRef<HTMLDivElement>(null)
+  const yesButtonRef = useRef<HTMLParagraphElement>(null)
+  const processBubbleRef = useRef<ProcessBubbleAnimateRef>(null)
 
   const scrollAnimation = useEffectEvent<TimelineCallback>(({ steps }) => {
     // console.log('scrollAnimation', steps)
@@ -47,11 +59,16 @@ export function Animation() {
     const confirmingText = confirmingTextRef.current
     const confirmingThinking = confirmingThinkingRef.current
     const addFreedomTrail = addFreedomTrailRef.current
+    const calendar = calendarRef.current
+    const chatOverlayBackground = chatOverlayBackgroundRef.current
+    const yesButton = yesButtonRef.current
+    const processBubble = processBubbleRef.current
 
     if (
       !(
         container &&
         chat &&
+        chatOverlayBackground &&
         chatMessages &&
         logoCircle &&
         calendarImage &&
@@ -63,7 +80,10 @@ export function Animation() {
         confirmingBackground &&
         confirmingText &&
         confirmingThinking &&
-        addFreedomTrail
+        addFreedomTrail &&
+        calendar &&
+        yesButton &&
+        processBubble
       )
     )
       return
@@ -148,14 +168,32 @@ export function Animation() {
         `${mapRange(0, 1, freedomTrailProgress, 164, 238, true)}`
       )
       freedomTrail.style.opacity = `${freedomTrailProgress}`
+      calendar.style.backgroundColor = gsap.utils.interpolate(
+        colors['ghost-mint'],
+        colors['light-gray'],
+        freedomTrailProgress
+      )
+      calendarFreeSpot.style.backgroundColor = gsap.utils.interpolate(
+        colors['ghost-mint'],
+        colors['light-gray'],
+        freedomTrailProgress
+      )
     }
 
     if (freedomTrailProgress === 1) {
       cursor.style.opacity = `${freedomTrailHighlightProgress}`
       cursor.style.translate = `${mapRange(0, 1, freedomTrailHighlightProgress, 100, 0)}% ${mapRange(0, 1, freedomTrailHighlightProgress, 200, 0)}%`
+      if (freedomTrailHighlightProgress > 0.8) {
+        freedomTrail.setAttribute('data-active', 'true')
+      } else {
+        freedomTrail.removeAttribute('data-active')
+      }
     }
 
     if (freedomTrailHighlightProgress === 1) {
+      if (sureUpdateCalendarProgress > 0.4) {
+        freedomTrail.removeAttribute('data-active')
+      }
       chatMessages.style.setProperty(
         '--chat-translate-y',
         `${mapRange(0, 1, sureUpdateCalendarProgress, 238, 384, true)}`
@@ -166,15 +204,30 @@ export function Animation() {
     }
 
     if (sureUpdateCalendarProgress === 1) {
+      chatOverlayBackground.style.opacity = `${mapRange(0, 0.3, confirmUpdateCalendarProgress, 0, 1)}`
       cursor.style.opacity = `${confirmUpdateCalendarProgress}`
       cursor.style.translate = `${mapRange(0, 1, confirmUpdateCalendarProgress, 300, 700)}% ${mapRange(0, 1, confirmUpdateCalendarProgress, -100, 650)}%`
+
+      if (confirmUpdateCalendarProgress > 0.7) {
+        yesButton.setAttribute('data-hover', 'true')
+      } else {
+        yesButton.removeAttribute('data-hover')
+      }
     }
 
     if (confirmUpdateCalendarProgress === 1) {
+      if (addingToCalendarProgress > 0.2) {
+        yesButton.setAttribute('data-active', 'true')
+        yesButton.removeAttribute('data-hover')
+      } else {
+        yesButton.removeAttribute('data-active')
+      }
+
       chatMessages.style.setProperty(
         '--chat-translate-y',
         `${mapRange(0, 1, addingToCalendarProgress, 384, 508, true)}`
       )
+      chatOverlayBackground.style.opacity = `${mapRange(0, 0.3, addingToCalendarProgress, 1, 0)}`
       cursor.style.opacity = `${1 - addingToCalendarProgress}`
       cursor.style.translate = `${mapRange(0, 1, addingToCalendarProgress, 700, 900)}% ${mapRange(0, 1, addingToCalendarProgress, 650, 1000)}%`
     }
@@ -182,10 +235,11 @@ export function Animation() {
     if (addingToCalendarProgress === 1) {
       confirmingBackground.style.setProperty(
         '--added-to-calendar-progress',
-        `${addedToCalendarProgress}`
+        `${mapRange(0, 0.5, addedToCalendarProgress, 0, 1, true)}`
       )
-      confirmingText.style.opacity = `${addedToCalendarProgress}`
-      confirmingThinking.style.opacity = `${1 - addedToCalendarProgress}`
+      processBubble.animateDetail(addedToCalendarProgress)
+      confirmingText.style.opacity = `${mapRange(0.4, 0.8, addedToCalendarProgress, 0, 1)}`
+      confirmingThinking.style.opacity = `${mapRange(0, 0.4, addedToCalendarProgress, 1, 0)}`
     }
   })
 
@@ -250,7 +304,10 @@ export function Animation() {
               Add the Freedom Trail Tour to my calendar
             </p>
             <div className="self-start dr-mb-6 flex dr-gap-6">
-              <div className="bg-ghost-mint dr-rounded-12 h-full aspect-square border border-dark-grey dr-p-10 relative z-10">
+              <div
+                ref={calendarRef}
+                className="bg-ghost-mint dr-rounded-12 h-full aspect-square border border-dark-grey dr-p-10 relative z-10"
+              >
                 <Image
                   ref={calendarImageRef}
                   src="/assets/logos/g-cal.svg"
@@ -277,39 +334,66 @@ export function Animation() {
             </div>
             <div
               ref={freedomTrailRef}
-              className="self-start bg-ghost-mint dr-rounded-12 dr-h-67 dr-p-4 dr-pl-8 flex items-center aspect-square border border-dark-grey dr-mb-6 opacity-0 relative"
+              className="group self-start bg-ghost-mint data-active:bg-black dr-rounded-12 dr-h-67 dr-p-4 dr-pl-8 flex items-center aspect-square border border-dark-grey data-active:border-teal data-active:text-teal transition-all duration-300 dr-mb-6 opacity-0 relative"
             >
-              <div className="h-5/6 dr-mx-4 dr-w-2 bg-dark-teal dr-mr-12" />
-              <div className="flex flex-col dr-py-8 dr-gap-8">
+              <div className="h-5/6 dr-mx-4 dr-w-2 bg-dark-teal dr-mr-12 group-data-active:bg-teal" />
+              <div className="flex flex-col dr-py-8 dr-gap-6 dr-mb-2">
                 <p className="font-geist dr-text-16 whitespace-nowrap">
                   Freedom Trail Tour
                 </p>
                 <div className="flex dr-gap-16">
-                  <p className="typo-p font-geist dr-text-12 whitespace-nowrap">
-                    Tue, Jan 9
-                  </p>
-                  <p className="typo-p font-geist dr-text-12 whitespace-nowrap">
-                    15:00 - 16:00
-                  </p>
+                  <div className="flex dr-gap-4 items-center">
+                    <CalendarIcon className="dr-size-16 group-data-active:opacity-40" />
+                    <p className="typo-p font-geist dr-text-12 whitespace-nowrap">
+                      Tue, Jan 9
+                    </p>
+                  </div>
+                  <div className="flex dr-gap-4 items-center">
+                    <ClockIcon className="dr-size-16 group-data-active:opacity-40" />
+                    <p className="typo-p font-geist dr-text-12 whitespace-nowrap">
+                      15:00 - 16:00
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="h-full aspect-4/6 bg-white box-border border-2 border-dark-grey dr-rounded-8 dr-ml-24" />
+              <div className="h-full aspect-4/6 bg-white group-data-active:bg-teal group-data-active:text-black box-border border-2 border-dark-grey group-data-active:border-teal dr-rounded-8 dr-ml-24 grid place-items-center">
+                <PlusIcon className="icon dr-size-16" />
+              </div>
               <Cursor
                 ref={cursorRef}
-                className="absolute dr-size-24 right-0 bottom-0 translate-y-[200%] translate-x-full opacity-0"
+                className="absolute dr-size-24 right-0 bottom-0 translate-y-[200%] translate-x-full opacity-0 z-50"
               />
             </div>
+
+            <div
+              ref={chatOverlayBackgroundRef}
+              className={cn(
+                'absolute -dr-inset-x-16 h-screen bg-white/60 pointer-events-none z-20 opacity-0',
+                s.chatOverlayBackground
+              )}
+            />
             <div
               ref={sureUpdateCalendarRef}
-              className="self-start typo-p-sentient bg-mint dr-rounded-12 dr-py-13 dr-pl-16 dr-pr-24 border border-dark-grey flex dr-gap-16 items-center dr-mb-6 opacity-0"
+              className="self-start typo-p-sentient bg-mint dr-rounded-12 dr-py-13 dr-pl-16 dr-pr-24 border border-dark-grey flex dr-gap-16 items-center dr-mb-6 opacity-0 relative z-30"
             >
-              <div className="dr-h-40 aspect-square bg-black rounded-full" />
+              <div className="dr-h-40 aspect-square bg-black text-teal rounded-full grid place-items-center">
+                <QuestionMarkIcon className="icon dr-size-24" />
+              </div>
               <span>Are you sure you want to update your calendar?</span>
             </div>
 
-            <div className="self-end flex dr-gap-8 dr-mb-14">
-              <p className="typo-button uppercase dr-p-24 dr-rounded-12 border-2 border-dark-grey">
-                yes, go ahead!
+            <div className="self-end flex dr-gap-8 dr-mb-14 relative z-30">
+              <p
+                ref={yesButtonRef}
+                className="group relative typo-button uppercase dr-p-24 dr-rounded-12 border-2 border-dark-grey data-hover:border-teal bg-white data-hover:bg-black data-hover:text-teal transition-all duration-300 overflow-hidden"
+              >
+                <div
+                  className={cn(
+                    'absolute inset-0 pointer-events-none opacity-0 group-data-hover:opacity-20 group-data-active:opacity-100',
+                    s.yesButtonBackground
+                  )}
+                />
+                <span className="relative z-10">yes, go ahead!</span>
               </p>
               <p className="typo-button uppercase dr-p-24 dr-rounded-12 border-2 border-dark-grey bg-white">
                 no, cancel!
@@ -317,11 +401,12 @@ export function Animation() {
             </div>
 
             <div className="self-start">
-              <div
-                className={cn(
-                  'dr-h-32 dr-w-200 border border-grey dr-rounded-12 dr-mb-9',
-                  s.confirmingBubble
-                )}
+              <ProcessBubble
+                animateRef={processBubbleRef}
+                text1="adding new event in “BostonTrip” calendar..."
+                text2="“Boston Trip” calendar updated!"
+                width1={239}
+                width2={185}
               />
               <p
                 ref={confirmingBackgroundRef}
