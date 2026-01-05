@@ -50,7 +50,6 @@ export function Animation() {
   const pinAnimateRef = useRef<PinAnimateRef>(null)
   const greatPickTextRef = useRef<HTMLParagraphElement>(null)
   const whatCanIDoText2Ref = useRef<HTMLSpanElement>(null)
-  const checkingTextRef = useRef<HTMLSpanElement>(null)
   const processBubbleRef = useRef<ProcessBubbleAnimateRef>(null)
 
   const scrollAnimation = useEffectEvent<TimelineCallback>(({ steps }) => {
@@ -516,16 +515,23 @@ function Pin({ className, pinRef, dotRef, animateRef, ...props }: PinProps) {
   const detailBackgroundRef = useRef<HTMLDivElement>(null)
   const detailTextRef = useRef<HTMLParagraphElement>(null)
 
-  const animateDetail = useCallback((progress: number) => {
-    if (
-      !(detailBackgroundRef.current && detailTextRef.current && dotRef?.current)
-    )
-      return
-    detailBackgroundRef.current.style.opacity = `${progress}`
-    detailBackgroundRef.current.style.clipPath = `inset(0% ${50 * (1 - progress)}% 0% ${50 * (1 - progress)}% round 100px)`
-    detailTextRef.current.style.opacity = `${progress}`
-    dotRef.current.style.opacity = `${1 - progress}`
-  }, [])
+  const animateDetail = useCallback(
+    (progress: number) => {
+      if (
+        !(
+          detailBackgroundRef.current &&
+          detailTextRef.current &&
+          dotRef?.current
+        )
+      )
+        return
+      detailBackgroundRef.current.style.opacity = `${progress}`
+      detailBackgroundRef.current.style.clipPath = `inset(0% ${50 * (1 - progress)}% 0% ${50 * (1 - progress)}% round 100px)`
+      detailTextRef.current.style.opacity = `${progress}`
+      dotRef.current.style.opacity = `${1 - progress}`
+    },
+    [dotRef?.current]
+  )
 
   useImperativeHandle(
     animateRef,

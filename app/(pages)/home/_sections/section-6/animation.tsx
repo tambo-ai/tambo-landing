@@ -415,7 +415,10 @@ export function Animation() {
                   s.confirmingBackground
                 )}
               >
-                <span ref={confirmingTextRef} className="whitespace-nowrap">
+                <span
+                  ref={confirmingTextRef}
+                  className="whitespace-nowrap opacity-0"
+                >
                   You're all set for Tuesday. Enjoy the tour!
                 </span>
                 <div
