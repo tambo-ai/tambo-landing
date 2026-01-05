@@ -151,9 +151,10 @@ function Card({ data, isOpen, onToggle }: CardProps) {
             s.hashPattern
           )}
         />
+        {/* Card Header */}
         <div
           className={cn(
-            'w-full h-full bg-white border border-dark-grey dr-rounded-12 dr-p-16 dr-py-12 dt:dr-py-24 flex flex-col items-center  relative z-10 ',
+            'w-full h-full bg-white border border-dark-grey dr-rounded-12 dr-p-16 dr-py-12 dt:dr-py-24 flex flex-col items-center relative z-10',
             s.cardHeader
           )}
         >
@@ -189,7 +190,16 @@ function Card({ data, isOpen, onToggle }: CardProps) {
               </Video>
             </div>
           </div>
+          <div
+            className={cn(
+              'absolute dr-right-4 dr-top-3 dr-size-32 grid place-items-center dr-rounded-8 bg-black mobile-only opacity-0 transition-opacity duration-300',
+              s.crossButton
+            )}
+          >
+            <PlusIcon className="dr-size-16" />
+          </div>
         </div>
+        {/* Card Content */}
         <div
           className={cn(
             'absolute dt:dr-top-135 dr-top-80 dr-left-32 text-teal',
@@ -198,6 +208,7 @@ function Card({ data, isOpen, onToggle }: CardProps) {
         >
           <p className="typo-p text-center dr-w-258">{data?.text}</p>
         </div>
+        {/* Card Bottom */}
         <div
           className={cn(
             'dr-size-32 grid place-items-center dr-rounded-10 bg-mint z-10',

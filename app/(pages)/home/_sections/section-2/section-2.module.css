@@ -38,7 +38,7 @@
         }
 
         .cardTitle {
-          transform: translateY(mobile-vw(-4px));
+          transform: translateY(mobile-vw(-3px));
         }
 
         .cardContent {
@@ -47,6 +47,10 @@
         }
 
         .hashPattern {
+          opacity: 1;
+        }
+
+        .crossButton {
           opacity: 1;
         }
       }
@@ -177,6 +181,15 @@
     left: 50%;
     bottom: desktop-vw(32px);
     transform: translateX(-50%);
+  }
+}
+
+.crossButton {
+  svg {
+    transform: rotate(45deg);
+    path {
+      stroke: var(--color-teal);
+    }
   }
 }
 
