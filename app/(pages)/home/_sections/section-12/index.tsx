@@ -41,53 +41,54 @@ export function Section12() {
   )
 
   return (
-    <section className="dt:dr-pt-65 dt:dr-pb-137" ref={setRectRef}>
-      {/* <div className="absolute bottom-0 left-0 right-0 h-[50%] bg-white" /> */}
+    <section
+      className="dt:dr-pt-65 dr-pt-120 dr-pb-120 dt:dr-pb-137"
+      ref={setRectRef}
+    >
       <div
         style={{ maxWidth: `calc(var(--max-width) * 1px)` }}
-        className="mx-auto dt:dr-layout-grid-inner relative"
+        className="mx-auto dr-layout-grid-inner relative"
       >
-        <TitleBlock className="dt:col-start-4 dt:col-end-10 dt:dr-mb-56">
+        <TitleBlock className="dt:col-start-4 dt:col-end-10 dr-mb-56 col-span-full">
           <TitleBlock.LeadIn>
             {'<'} PRICING {'>'}
           </TitleBlock.LeadIn>
-          <TitleBlock.Title level="h2" className="dt:dr-mb-8!">
+          <TitleBlock.Title level="h2" className="dr-mb-0!">
             Simple pricing
             <br />
             from hobbyists to enterprise
           </TitleBlock.Title>
         </TitleBlock>
-        <div className="dt:col-start-2 dt:col-end-12">
-          <div className="dt:grid dt:grid-cols-3 dt:dr-gap-24 dt:dr-mb-32">
+        <div className="dt:col-start-2 dt:col-end-12 col-span-full">
+          <div className="grid dt:grid-cols-3 grid-cols-1 dt:dr-gap-24 dr-gap-16 dt:dr-mb-32 dr-mb-16">
             {pricingCards.map((card, i) => (
               <div
                 key={`${card?.plan}-${i}`}
                 className={cn(
-                  'dt:dr-p-8 border border-dark-grey dt:dr-rounded-20 bg-white dt:dr-h-497 dt:flex dt:flex-col dt:justify-between',
+                  'dr-p-8 border border-dark-grey dr-rounded-20 bg-white dt:dr-h-497 dt:flex dt:flex-col dt:justify-between',
                   s.card
                 )}
               >
-                <div>
+                <div className="dr-mb-32 dt:dr-mb-0">
                   <div
                     className={cn(
-                      'dt:dr-p-16 dt:dr-rounded-12 bg-off-white border border-dark-grey dt:dr-mb-32',
+                      'dr-p-16 dr-rounded-12 bg-off-white border border-dark-grey dt:dr-mb-32 dr-mb-24',
                       s.cardHeader
                     )}
                   >
-                    <p className="typo-label-m dt:dr-mb-16">
+                    <p className="dt:typo-label-m typo-label-s dr-mb-16">
                       {'< '}
                       {card?.plan}
                       {' >'}
                     </p>
-                    <h2 className="typo-h3 dt:dr-mb-8">{card?.title}</h2>
-                    <p className="typo-p">{card?.description}</p>
+                    <h2 className="dt:typo-h3 typo-h4 dr-mb-8">
+                      {card?.title}
+                    </h2>
+                    <p className="dt:typo-p typo-p-s">{card?.description}</p>
                   </div>
-                  <ul className="dt:flex dt:flex-col dt:dr-gap-12">
+                  <ul className="flex flex-col dt:dr-gap-12 dr-gap-8 dr-ml-8 dt:dr-ml-0">
                     {card?.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="dt:flex dt:items-center dt:dr-gap-4"
-                      >
+                      <li key={feature} className="flex items-center dr-gap-8">
                         <CheckSVG className="dr-size-16 text-teal" />
                         <p className="typo-label-s">{feature}</p>
                       </li>
@@ -106,19 +107,22 @@ export function Section12() {
           {/* BANNER */}
           <div
             className={cn(
-              'w-full dt:dr-p-8 border border-dark-grey  dt:dr-rounded-20',
+              'w-full dr-p-8 border border-dark-grey dr-rounded-20',
               s.banner
             )}
           >
-            <div className="bg-black w-full dt:dr-rounded-12 dt:dr-p-24 relative overflow-hidden dt:flex dt:justify-between">
+            <div className="bg-black w-full dr-rounded-12 dr-p-24 relative overflow-hidden flex flex-col dt:flex-row dt:justify-between dt:items-center">
               <div className="absolute inset-0 dark-teal-pattern z-0" />
-              <div className="relative text-teal">
-                <h3 className="typo-h3 dt:dr-mb-8">{banner?.title}</h3>
+              <div className="relative text-teal dr-mb-24 dt:dr-mb-0">
+                <h3 className="typo-h3 dr-mb-8">{banner?.title}</h3>
                 <p className="typo-p">{banner?.description}</p>
               </div>
-              <ul className="dt:flex dt:dr-gap-40 relative">
+              <ul className="flex flex-col dt:flex-row dt:dr-gap-40 dr-gap-8 relative dr-mb-32 dt:dr-mb-0">
                 {banner?.features.map((feature) => (
-                  <li key={feature} className="dt:flex items-center dr-gap-4">
+                  <li
+                    key={feature}
+                    className="flex items-center dt:dr-gap-4 dr-gap-8"
+                  >
                     <CheckSVG className="dr-size-16 text-teal" />
                     <p className="typo-label-s text-teal">{feature}</p>
                   </li>
