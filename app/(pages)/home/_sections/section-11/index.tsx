@@ -81,9 +81,6 @@ export function Section11() {
               <br />
               Here are some of the best apps from our developer community.
             </TitleBlock.Subtitle>
-            <TitleBlock.Button href="/" color="black" className="desktop-only">
-              Start Building
-            </TitleBlock.Button>
           </TitleBlock>
           {/* SHOWCASE CARDS */}
           <div className="dt:col-start-2 dt:col-end-12 col-span-full dt:dr-max-h-257">

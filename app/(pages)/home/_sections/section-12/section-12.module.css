@@ -5,15 +5,33 @@
     border-color 0.3s ease;
   background: var(--color-white);
 
+  /* Active state variables */
+  --active-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+  --active-header-bg: var(--color-ghost-mint);
+  --active-header-border: var(--color-dark-teal);
+
   @media (--hover) {
     &:hover {
-      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+      box-shadow: var(--active-shadow);
       border-style: dashed;
       border-color: var(--color-teal);
 
       .cardHeader {
-        background-color: var(--color-ghost-mint);
-        border-color: var(--color-dark-teal);
+        background-color: var(--active-header-bg);
+        border-color: var(--active-header-border);
+      }
+    }
+  }
+
+  &.active {
+    @media (--mobile) {
+      box-shadow: var(--active-shadow);
+      border-style: dashed;
+      border-color: var(--color-teal);
+
+      .cardHeader {
+        background-color: var(--active-header-bg);
+        border-color: var(--active-header-border);
       }
     }
   }

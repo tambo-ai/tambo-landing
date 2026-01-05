@@ -1,7 +1,7 @@
 'use client'
 
 import cn from 'clsx'
-import { useRect } from 'hamo'
+import { useIntersectionObserver, useRect } from 'hamo'
 import { useContext } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
@@ -62,46 +62,7 @@ export function Section12() {
         <div className="dt:col-start-2 dt:col-end-12 col-span-full">
           <div className="grid dt:grid-cols-3 grid-cols-1 dt:dr-gap-24 dr-gap-16 dt:dr-mb-32 dr-mb-16">
             {pricingCards.map((card, i) => (
-              <div
-                key={`${card?.plan}-${i}`}
-                className={cn(
-                  'dr-p-8 border border-dark-grey dr-rounded-20 bg-white dt:dr-h-497 dt:flex dt:flex-col dt:justify-between',
-                  s.card
-                )}
-              >
-                <div className="dr-mb-32 dt:dr-mb-0">
-                  <div
-                    className={cn(
-                      'dr-p-16 dr-rounded-12 bg-off-white border border-dark-grey dt:dr-mb-32 dr-mb-24',
-                      s.cardHeader
-                    )}
-                  >
-                    <p className="dt:typo-label-m typo-label-s dr-mb-16">
-                      {'< '}
-                      {card?.plan}
-                      {' >'}
-                    </p>
-                    <h2 className="dt:typo-h3 typo-h4 dr-mb-8">
-                      {card?.title}
-                    </h2>
-                    <p className="dt:typo-p typo-p-s">{card?.description}</p>
-                  </div>
-                  <ul className="flex flex-col dt:dr-gap-12 dr-gap-8 dr-ml-8 dt:dr-ml-0">
-                    {card?.features.map((feature) => (
-                      <li key={feature} className="flex items-center dr-gap-8">
-                        <CheckSVG className="dr-size-16 text-teal" />
-                        <p className="typo-label-s">{feature}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <CTA
-                  className="w-full dt:justify-between"
-                  href={card?.button?.href}
-                >
-                  {card?.button?.text}
-                </CTA>
-              </div>
+              <PricingCard key={`${card?.plan}-${i}`} card={card} />
             ))}
           </div>
           {/* BANNER */}
@@ -136,5 +97,52 @@ export function Section12() {
         </div>
       </div>
     </section>
+  )
+}
+
+function PricingCard({ card }: { card: (typeof pricingCards)[number] }) {
+  const [setIntersectionRef, intersection] = useIntersectionObserver({
+    rootMargin: '-20%',
+    threshold: 0.4,
+  })
+  const isActive = intersection?.isIntersecting
+
+  return (
+    <div
+      ref={setIntersectionRef}
+      className={cn(
+        'dr-p-8 border border-dark-grey dr-rounded-20 bg-white dt:dr-h-497 dt:flex dt:flex-col dt:justify-between',
+        s.card,
+        isActive && s.active
+      )}
+    >
+      <div className="dr-mb-32 dt:dr-mb-0">
+        <div
+          className={cn(
+            'dr-p-16 dr-rounded-12 bg-off-white border border-dark-grey dt:dr-mb-32 dr-mb-24',
+            s.cardHeader
+          )}
+        >
+          <p className="dt:typo-label-m typo-label-s dr-mb-16">
+            {'< '}
+            {card?.plan}
+            {' >'}
+          </p>
+          <h2 className="dt:typo-h3 typo-h4 dr-mb-8">{card?.title}</h2>
+          <p className="dt:typo-p typo-p-s">{card?.description}</p>
+        </div>
+        <ul className="flex flex-col dt:dr-gap-12 dr-gap-8 dr-ml-8 dt:dr-ml-0">
+          {card?.features.map((feature) => (
+            <li key={feature} className="flex items-center dr-gap-8">
+              <CheckSVG className="dr-size-16 text-teal" />
+              <p className="typo-label-s">{feature}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <CTA className="w-full dt:justify-between" href={card?.button?.href}>
+        {card?.button?.text}
+      </CTA>
+    </div>
   )
 }
