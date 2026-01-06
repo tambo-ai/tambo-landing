@@ -1,3 +1,13 @@
+.cardWrapper {
+  position: relative;
+
+  @media (--hover) {
+    &:hover .cardRing {
+      opacity: 0.2;
+    }
+  }
+}
+
 .card {
   transition:
     padding-bottom 0.3s ease,
@@ -8,9 +18,10 @@
   @media (--hover) {
     &:hover {
       @media (--desktop) {
-        padding-bottom: desktop-vw(132px);
+        padding-bottom: desktop-vw(140px);
         background-color: var(--color-black);
         box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+
         border-color: var(--color-teal);
       }
 
@@ -101,6 +112,20 @@
   }
 }
 
+.cardRing {
+  position: absolute;
+  inset: calc(-1 * mobile-vw(8px));
+  border-radius: mobile-vw(28px);
+  background-color: var(--color-white);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+
+  @media (--desktop) {
+    inset: calc(-1 * desktop-vw(8px));
+    border-radius: desktop-vw(28px);
+  }
+}
+
 .cardImage {
   transition: border-color 0.3s ease;
 }
@@ -183,23 +208,48 @@
 }
 
 .personCard {
+  position: relative;
   transition:
     box-shadow 0.3s ease,
     border-color 0.3s ease,
     border-style 0.3s ease;
   @media (--hover) {
     &:hover {
-      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+      box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
       border-color: var(--color-teal);
       border-style: dashed;
+
+      &:before {
+        opacity: 0.2;
+      }
     }
   }
 
   &.personInViewport {
     @media (--mobile) {
-      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+      box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
       border-color: var(--color-teal);
       border-style: dashed;
+
+      &:before {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * mobile-vw(8px));
+    border-radius: mobile-vw(28px);
+    background-color: var(--color-white);
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    opacity: 0;
+
+    @media (--desktop) {
+      inset: calc(-1 * desktop-vw(8px));
+      border-radius: desktop-vw(28px);
     }
   }
 }

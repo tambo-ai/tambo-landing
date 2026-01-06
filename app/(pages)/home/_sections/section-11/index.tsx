@@ -86,76 +86,89 @@ export function Section11() {
           <div className="dt:col-start-2 dt:col-end-12 col-span-full dt:dr-max-h-257">
             <div className="dt:dr-grid dt:dr-grid-cols-3 dt:dr-gap-24 flex flex-col dr-gap-y-16 relative items-start">
               {showcaseCards.map((card, i) => (
-                <Button
+                <div
                   key={`${card?.title}-${i}`}
-                  href={isDesktop ? card?.href : undefined}
-                  className={cn(
-                    'relative border border-dark-teal/50 dr-p-12 bg-black dr-rounded-20 dt:dr-w-361 w-full dt:dr-max-h-371 dr-max-h-389 overflow-hidden',
-                    s.card,
-                    isOpenCard === card?.title && s.cardOpen
-                  )}
-                  onClick={() => {
-                    if (isMobile) {
-                      setIsOpenCard(
-                        isOpenCard === card?.title ? null : card?.title
-                      )
-                    }
-                  }}
+                  className={cn('relative', s.cardWrapper)}
                 >
-                  <HashPattern
+                  {/* Before was not working, div instead */}
+                  <div className={s.cardRing} />
+                  <Button
+                    key={`${card?.title}-${i}`}
+                    href={isDesktop ? card?.href : undefined}
                     className={cn(
-                      'absolute inset-0 text-dark-teal/20',
-                      s.pattern
+                      'relative border border-dark-teal/50 dr-p-12 bg-black dr-rounded-20 dt:dr-w-361 w-full dt:dr-max-h-390 dr-max-h-389 block overflow-hidden',
+                      s.card,
+                      isOpenCard === card?.title && s.cardOpen
                     )}
-                  />
-
-                  <div
-                    className={cn(
-                      'dt:dr-w-337 dt:dr-h-189 dr-h-170 border border-dark-teal/50 dr-rounded-8 aspect-16/9 dr-mb-12 relative z-1 bg-white block',
-                      s.cardImage
-                    )}
+                    onClick={() => {
+                      if (isMobile) {
+                        setIsOpenCard(
+                          isOpenCard === card?.title ? null : card?.title
+                        )
+                      }
+                    }}
                   >
-                    {card?.image.includes('.png') ? (
-                      <Image src={card?.image} alt={card?.title} fill />
-                    ) : (
-                      <Video autoPlay>
-                        <source src={card?.image} type="video/webm" />
-                      </Video>
-                    )}
-                  </div>
+                    <div
+                      className={cn(
+                        'dt:dr-w-337 dt:dr-h-189 dr-h-170 border border-dark-teal/50 dr-rounded-8 aspect-16/9 dr-mb-12 relative z-1 bg-white block',
+                        s.cardImage
+                      )}
+                    >
+                      {card?.image.includes('.png') ? (
+                        <Image src={card?.image} alt={card?.title} fill />
+                      ) : (
+                        <Video autoPlay>
+                          <source src={card?.image} type="video/webm" />
+                        </Video>
+                      )}
+                    </div>
 
-                  <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between">
-                    <p className={cn('typo-h5 w-fit text-teal', s.title)}>
-                      {card?.title}
-                    </p>
+                    <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between">
+                      <p className={cn('typo-h5 w-fit text-teal', s.title)}>
+                        {card?.title}
+                      </p>
+
+                      <div
+                        className={cn(
+                          'dr-w-32 dr-h-32 bg-black border border-teal flex items-center justify-center dr-rounded-10 relative',
+                          s.button
+                        )}
+                      >
+                        <PlusSVG
+                          className={cn(
+                            'dr-w-16 dr-h-16 z-1 absolute ',
+                            s.plus
+                          )}
+                        />
+                        <ArrowSVG
+                          className={cn(
+                            'dr-w-16 dr-h-16 z-1 absolute ',
+                            s.arrow
+                          )}
+                        />
+                      </div>
+                    </div>
 
                     <div
                       className={cn(
-                        'dr-w-32 dr-h-32 bg-black border border-teal flex items-center justify-center dr-rounded-10 relative',
-                        s.button
+                        'absolute dt:dr-top-262 dr-top-242 dt:dr-ml-12',
+                        s.cardContent
                       )}
                     >
-                      <PlusSVG
-                        className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)}
-                      />
-                      <ArrowSVG
-                        className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)}
-                      />
+                      <p className="typo-p text-mint dr-mb-17 dt:dr-w-298 dr-w-263">
+                        {card?.paragraph}
+                      </p>
+                      <p className="typo-label-m text-mint">{card?.user}</p>
                     </div>
-                  </div>
 
-                  <div
-                    className={cn(
-                      'absolute dt:dr-top-262 dr-top-242 dt:dr-ml-12',
-                      s.cardContent
-                    )}
-                  >
-                    <p className="typo-p text-mint dr-mb-17 dt:dr-w-298 dr-w-263">
-                      {card?.paragraph}
-                    </p>
-                    <p className="typo-label-m text-mint">{card?.user}</p>
-                  </div>
-                </Button>
+                    <HashPattern
+                      className={cn(
+                        'absolute inset-0 text-dark-teal/20',
+                        s.pattern
+                      )}
+                    />
+                  </Button>
+                </div>
               ))}
             </div>
           </div>
