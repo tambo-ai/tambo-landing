@@ -400,7 +400,7 @@ export function Animation() {
             </div>
 
             <div className="self-end flex dr-gap-8 dr-mb-14 relative z-30">
-              <p
+              <div
                 ref={yesButtonRef}
                 className="group relative typo-button uppercase dr-p-24 dr-rounded-12 border-2 border-dark-grey data-hover:border-teal bg-white data-hover:bg-black data-hover:text-teal transition-all duration-300 overflow-hidden"
               >
@@ -410,8 +410,8 @@ export function Animation() {
                     s.yesButtonBackground
                   )}
                 />
-                <span className="relative z-10">yes, go ahead!</span>
-              </p>
+                <p className="relative z-10">yes, go ahead!</p>
+              </div>
               <p className="typo-button uppercase dr-p-24 dr-rounded-12 border-2 border-dark-grey bg-white">
                 no, cancel!
               </p>
