@@ -208,7 +208,8 @@
     &:hover {
       border-style: dashed;
       border-color: color-mix(in srgb, var(--color-forest) 50%, transparent);
-      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+      /* box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7); */
+      box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
 
       .role {
         background-color: var(--color-ghost-mint);
@@ -229,7 +230,8 @@
     &.personInViewport {
       border-style: dashed;
       border-color: color-mix(in srgb, var(--color-forest) 50%, transparent);
-      box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+      /* box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7); */
+      box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
 
       .role {
         background-color: var(--color-ghost-mint);
@@ -259,12 +261,9 @@
   &:before {
     content: "";
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    inset: calc(-1 * mobile-vw(8px));
     background-color: var(--color-off-white);
-    border-radius: mobile-vw(20px);
-    transform: scaleX(1.05) scaleY(1.15);
+    border-radius: mobile-vw(28px);
     transform-origin: center;
     transition:
       transform 0.3s ease,
@@ -274,7 +273,8 @@
     pointer-events: none;
 
     @media (--desktop) {
-      border-radius: desktop-vw(20px);
+      inset: calc(-1 * desktop-vw(8px));
+      border-radius: desktop-vw(28px);
     }
   }
 }
