@@ -2,7 +2,7 @@
 
 import cn from 'clsx'
 import gsap from 'gsap'
-import { useRect, useWindowSize } from 'hamo'
+import { useRect } from 'hamo'
 import { useContext, useEffect, useEffectEvent, useRef } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
@@ -21,8 +21,6 @@ export function Hero() {
 
   const [setRectRef, rect] = useRect()
 
-  const { width: windowWidth = 0 } = useWindowSize()
-
   const videoRef = useRef<HTMLDivElement>(null)
   const subVideoRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
@@ -30,8 +28,9 @@ export function Hero() {
 
   const desktopVW = useDesktopVW()
 
+  const hasAppeared = useRef(false)
+
   const appear = useEffectEvent(() => {
-    console.log('appear', windowWidth)
     const proxy = {
       progress1: 0,
       progress2: 0,
@@ -192,6 +191,9 @@ export function Hero() {
           duration: 1,
         }
       )
+      .call(() => {
+        hasAppeared.current = true
+      })
 
     return timeline
   })
@@ -213,6 +215,8 @@ export function Hero() {
       start: 'top top',
       end: 'bottom top',
       onProgress: ({ progress }) => {
+        if (!hasAppeared.current) return
+
         const items = getItems()
 
         fromTo(
@@ -255,6 +259,8 @@ export function Hero() {
     start: 'top top',
     end: 'bottom center',
     onProgress: ({ progress }) => {
+      if (!hasAppeared.current) return
+
       fromTo(
         arrowDownRef.current,
         {
