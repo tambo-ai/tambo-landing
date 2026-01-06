@@ -5,6 +5,9 @@ import { useRect, useWindowSize } from 'hamo'
 import { useContext, useEffect, useEffectEvent, useRef, useState } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
+import DiscordSVG from '~/assets/svgs/discord.svg'
+import GithubSVG from '~/assets/svgs/github.svg'
+import XSVG from '~/assets/svgs/X.svg'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Link } from '~/components/link'
@@ -177,10 +180,10 @@ export function Footer() {
   return (
     <section ref={setRectRef} className="overflow-clip">
       <div
-        className="relative flex flex-col items-center justify-center h-screen"
+        className="relative flex flex-col items-center justify-center dt:h-screen dr-pt-280 dt:dr-pt-0"
         ref={innerRef}
       >
-        <div className="text-center flex flex-col items-center relative -dr-top-48">
+        <div className="text-center flex flex-col items-center relative dr-mb-156 dt:dr-mb-0">
           <div className="dr-w-172 aspect-square">
             {/* <Video
             autoPlay
@@ -198,13 +201,13 @@ export function Footer() {
           </div>
 
           <TitleBlock>
-            <TitleBlock.Title level="h2" className="dt:dr-mb-8!">
+            <TitleBlock.Title level="h2" className="dr-mb-8! typo-h1!">
               Ready to get started?
             </TitleBlock.Title>
-            <TitleBlock.Subtitle>
-              Ship an ai assistant with generative ui in minutes.
+            <TitleBlock.Subtitle className="typo-p! dt:typo-p-l!">
+              Ship an ai assistant with generative UI <br /> in minutes.
             </TitleBlock.Subtitle>
-            <div className="flex dr-gap-8 dr-mt-40">
+            <div className="flex dr-gap-8 dr-mt-40 dt:flex-row flex-col">
               <CTA
                 href="https://docs.tambo.co/"
                 className="bg-black! text-teal border-teal"
@@ -213,22 +216,37 @@ export function Footer() {
               >
                 START BUILDING
               </CTA>
-              <CTA onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+              <CTA
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                className="w-full"
+              >
                 components
               </CTA>
             </div>
           </TitleBlock>
         </div>
-        <div className="absolute dr-layout-grid-inner w-full dr-bottom-16 typo-label-m">
-          <span className="col-span-2">
+        <div className="mobile-only flex dr-gap-12 dr-mb-32">
+          <div className="dr-size-32 rounded-full bg-grey grid place-items-center">
+            <DiscordSVG className="dr-w-16 dr-h-16" />
+          </div>
+          <div className="dr-size-32 rounded-full bg-grey grid place-items-center">
+            <GithubSVG className="dr-w-16 dr-h-16" />
+          </div>
+          <div className="dr-size-32 rounded-full bg-grey grid place-items-center">
+            <XSVG className="dr-w-16 dr-h-16" />
+          </div>
+        </div>
+        <div className="dt:absolute dt:dr-layout-grid-inner dr-px-0 flex flex-col-reverse w-full dr-bottom-16 typo-label-m dr-mb-16 dt:dr-mb-0">
+          <span className="dt:col-span-2 typo-label-s dt:typo-label-m text-center dt:text-left text-black/70">
             Fractal Dynamics Inc © {currentYear ?? 2025}
           </span>
-          <div className="col-[3/-3] flex items-center justify-center dr-gap-24">
+          <div className="dt:col-[3/-3] flex items-center justify-center dt:dr-gap-24 dr-gap-13 dr-mb-16 dt:mb-0">
             {BOTTOM_LINKS.map((link, index) => (
               <Link
                 key={link.label + index.toString()}
                 href={link.href}
-                className="link"
+                className="link typo-label-s dt:typo-label-m"
               >
                 {link.label}
               </Link>
@@ -236,7 +254,7 @@ export function Footer() {
           </div>
           <Link
             href="https://x.com/tambo_ai"
-            className="col-span-2 justify-self-end link"
+            className="col-span-2 justify-self-end link desktop-only"
           >
             Twitter
           </Link>
