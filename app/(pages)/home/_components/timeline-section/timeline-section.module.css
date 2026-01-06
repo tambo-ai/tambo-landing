@@ -1,0 +1,5 @@
+.dynamicScale {
+  @media (--mobile) {
+    --calc-factor: 0.5vw;
+  }
+}

@@ -264,7 +264,7 @@ export function Animation() {
     <div
       id="section-6-container"
       ref={containerRef}
-      className={cn('w-full hidden', s.container)}
+      className={cn('dr-w-668 hidden', s.container)}
     >
       <div ref={chatRef} className={cn('relative w-full dr-h-470', s.chat)}>
         <div

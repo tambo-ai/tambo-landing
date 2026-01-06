@@ -14,10 +14,10 @@
 	--max-width: 1440;
 	
 	--columns: 4;
-	--gap: min(calc(((12 * 100) / var(--device-width)) * 1vw), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));
-	--safe: min(calc(((24 * 100) / var(--device-width)) * 1vw), calc(((24 * var(--max-width)) / var(--device-width)) * 1px));
+	--gap: min(calc(((12 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));
+	--safe: min(calc(((24 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((24 * var(--max-width)) / var(--device-width)) * 1px));
 	
-	--header-height: min(calc(((58 * 100) / var(--device-width)) * 1vw), calc(((58 * var(--max-width)) / var(--device-width)) * 1px));
+	--header-height: min(calc(((58 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((58 * var(--max-width)) / var(--device-width)) * 1px));
 
 	--layout-width: calc(100vw - (2 * var(--safe)));
 	--column-width: calc((var(--layout-width) - (var(--columns) - 1) * var(--gap)) / var(--columns));
@@ -64,10 +64,10 @@
     --device-height: 900;
 
     --columns: 12;
-		--gap: min(calc(((24 * 100) / var(--device-width)) * 1vw), calc(((24 * var(--max-width)) / var(--device-width)) * 1px));
-		--safe: min(calc(((40 * 100) / var(--device-width)) * 1vw), calc(((40 * var(--max-width)) / var(--device-width)) * 1px));
+		--gap: min(calc(((24 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((24 * var(--max-width)) / var(--device-width)) * 1px));
+		--safe: min(calc(((40 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((40 * var(--max-width)) / var(--device-width)) * 1px));
 
-    --header-height: min(calc(((98 * 100) / var(--device-width)) * 1vw), calc(((98 * var(--max-width)) / var(--device-width)) * 1px));
+    --header-height: min(calc(((98 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((98 * var(--max-width)) / var(--device-width)) * 1px));
 	}
 }
   

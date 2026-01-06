@@ -20,6 +20,7 @@ import { mapRange } from '~/libs/utils'
 import { colors } from '~/styles/colors'
 import CursorClickIcon from './cursor-click.svg'
 import SealCheckIcon from './seal-check.svg'
+import s from './timeline-section.module.css'
 
 export const TimelineSectionContext = createContext<{
   callbacks: RefObject<TimelineCallback[]>
@@ -98,9 +99,11 @@ export function TimelineSection({
         className="h-[800svh] overflow-x-clip"
       >
         <div className="sticky top-0 dr-layout-grid-inner h-screen">
-          <div className="col-span-4 flex flex-col dr-mt-112">
+          <div className="col-span-4 flex flex-col dr-pt-112 max-dt:h-screen">
             <div className="relative">
-              <h3 className="relative typo-h2 z-10">{title}</h3>
+              <h3 className="relative typo-h1 dt:typo-h2 text-center dt:text-left z-10">
+                {title}
+              </h3>
               <div
                 className="absolute -dr-inset-20"
                 style={{
@@ -110,7 +113,7 @@ export function TimelineSection({
               />
             </div>
             <div
-              className="relative dr-py-40"
+              className="relative dr-py-40 mt-auto"
               style={{
                 maskImage:
                   'linear-gradient(to bottom, transparent 0%, black 5%)',
@@ -129,7 +132,7 @@ export function TimelineSection({
                   className="dr-w-9 h-[110%] bg-white rounded-full shadow-xs mx-auto"
                 />
               </div>
-              <ul className="flex flex-col dr-gap-4 items-start">
+              <ul className="flex dt:flex-col dr-gap-4 dt:items-start max-dt:overflow-x-auto">
                 {messages.map((message, idx) => (
                   <TimelineItem
                     key={message.id}
@@ -142,7 +145,7 @@ export function TimelineSection({
               </ul>
             </div>
             <div
-              className="absolute inset-y-0 dr-left-82 w-px -z-1"
+              className="hidden dt:block absolute inset-y-0 dr-left-82 w-px -z-1"
               style={{
                 background:
                   'repeating-linear-gradient(0deg,#80C1A2 0 8px,#0000 0 14px)',
@@ -154,7 +157,7 @@ export function TimelineSection({
               snippet
               className="bg-black! text-teal border-teal"
               wrapperRef={buttonRef}
-              wrapperClassName="opacity-0 transition-opacity duration-300 ease-gleasing dr-max-w-321"
+              wrapperClassName="dt:opacity-0 transition-opacity duration-300 ease-gleasing dr-max-w-321"
             >
               START BUILDING
               <span className="typo-code-snippet">
@@ -172,17 +175,27 @@ export function TimelineSection({
             </CTA>
           </div>
           <div
-            className="fixed left-1/2 -translate-x-1/2 top-0 dr-layout-grid-inner h-screen pointer-events-none"
+            className="fixed left-0 dt:left-1/2 dt:-translate-x-1/2 top-0 dr-layout-grid-inner w-full h-screen pointer-events-none"
             style={{
               maxWidth: `calc(var(--max-width) * 1px)`,
             }}
           >
-            <div className="col-start-6 col-end-12 flex items-center justify-center">
+            <div
+              className={cn(
+                'col-start-6 col-end-12 max-dt:col-span-full flex items-center justify-center',
+                s.dynamicScale
+              )}
+            >
               {children}
             </div>
           </div>
           {proxyChildren && (
-            <div className="col-start-6 col-end-12 flex items-center justify-center">
+            <div
+              className={cn(
+                'col-start-6 col-end-12 max-dt:col-span-full flex items-center justify-center',
+                s.dynamicScale
+              )}
+            >
               {proxyChildren}
             </div>
           )}
@@ -317,7 +330,7 @@ function TimelineItem({
   useEffect(() => (visible ? showItem() : hideItem()), [visible])
 
   return (
-    <li className="relative dr-h-84 dr-p-8 flex dr-gap-4">
+    <li className="relative dr-w-328 shrink-0 dt:w-auto dr-h-84 dr-p-8 flex dr-gap-4">
       <div
         ref={backgroundRef}
         className={cn(
@@ -325,7 +338,7 @@ function TimelineItem({
           last ? 'bg-white' : 'bg-off-white'
         )}
       />
-      <div className="relative z-30 h-full aspect-square grid place-items-center">
+      <div className="relative z-30 h-full aspect-53/66 dt:aspect-square grid place-items-center">
         <div
           ref={iconRef}
           className={cn(

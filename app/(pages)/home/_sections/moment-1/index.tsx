@@ -87,7 +87,7 @@ export function Moment1() {
       proxyChildren={
         <div
           ref={setRectRef}
-          className="opacity-0 pointer-events-none w-full aspect-668/449"
+          className="opacity-0 pointer-events-none dr-w-668 aspect-668/449"
         />
       }
     >

@@ -5,7 +5,7 @@
 
 .chatMessages {
   transform: translateY(
-    calc(desktop-vw(508) - var(--chat-translate-y, 0) * desktop-vw(1))
+    calc(device-vw(508) - var(--chat-translate-y, 0) * device-vw(1))
   );
 }
 
@@ -16,9 +16,9 @@
 
 .confirmingBackground {
   width: calc(
-    desktop-vw(80) +
+    device-vw(80) +
     var(--added-to-calendar-progress, 0) *
-    desktop-vw(247)
+    device-vw(247)
   );
 }
 

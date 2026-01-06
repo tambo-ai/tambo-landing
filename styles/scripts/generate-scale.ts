@@ -66,14 +66,17 @@ function scaleUtility(name: string, properties: string | string[]) {
 	${propertiesArray
     .map(
       (property) =>
-        `${property}: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));`
+        `${property}: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));`
     )
     .join('\n')}
 }`
 
   const autoCompleteUtility = `@utility dr-${name}-px {
 	${propertiesArray
-    .map((property) => `${property}: calc(100 / var(--device-width) * 1vw);`)
+    .map(
+      (property) =>
+        `${property}: calc(100 / var(--device-width) * var(--calc-factor, 1vw));`
+    )
     .join('\n')}
 }`
 

@@ -178,7 +178,7 @@ export function Animation({
         ref?.(el)
       }}
       className={cn(
-        'w-full aspect-668/470 dr-rounded-20 typo-p grid grid-cols-1 grid-rows-1 opacity-0',
+        'dr-w-668 aspect-668/470 dr-rounded-20 typo-p grid grid-cols-1 grid-rows-1 opacity-0',
         s.container
       )}
     >

@@ -276,7 +276,7 @@ export function Animation() {
     <div
       id="section-5-container"
       ref={containerRef}
-      className={cn('w-full hidden', s.container)}
+      className={cn('dr-w-668 hidden', s.container)}
     >
       <div className={cn('relative w-full shadow-m -z-3', s.map)}>
         <div ref={mapRef} className="relative size-full">
@@ -475,7 +475,7 @@ export function ProcessBubble({
       style={{
         '--width': width1,
       }}
-      className="w-[calc(var(--width)*desktop-vw(1))] dr-h-32 border border-grey dr-rounded-12 dr-mb-9 font-geist dr-text-10 flex items-center justify-start dr-pl-8 overflow-hidden"
+      className="w-[calc(var(--width)*device-vw(1))] dr-h-32 border border-grey dr-rounded-12 dr-mb-9 font-geist dr-text-10 flex items-center justify-start dr-pl-8 overflow-hidden"
     >
       <div className="relative flex justify-center items-center">
         <div
