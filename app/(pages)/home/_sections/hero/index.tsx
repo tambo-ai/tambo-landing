@@ -37,103 +37,112 @@ export function Hero() {
       progress2: 0,
     }
 
+    const timeline1 = gsap.to(proxy, {
+      progress1: 1,
+      duration: 1,
+      ease: 'linear',
+      onUpdate: () => {
+        const items = getItems()
+        // const elements = items.map((item) => item?.getElement()).filter(Boolean)
+
+        fromTo(
+          items,
+          {
+            // width: (index) => 25 + (items.length - 1 - index) * 10,
+            width: (index) =>
+              desktopVW(310 + (items.length - 1 - index) * 160, true),
+            // height: (index) => 25 + (items.length - 1 - index) * 10,
+            boxShadowOpacity: 0,
+            y: 0,
+          },
+          {
+            y: 0,
+            boxShadowOpacity: 1,
+            // width: (index) => 35 + (items.length - 1 - index) * 8,
+            width: (index) =>
+              desktopVW(480 + (items.length - 1 - index) * 100, true),
+          },
+          proxy.progress1,
+          {
+            ease: 'easeOutQuad',
+            render: (item, { width, y, boxShadowOpacity }) => {
+              // @ts-expect-error
+              const element = item?.getElement()
+              // @ts-expect-error
+              const boxShadow = item?.getBoxShadow()
+
+              if (boxShadow) {
+                boxShadow.style.opacity = `${boxShadowOpacity}`
+              }
+
+              // @ts-expect-error
+              item?.setBorderRadius(`${width * 2}px`)
+
+              if (element instanceof HTMLElement) {
+                element.style.width = `${width}px`
+                element.style.height = `${width}px`
+                element.style.transform = `translateY(${y}px)`
+              }
+            },
+          }
+        )
+      },
+    })
+    timeline1.progress(0)
+
     const timeline = gsap.timeline({
       // delay:2
     })
 
+    // return
+
     timeline
-      .to(proxy, {
-        progress1: 1,
-        duration: 1,
-        ease: 'linear',
-        onUpdate: () => {
-          const items = getItems()
-          // const elements = items.map((item) => item?.getElement()).filter(Boolean)
+      .add(timeline1, '<1')
+      .to(
+        proxy,
+        {
+          progress2: 1,
+          duration: 1,
+          ease: 'linear',
+          onUpdate: () => {
+            const items = getItems()
 
-          fromTo(
-            items,
-            {
-              // width: (index) => 25 + (items.length - 1 - index) * 10,
-              width: (index) =>
-                desktopVW(310 + (items.length - 1 - index) * 160, true),
-              // height: (index) => 25 + (items.length - 1 - index) * 10,
-              boxShadowOpacity: 0,
-              y: 0,
-            },
-            {
-              y: 0,
-              boxShadowOpacity: 1,
-              // width: (index) => 35 + (items.length - 1 - index) * 8,
-              width: (index) =>
-                desktopVW(480 + (items.length - 1 - index) * 100, true),
-            },
-            proxy.progress1,
-            {
-              ease: 'easeOutQuad',
-              render: (item, { width, y, boxShadowOpacity }) => {
-                // @ts-expect-error
-                const element = item?.getElement()
-                // @ts-expect-error
-                const boxShadow = item?.getBoxShadow()
-
-                if (boxShadow) {
-                  boxShadow.style.opacity = `${boxShadowOpacity}`
-                }
-
-                // @ts-expect-error
-                item?.setBorderRadius(`${width * 2}px`)
-
-                if (element instanceof HTMLElement) {
-                  element.style.width = `${width}px`
-                  element.style.height = `${width}px`
-                  element.style.transform = `translateY(${y}px)`
-                }
+            fromTo(
+              items,
+              {
+                width: (index) =>
+                  desktopVW(480 + (items.length - 1 - index) * 100, true),
+                y: 0,
               },
-            }
-          )
-        },
-      })
-      .to(proxy, {
-        progress2: 1,
-        duration: 1,
-        ease: 'linear',
-        onUpdate: () => {
-          const items = getItems()
-
-          fromTo(
-            items,
-            {
-              width: (index) =>
-                desktopVW(480 + (items.length - 1 - index) * 100, true),
-              y: 0,
-            },
-            {
-              // width: (index) => 125 - index * 15,
-              width: (index) =>
-                desktopVW(1134 + (items.length - 1 - index) * 240, true),
-              // y: (index) => -15 - (items.length - 1 - index) * 1.8,
-              y: (index) =>
-                -desktopVW(225 + (items.length - 1 - index) * 90, true),
-            },
-            proxy.progress2,
-            {
-              ease: 'easeOutQuad',
-              render: (item, { width, y }) => {
-                // @ts-expect-error
-                const element = item?.getElement()
-                // @ts-expect-error
-                item?.setBorderRadius(`${width * 2}px`)
-
-                if (element instanceof HTMLElement) {
-                  element.style.width = `${width}px`
-                  element.style.height = `${width}px`
-                  element.style.transform = `translateY(${y}px)`
-                }
+              {
+                // width: (index) => 125 - index * 15,
+                width: (index) =>
+                  desktopVW(1134 + (items.length - 1 - index) * 240, true),
+                // y: (index) => -15 - (items.length - 1 - index) * 1.8,
+                y: (index) =>
+                  -desktopVW(225 + (items.length - 1 - index) * 90, true),
               },
-            }
-          )
+              proxy.progress2,
+              {
+                ease: 'easeOutQuad',
+                render: (item, { width, y }) => {
+                  // @ts-expect-error
+                  const element = item?.getElement()
+                  // @ts-expect-error
+                  item?.setBorderRadius(`${width * 2}px`)
+
+                  if (element instanceof HTMLElement) {
+                    element.style.width = `${width}px`
+                    element.style.height = `${width}px`
+                    element.style.transform = `translateY(${y}px)`
+                  }
+                },
+              }
+            )
+          },
         },
-      })
+        '<1'
+      )
       .fromTo(
         videoRef.current,
         {

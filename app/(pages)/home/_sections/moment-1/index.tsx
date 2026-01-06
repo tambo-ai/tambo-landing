@@ -23,7 +23,9 @@ export function Moment1() {
       rect,
       start: 'top bottom',
       end: 'center center',
-      onProgress: ({ progress }) => {
+      onProgress: ({ progress, isActive }) => {
+        if (!isActive) return
+
         const background = getBackground()
 
         if (background) {

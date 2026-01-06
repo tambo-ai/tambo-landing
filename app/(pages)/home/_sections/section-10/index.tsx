@@ -53,7 +53,9 @@ export function Section10() {
     rect,
     start: 'top center',
     end: 'top top',
-    onProgress: ({ progress }) => {
+    onProgress: ({ progress, isActive }) => {
+      if (!isActive) return
+
       const background = getBackground()
       if (progress > 0 && background) {
         background.style.opacity = '1'
@@ -126,7 +128,9 @@ export function Section10() {
     rect,
     start: 'bottom bottom',
     end: `${rect?.top === undefined || rect?.height === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
-    onProgress: ({ progress, height }) => {
+    onProgress: ({ progress, height, isActive }) => {
+      if (!isActive) return
+
       const items = getItems()
       fromTo(
         items,

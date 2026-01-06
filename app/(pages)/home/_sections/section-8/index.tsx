@@ -35,7 +35,9 @@ export function Section8() {
       rect,
       start: 'top top',
       end: `${titleBlockRect?.top === undefined || titleBlockRect.height === undefined ? 'bottom' : titleBlockRect.top + titleBlockRect.height * 0.5} center`,
-      onProgress: ({ progress }) => {
+      onProgress: ({ progress, isActive }) => {
+        if (!isActive) return
+
         const background = getBackground()
         if (background && progress >= 0) {
           background.style.opacity = '1'
@@ -86,7 +88,9 @@ export function Section8() {
     rect: titleBlockRect,
     start: `${titleBlockRect?.top === undefined || titleBlockRect.height === undefined ? 'bottom' : titleBlockRect.top + titleBlockRect.height * 0.5} center`,
     end: `top top`,
-    onProgress: ({ progress }) => {
+    onProgress: ({ progress, isActive }) => {
+      if (!isActive) return
+
       const items = getItems()
       fromTo(
         items,
@@ -156,7 +160,9 @@ export function Section8() {
     rect: tamboRect,
     start: `${titleBlockRect?.top === undefined ? 'bottom' : titleBlockRect.top} top`,
     end: `center center`,
-    onProgress: ({ progress, height }) => {
+    onProgress: ({ progress, height, isActive }) => {
+      if (!isActive) return
+
       if (tamboRect?.element) {
         tamboRect.element.style.opacity = `${progress}`
         tamboRect.element.style.pointerEvents = progress === 1 ? 'auto' : 'none'
