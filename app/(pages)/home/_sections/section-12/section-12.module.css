@@ -26,7 +26,7 @@
     &:hover {
       box-shadow: var(--active-shadow);
       border-style: dashed;
-      border-color: var(--color-teal);
+      border-color: var(--active-header-border);
 
       .cardHeader {
         background-color: var(--active-header-bg);
