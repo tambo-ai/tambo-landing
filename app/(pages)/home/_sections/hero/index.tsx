@@ -50,7 +50,7 @@ export function Hero() {
           {
             // width: (index) => 25 + (items.length - 1 - index) * 10,
             width: (index) =>
-              desktopVW(310 + (items.length - 1 - index) * 160, true),
+              desktopVW(310 + (items.length - 1 - index) * 160, false),
             // height: (index) => 25 + (items.length - 1 - index) * 10,
             boxShadowOpacity: 0,
             y: 0,
@@ -88,7 +88,7 @@ export function Hero() {
         )
       },
     })
-    timeline1.progress(0)
+    timeline1.pause().progress(0)
 
     const timeline = gsap.timeline({
       // delay:2
@@ -97,7 +97,7 @@ export function Hero() {
     // return
 
     timeline
-      .add(timeline1, '<1')
+      .add(timeline1.play(), '<1')
       .to(
         proxy,
         {
@@ -266,17 +266,17 @@ export function Hero() {
       fromTo(
         arrowDownRef.current,
         {
-          opacity: 1,
+          translate: 0,
         },
         {
-          opacity: 0,
+          translate: 100,
         },
         progress,
         {
           ease: 'linear',
-          render: (element, { opacity }) => {
+          render: (element, { translate }) => {
             if (element instanceof HTMLElement) {
-              element.style.opacity = `${opacity}`
+              element.style.transform = `translate(-50%, 0%) translate(0px, 50%) translateY(${translate}%)`
             }
           },
         }
