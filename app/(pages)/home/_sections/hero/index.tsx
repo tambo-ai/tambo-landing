@@ -97,7 +97,7 @@ export function Hero() {
     // return
 
     timeline
-      .add(timeline1, '<5')
+      .add(timeline1, '<1')
       .to(
         proxy,
         {
