@@ -97,7 +97,7 @@ export function Hero() {
     // return
 
     timeline
-      .add(timeline1, '<1')
+      .add(timeline1, '<2')
       .to(
         proxy,
         {
@@ -192,17 +192,19 @@ export function Hero() {
           duration: 1,
         }
       )
-    return () => {
-      timeline.kill()
-      proxy.progress1 = 0
-      proxy.progress2 = 0
-    }
+
+    return timeline
   })
 
   useEffect(() => {
+    const timeline = appear().pause()
     setTimeout(() => {
-      appear()
+      timeline.play()
     }, 0)
+
+    return () => {
+      timeline.kill()
+    }
   }, [])
 
   useScrollTrigger(
