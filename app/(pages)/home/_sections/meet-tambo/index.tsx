@@ -24,11 +24,15 @@ export function MeetTambo() {
           <TitleBlock.LeadIn className="dr-mb-16 dt:dr-mb-24">
             {'<'} Meet tambo {'>'}
           </TitleBlock.LeadIn>
-          <TitleBlock.Title level="h2" className="mb-0!">
-            Tambo bridges your app and LLMs, so you can ship generative UIs
-            faster,
+          <TitleBlock.Title level="h2" className="mb-0! desktop-only">
+            Tambo bridges your app and LLMs,
             <br />
-            without the boilerplate.
+            so you can ship generative UIs faster, <br /> without the
+            boilerplate.
+          </TitleBlock.Title>
+          <TitleBlock.Title level="h2" className="mb-0! mobile-only typo-h1!">
+            Tambo bridges your app <br /> and LLMs, so you can ship <br />{' '}
+            generative UIs faster, <br /> without the boilerplate.
           </TitleBlock.Title>
         </TitleBlock>
         <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12">
