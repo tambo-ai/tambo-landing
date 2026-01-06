@@ -1,3 +1,15 @@
+.cardWrapper {
+  position: relative;
+
+  @media (--hover) {
+    &:hover {
+      .cardRing {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
 .banner,
 .card {
   transition:
@@ -6,7 +18,7 @@
   background: var(--color-white);
 
   /* Active state variables */
-  --active-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+  --active-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
   --active-header-bg: var(--color-ghost-mint);
   --active-header-border: var(--color-dark-teal);
 
@@ -34,6 +46,20 @@
         border-color: var(--active-header-border);
       }
     }
+  }
+}
+
+.cardRing {
+  position: absolute;
+  inset: calc(-1 * mobile-vw(7px));
+  border-radius: mobile-vw(28px);
+  background-color: var(--color-off-white);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+
+  @media (--desktop) {
+    inset: calc(-1 * desktop-vw(7px));
+    border-radius: desktop-vw(28px);
   }
 }
 
