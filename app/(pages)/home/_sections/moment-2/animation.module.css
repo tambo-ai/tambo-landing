@@ -4,26 +4,27 @@
 }
 
 .map {
-  height: calc(desktop-vw(342) * var(--intro-progress, 0));
-  margin-bottom: calc(desktop-vw(22) * var(--intro-progress, 0));
+  /* min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)) */
+  height: calc(device-vw(342) * var(--intro-progress, 0));
+  margin-bottom: calc(device-vw(22) * var(--intro-progress, 0));
 }
 
 .chat {
-  height: calc(desktop-vw(470) - desktop-vw(170) * var(--intro-progress, 0));
+  height: calc(device-vw(470) - device-vw(170) * var(--intro-progress, 0));
 }
 
 .chatMessages {
   transform: translateY(
-    calc(desktop-vw(268) - var(--chat-translate-y, 0) * desktop-vw(1))
+    calc(device-vw(268) - var(--chat-translate-y, 0) * device-vw(1))
   );
 }
 
 .section45Trans {
-  left: calc(100vw - var(--max-width) + desktop-vw(616));
+  left: calc(100vw - var(--max-width) + device-vw(616));
 }
 
 .thinking {
-  width: calc(desktop-vw(80) + var(--activities-progress, 0) * desktop-vw(280));
+  width: calc(device-vw(80) + var(--activities-progress, 0) * device-vw(280));
 }
 
 .spinner {

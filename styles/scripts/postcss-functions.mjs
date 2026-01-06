@@ -31,6 +31,13 @@ export const functions = {
     const numPixels = validatePixels(pixels, 'desktop')
     return `${(numPixels * 100) / screens.desktop.height}svh`
   },
+  'device-vw': (pixels) => {
+    const numPixels = validatePixels(pixels, 'desktop')
+    return `min(
+      calc((${numPixels} * 100) / var(--device-width) * var(--calc-factor, 1vw)),
+      calc(((${numPixels} * var(--max-width)) / var(--device-width)) * 1px)
+    )`
+  },
   columns: (columns) => {
     const numColumns = Number.parseFloat(columns)
     if (Number.isNaN(numColumns)) {

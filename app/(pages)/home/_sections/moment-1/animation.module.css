@@ -1,19 +1,22 @@
 .container {
-  transform: translateY(calc(var(--skew-progress, 0) * 15%));
+  --skew: calc(var(--skew-progress, 0) - var(--deskew-progress, 0));
+
+  transform: translateY(calc((var(--skew, 0)) * 15%));
 }
 
 .card {
   --index: 0;
+  --deg: calc(var(--deg-progress, 0deg) - var(--dedeg-progress, 0deg));
 
   transform-origin: left center;
   /* transform: translateX(calc(var(--index) * -8%))
     translateY(calc(var(--index) * -8%)) skewY(var(--deg)); */
-  transform: translateX(calc(var(--index) * -8% * var(--skew-progress, 0)))
+  transform: translateX(calc(var(--index) * -8% * var(--skew, 0)))
     translateY(
       calc(
         var(--index) *
         -8% *
-        var(--skew-progress, 0) +
+        var(--skew, 0) +
         -20% *
         var(--highlight-progress, 0)
       )

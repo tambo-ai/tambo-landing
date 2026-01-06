@@ -78,8 +78,8 @@
 	font-weight: 400;
 	line-height: 90%;
 	letter-spacing: 0em;
-	font-size: min(calc(((20 * 100) / var(--device-width)) * 1vw), calc(((20 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((24 * 100) / var(--device-width)) * 1vw), calc(((24 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((20 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((20 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((24 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((24 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-hero-title {
   font-family: var(--next-font-sentient);
@@ -87,8 +87,8 @@
 	font-weight: 300;
 	line-height: 110%;
 	letter-spacing: -0.05em;
-	font-size: min(calc(((64 * 100) / var(--device-width)) * 1vw), calc(((64 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((64 * 100) / var(--device-width)) * 1vw), calc(((64 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((64 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((64 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((64 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((64 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-h1 {
   font-family: var(--next-font-sentient);
@@ -96,8 +96,8 @@
 	font-weight: 300;
 	line-height: 110%;
 	letter-spacing: -0.05em;
-	font-size: min(calc(((28 * 100) / var(--device-width)) * 1vw), calc(((28 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((48 * 100) / var(--device-width)) * 1vw), calc(((48 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((28 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((28 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((48 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((48 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-h2 {
   font-family: var(--next-font-sentient);
@@ -105,8 +105,8 @@
 	font-weight: 300;
 	line-height: 110%;
 	letter-spacing: -0.05em;
-	font-size: min(calc(((40 * 100) / var(--device-width)) * 1vw), calc(((40 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((40 * 100) / var(--device-width)) * 1vw), calc(((40 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((40 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((40 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((40 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((40 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-h3 {
   font-family: var(--next-font-sentient);
@@ -114,8 +114,8 @@
 	font-weight: 300;
 	line-height: 110%;
 	letter-spacing: -0.05em;
-	font-size: min(calc(((32 * 100) / var(--device-width)) * 1vw), calc(((32 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((32 * 100) / var(--device-width)) * 1vw), calc(((32 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((32 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((32 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((32 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((32 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-h4 {
   font-family: var(--next-font-sentient);
@@ -123,8 +123,8 @@
 	font-weight: 300;
 	line-height: 110%;
 	letter-spacing: -0.05em;
-	font-size: min(calc(((24 * 100) / var(--device-width)) * 1vw), calc(((24 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((24 * 100) / var(--device-width)) * 1vw), calc(((24 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((24 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((24 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((24 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((24 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-h5 {
   font-family: var(--next-font-geist-mono);
@@ -133,8 +133,8 @@
 	line-height: 110%;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-surtitle {
   font-family: var(--next-font-geist-mono);
@@ -143,8 +143,8 @@
 	line-height: 120%;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-button {
   font-family: var(--next-font-geist-mono);
@@ -153,8 +153,8 @@
 	line-height: 110%;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	font-size: min(calc(((14 * 100) / var(--device-width)) * 1vw), calc(((14 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((14 * 100) / var(--device-width)) * 1vw), calc(((14 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((14 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((14 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((14 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((14 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-link {
   font-family: var(--next-font-geist-mono);
@@ -164,8 +164,8 @@
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
 	text-decoration: underline;
-	font-size: min(calc(((14 * 100) / var(--device-width)) * 1vw), calc(((14 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((14 * 100) / var(--device-width)) * 1vw), calc(((14 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((14 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((14 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((14 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((14 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-label-m {
   font-family: var(--next-font-geist-mono);
@@ -174,8 +174,8 @@
 	line-height: 120%;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	font-size: min(calc(((12 * 100) / var(--device-width)) * 1vw), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((12 * 100) / var(--device-width)) * 1vw), calc(((12 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((12 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((12 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((12 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-label-s {
   font-family: var(--next-font-geist-mono);
@@ -184,8 +184,8 @@
 	line-height: 110%;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-	font-size: min(calc(((10 * 100) / var(--device-width)) * 1vw), calc(((10 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((10 * 100) / var(--device-width)) * 1vw), calc(((10 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((10 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((10 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((10 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((10 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-p-l {
   font-family: var(--next-font-geist);
@@ -193,8 +193,8 @@
 	font-weight: 400;
 	line-height: 110%;
 	letter-spacing: 0em;
-	font-size: min(calc(((20 * 100) / var(--device-width)) * 1vw), calc(((20 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((20 * 100) / var(--device-width)) * 1vw), calc(((20 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((20 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((20 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((20 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((20 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-p-sentient {
   font-family: var(--next-font-sentient);
@@ -202,8 +202,8 @@
 	font-weight: 300;
 	line-height: 110%;
 	letter-spacing: -0.04em;
-	font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-p-bold {
   font-family: var(--next-font-geist);
@@ -211,8 +211,8 @@
 	font-weight: 500;
 	line-height: 120%;
 	letter-spacing: 0em;
-	font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-p {
   font-family: var(--next-font-geist);
@@ -220,8 +220,8 @@
 	font-weight: 400;
 	line-height: 120%;
 	letter-spacing: 0em;
-	font-size: min(calc(((14 * 100) / var(--device-width)) * 1vw), calc(((14 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * 1vw), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((14 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((14 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((16 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((16 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-p-s {
   font-family: var(--next-font-geist);
@@ -229,8 +229,8 @@
 	font-weight: 400;
 	line-height: 140%;
 	letter-spacing: 0em;
-	font-size: min(calc(((12 * 100) / var(--device-width)) * 1vw), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((12 * 100) / var(--device-width)) * 1vw), calc(((12 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((12 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((12 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((12 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 @utility typo-code-snippet {
   font-family: var(--next-font-geist-mono);
@@ -238,8 +238,8 @@
 	font-weight: 400;
 	line-height: 120%;
 	letter-spacing: 0.02em;
-	font-size: min(calc(((12 * 100) / var(--device-width)) * 1vw), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));
-	@variant dt { font-size: min(calc(((12 * 100) / var(--device-width)) * 1vw), calc(((12 * var(--max-width)) / var(--device-width)) * 1px)); }
+	font-size: min(calc(((12 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((12 * var(--max-width)) / var(--device-width)) * 1px));
+	@variant dt { font-size: min(calc(((12 * 100) / var(--device-width)) * var(--calc-factor, 1vw)), calc(((12 * var(--max-width)) / var(--device-width)) * 1px)); }
 }
 
 @utility desktop-only {
@@ -283,647 +283,647 @@
 
 /** Custom function utilities **/
 @utility dr-text-* {
-	font-size: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	font-size: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-text-px {
-	font-size: calc(100 / var(--device-width) * 1vw);
+	font-size: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-text-* {
-	font-size: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	font-size: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-text-px {
-	font-size: calc(-1 * (100 / var(--device-width) * 1vw));
+	font-size: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-tracking-* {
-	letter-spacing: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	letter-spacing: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-tracking-px {
-	letter-spacing: calc(100 / var(--device-width) * 1vw);
+	letter-spacing: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-tracking-* {
-	letter-spacing: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	letter-spacing: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-tracking-px {
-	letter-spacing: calc(-1 * (100 / var(--device-width) * 1vw));
+	letter-spacing: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-leading-* {
-	line-height: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	line-height: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-leading-px {
-	line-height: calc(100 / var(--device-width) * 1vw);
+	line-height: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-leading-* {
-	line-height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	line-height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-leading-px {
-	line-height: calc(-1 * (100 / var(--device-width) * 1vw));
+	line-height: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-border-* {
-	border-width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-border-px {
-	border-width: calc(100 / var(--device-width) * 1vw);
+	border-width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-border-* {
-	border-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-border-px {
-	border-width: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-border-t-* {
-	border-top-width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-top-width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-border-t-px {
-	border-top-width: calc(100 / var(--device-width) * 1vw);
+	border-top-width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-border-t-* {
-	border-top-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-top-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-border-t-px {
-	border-top-width: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-top-width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-border-r-* {
-	border-right-width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-right-width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-border-r-px {
-	border-right-width: calc(100 / var(--device-width) * 1vw);
+	border-right-width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-border-r-* {
-	border-right-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-right-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-border-r-px {
-	border-right-width: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-right-width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-border-b-* {
-	border-bottom-width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-bottom-width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-border-b-px {
-	border-bottom-width: calc(100 / var(--device-width) * 1vw);
+	border-bottom-width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-border-b-* {
-	border-bottom-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-bottom-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-border-b-px {
-	border-bottom-width: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-bottom-width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-border-l-* {
-	border-left-width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-left-width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-border-l-px {
-	border-left-width: calc(100 / var(--device-width) * 1vw);
+	border-left-width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-border-l-* {
-	border-left-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-left-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-border-l-px {
-	border-left-width: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-left-width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-* {
-	border-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-px {
-	border-radius: calc(100 / var(--device-width) * 1vw);
+	border-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-* {
-	border-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-px {
-	border-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-t-* {
-	border-top-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
-border-top-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-top-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+border-top-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-t-px {
-	border-top-left-radius: calc(100 / var(--device-width) * 1vw);
-border-top-right-radius: calc(100 / var(--device-width) * 1vw);
+	border-top-left-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
+border-top-right-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-t-* {
-	border-top-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
-border-top-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-top-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+border-top-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-t-px {
-	border-top-left-radius: calc(-1 * (100 / var(--device-width) * 1vw));
-border-top-right-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-top-left-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
+border-top-right-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-r-* {
-	border-top-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
-border-bottom-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-top-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+border-bottom-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-r-px {
-	border-top-right-radius: calc(100 / var(--device-width) * 1vw);
-border-bottom-right-radius: calc(100 / var(--device-width) * 1vw);
+	border-top-right-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
+border-bottom-right-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-r-* {
-	border-top-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
-border-bottom-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-top-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+border-bottom-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-r-px {
-	border-top-right-radius: calc(-1 * (100 / var(--device-width) * 1vw));
-border-bottom-right-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-top-right-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
+border-bottom-right-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-b-* {
-	border-bottom-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
-border-bottom-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-bottom-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+border-bottom-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-b-px {
-	border-bottom-right-radius: calc(100 / var(--device-width) * 1vw);
-border-bottom-left-radius: calc(100 / var(--device-width) * 1vw);
+	border-bottom-right-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
+border-bottom-left-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-b-* {
-	border-bottom-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
-border-bottom-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-bottom-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+border-bottom-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-b-px {
-	border-bottom-right-radius: calc(-1 * (100 / var(--device-width) * 1vw));
-border-bottom-left-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-bottom-right-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
+border-bottom-left-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-l-* {
-	border-bottom-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
-border-top-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-bottom-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+border-top-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-l-px {
-	border-bottom-left-radius: calc(100 / var(--device-width) * 1vw);
-border-top-left-radius: calc(100 / var(--device-width) * 1vw);
+	border-bottom-left-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
+border-top-left-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-l-* {
-	border-bottom-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
-border-top-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-bottom-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+border-top-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-l-px {
-	border-bottom-left-radius: calc(-1 * (100 / var(--device-width) * 1vw));
-border-top-left-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-bottom-left-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
+border-top-left-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-tl-* {
-	border-top-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-top-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-tl-px {
-	border-top-left-radius: calc(100 / var(--device-width) * 1vw);
+	border-top-left-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-tl-* {
-	border-top-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-top-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-tl-px {
-	border-top-left-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-top-left-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-tr-* {
-	border-top-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-top-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-tr-px {
-	border-top-right-radius: calc(100 / var(--device-width) * 1vw);
+	border-top-right-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-tr-* {
-	border-top-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-top-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-tr-px {
-	border-top-right-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-top-right-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-br-* {
-	border-bottom-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-bottom-right-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-br-px {
-	border-bottom-right-radius: calc(100 / var(--device-width) * 1vw);
+	border-bottom-right-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-br-* {
-	border-bottom-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-bottom-right-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-br-px {
-	border-bottom-right-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-bottom-right-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-rounded-bl-* {
-	border-bottom-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	border-bottom-left-radius: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-rounded-bl-px {
-	border-bottom-left-radius: calc(100 / var(--device-width) * 1vw);
+	border-bottom-left-radius: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-rounded-bl-* {
-	border-bottom-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	border-bottom-left-radius: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-rounded-bl-px {
-	border-bottom-left-radius: calc(-1 * (100 / var(--device-width) * 1vw));
+	border-bottom-left-radius: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-w-* {
-	width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-w-px {
-	width: calc(100 / var(--device-width) * 1vw);
+	width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-w-* {
-	width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-w-px {
-	width: calc(-1 * (100 / var(--device-width) * 1vw));
+	width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-min-w-* {
-	min-width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	min-width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-min-w-px {
-	min-width: calc(100 / var(--device-width) * 1vw);
+	min-width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-min-w-* {
-	min-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	min-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-min-w-px {
-	min-width: calc(-1 * (100 / var(--device-width) * 1vw));
+	min-width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-max-w-* {
-	max-width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	max-width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-max-w-px {
-	max-width: calc(100 / var(--device-width) * 1vw);
+	max-width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-max-w-* {
-	max-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	max-width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-max-w-px {
-	max-width: calc(-1 * (100 / var(--device-width) * 1vw));
+	max-width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-h-* {
-	height: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	height: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-h-px {
-	height: calc(100 / var(--device-width) * 1vw);
+	height: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-h-* {
-	height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-h-px {
-	height: calc(-1 * (100 / var(--device-width) * 1vw));
+	height: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-min-h-* {
-	min-height: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	min-height: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-min-h-px {
-	min-height: calc(100 / var(--device-width) * 1vw);
+	min-height: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-min-h-* {
-	min-height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	min-height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-min-h-px {
-	min-height: calc(-1 * (100 / var(--device-width) * 1vw));
+	min-height: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-max-h-* {
-	max-height: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	max-height: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-max-h-px {
-	max-height: calc(100 / var(--device-width) * 1vw);
+	max-height: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-max-h-* {
-	max-height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	max-height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-max-h-px {
-	max-height: calc(-1 * (100 / var(--device-width) * 1vw));
+	max-height: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-size-* {
-	width: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
-height: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	width: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+height: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-size-px {
-	width: calc(100 / var(--device-width) * 1vw);
-height: calc(100 / var(--device-width) * 1vw);
+	width: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
+height: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-size-* {
-	width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
-height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	width: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+height: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-size-px {
-	width: calc(-1 * (100 / var(--device-width) * 1vw));
-height: calc(-1 * (100 / var(--device-width) * 1vw));
+	width: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
+height: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-gap-* {
-	gap: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	gap: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-gap-px {
-	gap: calc(100 / var(--device-width) * 1vw);
+	gap: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-gap-* {
-	gap: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	gap: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-gap-px {
-	gap: calc(-1 * (100 / var(--device-width) * 1vw));
+	gap: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-gap-x-* {
-	column-gap: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	column-gap: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-gap-x-px {
-	column-gap: calc(100 / var(--device-width) * 1vw);
+	column-gap: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-gap-x-* {
-	column-gap: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	column-gap: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-gap-x-px {
-	column-gap: calc(-1 * (100 / var(--device-width) * 1vw));
+	column-gap: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-gap-y-* {
-	row-gap: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	row-gap: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-gap-y-px {
-	row-gap: calc(100 / var(--device-width) * 1vw);
+	row-gap: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-gap-y-* {
-	row-gap: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	row-gap: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-gap-y-px {
-	row-gap: calc(-1 * (100 / var(--device-width) * 1vw));
+	row-gap: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-p-* {
-	padding: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	padding: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-p-px {
-	padding: calc(100 / var(--device-width) * 1vw);
+	padding: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-p-* {
-	padding: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	padding: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-p-px {
-	padding: calc(-1 * (100 / var(--device-width) * 1vw));
+	padding: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-px-* {
-	padding-inline: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	padding-inline: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-px-px {
-	padding-inline: calc(100 / var(--device-width) * 1vw);
+	padding-inline: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-px-* {
-	padding-inline: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	padding-inline: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-px-px {
-	padding-inline: calc(-1 * (100 / var(--device-width) * 1vw));
+	padding-inline: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-py-* {
-	padding-block: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	padding-block: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-py-px {
-	padding-block: calc(100 / var(--device-width) * 1vw);
+	padding-block: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-py-* {
-	padding-block: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	padding-block: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-py-px {
-	padding-block: calc(-1 * (100 / var(--device-width) * 1vw));
+	padding-block: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-pt-* {
-	padding-top: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	padding-top: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-pt-px {
-	padding-top: calc(100 / var(--device-width) * 1vw);
+	padding-top: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-pt-* {
-	padding-top: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	padding-top: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-pt-px {
-	padding-top: calc(-1 * (100 / var(--device-width) * 1vw));
+	padding-top: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-pr-* {
-	padding-right: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	padding-right: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-pr-px {
-	padding-right: calc(100 / var(--device-width) * 1vw);
+	padding-right: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-pr-* {
-	padding-right: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	padding-right: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-pr-px {
-	padding-right: calc(-1 * (100 / var(--device-width) * 1vw));
+	padding-right: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-pl-* {
-	padding-left: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	padding-left: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-pl-px {
-	padding-left: calc(100 / var(--device-width) * 1vw);
+	padding-left: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-pl-* {
-	padding-left: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	padding-left: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-pl-px {
-	padding-left: calc(-1 * (100 / var(--device-width) * 1vw));
+	padding-left: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-pb-* {
-	padding-bottom: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	padding-bottom: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-pb-px {
-	padding-bottom: calc(100 / var(--device-width) * 1vw);
+	padding-bottom: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-pb-* {
-	padding-bottom: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	padding-bottom: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-pb-px {
-	padding-bottom: calc(-1 * (100 / var(--device-width) * 1vw));
+	padding-bottom: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-m-* {
-	margin: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	margin: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-m-px {
-	margin: calc(100 / var(--device-width) * 1vw);
+	margin: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-m-* {
-	margin: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	margin: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-m-px {
-	margin: calc(-1 * (100 / var(--device-width) * 1vw));
+	margin: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-mx-* {
-	margin-inline: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	margin-inline: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-mx-px {
-	margin-inline: calc(100 / var(--device-width) * 1vw);
+	margin-inline: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-mx-* {
-	margin-inline: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	margin-inline: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-mx-px {
-	margin-inline: calc(-1 * (100 / var(--device-width) * 1vw));
+	margin-inline: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-my-* {
-	margin-block: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	margin-block: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-my-px {
-	margin-block: calc(100 / var(--device-width) * 1vw);
+	margin-block: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-my-* {
-	margin-block: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	margin-block: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-my-px {
-	margin-block: calc(-1 * (100 / var(--device-width) * 1vw));
+	margin-block: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-mt-* {
-	margin-top: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	margin-top: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-mt-px {
-	margin-top: calc(100 / var(--device-width) * 1vw);
+	margin-top: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-mt-* {
-	margin-top: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	margin-top: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-mt-px {
-	margin-top: calc(-1 * (100 / var(--device-width) * 1vw));
+	margin-top: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-mr-* {
-	margin-right: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	margin-right: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-mr-px {
-	margin-right: calc(100 / var(--device-width) * 1vw);
+	margin-right: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-mr-* {
-	margin-right: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	margin-right: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-mr-px {
-	margin-right: calc(-1 * (100 / var(--device-width) * 1vw));
+	margin-right: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-ml-* {
-	margin-left: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	margin-left: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-ml-px {
-	margin-left: calc(100 / var(--device-width) * 1vw);
+	margin-left: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-ml-* {
-	margin-left: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	margin-left: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-ml-px {
-	margin-left: calc(-1 * (100 / var(--device-width) * 1vw));
+	margin-left: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-mb-* {
-	margin-bottom: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	margin-bottom: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-mb-px {
-	margin-bottom: calc(100 / var(--device-width) * 1vw);
+	margin-bottom: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-mb-* {
-	margin-bottom: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	margin-bottom: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-mb-px {
-	margin-bottom: calc(-1 * (100 / var(--device-width) * 1vw));
+	margin-bottom: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-top-* {
-	top: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	top: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-top-px {
-	top: calc(100 / var(--device-width) * 1vw);
+	top: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-top-* {
-	top: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	top: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-top-px {
-	top: calc(-1 * (100 / var(--device-width) * 1vw));
+	top: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-right-* {
-	right: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	right: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-right-px {
-	right: calc(100 / var(--device-width) * 1vw);
+	right: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-right-* {
-	right: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	right: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-right-px {
-	right: calc(-1 * (100 / var(--device-width) * 1vw));
+	right: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-bottom-* {
-	bottom: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	bottom: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-bottom-px {
-	bottom: calc(100 / var(--device-width) * 1vw);
+	bottom: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-bottom-* {
-	bottom: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	bottom: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-bottom-px {
-	bottom: calc(-1 * (100 / var(--device-width) * 1vw));
+	bottom: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-left-* {
-	left: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	left: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-left-px {
-	left: calc(100 / var(--device-width) * 1vw);
+	left: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-left-* {
-	left: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	left: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-left-px {
-	left: calc(-1 * (100 / var(--device-width) * 1vw));
+	left: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-inset-* {
-	inset: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	inset: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-inset-px {
-	inset: calc(100 / var(--device-width) * 1vw);
+	inset: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-inset-* {
-	inset: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	inset: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-inset-px {
-	inset: calc(-1 * (100 / var(--device-width) * 1vw));
+	inset: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-inset-x-* {
-	inset-inline: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	inset-inline: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-inset-x-px {
-	inset-inline: calc(100 / var(--device-width) * 1vw);
+	inset-inline: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-inset-x-* {
-	inset-inline: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	inset-inline: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-inset-x-px {
-	inset-inline: calc(-1 * (100 / var(--device-width) * 1vw));
+	inset-inline: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-inset-y-* {
-	inset-block: min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
+	inset-block: min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px));
 }
 @utility dr-inset-y-px {
-	inset-block: calc(100 / var(--device-width) * 1vw);
+	inset-block: calc(100 / var(--device-width) * var(--calc-factor, 1vw));
 }
 @utility -dr-inset-y-* {
-	inset-block: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * 1vw), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
+	inset-block: calc(-1 * min(calc((--value(integer) * 100) / var(--device-width) * var(--calc-factor, 1vw)), calc(((--value(integer) * var(--max-width)) / var(--device-width)) * 1px)));
 }
 @utility -dr-inset-y-px {
-	inset-block: calc(-1 * (100 / var(--device-width) * 1vw));
+	inset-block: calc(-1 * (100 / var(--device-width) * var(--calc-factor, 1vw)));
 }
 
 @utility dr-w-col-* {
