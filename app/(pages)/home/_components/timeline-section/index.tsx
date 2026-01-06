@@ -15,6 +15,7 @@ import type { messages as messagesType } from '~/app/(pages)/home/_sections/mome
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { mapRange } from '~/libs/utils'
 import { colors } from '~/styles/colors'
@@ -45,7 +46,6 @@ export function TimelineSection({
   title,
   children,
   ref,
-  zIndex,
   proxyChildren,
 }: {
   messages: typeof messagesType
@@ -63,6 +63,8 @@ export function TimelineSection({
   const addCallback = useCallback((callback: TimelineCallback) => {
     callbacks.current.push(callback)
   }, [])
+  const messagesRef = useRef<HTMLUListElement>(null)
+  const { isDesktop } = useDeviceDetection()
 
   useScrollTrigger({
     rect,
@@ -77,11 +79,14 @@ export function TimelineSection({
         const mappedLineProgress = mapRange(0, 100, lineProgress, 100, 8)
         whiteLineRef.current.style.translate = `0 -${Math.min(mappedLineProgress, 90)}%`
       }
-      if (buttonRef.current) {
+      if (buttonRef.current && isDesktop) {
         buttonRef.current.style.opacity = `${steps[STEPS - 1] === 1 ? 1 : 0}`
       }
       for (const callback of callbacks.current) {
         callback({ progress, steps, currentStep })
+      }
+      if (messagesRef.current && !isDesktop) {
+        messagesRef.current.style.transform = `translateX(${(-messagesRef.current.scrollWidth / 4) * Math.min(3, Math.max(0, currentStep - 1))}px)`
       }
     },
     steps: STEPS,
@@ -105,21 +110,15 @@ export function TimelineSection({
                 {title}
               </h3>
               <div
-                className="absolute -dr-inset-20"
+                className="hidden dt:block absolute -dr-inset-20"
                 style={{
                   background:
                     'linear-gradient(to bottom, transparent 0%, #E5F0ED 10%, #E5F0ED 90%, transparent 97%)',
                 }}
               />
             </div>
-            <div
-              className="relative dr-py-40 mt-auto"
-              style={{
-                maskImage:
-                  'linear-gradient(to bottom, transparent 0%, black 5%)',
-              }}
-            >
-              <div className="absolute z-15 dr-w-32 inset-y-0 dr-left-26">
+            <div className="relative dr-py-40 max-dt:mt-auto dt:mask-[linear-gradient(to_bottom,transparent_0%,black_5%)]">
+              <div className="absolute z-15 dr-w-32 dt:inset-y-0 max-dt:h-[100vw] max-dt:-rotate-90 max-dt:-dr-top-40 left-[calc(var(--safe)+32vw)]  dt:dr-left-26">
                 <div
                   className="absolute inset-y-0 dr-left-16 w-px z-1"
                   style={{
@@ -132,17 +131,22 @@ export function TimelineSection({
                   className="dr-w-9 h-[110%] bg-white rounded-full shadow-xs mx-auto"
                 />
               </div>
-              <ul className="flex dt:flex-col dr-gap-4 dt:items-start max-dt:overflow-x-auto">
-                {messages.map((message, idx) => (
-                  <TimelineItem
-                    key={message.id}
-                    message={message}
-                    visible={idx < messagesVisible}
-                    idx={idx}
-                    last={idx === messages.length - 1}
-                  />
-                ))}
-              </ul>
+              <div>
+                <ul
+                  ref={messagesRef}
+                  className="flex dt:flex-col dr-gap-4 dt:items-start transition-transform duration-300 ease-gleasing"
+                >
+                  {messages.map((message, idx) => (
+                    <TimelineItem
+                      key={message.id}
+                      message={message}
+                      visible={idx < messagesVisible}
+                      idx={idx}
+                      last={idx === messages.length - 1}
+                    />
+                  ))}
+                </ul>
+              </div>
             </div>
             <div
               className="hidden dt:block absolute inset-y-0 dr-left-82 w-px -z-1"
@@ -155,9 +159,9 @@ export function TimelineSection({
             />
             <CTA
               snippet
-              className="bg-black! text-teal border-teal"
+              className="bg-black! text-teal border-teal w-full"
               wrapperRef={buttonRef}
-              wrapperClassName="dt:opacity-0 transition-opacity duration-300 ease-gleasing dr-max-w-321"
+              wrapperClassName="dt:opacity-0 transition-opacity duration-300 ease-gleasing dt:dr-max-w-321"
             >
               START BUILDING
               <span className="typo-code-snippet">
@@ -175,7 +179,7 @@ export function TimelineSection({
             </CTA>
           </div>
           <div
-            className="fixed left-0 dt:left-1/2 dt:-translate-x-1/2 top-0 dr-layout-grid-inner w-full h-screen pointer-events-none"
+            className="absolute dt:fixed left-0 dt:left-1/2 dt:-translate-x-1/2 top-0 dr-layout-grid-inner w-full h-screen pointer-events-none"
             style={{
               maxWidth: `calc(var(--max-width) * 1px)`,
             }}
@@ -221,7 +225,10 @@ function TimelineItem({
   const textRef = useRef<HTMLDivElement>(null)
   const iconContentRef = useRef<HTMLDivElement>(null)
 
+  const { isDesktop } = useDeviceDetection()
+
   const showItem = useEffectEvent(() => {
+    if (!isDesktop) return
     const tl = gsap.timeline()
     tl.to(
       backgroundRef.current,
@@ -271,6 +278,7 @@ function TimelineItem({
   })
 
   const hideItem = useEffectEvent(() => {
+    if (!isDesktop) return
     const tl = gsap.timeline()
     tl.to(
       backgroundRef.current,

@@ -41,6 +41,11 @@ export function Animation({
   const bookingConfirmedRef = useRef<HTMLParagraphElement>(null)
   const cursorRef = useRef<SVGSVGElement>(null)
 
+  const sharedVariablesRef = useRef({
+    seatsQuestionTransformIntro: 150,
+    seatsQuestionTransformSeatsThinking: 0,
+  })
+
   const scrollAnimation = useEffectEvent<TimelineCallback>(({ steps }) => {
     // Elements
     const container = containerRef.current
@@ -57,6 +62,7 @@ export function Animation({
     const bookingConfirmed = bookingConfirmedRef.current
     const cursor = cursorRef.current
     const seatMapComponent = seatMapComponentRef.current
+    const sharedVariables = sharedVariablesRef.current
 
     if (
       !(
@@ -73,14 +79,13 @@ export function Animation({
         availableSeats &&
         bookingConfirmed &&
         cursor &&
-        seatMapComponent
+        seatMapComponent &&
+        sharedVariables
       )
     )
       return
 
-    const safeZoneProgress = mapRange(0, 0.05, steps[0], 0, 1, true)
-    const containerProgress = mapRange(0.05, 0.1, steps[0], 0, 1, true)
-    const introProgress = mapRange(0.1, 0.2, steps[0], 0, 1, true)
+    const containerProgress = mapRange(0, 0.1, steps[0], 0, 1, true)
     const seatsQuestionProgress = mapRange(0.2, 0.98, steps[0], 0, 1, true)
     const seatsThinkingProgress = mapRange(0.02, 0.5, steps[1], 0, 1, true)
     const skewProgress = mapRange(0.6, 1, steps[1], 0, 1, true)
@@ -88,33 +93,48 @@ export function Animation({
     const swapProgress = mapRange(0.5, 1, steps[2], 0, 1, true)
     const selectProgress = mapRange(0.3, 1, steps[3], 0, 1, true)
 
-    if (safeZoneProgress === 1) {
-      container.style.opacity = `${containerProgress}`
-    }
+    // Multi animation variables
+    const { seatsQuestionTransformIntro, seatsQuestionTransformSeatsThinking } =
+      sharedVariables
+    seatsQuestion.style.transform = `translateY(${seatsQuestionTransformIntro + seatsQuestionTransformSeatsThinking}%)`
 
-    if (introProgress === 1) {
-      seatsQuestion.style.transform = `translateY(${mapRange(0, 1, seatsQuestionProgress, 150, 0)}%)`
-      seatsQuestion.style.opacity = `${mapRange(0, 1, seatsQuestionProgress, 0, 1)}`
-    }
+    // Intro
+    container.style.opacity = `${containerProgress}`
 
-    if (seatsQuestionProgress === 1) {
-      seatsThinking.style.transform = `translateY(${mapRange(0, 1, seatsThinkingProgress, 150, 0)}%)`
-      seatsThinking.style.opacity = `${mapRange(0, 1, seatsThinkingProgress, 0, 1)}`
-      seatsQuestion.style.transform = `translateY(${mapRange(0, 1, seatsThinkingProgress, 0, -100)}%)`
-      seatsQuestion.style.backgroundColor = gsap.utils.interpolate(
-        colors['ghost-mint'],
-        colors['off-white'],
-        seatsThinkingProgress
-      )
-    }
+    // Seats Question
+    sharedVariables.seatsQuestionTransformIntro = mapRange(
+      0,
+      1,
+      seatsQuestionProgress,
+      150,
+      0
+    )
+    seatsQuestion.style.opacity = `${mapRange(0, 1, seatsQuestionProgress, 0, 1)}`
 
+    // Seats Thinking
+    seatsThinking.style.transform = `translateY(${mapRange(0, 1, seatsThinkingProgress, 150, 0)}%)`
+    seatsThinking.style.opacity = `${mapRange(0, 1, seatsThinkingProgress, 0, 1)}`
+    sharedVariables.seatsQuestionTransformSeatsThinking = mapRange(
+      0,
+      1,
+      seatsThinkingProgress,
+      0,
+      -100
+    )
+    seatsQuestion.style.backgroundColor = gsap.utils.interpolate(
+      colors['ghost-mint'],
+      colors['off-white'],
+      seatsThinkingProgress
+    )
+
+    container.style.setProperty('--skew-progress', `${skewProgress}`)
+    container.style.setProperty('--deg-progress', `${skewProgress * -10}deg`)
     if (seatsThinkingProgress === 1) {
-      container.style.setProperty('--skew-progress', `${skewProgress}`)
-      container.style.setProperty('--deg', `${skewProgress * -10}deg`)
-      yourApp.style.transform = `translateY(${mapRange(0, 1, skewProgress, 100, 0)}%)`
       yourApp.style.opacity = `${mapRange(0, 1, skewProgress, 0, 1)}`
       introCard.style.opacity = `${mapRange(0, 1, skewProgress, 1, 0.2)}`
       emptyCard.style.opacity = `${mapRange(0, 1, skewProgress, 1, 0.2)}`
+
+      yourApp.style.transform = `translateY(${mapRange(0, 1, skewProgress, 100, 0)}%)`
       backgroundCard.style.opacity = `${mapRange(0, 1, skewProgress, 1, 0.2)}`
     }
 
@@ -128,12 +148,15 @@ export function Animation({
     }
 
     if (highlightProgress === 1) {
-      container.style.setProperty('--skew-progress', `${1 - swapProgress}`)
+      container.style.setProperty('--deskew-progress', `${swapProgress}`)
       selectionCard.style.setProperty(
         '--highlight-progress',
         `${1 - swapProgress}`
       )
-      container.style.setProperty('--deg', `${(1 - swapProgress) * -10}deg`)
+      container.style.setProperty(
+        '--dedeg-progress',
+        `${swapProgress * -10}deg`
+      )
       introCard.style.opacity = `${mapRange(0, 1, swapProgress, 0.2, 0)}`
       emptyCard.style.opacity = `${mapRange(0, 1, swapProgress, 0.2, 0)}`
       selection.style.opacity = `${mapRange(0, 1, swapProgress, 1, 0)}`
