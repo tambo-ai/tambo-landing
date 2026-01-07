@@ -6,6 +6,7 @@ import { BackgroundContext } from '~/app/(pages)/home/_components/background/con
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
+import { Kinesis } from '~/components/kinesis'
 import { Video } from '~/components/video'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
@@ -13,25 +14,61 @@ import { fromTo, mapRange } from '~/libs/utils'
 
 const BUTTONS = [
   {
-    title: 'streaming',
-    href: 'https://docs.tambo.co/concepts/streaming',
+    title: 'Generative UI Components',
+    href: ' https://docs.tambo.co/concepts/components',
     top: 10,
     left: 10,
   },
   {
-    title: 'state management',
-    href: 'https://docs.tambo.co/',
+    title: 'Interactable Components',
+    href: 'https://docs.tambo.co/concepts/components/interactable-components',
     top: 80,
     left: 80,
   },
   {
-    title: 'streaming',
-    href: 'https://docs.tambo.co/concepts/streaming',
+    title: 'MCP-Native',
+    href: 'https://docs.tambo.co/concepts/model-context-protocol',
     top: 80,
     left: 10,
   },
   {
-    title: 'state management',
+    title: 'Local Tools',
+    href: 'https://docs.tambo.co/',
+    top: 10,
+    left: 80,
+  },
+  {
+    title: 'Streaming Support',
+    href: 'https://docs.tambo.co/',
+    top: 10,
+    left: 80,
+  },
+  {
+    title: 'Message History',
+    href: 'https://docs.tambo.co/',
+    top: 10,
+    left: 80,
+  },
+  {
+    title: 'State Management',
+    href: 'https://docs.tambo.co/',
+    top: 10,
+    left: 80,
+  },
+  {
+    title: 'Suggested Actions',
+    href: 'https://docs.tambo.co/',
+    top: 10,
+    left: 80,
+  },
+  {
+    title: 'Tool Orchestration',
+    href: 'https://docs.tambo.co/',
+    top: 10,
+    left: 80,
+  },
+  {
+    title: 'Model Flexibility',
     href: 'https://docs.tambo.co/',
     top: 10,
     left: 80,
@@ -40,6 +77,7 @@ const BUTTONS = [
 
 export function Section10() {
   const buttonsRefs = useRef<(HTMLDivElement | null)[]>([])
+  const innerRef = useRef<HTMLDivElement>(null)
 
   const [setRectRef, rect] = useRect()
 
@@ -172,7 +210,10 @@ export function Section10() {
       className="relative overflow-x-clip h-[200vh] dr-mb-400"
     >
       <div className="h-screen sticky top-0 w-full flex flex-col items-center justify-center">
-        <div className="text-center flex flex-col items-center relative -dr-top-48">
+        <Kinesis
+          getIndex={() => 50}
+          className="text-center flex flex-col items-center relative -dr-top-48"
+        >
           <div className="dr-w-172 aspect-square">
             <Video
               autoPlay
@@ -219,7 +260,7 @@ export function Section10() {
               </span>
             </TitleBlock.Title>
           </TitleBlock>
-        </div>
+        </Kinesis>
         <div className="absolute bottom-0 w-full dr-p-24 mobile-only">
           {BUTTONS.map((button, index) => (
             <div className="w-full" key={button.title + index.toString()}>
