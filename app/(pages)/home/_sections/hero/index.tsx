@@ -66,7 +66,7 @@ export function Hero() {
           },
           proxy.progress1,
           {
-            ease: 'easeOutQuad',
+            ease: 'easeInOutQuad',
             render: (
               item,
               { width, y, boxShadowOpacity, greyBackgroundOpacity }
@@ -135,7 +135,7 @@ export function Hero() {
               },
               proxy.progress2,
               {
-                ease: 'easeOutQuad',
+                ease: 'easeInOutQuad',
                 render: (item, { width, y }) => {
                   // @ts-expect-error
                   const element = item?.getElement()
@@ -221,52 +221,6 @@ export function Hero() {
       timeline?.kill()
     }
   }, [])
-
-  useScrollTrigger(
-    {
-      rect,
-      start: 'top top',
-      end: 'bottom top',
-      onProgress: ({ progress, isActive }) => {
-        if (!isActive) return
-        if (!hasAppeared.current) return
-
-        const items = getItems()
-
-        fromTo(
-          items,
-          {
-            width: (index) =>
-              desktopVW(1134 + (items.length - 1 - index) * 240, true),
-            y: (index) =>
-              -desktopVW(225 + (items.length - 1 - index) * 90, true),
-          },
-          {
-            y: 0,
-            width: (index) =>
-              desktopVW(1134 + (items.length - 1 - index) * 240, true),
-          },
-          progress,
-          {
-            ease: 'linear',
-            render: (item, { y, width }) => {
-              // @ts-expect-error
-              const element = item?.getElement()
-              // @ts-expect-error
-              item?.setBorderRadius(`${width * 2}px`)
-
-              if (element instanceof HTMLElement) {
-                element.style.width = `${width}px`
-                element.style.height = `${width}px`
-                element.style.transform = `translateY(${y}px)`
-              }
-            },
-          }
-        )
-      },
-    },
-    [getItems]
-  )
 
   useScrollTrigger({
     rect,

@@ -1,9 +1,10 @@
 'use client'
 
 import cn from 'clsx'
-import { useIntersectionObserver } from 'hamo'
+import { useIntersectionObserver, useRect } from 'hamo'
 import { useLenis } from 'lenis/react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import PlusIcon from '~/assets/svgs/plus.svg'
@@ -12,14 +13,70 @@ import { Image } from '~/components/image'
 import { Marquee } from '~/components/marquee'
 import { Video } from '~/components/video'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
+import { useDesktopVW } from '~/hooks/use-device-values'
+import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { fromTo } from '~/libs/utils'
 import { cards, persons } from './data'
 import s from './meet-tambo.module.css'
 
 export function MeetTambo() {
   const [openCardTitle, setOpenCardTitle] = useState<string | null>(null)
+  const [setRectRef, rect] = useRect()
+
+  const desktopVW = useDesktopVW()
+
+  const { getItems } = useContext(BackgroundContext)
+
+  useScrollTrigger(
+    {
+      rect,
+      start: '0 0',
+      end: 'bottom bottom',
+      onProgress: ({ progress, isActive }) => {
+        if (!isActive) return
+
+        const items = getItems()
+
+        fromTo(
+          items,
+          {
+            width: (index) =>
+              desktopVW(1134 + (items.length - 1 - index) * 240, true),
+            y: (index) =>
+              -desktopVW(225 + (items.length - 1 - index) * 90, true),
+          },
+          {
+            y: 0,
+            width: (index) =>
+              desktopVW(1134 + (items.length - 1 - index) * 240, true),
+          },
+          progress,
+          {
+            ease: 'easeOutSine',
+            render: (item, { y, width }) => {
+              // @ts-expect-error
+              const element = item?.getElement()
+              // @ts-expect-error
+              item?.setBorderRadius(`${width * 2}px`)
+
+              if (element instanceof HTMLElement) {
+                element.style.width = `${width}px`
+                element.style.height = `${width}px`
+                element.style.transform = `translateY(${y}px)`
+              }
+            },
+          }
+        )
+      },
+    },
+    [getItems]
+  )
 
   return (
-    <section className="dt:dr-pt-188 dr-pt-128 dt:dr-pb-204 dr-pb-200">
+    <section
+      ref={setRectRef}
+      className="dt:dr-pt-188 dr-pt-128 dt:dr-pb-204 dr-pb-200"
+    >
       <div className="dt:dr-layout-grid px-safe dt:px-0 dr-mb-120 dt:dr-mb-0">
         <TitleBlock className="dr-mb-56  dt:col-start-3 dt:col-end-11">
           <TitleBlock.LeadIn className="dr-mb-16 dt:dr-mb-24">
