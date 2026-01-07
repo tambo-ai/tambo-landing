@@ -10,6 +10,7 @@ import ArrowSVG from '~/assets/svgs/arrow.svg'
 import PlusSVG from '~/assets/svgs/plus.svg'
 import { Button, CTA } from '~/components/button'
 import { Image } from '~/components/image'
+import { Link } from '~/components/link'
 import { Marquee } from '~/components/marquee'
 import { Video } from '~/components/video'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
@@ -88,7 +89,11 @@ export function Section11() {
               {showcaseCards.map((card, i) => (
                 <div
                   key={`${card?.title}-${i}`}
-                  className={cn('relative', s.cardWrapper)}
+                  className={cn(
+                    'relative',
+                    s.cardWrapper,
+                    isOpenCard === card?.title && s.isOpen
+                  )}
                 >
                   {/* Before was not working, div instead */}
                   <div className={s.cardRing} />
@@ -96,9 +101,8 @@ export function Section11() {
                     key={`${card?.title}-${i}`}
                     href={isDesktop ? card?.href : undefined}
                     className={cn(
-                      'relative border border-dark-teal/50 dr-p-12 bg-black dr-rounded-20 dt:dr-w-361 w-full dt:dr-max-h-390 dr-max-h-389 block overflow-hidden',
-                      s.card,
-                      isOpenCard === card?.title && s.cardOpen
+                      'relative border border-dark-teal/50 dr-p-12 dr-pb-56 dt:dr-pb-12 bg-black dr-rounded-20 dt:dr-w-361 w-full dt:dr-max-h-390 dr-max-h-389 block overflow-hidden',
+                      s.card
                     )}
                     onClick={() => {
                       if (isMobile) {
@@ -110,7 +114,7 @@ export function Section11() {
                   >
                     <div
                       className={cn(
-                        'dt:dr-w-337 dt:dr-h-189 dr-h-170 border border-dark-teal/50 dr-rounded-8 aspect-16/9 dr-mb-12 relative z-1 bg-white block',
+                        'dt:dr-w-337 dt:dr-h-189 dr-h-170 border border-dark-teal/50 dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block',
                         s.cardImage
                       )}
                     >
@@ -123,7 +127,7 @@ export function Section11() {
                       )}
                     </div>
 
-                    <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between">
+                    <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between desktop-only">
                       <p className={cn('typo-h5 w-fit text-teal', s.title)}>
                         {card?.title}
                       </p>
@@ -168,6 +172,31 @@ export function Section11() {
                       )}
                     />
                   </Button>
+                  <Link
+                    className={cn(
+                      'absolute dr-top-193 w-full dr-px-12 flex items-center justify-between mobile-only',
+                      isOpenCard === null && 'pointer-events-none'
+                    )}
+                    href={card?.href}
+                  >
+                    <p className={cn('typo-h5 w-fit text-teal', s.title)}>
+                      {card?.title}
+                    </p>
+
+                    <div
+                      className={cn(
+                        'dr-w-32 dr-h-32 bg-black border border-teal flex items-center justify-center dr-rounded-10 relative',
+                        s.button
+                      )}
+                    >
+                      <PlusSVG
+                        className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)}
+                      />
+                      <ArrowSVG
+                        className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)}
+                      />
+                    </div>
+                  </Link>
                 </div>
               ))}
             </div>

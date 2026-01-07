@@ -6,6 +6,49 @@
       opacity: 0.2;
     }
   }
+
+  &.isOpen {
+    @media (--mobile) {
+      .card {
+        padding-bottom: mobile-vw(207px);
+        box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+      }
+
+      .pattern {
+        opacity: 1;
+      }
+
+      .plus {
+        opacity: 0;
+        transform: rotate(90deg);
+      }
+
+      .arrow {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+      }
+
+      .button {
+        background-color: var(--color-teal);
+        &:before,
+        &:after {
+          background-color: var(--color-teal);
+        }
+
+        &::before {
+          transform: scale(1.25);
+        }
+
+        &::after {
+          transform: scale(1.5);
+        }
+      }
+
+      .cardRing {
+        opacity: 0.2;
+      }
+    }
+  }
 }
 
 .card {
@@ -57,42 +100,6 @@
 
       .button {
         background-color: var(--color-teal);
-
-        &::before {
-          transform: scale(1.25);
-        }
-
-        &::after {
-          transform: scale(1.5);
-        }
-      }
-    }
-  }
-
-  &.cardOpen {
-    @media (--mobile) {
-      padding-bottom: mobile-vw(207px);
-
-      .pattern {
-        opacity: 1;
-      }
-
-      .plus {
-        opacity: 0;
-        transform: rotate(90deg);
-      }
-
-      .arrow {
-        opacity: 1;
-        transform: rotate(0) scale(1);
-      }
-
-      .button {
-        background-color: var(--color-teal);
-        &:before,
-        &:after {
-          background-color: var(--color-teal);
-        }
 
         &::before {
           transform: scale(1.25);
