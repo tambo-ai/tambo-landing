@@ -126,74 +126,102 @@ export function Animation() {
       container.style.display = 'block'
     }
 
-    if (containerProgress === 1) {
-      chatMessages.style.setProperty(
-        '--chat-translate-y',
-        `${mapRange(0, 1, addToCalendarProgress, 0, 84, true)}`
-      )
-    }
+    // Chat Messages Animation
+    chatMessages.style.setProperty(
+      '--chat-translate-y',
+      `${
+        mapRange(0, 1, addToCalendarProgress, 0, 84, true) +
+        mapRange(0, 1, thinkingProgress, 0, 80, true) +
+        mapRange(0, 1, freedomTrailProgress, 0, 74, true) +
+        mapRange(0, 1, sureUpdateCalendarProgress, 0, 146, true) +
+        mapRange(0, 1, addingToCalendarProgress, 0, 124, true)
+      }`
+    )
 
-    if (addToCalendarProgress === 1) {
-      chatMessages.style.setProperty(
-        '--chat-translate-y',
-        `${mapRange(0, 1, thinkingProgress, 84, 164, true)}`
-      )
-      addFreedomTrail.style.backgroundColor = gsap.utils.interpolate(
-        colors['ghost-mint'],
-        colors['off-white'],
-        thinkingProgress
-      )
-    }
+    // Add Freedom Trail Animation
+    addFreedomTrail.style.backgroundColor = gsap.utils.interpolate(
+      colors['ghost-mint'],
+      colors['off-white'],
+      thinkingProgress
+    )
 
-    if (thinkingProgress === 1) {
-      logoCircle.scrollAnimation(circleFocusProgress)
-      container.style.setProperty(
-        '--highlight-progress',
-        `${circleFocusProgress}`
-      )
-      chat.style.scale = `${1 - circleFocusProgress * 0.2}`
-      chat.style.opacity = `${mapRange(0, 1, circleFocusProgress, 1, 0.3)}`
-    }
+    // Logo Circle Animation
+    logoCircle.scrollAnimation(circleFocusProgress)
 
+    // Container Animation
+    container.style.setProperty(
+      '--highlight-progress',
+      `${circleFocusProgress - chatMessagesProgress}`
+    )
+    container.style.opacity = isDesktop ? `${1 - exitProgress}` : '1'
+
+    // Chat Animation
+    chat.style.scale = `${mapRange(0, 1, circleFocusProgress, 1, 0.8, true) + mapRange(0, 1, chatMessagesProgress, 0, 0.2, true)}`
+    chat.style.opacity = `${mapRange(0, 1, circleFocusProgress, 1, 0.3, true) + mapRange(0, 1, chatMessagesProgress, 0, 0.7, true)}`
+
+    // Logo Circle Animation
     if (circleFocusProgress === 1) {
       logoCircle.highlightAnimation(highlightProgress)
     }
 
     if (highlightProgress === 1) {
       logoCircle.chatMessagesAnimation(chatMessagesProgress)
-      container.style.setProperty(
-        '--highlight-progress',
-        `${1 - chatMessagesProgress}`
-      )
-      chat.style.scale = `${mapRange(0, 1, chatMessagesProgress, 0.8, 1)}`
-      chat.style.opacity = `${mapRange(0, 1, chatMessagesProgress, 0.3, 1)}`
-      calendarImage.style.opacity = `${mapRange(0.4, 1, chatMessagesProgress, 0, 1)}`
-      calendarThinking.style.opacity = `${mapRange(0, 0.6, chatMessagesProgress, 1, 0)}`
-      calendarFreeSpot.style.opacity = `${chatMessagesProgress}`
-      calendarFreeSpot.style.translate = `${mapRange(0, 1, chatMessagesProgress, -50, 0)}% 0`
     }
 
-    if (chatMessagesProgress === 1) {
-      chatMessages.style.setProperty(
-        '--chat-translate-y',
-        `${mapRange(0, 1, freedomTrailProgress, 164, 238, true)}`
-      )
-      freedomTrail.style.opacity = `${freedomTrailProgress}`
-      calendar.style.backgroundColor = gsap.utils.interpolate(
-        colors['ghost-mint'],
-        colors['light-gray'],
-        freedomTrailProgress
-      )
-      calendarFreeSpot.style.backgroundColor = gsap.utils.interpolate(
-        colors['ghost-mint'],
-        colors['light-gray'],
-        freedomTrailProgress
-      )
-    }
+    // Calendar Image Animation
+    calendarImage.style.opacity = `${mapRange(0.4, 1, chatMessagesProgress, 0, 1)}`
+
+    // Calendar Thinking Animation
+    calendarThinking.style.opacity = `${mapRange(0, 0.6, chatMessagesProgress, 1, 0)}`
+
+    // Calendar Free Spot Animation
+    calendarFreeSpot.style.opacity = `${chatMessagesProgress}`
+    calendarFreeSpot.style.translate = `${mapRange(0, 1, chatMessagesProgress, -50, 0)}% 0`
+    calendarFreeSpot.style.backgroundColor = gsap.utils.interpolate(
+      colors['ghost-mint'],
+      colors['light-gray'],
+      freedomTrailProgress
+    )
+
+    // Freedom Trail Animation
+    freedomTrail.style.opacity = `${freedomTrailProgress}`
+
+    // Calendar Animation
+    calendar.style.backgroundColor = gsap.utils.interpolate(
+      colors['ghost-mint'],
+      colors['light-gray'],
+      freedomTrailProgress
+    )
+
+    // Cursor Animation
+    cursor.style.opacity = `${freedomTrailHighlightProgress - sureUpdateCalendarProgress + confirmUpdateCalendarProgress - addingToCalendarProgress}`
+    cursor.style.translate = `${
+      mapRange(0, 1, freedomTrailHighlightProgress, 100, 0) +
+      mapRange(0, 1, sureUpdateCalendarProgress, 0, 300) +
+      mapRange(0, 1, confirmUpdateCalendarProgress, 0, 400) +
+      mapRange(0, 1, addingToCalendarProgress, 0, 200)
+    }% ${
+      mapRange(0, 1, freedomTrailHighlightProgress, 200, 0) +
+      mapRange(0, 1, sureUpdateCalendarProgress, 0, -100) +
+      mapRange(0, 1, confirmUpdateCalendarProgress, 0, 550) +
+      mapRange(0, 1, addingToCalendarProgress, 0, 350)
+    }%`
+
+    // Chat Overlay Background Animation
+    chatOverlayBackground.style.opacity = `${mapRange(0, 0.3, confirmUpdateCalendarProgress, 0, 1) - mapRange(0, 0.3, addingToCalendarProgress, 0, 1)}`
+
+    // Sure Update Calendar Animation
+    sureUpdateCalendar.style.opacity = `${sureUpdateCalendarProgress}`
+
+    confirmingBackground.style.setProperty(
+      '--added-to-calendar-progress',
+      `${mapRange(0, 0.5, addedToCalendarProgress, 0, 1, true)}`
+    )
+    processBubble.animateDetail(addedToCalendarProgress)
+    confirmingText.style.opacity = `${mapRange(0.4, 0.8, addedToCalendarProgress, 0, 1)}`
+    confirmingThinking.style.opacity = `${mapRange(0, 0.4, addedToCalendarProgress, 1, 0)}`
 
     if (freedomTrailProgress === 1) {
-      cursor.style.opacity = `${freedomTrailHighlightProgress}`
-      cursor.style.translate = `${mapRange(0, 1, freedomTrailHighlightProgress, 100, 0)}% ${mapRange(0, 1, freedomTrailHighlightProgress, 200, 0)}%`
       if (freedomTrailHighlightProgress > 0.8) {
         freedomTrail.setAttribute('data-active', 'true')
       } else {
@@ -205,20 +233,9 @@ export function Animation() {
       if (sureUpdateCalendarProgress > 0.4) {
         freedomTrail.removeAttribute('data-active')
       }
-      chatMessages.style.setProperty(
-        '--chat-translate-y',
-        `${mapRange(0, 1, sureUpdateCalendarProgress, 238, 384, true)}`
-      )
-      cursor.style.opacity = `${1 - sureUpdateCalendarProgress}`
-      cursor.style.translate = `${mapRange(0, 1, sureUpdateCalendarProgress, 0, 300)}% ${mapRange(0, 1, sureUpdateCalendarProgress, 0, -100)}%`
-      sureUpdateCalendar.style.opacity = `${sureUpdateCalendarProgress}`
     }
 
     if (sureUpdateCalendarProgress === 1) {
-      chatOverlayBackground.style.opacity = `${mapRange(0, 0.3, confirmUpdateCalendarProgress, 0, 1)}`
-      cursor.style.opacity = `${confirmUpdateCalendarProgress}`
-      cursor.style.translate = `${mapRange(0, 1, confirmUpdateCalendarProgress, 300, 700)}% ${mapRange(0, 1, confirmUpdateCalendarProgress, -100, 650)}%`
-
       if (confirmUpdateCalendarProgress > 0.7) {
         yesButton.setAttribute('data-hover', 'true')
       } else {
@@ -233,28 +250,6 @@ export function Animation() {
       } else {
         yesButton.removeAttribute('data-active')
       }
-
-      chatMessages.style.setProperty(
-        '--chat-translate-y',
-        `${mapRange(0, 1, addingToCalendarProgress, 384, 508, true)}`
-      )
-      chatOverlayBackground.style.opacity = `${mapRange(0, 0.3, addingToCalendarProgress, 1, 0)}`
-      cursor.style.opacity = `${1 - addingToCalendarProgress}`
-      cursor.style.translate = `${mapRange(0, 1, addingToCalendarProgress, 700, 900)}% ${mapRange(0, 1, addingToCalendarProgress, 650, 1000)}%`
-    }
-
-    if (addingToCalendarProgress === 1) {
-      confirmingBackground.style.setProperty(
-        '--added-to-calendar-progress',
-        `${mapRange(0, 0.5, addedToCalendarProgress, 0, 1, true)}`
-      )
-      processBubble.animateDetail(addedToCalendarProgress)
-      confirmingText.style.opacity = `${mapRange(0.4, 0.8, addedToCalendarProgress, 0, 1)}`
-      confirmingThinking.style.opacity = `${mapRange(0, 0.4, addedToCalendarProgress, 1, 0)}`
-    }
-
-    if (addedToCalendarProgress === 1) {
-      container.style.opacity = isDesktop ? `${1 - exitProgress}` : '1'
     }
   })
 
