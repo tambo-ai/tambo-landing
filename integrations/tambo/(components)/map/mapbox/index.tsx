@@ -86,6 +86,7 @@ export function MapBox({
     <div
       className={className}
       style={{ width: '100%' }}
+      data-lenis-prevent
       onMouseEnter={() => {
         lenis?.stop()
       }}

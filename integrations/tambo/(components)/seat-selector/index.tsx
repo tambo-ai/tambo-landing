@@ -54,7 +54,7 @@ export function SeatAssistant() {
 
   return (
     <MessageThreadFull
-      className="absolue z-1"
+      className="absolue z-10"
       contextKey={selectedDemo}
       variant="compact"
     />

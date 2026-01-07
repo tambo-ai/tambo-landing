@@ -59,7 +59,7 @@ export function useRectangleMapDrawing({
     map.getCanvas().style.cursor = ''
 
     if (isValidBBox(bbox)) {
-      logBBoxSelection(bbox)
+      // logBBoxSelection(bbox)
       setCurrentBBox(bbox)
     }
 

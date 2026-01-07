@@ -5,9 +5,10 @@ import { useContext } from 'react'
 import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
+import { Image } from '~/components/image'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { TamboIntegration } from '~/integrations/tambo'
+import { TamboIntegration, useAssitant } from '~/integrations/tambo'
 import { IntroAssistant } from '~/integrations/tambo/(components)/intro'
 import {
   InterctableMap,
@@ -15,6 +16,7 @@ import {
 } from '~/integrations/tambo/(components)/map'
 import { AssistantNotifications } from '~/integrations/tambo/(components)/notifications'
 import { SeatAssistant } from '~/integrations/tambo/(components)/seat-selector/index'
+import { DEMOS } from '~/integrations/tambo/constants'
 import { fromTo } from '~/libs/utils'
 
 export function Section8() {
@@ -215,6 +217,7 @@ export function Section8() {
                 center={{ lng: -74.00594, lat: 40.71278 }}
                 zoom={12}
               />
+              <BackgroundAssistant />
               <IntroAssistant />
               <SeatAssistant />
               <MapAssistant />
@@ -223,5 +226,17 @@ export function Section8() {
         </section>
       </TamboIntegration>
     </>
+  )
+}
+
+function BackgroundAssistant() {
+  const { selectedDemo } = useAssitant()
+
+  if (selectedDemo === DEMOS.MAP) return null
+
+  return (
+    <div className="absolute inset-0 w-full h-full">
+      <Image src="/images/tmp-demo.png" alt="Intro Background" fill />
+    </div>
   )
 }

@@ -1,7 +1,6 @@
 import { ArrowUp } from 'lucide-react'
 import type * as React from 'react'
 import PlaneSVG from '~/assets/svgs/plane.svg'
-import { Image } from '~/components/image'
 import { useAssitant } from '~/integrations/tambo'
 import { DEMOS } from '~/integrations/tambo/constants'
 import { searchLocation } from '~/integrations/tambo/tools'
@@ -23,8 +22,7 @@ export function IntroAssistant() {
   if (selectedDemo !== demo) return null
 
   return (
-    <div className="relative w-full h-full z-10">
-      <Image src="/images/tmp-demo.png" alt="Intro Background" fill />
+    <div className="relative w-full h-full">
       <LocationInput />
     </div>
   )
