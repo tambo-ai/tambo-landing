@@ -209,9 +209,12 @@ export function Footer() {
   return (
     <section ref={setRectRef} className="overflow-clip">
       <div
-        className="relative flex flex-col items-center justify-center dt:h-screen dr-pt-280 dt:dr-pt-0"
+        className="relative flex flex-col items-center justify-center dt:h-screen"
         ref={innerRef}
       >
+        <div className="mobile-only dr-h-280 w-full relative dr-mt-250">
+          <Image src="/assets/footer-top.png" alt="Footer" fill />
+        </div>
         <div className="text-center flex flex-col items-center relative dr-mb-156 dt:dr-mb-0">
           <div className="dr-w-172 aspect-square">
             {/* <Video
@@ -256,6 +259,9 @@ export function Footer() {
             </div>
           </TitleBlock>
         </div>
+        <div className="mobile-only dr-h-156 w-full relative dr-mb-40">
+          <Image src="/assets/footer-bottom.png" alt="Footer" fill />
+        </div>
         <div className="mobile-only flex dr-gap-12 dr-mb-32">
           <div className="dr-size-32 rounded-full bg-grey grid place-items-center">
             <DiscordSVG className="dr-w-16 dr-h-16" />
@@ -267,6 +273,7 @@ export function Footer() {
             <XSVG className="dr-w-16 dr-h-16" />
           </div>
         </div>
+
         <div className="dt:absolute dt:dr-layout-grid-inner dr-px-0 flex flex-col-reverse w-full dr-bottom-16 typo-label-m dr-mb-16 dt:dr-mb-0">
           <span className="dt:col-span-2 typo-label-s dt:typo-label-m text-center dt:text-left text-black/70">
             Fractal Dynamics Inc © {currentYear ?? 2025}
