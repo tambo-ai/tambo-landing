@@ -118,7 +118,6 @@ export function Animation() {
       return
 
     const transitionProgress = mapRange(0, 0.05, steps[0], 0, 1, true)
-    const containerProgress = mapRange(0.05, 0.1, steps[0], 0, 1, true)
     const introProgress = mapRange(0.15, 0.5, steps[0], 0, 1, true)
     const whatCanIDoProgress = mapRange(0, 0.5, steps[1], 0, 1, true)
     const thinkingProgress = mapRange(0.5, 1, steps[1], 0, 1, true)
@@ -127,145 +126,152 @@ export function Animation() {
     const activitiesProgress = mapRange(0, 0.5, steps[3], 0, 1, true)
     const hoverPinProgress = mapRange(0.5, 1, steps[3], 0, 1, true)
     const greatPickProgress = mapRange(0, 0.5, steps[4], 0, 1, true)
-
-    // TODO: Remap this with steps
     const exitProgress = mapRange(0.8, 1, steps[4], 0, 1, true)
 
-    const section4Container = document.getElementById('section-4-container')
+    const mapHighlightProgress = mapRange(0.5, 1, introProgress, 0, 1, true)
 
+    // EXIT & ENTER
+    const section4Container = document.getElementById('section-4-container')
     if (transitionProgress === 1 && section4Container) {
       section4Container.style.display = isDesktop ? 'none' : 'block'
       container.style.display = 'block'
     }
 
-    // Intro
-    if (transitionProgress === 1) {
-      container.style.setProperty('--intro-progress', `${introProgress}`)
-      map.style.opacity = `${introProgress}`
+    // Container Animation
+    container.style.setProperty(
+      '--intro-progress',
+      `${introProgress - exitProgress}`
+    )
+    container.style.setProperty(
+      '--highlight-progress',
+      `${highlightProgress - activitiesProgress}`
+    )
+    container.style.setProperty(
+      '--activities-progress',
+      `${mapRange(0, 0.6, activitiesProgress, 0, 1, true)}`
+    )
 
-      const mapHighlightProgress = mapRange(0.5, 1, introProgress, 0, 1, true)
+    // Cursor Animation
+    cursor.style.opacity = `${mapHighlightProgress - whatCanIDoProgress}`
+    cursor.style.left = `${100 * mapHighlightProgress}%`
+    cursor.style.top = `${100 * mapHighlightProgress}%`
 
-      cursor.style.opacity = `${mapHighlightProgress}`
-      cursor.style.left = `${100 * mapHighlightProgress}%`
-      cursor.style.top = `${100 * mapHighlightProgress}%`
-      mapHighlight.style.opacity = `${mapHighlightProgress}`
-      mapHighlight.style.scale = `${mapHighlightProgress}`
-    }
+    // Map Animation
+    map.style.opacity = `${introProgress - mapRange(0, 1, highlightProgress, 0, 0.7, true) + mapRange(0, 1, mergeProgress, 0, 0.7, true) - exitProgress}`
 
-    if (introProgress === 1) {
-      chatMessages.style.setProperty(
-        '--chat-translate-y',
-        `${mapRange(0, 1, whatCanIDoProgress, 0, 148, true)}`
-      )
-      whatCanIDo.style.opacity = `${mapRange(0.5, 1, whatCanIDoProgress, 0, 1)}`
-      cursor.style.opacity = `${1 - whatCanIDoProgress}`
-    }
+    // Map Highlight Animation
+    mapHighlight.style.opacity = `${mapHighlightProgress}`
+    mapHighlight.style.scale = `${mapHighlightProgress}`
+    mapHighlight.style.backgroundColor = gsap.utils.interpolate(
+      '#B6FFDD80',
+      gsap.utils.interpolate('#F2F8F680', '#F2F8F600', mergeProgress),
+      thinkingProgress
+    )
 
-    if (whatCanIDoProgress === 1) {
-      chatMessages.style.setProperty(
-        '--chat-translate-y',
-        `${mapRange(0, 1, thinkingProgress, 148, 268, true)}`
-      )
-      seatMap.style.transform = `translateY(${mapRange(0, 1, thinkingProgress, 0, -100)}%)`
-      seatMap.style.opacity = `${mapRange(0, 1, thinkingProgress, 1, 0)}`
-      mapHighlight.style.backgroundColor = gsap.utils.interpolate(
-        '#B6FFDD80',
-        '#F2F8F680',
-        thinkingProgress
-      )
-    }
+    // Chat Messages Animation
+    chatMessages.style.setProperty(
+      '--chat-translate-y',
+      `${
+        mapRange(0, 1, whatCanIDoProgress, 0, 148, true) +
+        mapRange(0, 1, thinkingProgress, 0, 120, true) +
+        mapRange(0, 1, greatPickProgress, 0, 76, true)
+      }`
+    )
 
-    if (thinkingProgress === 1) {
-      container.style.setProperty(
-        '--highlight-progress',
-        `${highlightProgress}`
-      )
-      map.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3)}`
-      whatCanIDoBackground.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3)}`
-      whatCanIDoText.style.transform = `translate(${mapRange(0, 1, highlightProgress, 0, -10, true)}%, ${mapRange(0, 1, highlightProgress, 0, -30, true)}%)`
-      chatBackground.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3)}`
-      chatBorder.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3)}`
-      thinking.style.backgroundColor = `rgba(214, 255, 236, ${1 - highlightProgress})`
-      mapHighlightImage.style.transform = `translate(${mapRange(0, 1, highlightProgress, 0, -10, true)}%, ${mapRange(0, 1, highlightProgress, 0, -10, true)}%)`
-      mapHighlightImage.style.opacity = `${highlightProgress}`
-      mapHighlightBackground.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3)}`
-    }
+    // What Can I Do Animation
+    whatCanIDo.style.opacity = `${mapRange(0.5, 1, whatCanIDoProgress, 0, 1)}`
 
-    if (highlightProgress === 1) {
-      mapHighlightImage.style.transform = `translate(${mapRange(0, 1, mergeProgress, -10, -150, true)}%, ${mapRange(0, 1, mergeProgress, -10, 220, true)}%) scale(${1 - mergeProgress})`
-      whatCanIDoText.style.transform = `translate(${mapRange(0, 1, mergeProgress, -10, -280, true)}%, ${mapRange(0, 1, mergeProgress, -30, 170, true)}%) scale(${1 - mergeProgress})`
-      whatCanIDoText2.style.opacity = `${mergeProgress}`
-      whatCanIDoBackground.style.opacity = `${mapRange(0, 1, mergeProgress, 0.3, 1)}`
-      whatCanIDoBackground.style.backgroundColor = gsap.utils.interpolate(
-        colors['ghost-mint'],
-        colors['off-white'],
-        mergeProgress
-      )
-      thinking.style.transform = `translate(${mapRange(0, 1, mergeProgress, 0, -10, true)}%, ${mapRange(0, 1, mergeProgress, 0, -40, true)}%)`
-      thinking.style.backgroundColor = `rgba(214, 255, 236, ${mergeProgress})`
-      map.style.opacity = `${mapRange(0, 1, mergeProgress, 0.3, 1)}`
-      mapHighlightBackground.style.opacity = `${mapRange(0, 1, mergeProgress, 0.3, 0)}`
-      mapHighlight.style.backgroundColor = gsap.utils.interpolate(
-        '#F2F8F680',
-        '#F2F8F600',
-        mergeProgress
-      )
-    }
+    // Seat Map Animation
+    seatMap.style.transform = `translateY(${mapRange(0, 1, thinkingProgress, 0, -100)}%)`
+    seatMap.style.opacity = `${mapRange(0, 1, thinkingProgress, 1, 0)}`
 
-    if (mergeProgress === 1) {
-      container.style.setProperty(
-        '--highlight-progress',
-        `${1 - activitiesProgress}`
-      )
-      thinking.style.transform = `translate(${mapRange(0, 1, activitiesProgress, -10, 0, true)}%, ${mapRange(0, 1, activitiesProgress, -40, 0, true)}%)`
-      thinking.style.backgroundColor = gsap.utils.interpolate(
-        colors['ghost-mint'],
-        colors['light-gray'],
-        activitiesProgress
-      )
-      thinkingDots.style.opacity = `${mapRange(0, 0.6, activitiesProgress, 1, 0)}`
-      container.style.setProperty(
-        '--activities-progress',
-        `${mapRange(0, 0.6, activitiesProgress, 0, 1, true)}`
-      )
-      thinkingText.style.opacity = `${mapRange(0.5, 1, activitiesProgress, 0, 1)}`
-      dot1.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
-      pin1.style.opacity = `${activitiesProgress}`
-      pin1.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
-      dot2.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
-      pin2.style.opacity = `${activitiesProgress}`
-      pin2.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
-      dot3.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
-      pin3.style.opacity = `${activitiesProgress}`
-      pin3.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
+    // What Can I Do Background Animation
+    whatCanIDoBackground.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3, true) + mapRange(0, 1, mergeProgress, 0, 0.7, true)}`
+    whatCanIDoBackground.style.backgroundColor = gsap.utils.interpolate(
+      colors['ghost-mint'],
+      colors['off-white'],
+      mergeProgress
+    )
 
-      // Animation here
-      processBubble.animateDetail(activitiesProgress)
-      chatBackground.style.opacity = `${mapRange(0, 1, activitiesProgress, 0.3, 1)}`
-      chatBorder.style.opacity = `${mapRange(0, 1, activitiesProgress, 0.3, 1)}`
-    }
+    // What Can I Do Text Animation
+    whatCanIDoText.style.transform = `translate(${
+      mapRange(0, 1, highlightProgress, 0, -10, true) +
+      mapRange(0, 1, mergeProgress, 0, -270, true)
+    }%, ${
+      mapRange(0, 1, highlightProgress, 0, -30, true) +
+      mapRange(0, 1, mergeProgress, 0, 200, true)
+    }%) scale(${1 - mergeProgress})`
 
-    if (activitiesProgress === 1) {
-      cursorPin.style.opacity = `${hoverPinProgress}`
-      cursorPin.style.transform = `translate(${1000 * (1 - hoverPinProgress)}%, ${-200 * (1 - hoverPinProgress)}%)`
-      pinAnimate.animateDetail(hoverPinProgress)
-    }
+    // Chat Background Animation
+    chatBackground.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3, true) + mapRange(0, 1, activitiesProgress, 0, 0.7, true)}`
 
-    if (hoverPinProgress === 1) {
-      chatMessages.style.setProperty(
-        '--chat-translate-y',
-        `${mapRange(0, 1, greatPickProgress, 268, 344, true)}`
-      )
-      cursorPin.style.opacity = `${1 - greatPickProgress}`
-      cursorPin.style.transform = `translate(${1000 * greatPickProgress}%, ${200 * greatPickProgress}%)`
-      greatPickText.style.opacity = `${greatPickProgress}`
-    }
+    // Chat Border Animation
+    chatBorder.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3, true) + mapRange(0, 1, activitiesProgress, 0, 0.7, true)}`
 
+    // Thinking Animation
+    thinking.style.backgroundColor = gsap.utils.interpolate(
+      `rgba(214, 255, 236, ${1 - highlightProgress + mergeProgress})`,
+      colors['light-gray'],
+      activitiesProgress
+    )
+    thinking.style.transform = `translate(${
+      mapRange(0, 1, mergeProgress, 0, -10, true) +
+      mapRange(0, 1, activitiesProgress, 0, 10, true)
+    }%, ${
+      mapRange(0, 1, mergeProgress, 0, -40, true) +
+      mapRange(0, 1, activitiesProgress, 0, 40, true)
+    }%)`
+
+    // Map Highlight Image Animation
+    mapHighlightImage.style.transform = `translate(${
+      mapRange(0, 1, highlightProgress, 0, -10, true) +
+      mapRange(0, 1, mergeProgress, 0, -140, true)
+    }%, ${
+      mapRange(0, 1, highlightProgress, 0, -10, true) +
+      mapRange(0, 1, mergeProgress, 0, 210, true)
+    }%) scale(${1 - mergeProgress})`
+    mapHighlightImage.style.opacity = `${highlightProgress}`
+
+    // Map Highlight Background Animation
+    mapHighlightBackground.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3, true) - mapRange(0, 1, mergeProgress, 0, 0.3, true)}`
+
+    // What Can I Do Text 2 Animation
+    whatCanIDoText2.style.opacity = `${mergeProgress}`
+
+    // Thinking Dots Animation
+    thinkingDots.style.opacity = `${mapRange(0, 0.6, activitiesProgress, 1, 0)}`
+
+    // Thinking Text Animation
+    thinkingText.style.opacity = `${mapRange(0.5, 1, activitiesProgress, 0, 1)}`
+
+    // Dots and Pins Animation
+    dot1.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
+    pin1.style.opacity = `${activitiesProgress}`
+    pin1.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
+    dot2.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
+    pin2.style.opacity = `${activitiesProgress}`
+    pin2.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
+    dot3.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
+    pin3.style.opacity = `${activitiesProgress}`
+    pin3.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
+
+    // Process Bubble Animation
+    processBubble.animateDetail(activitiesProgress)
+
+    // Cursor Pin Animation
+    cursorPin.style.opacity = `${hoverPinProgress - greatPickProgress}`
+    cursorPin.style.transform = `translate(${1000 * (1 - hoverPinProgress + greatPickProgress)}%, ${-200 * (1 - hoverPinProgress - greatPickProgress)}%)`
+
+    // Pin Animate Animation
+    pinAnimate.animateDetail(hoverPinProgress)
+
+    // Great Pick Text Animation
+    greatPickText.style.opacity = `${greatPickProgress}`
+
+    // EXIT
     const section6Container = document.getElementById('section-6-container')
 
     if (greatPickProgress === 1 && section6Container) {
-      container.style.setProperty('--intro-progress', `${1 - exitProgress}`)
-      map.style.opacity = `${1 - exitProgress}`
       section6Container.style.display = isDesktop ? 'none' : 'block'
     }
   })
