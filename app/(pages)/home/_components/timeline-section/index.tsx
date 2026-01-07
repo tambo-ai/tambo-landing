@@ -110,7 +110,7 @@ export function TimelineSection({
                 {title}
               </h3>
               <div
-                className="hidden dt:block absolute -dr-inset-20"
+                className="hidden dt:block absolute -dr-inset-y-20 dr-left-40 dr-w-4"
                 style={{
                   background:
                     'linear-gradient(to bottom, transparent 0%, #E5F0ED 10%, #E5F0ED 90%, transparent 97%)',
@@ -129,6 +129,9 @@ export function TimelineSection({
                 <div
                   ref={whiteLineRef}
                   className="dr-w-9 h-[110%] bg-white rounded-full shadow-xs mx-auto"
+                  style={{
+                    translate: '0px -90%',
+                  }}
                 />
               </div>
               <div>
