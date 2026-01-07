@@ -36,7 +36,7 @@ export function MeetTambo() {
             generative UIs faster, <br /> without the boilerplate.
           </TitleBlock.Title>
         </TitleBlock>
-        <div className="flex flex-col dt:flex-row gap-gap justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12">
+        <div className="flex flex-col dt:flex-row dr-gap-y-12 dt:dr-gap-y-0 justify-center dt:dr-mb-156 dt:col-start-2 dt:col-end-12">
           {cards.map((card) => (
             <Card
               key={card?.title}
@@ -127,7 +127,12 @@ function Card({ data, isOpen, onToggle }: CardProps) {
   const lenis = useLenis()
 
   return (
-    <div className={cn('relative', s.cardWrapper)}>
+    <div
+      className={cn(
+        'relative dt:dr-px-12 dt:first:dr-pl-0 dt:last:dr-pr-0',
+        s.cardWrapper
+      )}
+    >
       <Button
         href={isDesktop ? data?.button?.href : undefined}
         className={cn(
@@ -217,6 +222,7 @@ function Card({ data, isOpen, onToggle }: CardProps) {
       <CTA
         type="secondary"
         wrapperClassName={s.cardCTA}
+        href={isDesktop ? data?.button?.href : undefined}
         onClick={() => {
           if (isOpen) {
             lenis?.scrollTo(`#${data?.anchor}`)
