@@ -293,7 +293,7 @@ export function Navigation() {
         {/* Mobile Nav */}
         <div
           className={cn(
-            'mobile-only border border-dark-grey w-full dr-h-48 dr-rounded-24 relative overflow-hidden bg-white/80',
+            'mobile-only border border-dark-grey w-full dr-h-48 dr-rounded-24 relative overflow-hidden bg-white/80 backdrop-blur-[30px]',
             s.mobileNavContainer,
             isMobileNavOpened && s.mobileNavOpened
           )}
