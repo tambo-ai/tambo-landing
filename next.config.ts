@@ -32,30 +32,30 @@ const nextConfig: NextConfig = {
                   'removeScriptElement',
                   'prefixIds',
                   'cleanupIds',
-                  {
-                    name: 'cleanupNumericValues',
-                    params: {
-                      floatPrecision: 1,
-                    },
-                  },
-                  {
-                    name: 'convertPathData',
-                    params: {
-                      floatPrecision: 1,
-                    },
-                  },
-                  {
-                    name: 'convertTransform',
-                    params: {
-                      floatPrecision: 1,
-                    },
-                  },
-                  {
-                    name: 'cleanupListOfValues',
-                    params: {
-                      floatPrecision: 1,
-                    },
-                  },
+                  // {
+                  //   name: 'cleanupNumericValues',
+                  //   params: {
+                  //     floatPrecision: 1,
+                  //   },
+                  // },
+                  // {
+                  //   name: 'convertPathData',
+                  //   params: {
+                  //     floatPrecision: 1,
+                  //   },
+                  // },
+                  // {
+                  //   name: 'convertTransform',
+                  //   params: {
+                  //     floatPrecision: 1,
+                  //   },
+                  // },
+                  // {
+                  //   name: 'cleanupListOfValues',
+                  //   params: {
+                  //     floatPrecision: 1,
+                  //   },
+                  // },
                 ],
               },
             },
