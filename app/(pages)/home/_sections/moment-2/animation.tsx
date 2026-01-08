@@ -200,6 +200,15 @@ export function Animation() {
       mapRange(0, 1, highlightProgress, 0, -30, true) +
       mapRange(0, 1, mergeProgress, 0, 200, true)
     }%) scale(${1 - mergeProgress})`
+    whatCanIDoText.style.backgroundColor = gsap.utils.interpolate(
+      colors['ghost-mint'],
+      gsap.utils.interpolate(
+        colors['off-white'],
+        colors['ghost-mint'],
+        highlightProgress
+      ),
+      thinkingProgress
+    )
 
     // Chat Background Animation
     chatBackground.style.opacity = `${mapRange(0, 1, highlightProgress, 1, 0.3, true) + mapRange(0, 1, activitiesProgress, 0, 0.7, true)}`
