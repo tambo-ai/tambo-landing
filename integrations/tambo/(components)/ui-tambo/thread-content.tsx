@@ -162,8 +162,8 @@ const ThreadContentMessages = React.forwardRef<
             >
               <div
                 className={cn(
-                  'flex flex-col',
-                  message.role === 'assistant' ? 'w-full' : 'max-w-[50%]'
+                  'flex flex-col w-full'
+                  // message.role === 'assistant' ? 'w-full' : 'max-w-[70%]'
                 )}
               >
                 <ReasoningInfo />
@@ -172,7 +172,7 @@ const ThreadContentMessages = React.forwardRef<
                   className={cn(
                     message.role === 'assistant'
                       ? 'text-foreground bg-transparent typo-p-sentient'
-                      : 'text-foreground bg-container hover:bg-backdrop'
+                      : 'text-foreground bg-container hover:bg-backdrop dr-rounded-12'
                   )}
                 />
                 <ToolcallInfo />

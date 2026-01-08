@@ -17,6 +17,24 @@ itinerary [
 ]
  */
 
+const formatTimeRange = (dateString: string) => {
+  const date = new Date(dateString.replace(' ', 'T'))
+  const endDate = new Date(date.getTime() + 2 * 60 * 60 * 1000)
+
+  const format = (d: Date) =>
+    d
+      .toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      })
+      .toLowerCase()
+      .replace(':00', '')
+      .replace(/\s/g, '')
+
+  return `${format(date)} → ${format(endDate)}`
+}
+
 export function AssistantNotifications({ className }: { className: string }) {
   const { finishSeatSelection, choosedSeat, itinerary, destination } =
     useAssitant()
@@ -34,13 +52,13 @@ export function AssistantNotifications({ className }: { className: string }) {
       </div>
       <ul className="flex flex-col dr-gap-23 dr-p-8">
         <li>
-          <span className="block typo-label-s opacity-50">
+          <span className="block typo-label-s opacity-50 dr-mb-8">
             {'<'}Destination{'>'}
           </span>
           <span className="typo-label-s">{destination?.name}</span>
         </li>
         <li>
-          <span className="block typo-label-s opacity-50">
+          <span className="block typo-label-s opacity-50 dr-mb-8">
             {'<'}Flight seats{'>'}
           </span>{' '}
           <span className="typo-label-s">
@@ -49,22 +67,34 @@ export function AssistantNotifications({ className }: { className: string }) {
           </span>
         </li>
         <li>
-          <span className="block typo-label-s opacity-50">
+          <span className="block typo-label-s opacity-50 dr-mb-8">
             {'<'}Planned activities{'>'}
           </span>{' '}
-          {/* <span className="typo-label-s">
-            {itinerary.length > 0
-              ? itinerary
-                  .sort(
-                    (a, b) =>
-                      new Date(a.selectedDate).getTime() -
-                      new Date(b.selectedDate).getTime()
-                  )
-                  .map((item) => item.poi.name)
-                  .join(', ')
-              : 'None'}
-          </span> */}
+          <ul className="flex flex-col dr-gap-8">
+            {itinerary.map((item) => (
+              <li
+                className="typo-label-s list-disc list-inside"
+                key={item?.poi?.id}
+              >
+                <span className="inline-block align-top">
+                  <span className="block">{item?.poi?.name}</span>
+                  <span className="block">
+                    {item?.selectedDate &&
+                      new Date(item.selectedDate).toLocaleDateString('en-US', {
+                        year: '2-digit',
+                        month: '2-digit',
+                        day: '2-digit',
+                      })}
+                  </span>
+                  <span className="block">
+                    {item?.selectedDate && formatTimeRange(item.selectedDate)}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
         </li>
+        {/* Remove Later */}
         <li>
           <span className="typo-label-m">Seat selection: </span>
           <span className="typo-label-s">
@@ -77,24 +107,6 @@ export function AssistantNotifications({ className }: { className: string }) {
           >
             Random seat
           </button>
-        </li>
-        <li>
-          <span className="typo-label-m">Itinerary: </span>
-          <span className="typo-label-s">
-            {itinerary.length > 0
-              ? itinerary
-                  .sort(
-                    (a, b) =>
-                      new Date(a.selectedDate).getTime() -
-                      new Date(b.selectedDate).getTime()
-                  )
-                  .map(
-                    (item) =>
-                      `${item.poi.name} ${item.selectedDate ? `(Selected date: ${item.selectedDate})` : ''}`
-                  )
-                  .join(', ')
-              : 'Empty'}
-          </span>
         </li>
       </ul>
     </div>

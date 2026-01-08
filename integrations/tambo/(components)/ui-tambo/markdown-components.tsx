@@ -187,7 +187,7 @@ export const createMarkdownComponents = (): Record<
    * Indented from the left margin
    */
   ul: ({ children }) => (
-    <ul className="list-disc dr-pl-5 flex flex-col dr-gap-8">{children}</ul>
+    <ul className="list-disc flex flex-col dr-gap-8">{children}</ul>
   ),
 
   /**
@@ -200,7 +200,9 @@ export const createMarkdownComponents = (): Record<
    * List item component with normal line height
    * Used within both ordered and unordered lists
    */
-  li: ({ children }) => <li className="leading-normal">{children}</li>,
+  li: ({ children }) => (
+    <li className="leading-normal list-none">{children}</li>
+  ),
 
   /**
    * Blockquote component for quoted content

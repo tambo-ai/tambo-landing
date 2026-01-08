@@ -119,7 +119,7 @@ export function MessageThreadFull({
       >
         <ScrollableMessageContainer className="dr-p-4">
           <ThreadContent variant={variant}>
-            <ThreadContentMessages />
+            <ThreadContentMessages className="[&>div>div>div]:max-w-[70%]" />
           </ThreadContent>
         </ScrollableMessageContainer>
 
