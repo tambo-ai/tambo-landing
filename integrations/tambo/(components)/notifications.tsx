@@ -17,7 +17,13 @@ import { isEmptyArray } from '~/libs/utils'
 import { DEMOS } from '../constants'
 
 export function AssistantNotifications({ className }: { className: string }) {
-  const { selectedDemo, choosedSeat, itinerary, destination } = useAssitant()
+  const {
+    selectedDemo,
+    choosedSeat,
+    itinerary,
+    destination,
+    finishSeatSelection,
+  } = useAssitant()
 
   return (
     <div
@@ -32,16 +38,18 @@ export function AssistantNotifications({ className }: { className: string }) {
       </div>
       <ul className="flex flex-col dr-gap-23 dr-p-8">
         <li>
-          <span className="block typo-label-s opacity-50 dr-mb-8">
+          <span className="block typo-label-s opacity-50 dr-mb-6">
             {'<'}Destination{'>'}
           </span>
           <div className="grid grid-cols-2 dr-gap-8">
-            <span className="typo-label-s">{destination?.name}</span>
+            <span className="typo-code-snippet uppercase">
+              {destination?.name}
+            </span>
             <WeatherWidget />
           </div>
         </li>
         <li>
-          <span className="block typo-label-s opacity-50 dr-mb-8">
+          <span className="block typo-label-s opacity-50 dr-mb-6">
             {'<'}Flight seats{'>'}
           </span>{' '}
           <span className="typo-label-s">
@@ -51,7 +59,7 @@ export function AssistantNotifications({ className }: { className: string }) {
         </li>
         {selectedDemo === DEMOS.MAP && (
           <li>
-            <span className="block typo-label-s opacity-50 dr-mb-8">
+            <span className="block typo-label-s opacity-50 dr-mb-6">
               {'<'}Planned activities{'>'}
             </span>{' '}
             <ul className="flex flex-col dr-gap-8">
