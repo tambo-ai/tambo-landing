@@ -244,15 +244,22 @@ export function Animation() {
     thinkingText.style.opacity = `${mapRange(0.5, 1, activitiesProgress, 0, 1)}`
 
     // Dots and Pins Animation
-    dot1.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
-    pin1.style.opacity = `${activitiesProgress}`
-    pin1.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
-    dot2.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
-    pin2.style.opacity = `${activitiesProgress}`
-    pin2.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
-    dot3.style.scale = `${100 * activitiesProgress}% ${100 * activitiesProgress}%`
-    pin3.style.opacity = `${activitiesProgress}`
-    pin3.style.translate = `0 ${-300 * (1 - activitiesProgress)}%`
+    const pin1Progress = mapRange(0, 0.4, activitiesProgress, 0, 1, true)
+    const dot1Progress = mapRange(0.3, 0.6, activitiesProgress, 0, 1, true)
+    const pin2Progress = mapRange(0.25, 0.65, activitiesProgress, 0, 1, true)
+    const dot2Progress = mapRange(0.55, 0.85, activitiesProgress, 0, 1, true)
+    const pin3Progress = mapRange(0.5, 0.9, activitiesProgress, 0, 1, true)
+    const dot3Progress = mapRange(0.75, 1, activitiesProgress, 0, 1, true)
+
+    dot1.style.scale = `${100 * dot1Progress}% ${100 * dot1Progress}%`
+    pin1.style.opacity = `${pin1Progress}`
+    pin1.style.translate = `0 ${-300 * (1 - pin1Progress)}%`
+    dot2.style.scale = `${100 * dot2Progress}% ${100 * dot2Progress}%`
+    pin2.style.opacity = `${pin2Progress}`
+    pin2.style.translate = `0 ${-300 * (1 - pin2Progress)}%`
+    dot3.style.scale = `${100 * dot3Progress}% ${100 * dot3Progress}%`
+    pin3.style.opacity = `${pin3Progress}`
+    pin3.style.translate = `0 ${-300 * (1 - pin3Progress)}%`
 
     // Process Bubble Animation
     processBubble.animateDetail(activitiesProgress)
