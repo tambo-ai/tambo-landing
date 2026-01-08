@@ -10,6 +10,7 @@ import DiscordIcon from '~/assets/svgs/discord.svg'
 import GithubIcon from '~/assets/svgs/github.svg'
 import NavMobile from '~/assets/svgs/nav-mobile.svg'
 import TamboLogo from '~/assets/svgs/tambo.svg'
+import XIcon from '~/assets/svgs/X.svg'
 import { Button, CTA } from '~/components/button'
 import { Link } from '~/components/link'
 import { useStore } from '~/libs/store'
@@ -346,6 +347,15 @@ export function Navigation() {
                 )}
               >
                 <DiscordIcon className="dr-w-16 icon" />
+              </Link>
+              <Link
+                href="https://x.com/tamboai"
+                className={cn(
+                  'rounded-full bg-mint grid place-items-center dr-h-32 dr-w-32',
+                  s.loginButton
+                )}
+              >
+                <XIcon className="dr-w-16 icon" />
               </Link>
             </div>
 
