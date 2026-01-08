@@ -1,5 +1,7 @@
 import cn from 'clsx'
 import { useAssitant } from '~/integrations/tambo'
+import { isEmptyArray } from '~/libs/utils'
+import { DEMOS } from '../constants'
 
 /**
 Itinerary item schema:
@@ -36,14 +38,19 @@ const formatTimeRange = (dateString: string) => {
 }
 
 export function AssistantNotifications({ className }: { className: string }) {
-  const { finishSeatSelection, choosedSeat, itinerary, destination } =
-    useAssitant()
+  const {
+    selectedDemo,
+    finishSeatSelection,
+    choosedSeat,
+    itinerary,
+    destination,
+  } = useAssitant()
 
   return (
     <div
       className={cn(
-        'border border-dark-grey dr-rounded-20 dr-p-8 dr-pb-16 opacity-0 transition-opacity duration-200 ease-in-out dr-w-207',
-        destination.name && 'opacity-100',
+        'border border-dark-grey dr-rounded-20 dr-p-8 dr-pb-16 transition-opacity duration-200 ease-in-out dr-w-207',
+        selectedDemo === DEMOS.INTRO && 'opacity-0',
         className
       )}
     >
@@ -63,51 +70,42 @@ export function AssistantNotifications({ className }: { className: string }) {
           </span>{' '}
           <span className="typo-label-s">
             {' '}
-            {choosedSeat.length > 0 ? choosedSeat.join(', ') : 'None'}
+            {!isEmptyArray(choosedSeat) ? choosedSeat.join(', ') : 'None'}
           </span>
         </li>
-        <li>
-          <span className="block typo-label-s opacity-50 dr-mb-8">
-            {'<'}Planned activities{'>'}
-          </span>{' '}
-          <ul className="flex flex-col dr-gap-8">
-            {itinerary.map((item) => (
-              <li
-                className="typo-label-s list-disc list-inside"
-                key={item?.poi?.id}
-              >
-                <span className="inline-block align-top">
-                  <span className="block">{item?.poi?.name}</span>
-                  <span className="block">
-                    {item?.selectedDate &&
-                      new Date(item.selectedDate).toLocaleDateString('en-US', {
-                        year: '2-digit',
-                        month: '2-digit',
-                        day: '2-digit',
-                      })}
+        {selectedDemo === DEMOS.MAP && (
+          <li>
+            <span className="block typo-label-s opacity-50 dr-mb-8">
+              {'<'}Planned activities{'>'}
+            </span>{' '}
+            <ul className="flex flex-col dr-gap-8">
+              {itinerary.map((item) => (
+                <li
+                  className="typo-label-s list-disc list-inside"
+                  key={item?.poi?.id}
+                >
+                  <span className="inline-block align-top">
+                    <span className="block">{item?.poi?.name}</span>
+                    <span className="block">
+                      {item?.selectedDate &&
+                        new Date(item.selectedDate).toLocaleDateString(
+                          'en-US',
+                          {
+                            year: '2-digit',
+                            month: '2-digit',
+                            day: '2-digit',
+                          }
+                        )}
+                    </span>
+                    <span className="block">
+                      {item?.selectedDate && formatTimeRange(item.selectedDate)}
+                    </span>
                   </span>
-                  <span className="block">
-                    {item?.selectedDate && formatTimeRange(item.selectedDate)}
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </li>
-        {/* Remove Later */}
-        <li>
-          <span className="typo-label-m">Seat selection: </span>
-          <span className="typo-label-s">
-            {choosedSeat.length > 0 ? choosedSeat.join(', ') : 'None'}
-          </span>
-          <button
-            type="button"
-            className="typo-label-s"
-            onClick={() => finishSeatSelection('7E')}
-          >
-            Random seat
-          </button>
-        </li>
+                </li>
+              ))}
+            </ul>
+          </li>
+        )}
       </ul>
     </div>
   )

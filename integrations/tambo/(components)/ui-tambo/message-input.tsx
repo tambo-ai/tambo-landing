@@ -367,7 +367,7 @@ const MessageInputInternal = React.forwardRef<
       >
         <div
           className={cn(
-            'relative flex flex-col dr-rounded-8 bg-background shadow-md dr-p-16',
+            'relative flex flex-col dr-rounded-8 bg-background shadow-md dr-p-16 dr-max-h-126',
             isDragging
               ? 'border border-dashed border-emerald-400'
               : 'border border-border'
@@ -496,7 +496,7 @@ const MessageInputTextarea = ({
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}
       className={cn(
-        'flex-1 dr-rounded-t-8 bg-background text-foreground resize-none typo-p min-h-[82px] max-h-[40vh] focus:outline-none placeholder:text-muted-foreground/50',
+        'flex-1 dr-rounded-t-8 bg-background text-foreground resize-none typo-p min-h-[82px] focus:outline-none placeholder:text-muted-foreground/50',
         className
       )}
       disabled={isPending || isUpdatingToken}
@@ -1016,7 +1016,7 @@ const MessageInputToolbar = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        'flex justify-between items-center dr-mt-2 dr-p-1 dr-gap-2',
+        'absolute dr-bottom-8 dr-right-8 flex justify-between items-center dr-gap-2',
         className
       )}
       data-slot="message-input-toolbar"

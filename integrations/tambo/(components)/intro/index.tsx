@@ -37,8 +37,8 @@ function LocationInput() {
   }
 
   return (
-    <div className="relative dr-p-4 h-full flex-col flex justify-between items-center">
-      <div className="border-2 border-border dr-rounded-20 dr-p-2 bg-white flex items-center dr-gap-8">
+    <div className="relative dr-p-16 h-full flex-col flex justify-between items-center">
+      <div className="border-2 border-dark-grey dr-rounded-20 dr-p-2 bg-white flex items-center dr-gap-8">
         <span className="bg-black dr-w-24 aspect-square rounded-full flex items-center justify-center">
           <PlaneSVG className="text-contrast dr-w-16 aspect-square" />
         </span>

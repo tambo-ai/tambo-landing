@@ -10,23 +10,11 @@ import {
 } from 'react'
 import { useAddToItineraryListener } from './(components)/map/mapbox/events'
 import { seatComponent } from './(components)/seat-selector/schema'
-import { DEMOS } from './constants'
-import { mapTools } from './tools'
+import { DEFAULT_DESTINATION, DEMOS } from './constants'
+import { getCurrentDate, mapTools } from './tools'
 
 const components = [...seatComponent]
 const tools = [...mapTools]
-
-export function TamboIntegration({ children }: { children: React.ReactNode }) {
-  return (
-    <TamboProvider
-      apiKey={process.env.NEXT_PUBLIC_TAMBO_API_KEY!}
-      components={components}
-      tools={tools}
-    >
-      <AssistantProvider> {children} </AssistantProvider>
-    </TamboProvider>
-  )
-}
 
 type Demo = (typeof DEMOS)[keyof typeof DEMOS]
 type Threads = [string | null, string | null]
@@ -48,6 +36,21 @@ type DateString =
 export type itineraryItem = {
   poi: POI
   selectedDate: DateString
+}
+
+export function TamboIntegration({ children }: { children: React.ReactNode }) {
+  return (
+    <TamboProvider
+      apiKey={process.env.NEXT_PUBLIC_TAMBO_API_KEY!}
+      components={components}
+      tools={tools}
+      contextHelpers={{
+        userTime: () => getCurrentDate(),
+      }}
+    >
+      <AssistantProvider> {children} </AssistantProvider>
+    </TamboProvider>
+  )
 }
 
 const AssistantContext = createContext<{
@@ -89,17 +92,15 @@ const AssistantContext = createContext<{
 })
 
 function AssistantProvider({ children }: { children: React.ReactNode }) {
-  const [destination, setDestination] = useState<Destination>({
-    name: null,
-    center: [-74.00594, 40.71278],
-  })
+  const [destination, setDestination] =
+    useState<Destination>(DEFAULT_DESTINATION)
   const [selectedDemo, setSelectedDemo] = useState<Demo>(DEMOS.INTRO)
   const [threads, setThreads] = useState<Threads>([null, null])
-  const { thread, startNewThread, switchCurrentThread } = useTamboThread()
   const [choosedSeat, setChoosedSeat] = useState<string[]>([])
   const [map, setMap] = useState<mapboxgl.Map | undefined>(undefined)
-  const [itinerary, setItinerary] = useState<itineraryItem[]>([])
   const [currentBBox, setCurrentBBox] = useState<BBox | null>(null)
+  const [itinerary, setItinerary] = useState<itineraryItem[]>([])
+  const { thread, startNewThread, switchCurrentThread } = useTamboThread()
 
   // Obscure but failing to use Tambo thread management better
   useEffect(() => {

@@ -222,7 +222,7 @@ async function addPoiToItinerary(params: {
 }
 
 // Tool 5: Get current date
-async function getCurrentDate(): Promise<{
+export async function getCurrentDate(): Promise<{
   message: string
   date: string
 }> {
@@ -233,7 +233,7 @@ async function getCurrentDate(): Promise<{
 }
 
 // Tool 6: Get weather for coordinates
-async function getWeather(params: {
+export async function getWeather(params: {
   latitude: number
   longitude: number
 }): Promise<WeatherResult> {
