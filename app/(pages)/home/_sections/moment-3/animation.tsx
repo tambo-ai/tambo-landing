@@ -16,8 +16,11 @@ import {
   type ProcessBubbleAnimateRef,
 } from '../moment-2/animation'
 import s from './animation.module.css'
+import ArrowsClockwiseIcon from './arrows-clockwise.svg'
 import CalendarIcon from './calendar.svg'
+import ChatDotsIcon from './chat-dots.svg'
 import ClockIcon from './clock.svg'
+import FilesIcon from './files.svg'
 import { LogoCircle, type LogoCircleRef } from './logo-circle'
 import QuestionMarkIcon from './question-mark.svg'
 
@@ -43,6 +46,7 @@ export function Animation() {
   const chatOverlayBackgroundRef = useRef<HTMLDivElement>(null)
   const yesButtonRef = useRef<HTMLParagraphElement>(null)
   const processBubbleRef = useRef<ProcessBubbleAnimateRef>(null)
+  const mcpFeaturesRef = useRef<HTMLDivElement>(null)
 
   const scrollAnimation = useEffectEvent<TimelineCallback>(({ steps }) => {
     // console.log('scrollAnimation', steps)
@@ -65,6 +69,7 @@ export function Animation() {
     const chatOverlayBackground = chatOverlayBackgroundRef.current
     const yesButton = yesButtonRef.current
     const processBubble = processBubbleRef.current
+    const mcpFeatures = mcpFeaturesRef.current
 
     if (
       !(
@@ -85,13 +90,13 @@ export function Animation() {
         addFreedomTrail &&
         calendar &&
         yesButton &&
-        processBubble
+        processBubble &&
+        mcpFeatures
       )
     )
       return
 
-    const safeZoneProgress = mapRange(0, 0.05, steps[0], 0, 1, true)
-    const containerProgress = mapRange(0.05, 0.1, steps[0], 0, 1, true)
+    const safeZoneProgress = mapRange(0, 0.1, steps[0], 0, 1, true)
     const addToCalendarProgress = mapRange(0.5, 1, steps[0], 0, 1, true)
     const thinkingProgress = mapRange(0, 0.4, steps[1], 0, 1, true)
     const circleFocusProgress = mapRange(0.6, 0.8, steps[1], 0, 1, true)
@@ -125,6 +130,14 @@ export function Animation() {
       section5Container.style.display = isDesktop ? 'none' : 'block'
       container.style.display = 'block'
     }
+
+    // MCP Features Animation
+    mcpFeatures.style.opacity = `${mapRange(0.5, 1, chatMessagesProgress, 0, 1) - exitProgress}`
+    mcpFeatures.style.transform = `translateY(${mapRange(0.5, 1, chatMessagesProgress, 100, 0) + mapRange(0, 1, exitProgress, 0, 100, true)}%)`
+    mcpFeatures.style.setProperty(
+      '--mcp-update-calendar-progress',
+      `${mapRange(0.5, 1, sureUpdateCalendarProgress, 0, 1) - addingToCalendarProgress}`
+    )
 
     // Chat Messages Animation
     chatMessages.style.setProperty(
@@ -270,6 +283,55 @@ export function Animation() {
       ref={containerRef}
       className={cn('dr-w-668 dt:hidden', s.container)}
     >
+      <div
+        ref={mcpFeaturesRef}
+        className="absolute w-full bottom-full flex dr-gap-4 dr-pb-12 opacity-0"
+      >
+        <div
+          className={cn(
+            'flex items-center dr-gap-4 rounded-full border-2 border-dark-grey dr-p-2 dr-pr-12 text-black',
+            s.mcpFeature
+          )}
+        >
+          <div className="dr-size-24 bg-white rounded-full grid place-items-center">
+            <ChatDotsIcon className="icon dr-size-16" />
+          </div>
+          <p className="typo-button">Prompts</p>
+        </div>
+        <div
+          className={cn(
+            'flex items-center dr-gap-4 rounded-full border-2 border-dark-grey dr-p-2 dr-pr-12 text-black',
+            s.mcpFeature
+          )}
+        >
+          <div className="dr-size-24 bg-white rounded-full grid place-items-center">
+            <QuestionMarkIcon className="icon dr-size-16" />
+          </div>
+          <p className="typo-button">Elicitation</p>
+        </div>
+        <div
+          className={cn(
+            'flex items-center dr-gap-4 rounded-full border-2 border-dark-grey dr-p-2 dr-pr-12 text-black',
+            s.mcpFeature
+          )}
+        >
+          <div className="dr-size-24 bg-white rounded-full grid place-items-center">
+            <FilesIcon className="icon dr-size-16" />
+          </div>
+          <p className="typo-button">Resources</p>
+        </div>
+        <div
+          className={cn(
+            'flex items-center dr-gap-4 rounded-full border-2 border-dark-grey dr-p-2 dr-pr-12 text-black',
+            s.mcpFeature
+          )}
+        >
+          <div className="dr-size-24 bg-white rounded-full grid place-items-center">
+            <ArrowsClockwiseIcon className="icon dr-size-16" />
+          </div>
+          <p className="typo-button">Sampling</p>
+        </div>
+      </div>
       <div ref={chatRef} className={cn('relative w-full dr-h-470', s.chat)}>
         <div
           // ref={chatBackgroundRef}

@@ -41,3 +41,32 @@
     rgba(255, 255, 255, 0) 6px
   );
 }
+
+.mcpFeature {
+  &:nth-of-type(1),
+  &:nth-of-type(3),
+  &:nth-of-type(4) {
+    opacity: calc(1.5 - var(--mcp-update-calendar-progress, 0));
+  }
+
+  &:nth-of-type(2) {
+    background-color: color-mix(
+      in srgb,
+      var(--color-mint) calc(var(--mcp-update-calendar-progress, 0) * 100%),
+      transparent
+    );
+
+    & div {
+      background-color: color-mix(
+        in srgb,
+        var(--color-black) calc(var(--mcp-update-calendar-progress, 0) * 100%),
+        var(--color-white)
+      );
+      color: color-mix(
+        in srgb,
+        var(--color-mint) calc(var(--mcp-update-calendar-progress, 0) * 100%),
+        var(--color-black)
+      );
+    }
+  }
+}
