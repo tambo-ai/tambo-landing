@@ -30,8 +30,6 @@ export function Hero() {
 
   const desktopVW = useDesktopVW()
 
-  const hasAppeared = useRef(false)
-
   const setHasAppeared = useStore((state) => state.setHasAppeared)
 
   const appear = useEffectEvent(() => {
@@ -208,9 +206,6 @@ export function Hero() {
         }
       )
       .call(() => {
-        // hasAppeared.current = true
-        // console.log('hasAppeared', hasAppeared.current)
-
         setHasAppeared(true)
       })
 
@@ -233,8 +228,6 @@ export function Hero() {
     start: 'top top',
     end: 'bottom center',
     onProgress: ({ progress }) => {
-      // if (!hasAppeared.current) return
-
       const hasAppeared = useStore.getState().hasAppeared
       if (!hasAppeared) return
 
