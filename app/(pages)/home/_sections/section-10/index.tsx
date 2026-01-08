@@ -8,6 +8,7 @@ import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Kinesis } from '~/components/kinesis'
 import { Video } from '~/components/video'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo, mapRange } from '~/libs/utils'
@@ -84,6 +85,7 @@ const BUTTONS = [
 export function Section10() {
   const buttonsRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonsWrapperRef = useRef<HTMLDivElement | null>(null)
+  const { isDesktop } = useDeviceDetection()
 
   const [setRectRef, rect] = useRect()
 
@@ -229,15 +231,22 @@ export function Section10() {
   return (
     <section
       ref={setRectRef}
-      className="relative overflow-x-clip dr-mb-256"
+      className="relative overflow-x-clip dt:dr-mb-256"
       style={{
-        height: `${BUTTONS.length * 500}px`,
+        height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
       }}
     >
-      <div className="dt:h-screen sticky top-0 w-full flex flex-col items-center justify-center">
+      <div className="mobile-only w-full dr-h-280 relative">
+        <Image
+          src="/assets/mobile-background/section-10Top.png"
+          alt="Section 10 Background"
+          fill
+        />
+      </div>
+      <div className="dt:h-screen dt:sticky dt:top-0 w-full flex flex-col items-center justify-center ">
         <Kinesis
           getIndex={() => 50}
-          className="text-center flex flex-col items-center relative -dr-top-48"
+          className="text-center flex flex-col items-center relative dt:-dr-top-48"
         >
           <div className="dr-w-172 aspect-square">
             <Video
@@ -279,7 +288,7 @@ export function Section10() {
             </TitleBlock.Title>
           </TitleBlock>
         </Kinesis>
-        <div className=" w-full dr-p-24 mobile-only">
+        <div className="w-full dr-p-24 mobile-only flex flex-col dr-gap-y-8">
           {BUTTONS.map((button, index) => (
             <div className="w-full " key={button.title + index.toString()}>
               <CTA className="flex! justify-between" href={button.href}>
@@ -287,6 +296,13 @@ export function Section10() {
               </CTA>
             </div>
           ))}
+        </div>
+        <div className="mobile-only w-full  dr-h-280 relative">
+          <Image
+            src="/assets/mobile-background/section-10Bottom.png"
+            alt="Section 10 Background"
+            fill
+          />
         </div>
         <div
           className="absolute inset-0 pointer-events-none desktop-only"
