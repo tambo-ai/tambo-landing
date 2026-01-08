@@ -119,6 +119,7 @@ export function Animation() {
 
     const transitionProgress = mapRange(0, 0.05, steps[0], 0, 1, true)
     const introProgress = mapRange(0.15, 0.5, steps[0], 0, 1, true)
+    const mapHighlightProgress = mapRange(0.4, 1, steps[0], 0, 1, true)
     const whatCanIDoProgress = mapRange(0, 0.5, steps[1], 0, 1, true)
     const thinkingProgress = mapRange(0.5, 1, steps[1], 0, 1, true)
     const highlightProgress = mapRange(0, 0.5, steps[2], 0, 1, true)
@@ -127,8 +128,6 @@ export function Animation() {
     const hoverPinProgress = mapRange(0.5, 1, steps[3], 0, 1, true)
     const greatPickProgress = mapRange(0, 0.5, steps[4], 0, 1, true)
     const exitProgress = mapRange(0.8, 1, steps[4], 0, 1, true)
-
-    const mapHighlightProgress = mapRange(0.5, 1, introProgress, 0, 1, true)
 
     // EXIT & ENTER
     const section4Container = document.getElementById('section-4-container')
