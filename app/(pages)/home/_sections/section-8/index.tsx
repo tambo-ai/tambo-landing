@@ -167,7 +167,7 @@ export function Section8() {
     rect: tamboSectionRect,
     start: `${rect?.top === undefined ? 'bottom' : rect.top} top`,
     end: `bottom bottom`,
-    onProgress: ({ progress, height, isActive }) => {
+    onProgress: ({ progress, isActive }) => {
       // console.log('progress2', progress)
       // if (!isActive) return
 
@@ -182,6 +182,8 @@ export function Section8() {
         //   tamboRect.element.style.removeProperty('transform')
         // }
       }
+
+      if (!isActive) return
 
       const background = getBackground()
 
@@ -236,7 +238,7 @@ export function Section8() {
                 // ref={demoRef}
                 className="col-start-3 col-end-10 card-outline outline-off-white/80 dr-rounded-20 aspect-898/597 dr-h-597"
               >
-                <div className="relative z-1 size-full dr-rounded-20 shadow-m dashed-border bg-white overflow-hidden">
+                <div className="relative z-1 size-full dr-rounded-20 shadow-m overflow-clip bg-white ">
                   <InterctableMap
                     height={650}
                     center={{ lng: -74.00594, lat: 40.71278 }}
@@ -246,6 +248,7 @@ export function Section8() {
                   <IntroAssistant />
                   <SeatAssistant />
                   <MapAssistant />
+                  <div className="absolute inset-0 rounded-[inherit] dashed-border" />
                 </div>
               </div>
             </div>
