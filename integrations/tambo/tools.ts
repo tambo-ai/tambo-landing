@@ -226,9 +226,17 @@ export async function getCurrentDate(): Promise<{
   message: string
   date: string
 }> {
+  const now = new Date()
+  const formattedDate = now.toLocaleDateString('en-US', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+
   return {
-    message: `The current date is ${new Date().toLocaleDateString()}`,
-    date: new Date().toLocaleDateString(),
+    message: `The current date is ${formattedDate}`,
+    date: formattedDate,
   }
 }
 
