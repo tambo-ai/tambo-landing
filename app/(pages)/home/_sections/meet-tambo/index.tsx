@@ -191,7 +191,7 @@ function Card({ data, isOpen, onToggle }: CardProps) {
       )}
     >
       <Button
-        href={isDesktop ? data?.button?.href : undefined}
+        // href={isDesktop ? data?.button?.href : undefined}
         className={cn(
           'dt:dr-h-420 dr-h-155 shrink-0 dr-p-8 dr-rounded-20 bg-off-white/80 border border-dark-grey flex flex-col relative overflow-hidden',
           isOpen && s.cardOpen,
@@ -200,6 +200,12 @@ function Card({ data, isOpen, onToggle }: CardProps) {
         onClick={() => {
           if (isMobile) {
             onToggle()
+          }
+
+          if (isDesktop || isOpen) {
+            lenis?.scrollTo(`#${data?.anchor}`, {
+              // duration: 2,
+            })
           }
         }}
       >
@@ -279,11 +285,11 @@ function Card({ data, isOpen, onToggle }: CardProps) {
       <CTA
         type="secondary"
         wrapperClassName={s.cardCTA}
-        onClick={() => {
-          if (isDesktop || isOpen) {
-            lenis?.scrollTo(`#${data?.anchor}`)
-          }
-        }}
+        // onClick={() => {
+        //   if (isDesktop || isOpen) {
+        //     lenis?.scrollTo(`#${data?.anchor}`)
+        //   }
+        // }}
       >
         {data?.button?.text}
       </CTA>

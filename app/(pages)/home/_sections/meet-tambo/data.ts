@@ -9,7 +9,6 @@ export const cards = [
     },
     button: {
       text: 'See more',
-      href: 'https://docs.tambo.co/concepts/components',
     },
     anchor: 'moment-1',
   },
@@ -23,7 +22,6 @@ export const cards = [
     },
     button: {
       text: 'See more',
-      href: 'https://docs.tambo.co',
     },
     anchor: 'moment-2',
   },
@@ -37,7 +35,6 @@ export const cards = [
     },
     button: {
       text: 'See more',
-      href: 'https://docs.tambo.co',
     },
     anchor: 'moment-2',
   },
@@ -47,11 +44,9 @@ export const cards = [
     video: {
       mp4: '/videos/Octo-Multi-compressed.mov',
       webm: '/videos/Octo-Multi-compressed.webm',
-      png: '/videos/Octo-Multi.png',
     },
     button: {
       text: 'See more',
-      href: 'https://docs.tambo.co',
     },
     anchor: 'moment-3',
   },
