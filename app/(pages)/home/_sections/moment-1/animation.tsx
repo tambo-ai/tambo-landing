@@ -88,6 +88,15 @@ export function Animation({
     const swapProgress = mapRange(0.5, 1, steps[2], 0, 1, true)
     const selectProgress = mapRange(0.3, 1, steps[3], 0, 1, true)
 
+    const momentsTopGradient = document.getElementById('moments-top-gradient')
+    const momentsBottomGradient = document.getElementById(
+      'moments-bottom-gradient'
+    )
+    if (momentsTopGradient && momentsBottomGradient) {
+      momentsTopGradient.style.opacity = `${containerProgress}`
+      momentsBottomGradient.style.opacity = `${containerProgress}`
+    }
+
     // Intro
     container.style.opacity = `${isDesktop ? containerProgress : 1}`
 

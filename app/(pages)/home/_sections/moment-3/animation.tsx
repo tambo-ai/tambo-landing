@@ -251,6 +251,13 @@ export function Animation() {
         yesButton.removeAttribute('data-active')
       }
     }
+
+    const momentsBottomGradient = document.getElementById(
+      'moments-bottom-gradient'
+    )
+    if (momentsBottomGradient) {
+      momentsBottomGradient.style.opacity = `${mapRange(0, 1, exitProgress, 1, 0)}`
+    }
   })
 
   useEffect(() => {

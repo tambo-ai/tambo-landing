@@ -113,7 +113,7 @@ export function TimelineSection({
                 {title}
               </h3>
               <div
-                className="hidden dt:block absolute -dr-inset-y-20 dr-left-40 dr-w-4"
+                className="hidden dt:block absolute -dr-inset-y-12 dr-left-40 dr-w-4"
                 style={{
                   background:
                     'linear-gradient(to bottom, transparent 0%, #E5F0ED 10%, #E5F0ED 90%, transparent 97%)',
@@ -155,12 +155,15 @@ export function TimelineSection({
               </div>
             </div>
             <div
-              className="hidden dt:block absolute inset-y-0 dr-left-82 w-px -z-1"
+              className={cn(
+                'hidden dt:block absolute inset-y-0 dr-left-82 w-px -z-1',
+                id === 'moment-1' && 'dr-top-120 bottom-0',
+                id === 'moment-2' && 'inset-y-0',
+                id === 'moment-3' && 'top-0 dr-bottom-378'
+              )}
               style={{
                 background:
                   'repeating-linear-gradient(0deg,#80C1A2 0 8px,#0000 0 14px)',
-                maskImage:
-                  'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 97%)',
               }}
             />
             <CTA

@@ -4,9 +4,7 @@ import { Footer } from './_sections/footer'
 import { Hero } from './_sections/hero'
 import { HowItWorks } from './_sections/how-it-works'
 import { MeetTambo } from './_sections/meet-tambo'
-import { Moment1 } from './_sections/moment-1'
-import { Moment2 } from './_sections/moment-2'
-import { Moment3 } from './_sections/moment-3'
+import { Moments } from './_sections/moments'
 import { Section8 } from './_sections/section-8'
 import { Section10 } from './_sections/section-10'
 import { Section11 } from './_sections/section-11'
@@ -22,9 +20,7 @@ export default function Home() {
       <Background>
         <Hero />
         <MeetTambo />
-        <Moment1 />
-        <Moment2 />
-        <Moment3 />
+        <Moments />
         <Section8 />
         <Section10 />
         <HowItWorks />
