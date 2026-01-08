@@ -48,6 +48,15 @@
   justify-content: center;
   gap: desktop-vw(9px);
 
+  .mapMarkerPin {
+    svg {
+      path {
+        fill: var(--color-mint);
+        transition: fill 0.3s ease-in-out;
+      }
+    }
+  }
+
   .mapMarker {
     /* opacity: 0; */
     border-radius: desktop-vw(12px);
@@ -59,7 +68,10 @@
     transition:
       opacity 0.3s ease-in-out,
       width 0.3s ease-in-out,
-      padding-right 0.3s ease-in-out;
+      padding-right 0.3s ease-in-out,
+      background-color 0.3s ease-in-out,
+      border-color 0.3s ease-in-out,
+      box-shadow 0.3s ease-in-out;
     width: desktop-vw(20px);
     height: desktop-vw(20px);
 
@@ -68,20 +80,39 @@
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
       white-space: nowrap;
+      z-index: 1;
     }
 
     .icon {
       position: absolute;
       z-index: 1;
       background-color: var(--color-black);
-      top: 0;
-      right: desktop-vw(2px);
+      right: desktop-vw(1px);
+
+      svg {
+        transition: opacity 0.3s ease-in-out;
+        &:first-child {
+          opacity: 0;
+        }
+
+        &:last-child {
+          opacity: 1;
+        }
+      }
+    }
+
+    .hashPattern {
+      transition: opacity 0.3s ease-in-out;
+      opacity: 0;
     }
   }
 
   @media (--hover) {
     &:hover {
       .mapMarker {
+        background-color: var(--color-black);
+        border-color: var(--color-teal);
+        box-shadow: 0 0 16px 0px rgba(127, 255, 195, 0.7);
         opacity: 1;
         width: 100%;
         padding-right: desktop-vw(24px);
@@ -92,6 +123,28 @@
 
         .icon {
           background-color: var(--color-teal);
+
+          svg {
+            &:first-child {
+              opacity: 1;
+            }
+
+            &:last-child {
+              opacity: 0;
+            }
+          }
+        }
+
+        .hashPattern {
+          opacity: 1;
+        }
+      }
+
+      .mapMarkerPin {
+        svg {
+          path {
+            fill: var(--color-teal);
+          }
         }
       }
     }

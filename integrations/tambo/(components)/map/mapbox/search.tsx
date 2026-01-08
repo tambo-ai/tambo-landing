@@ -149,7 +149,7 @@ function PoiMarker({
 }) {
   return (
     <div className={s.mapMarkerContainer}>
-      <div>
+      <div className={s.mapMarkerPin}>
         <PinSVG className="dr-size-full" />
       </div>
       <button
@@ -161,16 +161,18 @@ function PoiMarker({
           'flex items-center justify-center dr-gap-4 relative'
         )}
       >
-        <HashPattern className="absolute inset-0 text-dark-teal/50 -z-1" />
+        <HashPattern
+          className={cn('absolute inset-0 text-dark-teal/50 ', s.hashPattern)}
+        />
         <span className={cn(s.mapMarkerText, 'typo-label-s')}>{poi.name}</span>
         <span
           className={cn(
-            'dr-size-16 bg-teal rounded-full grid place-items-center opacity-0',
+            'dr-size-16 bg-teal rounded-full grid place-items-center',
             s.icon
           )}
         >
-          <ArrowSVG className="dr-size-8 absolute inset-0" />
-          <PlusIcon className="dr-size-8 text-teal absolute inset-0" />
+          <ArrowSVG className="dr-size-8 absolute top-[50%] translate-y-[-50%]" />
+          <PlusIcon className="dr-size-8 text-teal absolute top-[50%] translate-y-[-50%]" />
         </span>
       </button>
     </div>

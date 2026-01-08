@@ -17,13 +17,7 @@ import { isEmptyArray } from '~/libs/utils'
 import { DEMOS } from '../constants'
 
 export function AssistantNotifications({ className }: { className: string }) {
-  const {
-    selectedDemo,
-    choosedSeat,
-    itinerary,
-    destination,
-    finishSeatSelection,
-  } = useAssitant()
+  const { selectedDemo, choosedSeat, itinerary, destination } = useAssitant()
 
   return (
     <div
