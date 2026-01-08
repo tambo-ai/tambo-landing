@@ -1,3 +1,5 @@
+'use client'
+
 import cn from 'clsx'
 import {
   Clock,
@@ -87,7 +89,7 @@ export function AssistantNotifications({ className }: { className: string }) {
 
 export function WeatherWidget() {
   const { weather } = useAssitant()
-  const [currentTime, setCurrentTime] = useState(() => formatTime(new Date()))
+  const [currentTime, setCurrentTime] = useState<string | null>(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
