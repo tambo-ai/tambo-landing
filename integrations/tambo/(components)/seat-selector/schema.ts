@@ -1,6 +1,7 @@
 import { defineTool, type TamboComponent } from '@tambo-ai/react'
 import { z } from 'zod'
 import { SeatMap } from '~/integrations/tambo/(components)/seat-selector/seatmap'
+import { SEAT_MAP_CONFIG } from '~/integrations/tambo/constants'
 
 const SeatSchema = z.object({
   id: z.string(),
@@ -12,6 +13,10 @@ const SeatSchema = z.object({
 type SeatProps = z.infer<typeof SeatSchema>
 
 const SeatSelectorSchema = z.object({
+  assistantHighlightedSeats: z
+    .array(z.string())
+    .default([])
+    .describe('Seats highlighted by assistant. Array of seat IDs.'),
   userSelectedSeats: z
     .array(z.string())
     .default([])
@@ -55,13 +60,16 @@ export const seatExampleContext = {
   
   You also have access to the get-airplane-seats tool to get information about the seats on the airplane.
 
+  If user asks about certain preferences and asks to show the seats which fit those preferences, pass those seat IDs as the assistantHighlightedSeats prop which will map the useTamboComponentState keyName 'assistantHighlightedSeats'.
+
   When showing the seat-selector component, if the user has already mentioned a specific seat they want 
   (like "I want seat 5A" or "can I have row 3 window seat"), pass that seat IDs as the userSelectedSeats prop which will map the useTamboComponentState keyName 'userSelectedSeats'.
   
   User must go through the seat map component to select the seats, you can show it at the end if it already picked a seat or seats.`,
 }
 
-const COLUMNS = ['A', 'B', 'C', 'D', 'E', 'F'] as const
+const TOTAL_ROWS = SEAT_MAP_CONFIG.rows
+export const COLUMNS = SEAT_MAP_CONFIG.columns
 const COLUMN_POSITIONS: Record<string, SeatProps['position']> = {
   A: 'window',
   B: 'middle',
@@ -70,9 +78,9 @@ const COLUMN_POSITIONS: Record<string, SeatProps['position']> = {
   E: 'middle',
   F: 'window',
 }
-const EMERGENCY_EXIT_ROWS = [11, 12]
+const EMERGENCY_EXIT_ROWS = SEAT_MAP_CONFIG.emergencyExitRows
 
-export function generateSeats(totalRows = 25, seed = 42): SeatProps[] {
+export function generateSeats(totalRows = TOTAL_ROWS, seed = 42): SeatProps[] {
   // Seeded random for consistent results
   const seededRandom = (n: number) => {
     const x = Math.sin(seed + n) * 10000
@@ -103,6 +111,7 @@ export function generateSeats(totalRows = 25, seed = 42): SeatProps[] {
   return seats
 }
 
+// Generated seats for the demo
 export const SEATS = [
   {
     id: '1A',

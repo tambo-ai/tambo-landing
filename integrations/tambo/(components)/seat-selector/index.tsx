@@ -5,11 +5,10 @@ import { DEMOS } from '~/integrations/tambo/constants'
 import { MessageThreadFull } from '../ui-tambo/message-thread-full'
 import { seatExampleContext } from './schema'
 
+const demo = DEMOS.SEAT
 const introMessages = {
   seat: 'Damn nice choice, i’m jealous. Your flight is really soon, it’s time to select your seat. Ready to start?',
 }
-
-const demo = DEMOS.SEAT
 
 export function SeatAssistant() {
   const { selectedDemo } = useAssitant()
