@@ -3,6 +3,7 @@
 import cn from 'clsx'
 import gsap from 'gsap'
 import { useRect } from 'hamo'
+import { useLenis } from 'lenis/react'
 import { useContext, useEffect, useEffectEvent, useRef } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
@@ -27,6 +28,8 @@ export function Hero() {
   const subVideoRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const arrowDownRef = useRef<HTMLDivElement>(null)
+
+  const lenis = useLenis()
 
   const desktopVW = useDesktopVW()
 
@@ -330,7 +333,12 @@ export function Hero() {
                 <span className="text-white">npm create tambo-app</span>
               </span>
             </CTA>
-            <CTA className={cn(s.arrowCTA, 'desktop-only')}>Try Live Demo</CTA>
+            <CTA
+              className={cn(s.arrowCTA, 'desktop-only')}
+              onClick={() => lenis?.scrollTo('#demo', { lerp: 0.2 })}
+            >
+              Try Live Demo
+            </CTA>
           </div>
         </div>
       </Kinesis>

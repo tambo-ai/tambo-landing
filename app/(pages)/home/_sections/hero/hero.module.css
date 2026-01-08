@@ -3,9 +3,7 @@
 }
 
 .arrowCTA {
-  @media (--mobile) {
-    svg {
-      transform: rotate(135deg);
-    }
+  svg {
+    transform: rotate(135deg);
   }
 }

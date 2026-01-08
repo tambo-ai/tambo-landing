@@ -239,6 +239,7 @@ export function Section8() {
       </section>
       <TamboIntegration>
         <section
+          id="demo"
           // className="dr-layout-grid-inner dr-gap-20 items-center justify-center h-screen"
           className="h-screen relative"
           ref={(node) => {
