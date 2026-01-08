@@ -276,6 +276,11 @@ export function Animation() {
 
     // Great Pick Text Animation
     greatPickText.style.opacity = `${greatPickProgress}`
+    greatPickText.style.backgroundColor = gsap.utils.interpolate(
+      colors['ghost-mint'],
+      colors['light-gray'],
+      exitProgress
+    )
 
     // EXIT
     const section6Container = document.getElementById('section-6-container')
@@ -425,7 +430,7 @@ export function Animation() {
             </div>
             <p
               ref={greatPickTextRef}
-              className="absolute top-full dr-rounded-12 bg-light-gray border border-dark-grey flex dr-h-67 justify-center items-center typo-p-sentient self-start dr-mt-8 dr-px-24 opacity-0"
+              className="absolute top-full dr-rounded-12 bg-ghost-mint border border-dark-grey flex dr-h-67 justify-center items-center typo-p-sentient self-start dr-mt-8 dr-px-24 opacity-0"
             >
               Great pick for a history buff.
             </p>
