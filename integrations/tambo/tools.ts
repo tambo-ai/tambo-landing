@@ -6,6 +6,7 @@ import {
   dispatchMapNavigation,
   dispatchMapSearch,
 } from '~/integrations/tambo/(components)/map/mapbox/events'
+import { isEmptyArray } from '~/libs/utils'
 
 type BBox = {
   west: number
@@ -45,7 +46,7 @@ type AnalyzeAreaResult = {
   points_of_interest: POI[]
 }
 
-type ForecastDay = {
+export type ForecastDay = {
   date: string
   temperatureMax: number
   temperatureMin: number
@@ -83,11 +84,11 @@ async function analyzeArea(params: {
 
     const message =
       result.count > 0
-        ? `Found ${result.count} places matching "${params.category}"${params.brandFilter ? ` filtered by "${params.brandFilter}"` : ''}${result.names.length > 0 ? `: ${result.names.join(', ')}` : ''}`
+        ? `Found ${result.count} places matching "${params.category}"${params.brandFilter ? ` filtered by "${params.brandFilter}"` : ''}${!isEmptyArray(result.names) ? `: ${result.names.join(', ')}` : ''}`
         : `No places found matching "${params.category}"${params.brandFilter ? ` filtered by "${params.brandFilter}"` : ''} in the selected area`
 
     return {
-      success: result.count > 0,
+      success: !isEmptyArray(result.names),
       message,
       count: result.count,
       names: result.names,
@@ -148,14 +149,12 @@ export async function searchLocation(params: {
     }))
 
     // Navigate to the first result
-    if (results.length > 0) {
+    if (!isEmptyArray(results)) {
       const firstResult = results[0]
-      // Calculate zoom from bbox if available, otherwise use default
-      const zoom = firstResult.bbox ? 10 : 12
       dispatchMapNavigation({
         destination: params.location,
         center: firstResult.center,
-        zoom,
+        zoom: 12,
       })
     }
 
@@ -271,7 +270,7 @@ export async function getWeather(params: {
     // Validate forecast data
     if (
       !(data.forecast && Array.isArray(data.forecast)) ||
-      data.forecast.length === 0
+      isEmptyArray(data.forecast)
     ) {
       throw new Error('Invalid forecast data received')
     }

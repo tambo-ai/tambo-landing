@@ -11,7 +11,7 @@ import {
 import { useAddToItineraryListener } from './(components)/map/mapbox/events'
 import { seatComponent } from './(components)/seat-selector/schema'
 import { DEFAULT_DESTINATION, DEMOS } from './constants'
-import { getCurrentDate, mapTools } from './tools'
+import { type ForecastDay, getCurrentDate, mapTools } from './tools'
 
 const components = [...seatComponent]
 const tools = [...mapTools]
@@ -22,6 +22,7 @@ export type Destination = {
   name: string | null
   center: [number, number]
 }
+export type WeatherResult = ForecastDay[]
 export type POI = {
   id: string | number
   type: string
@@ -56,8 +57,10 @@ export function TamboIntegration({ children }: { children: React.ReactNode }) {
 const AssistantContext = createContext<{
   // Main
   destination: Destination
+  weather: WeatherResult | null
   selectedDemo: Demo
   threads: Threads
+  setWeather: React.Dispatch<React.SetStateAction<WeatherResult | null>>
   setSelectedDemo: React.Dispatch<React.SetStateAction<Demo>>
   setThreads: React.Dispatch<React.SetStateAction<Threads>>
   setDestination: React.Dispatch<React.SetStateAction<Destination>>
@@ -74,7 +77,8 @@ const AssistantContext = createContext<{
   // Thread functions
   switchToDemoThread: (demo: Demo) => void
 }>({
-  destination: { name: 'New York', center: [-74.00594, 40.71278] },
+  destination: DEFAULT_DESTINATION,
+  weather: null,
   selectedDemo: DEMOS.SEAT,
   threads: [null, null],
   choosedSeat: [],
@@ -87,6 +91,7 @@ const AssistantContext = createContext<{
   setMap: () => {},
   setCurrentBBox: () => {},
   setDestination: () => {},
+  setWeather: () => {},
   switchToDemoThread: (demo: Demo) => {},
   finishSeatSelection: () => {},
 })
@@ -94,6 +99,7 @@ const AssistantContext = createContext<{
 function AssistantProvider({ children }: { children: React.ReactNode }) {
   const [destination, setDestination] =
     useState<Destination>(DEFAULT_DESTINATION)
+  const [weather, setWeather] = useState<WeatherResult | null>(null)
   const [selectedDemo, setSelectedDemo] = useState<Demo>(DEMOS.INTRO)
   const [threads, setThreads] = useState<Threads>([null, null])
   const [choosedSeat, setChoosedSeat] = useState<string[]>([])
@@ -172,6 +178,7 @@ function AssistantProvider({ children }: { children: React.ReactNode }) {
     <AssistantContext.Provider
       value={{
         destination,
+        weather,
         selectedDemo,
         threads,
         choosedSeat,
@@ -186,6 +193,7 @@ function AssistantProvider({ children }: { children: React.ReactNode }) {
         finishSeatSelection,
         setCurrentBBox,
         setDestination,
+        setWeather,
       }}
     >
       {children}

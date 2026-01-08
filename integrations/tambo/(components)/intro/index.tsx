@@ -3,13 +3,14 @@ import type * as React from 'react'
 import PlaneSVG from '~/assets/svgs/plane.svg'
 import { useAssitant } from '~/integrations/tambo'
 import { DEMOS } from '~/integrations/tambo/constants'
-import { searchLocation } from '~/integrations/tambo/tools'
+import { getWeather, searchLocation } from '~/integrations/tambo/tools'
 import { useMapNavigationListener } from '../map/mapbox/events'
 
 const demo = DEMOS.INTRO
 
 export function IntroAssistant() {
-  const { selectedDemo, setDestination, setSelectedDemo } = useAssitant()
+  const { selectedDemo, setDestination, setSelectedDemo, setWeather } =
+    useAssitant()
 
   useMapNavigationListener((params) => {
     setDestination({
@@ -17,6 +18,13 @@ export function IntroAssistant() {
       center: [params.center.lng, params.center.lat],
     })
     setSelectedDemo(DEMOS.SEAT)
+
+    getWeather({
+      latitude: params.center.lat,
+      longitude: params.center.lng,
+    }).then((result) => {
+      setWeather(result.forecast)
+    })
   })
 
   if (selectedDemo !== demo) return null

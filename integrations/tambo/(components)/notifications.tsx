@@ -1,50 +1,21 @@
 import cn from 'clsx'
+import {
+  Clock,
+  Cloud,
+  CloudFog,
+  CloudLightning,
+  CloudRain,
+  CloudSun,
+  Snowflake,
+  Sun,
+} from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useAssitant } from '~/integrations/tambo'
 import { isEmptyArray } from '~/libs/utils'
 import { DEMOS } from '../constants'
 
-/**
-Itinerary item schema:
-itinerary [
-  {
-    poi: {
-      id: 'dXJuOm1ieHBvaTo1YzlhNmI1OC00ZWQ5LTQxNzItOWJiNS1iYmVkODAyNDBjZDU',
-      lat: 48.854256,
-      lon: 2.350285,
-      name: "Au Vieux Paris d'Arcole",
-      type: 'poi'
-    },
-    selectedDate: '2026-07-01 21:00'
-  }
-]
- */
-
-const formatTimeRange = (dateString: string) => {
-  const date = new Date(dateString.replace(' ', 'T'))
-  const endDate = new Date(date.getTime() + 2 * 60 * 60 * 1000)
-
-  const format = (d: Date) =>
-    d
-      .toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      })
-      .toLowerCase()
-      .replace(':00', '')
-      .replace(/\s/g, '')
-
-  return `${format(date)} → ${format(endDate)}`
-}
-
 export function AssistantNotifications({ className }: { className: string }) {
-  const {
-    selectedDemo,
-    finishSeatSelection,
-    choosedSeat,
-    itinerary,
-    destination,
-  } = useAssitant()
+  const { selectedDemo, choosedSeat, itinerary, destination } = useAssitant()
 
   return (
     <div
@@ -62,7 +33,10 @@ export function AssistantNotifications({ className }: { className: string }) {
           <span className="block typo-label-s opacity-50 dr-mb-8">
             {'<'}Destination{'>'}
           </span>
-          <span className="typo-label-s">{destination?.name}</span>
+          <div className="grid grid-cols-2 dr-gap-8">
+            <span className="typo-label-s">{destination?.name}</span>
+            <WeatherWidget />
+          </div>
         </li>
         <li>
           <span className="block typo-label-s opacity-50 dr-mb-8">
@@ -109,4 +83,87 @@ export function AssistantNotifications({ className }: { className: string }) {
       </ul>
     </div>
   )
+}
+
+export function WeatherWidget() {
+  const { weather } = useAssitant()
+  const [currentTime, setCurrentTime] = useState(() => formatTime(new Date()))
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(formatTime(new Date()))
+    }, 30000) // Update every 30 seconds
+
+    return () => clearInterval(interval)
+  }, [])
+
+  if (!weather || weather.length === 0) return null
+
+  const today = weather[0]
+  const temp = Math.round(today.temperatureMax)
+  const unit = today.temperatureUnit
+  const description = today.weatherDescription
+
+  return (
+    <div className="flex flex-col justify-between dr-gap-8 typo-label-s">
+      <span className="flex items-center dr-gap-4">
+        <Clock size={14} strokeWidth={1.5} />
+        <p className="text-nowrap">{currentTime}</p>
+      </span>
+      <span className="flex items-center dr-gap-4">
+        <span>{getWeatherIcon(description)}</span>
+        {temp}
+        {unit}
+      </span>
+    </div>
+  )
+}
+
+function getWeatherIcon(description: string) {
+  const iconProps = { size: 16, strokeWidth: 1.5 }
+
+  switch (description) {
+    case 'clear sky':
+      return <Sun {...iconProps} />
+    case 'partly cloudy':
+      return <CloudSun {...iconProps} />
+    case 'foggy':
+      return <CloudFog {...iconProps} />
+    case 'rainy':
+      return <CloudRain {...iconProps} />
+    case 'snowy':
+      return <Snowflake {...iconProps} />
+    case 'thunderstorm':
+      return <CloudLightning {...iconProps} />
+    default:
+      return <Cloud {...iconProps} />
+  }
+}
+
+function formatTime(date: Date): string {
+  return date
+    .toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
+    .toLowerCase()
+}
+
+function formatTimeRange(dateString: string) {
+  const date = new Date(dateString.replace(' ', 'T'))
+  const endDate = new Date(date.getTime() + 2 * 60 * 60 * 1000)
+
+  const format = (d: Date) =>
+    d
+      .toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      })
+      .toLowerCase()
+      .replace(':00', '')
+      .replace(/\s/g, '')
+
+  return `${format(date)} → ${format(endDate)}`
 }

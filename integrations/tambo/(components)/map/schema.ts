@@ -1,5 +1,10 @@
 import { z } from 'zod'
-import type { BBox, Destination, itineraryItem } from '~/integrations/tambo'
+import type {
+  BBox,
+  Destination,
+  itineraryItem,
+  WeatherResult,
+} from '~/integrations/tambo'
 
 // Schema for map component props
 export const MapSchema = z.object({
@@ -26,12 +31,15 @@ export const MapSchema = z.object({
 })
 
 export const mapExampleContext = {
-  assistantBehavior: (destination: Destination) =>
+  assistantBehavior: (
+    destination: Destination,
+    weather: WeatherResult | null
+  ) =>
     `## Role: You are a helpful assistant that can help with searching for entrainment options in the ${destination.name} destination.
   
-    Knowledge: Fetch current date from the get_current_date tool and use it to get the weather for the destination using the get_weather tool.
+    Knowledge: You have access to current date as global context and weather forecast for the current destination and date in the following ${JSON.stringify(weather)}.
   
-    Instructions: if user asks something not related to searching for entrainment options, you should brielfy answer and politely redirect them to the entrainment selection component. You have access to the get_weather tool to get the weather for the destination using its coordinates and the get_current_date tool to get the current date.
+    Instructions: if user asks something not related to searching for entrainment options, you should brielfy answer and politely redirect them to the entrainment selection component. 
   `,
   mapState: (bbox: BBox | null) => {
     if (!bbox) {
