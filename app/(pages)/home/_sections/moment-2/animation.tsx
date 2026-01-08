@@ -307,7 +307,7 @@ export function Animation() {
     <div
       id="section-5-container"
       ref={containerRef}
-      className={cn('dr-w-668 dt:hidden', s.container)}
+      className={cn('w-full dt:hidden', s.container)}
     >
       <div className={cn('relative w-full shadow-m -z-3', s.map)}>
         <div ref={mapRef} className="relative size-full">

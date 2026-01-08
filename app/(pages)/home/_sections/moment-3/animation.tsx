@@ -284,7 +284,7 @@ export function Animation() {
     <div
       id="section-6-container"
       ref={containerRef}
-      className={cn('dr-w-668 dt:hidden', s.container)}
+      className={cn('w-full dt:hidden', s.container)}
     >
       <div
         ref={mcpFeaturesRef}

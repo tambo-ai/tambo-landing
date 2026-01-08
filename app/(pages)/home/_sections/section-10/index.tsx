@@ -244,18 +244,18 @@ export function Section10() {
               autoPlay
               fallback={
                 <Image
-                  src="/videos/Octo-Wave.png"
+                  src="/videos/Octo-Catch.png"
                   alt="Octo Wave"
                   unoptimized
                 />
               }
             >
               <source
-                src="/videos/Octo-Wave-compressed.mov"
+                src="/videos/Octo-Catch-compressed.mov"
                 type='video/mp4; codecs="hvc1"'
               />
               <source
-                src="/videos/Octo-Wave-compressed.webm"
+                src="/videos/Octo-Catch-compressed.webm"
                 type="video/webm"
               />
             </Video>
