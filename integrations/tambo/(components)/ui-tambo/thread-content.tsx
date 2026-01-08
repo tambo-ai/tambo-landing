@@ -162,7 +162,7 @@ const ThreadContentMessages = React.forwardRef<
             >
               <div
                 className={cn(
-                  'flex flex-col w-full'
+                  'flex flex-col'
                   // message.role === 'assistant' ? 'w-full' : 'max-w-[70%]'
                 )}
               >

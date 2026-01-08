@@ -4,7 +4,7 @@ import type { TamboThreadMessage } from '@tambo-ai/react'
 import { useTambo } from '@tambo-ai/react'
 import type TamboAI from '@tambo-ai/typescript-sdk'
 import stringify from 'json-stringify-pretty-compact'
-import { Check, ChevronDown, ExternalLink, Loader2, X } from 'lucide-react'
+// import { Check, ChevronDown, ExternalLink, Loader2, X } from 'lucide-react'
 import Image from 'next/image'
 import * as React from 'react'
 import { useState } from 'react'
@@ -16,6 +16,7 @@ import {
   getSafeContent,
 } from '@/lib/thread-hooks'
 import { cn, cva, type VariantProps } from '@/lib/utils'
+import CheckSVG from '~/assets/svgs/check.svg'
 
 /**
  * CSS variants for the message container
@@ -373,7 +374,7 @@ const ToolcallInfo = React.forwardRef<HTMLDivElement, ToolcallInfoProps>(
 
     const toolCallRequest: TamboAI.ToolCallRequest | undefined =
       getToolCallRequest(message)
-    const hasToolError = message.error
+    // const hasToolError = message.error
 
     const toolStatusMessage = getToolStatusMessage(message, isLoading)
 
@@ -388,30 +389,30 @@ const ToolcallInfo = React.forwardRef<HTMLDivElement, ToolcallInfoProps>(
         {...props}
       >
         <div className="flex flex-col w-full">
-          <button
-            type="button"
-            aria-expanded={isExpanded}
-            aria-controls={toolDetailsId}
-            onClick={() => setIsExpanded(!isExpanded)}
-            className={cn(
-              'flex items-center dr-gap-1 cursor-pointer hover:bg-gray-100 dr-rounded-6 dr-p-1 select-none w-fit'
+          <p className={cn('flex items-center dr-pl-24')}>
+            {isLoading ? (
+              <span className="typo-p-s">Loading...</span>
+            ) : (
+              <span className="flex items-center dr-gap-6">
+                <CheckSVG className="dr-w-11 dr-h-8 text-teal" />
+                <span className="typo-p-s">{toolStatusMessage}</span>
+              </span>
             )}
-          >
-            {hasToolError ? (
+            {/* {hasToolError ? (
               <X className="dr-w-3 dr-h-3 text-bold text-red-500" />
             ) : isLoading ? (
-              <Loader2 className="dr-w-3 dr-h-3 text-muted-foreground text-bold animate-spin" />
+              <span className="typo-p-s">Loading...</span>
+              // <Loader2 className="dr-w-3 dr-h-3 text-muted-foreground text-bold animate-spi" />
             ) : (
               <Check className="dr-w-3 dr-h-3 text-bold text-green-500" />
-            )}
-            <span>{toolStatusMessage}</span>
-            <ChevronDown
+            )} */}
+            {/* <ChevronDown
               className={cn(
                 'dr-w-3 dr-h-3 transition-transform duration-200',
                 !isExpanded && '-rotate-90'
               )}
-            />
-          </button>
+            /> */}
+          </p>
           <div
             id={toolDetailsId}
             className={cn(
