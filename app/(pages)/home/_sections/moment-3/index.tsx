@@ -49,6 +49,12 @@ export function Moment3() {
             x: -windowWidth / 2 + (rect?.left ?? 0) + desktopVW(668 / 2),
             kinesis: 0,
             opacity: 1,
+            boxShadowOpacity: (index) => {
+              if (index === items.length - 1) {
+                return 1
+              }
+              return 0
+            },
           },
           {
             borderRadius: desktopVW(20),
@@ -61,13 +67,22 @@ export function Moment3() {
             x: 0,
             kinesis: 1,
             opacity: 1,
+            boxShadowOpacity: 1,
           },
           progress,
           {
             ease: 'easeOutSine',
             render: (
               item,
-              { borderRadius, width, height, x, kinesis, opacity }
+              {
+                borderRadius,
+                width,
+                height,
+                x,
+                kinesis,
+                opacity,
+                boxShadowOpacity,
+              }
             ) => {
               // @ts-expect-error
               const element = item?.getElement()
@@ -75,7 +90,11 @@ export function Moment3() {
               item?.setBorderRadius(`${borderRadius}px`)
               // @ts-expect-error
               item?.setKinesis(kinesis)
-
+              // @ts-expect-error
+              const boxShadow = item?.getBoxShadow()
+              if (boxShadow) {
+                boxShadow.style.opacity = `${boxShadowOpacity}`
+              }
               if (element instanceof HTMLElement) {
                 element.style.width = `${width}px`
                 element.style.height = `${height}px`

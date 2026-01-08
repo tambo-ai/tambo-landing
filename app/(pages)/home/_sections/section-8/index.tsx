@@ -111,6 +111,7 @@ export function Section8() {
           y: 0,
           kinesis: 1,
           opacity: 1,
+          boxShadowOpacity: 1,
         },
         {
           borderRadius: desktopVW(20),
@@ -132,6 +133,12 @@ export function Section8() {
             }
             return 0
           },
+          boxShadowOpacity: (index) => {
+            if (index === items.length - 1) {
+              return 1
+            }
+            return 0
+          },
           y: 0,
           kinesis: 0,
         },
@@ -140,10 +147,23 @@ export function Section8() {
           ease: 'easeOutSine',
           render: (
             item,
-            { borderRadius, width, height, y, kinesis, opacity }
+            {
+              borderRadius,
+              width,
+              height,
+              y,
+              kinesis,
+              opacity,
+              boxShadowOpacity,
+            }
           ) => {
             // @ts-expect-error
             const element = item?.getElement()
+            // @ts-expect-error
+            const boxShadow = item?.getBoxShadow()
+            if (boxShadow) {
+              boxShadow.style.opacity = `${boxShadowOpacity}`
+            }
             // @ts-expect-error
             item?.setBorderRadius(`${borderRadius}px`)
             // @ts-expect-error

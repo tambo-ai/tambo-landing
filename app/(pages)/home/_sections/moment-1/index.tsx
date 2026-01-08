@@ -49,6 +49,7 @@ export function Moment1() {
               desktopVW(1134 + (items.length - 1 - index) * 240, true) / 2,
             x: 0,
             kinesis: 1,
+            boxShadowOpacity: 1,
           },
           {
             width: rect?.width ?? 0,
@@ -56,17 +57,32 @@ export function Moment1() {
             borderRadius: desktopVW(20),
             x: -windowWidth / 2 + (rect?.left ?? 0) + desktopVW(668 / 2),
             kinesis: 0,
+            boxShadowOpacity: (index) => {
+              if (index === items.length - 1) {
+                return 1
+              }
+              return 0
+            },
           },
           progress,
           {
             ease: 'easeOutSine',
-            render: (item, { width, height, borderRadius, kinesis, x }) => {
+            render: (
+              item,
+              { width, height, borderRadius, kinesis, x, boxShadowOpacity }
+            ) => {
               // @ts-expect-error
               const element = item?.getElement()
               // @ts-expect-error
               item?.setBorderRadius(`${borderRadius}px`)
               // @ts-expect-error
               item?.setKinesis(kinesis)
+
+              // @ts-expect-error
+              const boxShadow = item?.getBoxShadow()
+              if (boxShadow) {
+                boxShadow.style.opacity = `${boxShadowOpacity}`
+              }
 
               if (element instanceof HTMLElement) {
                 element.style.width = `${width}px`
