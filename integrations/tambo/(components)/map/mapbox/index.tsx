@@ -6,9 +6,10 @@ import mapboxgl from 'mapbox-gl'
 import { useEffect, useRef, useState } from 'react'
 import InfoSVG from '~/assets/svgs/info.svg'
 import { useAssitant } from '~/integrations/tambo'
-import s from '../map.module.css'
+import { DEFAULT_DESTINATION } from '~/integrations/tambo/constants'
 import { useRectangleMapDrawing } from './drawing'
 import { useMapNavigationListener } from './events'
+import s from './map.module.css'
 import { useMapSearch } from './search'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!
@@ -29,13 +30,11 @@ type Props = {
   center?: [number, number] // [lng, lat]
 }
 
-const DEFAULT_CENTER: [number, number] = [-74.00594, 40.71278] // NYC [lng, lat]
-
 export function MapBox({
   className,
   height = 520,
   fallbackZoom = 12,
-  center = DEFAULT_CENTER,
+  center = DEFAULT_DESTINATION.center,
 }: Props) {
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -72,18 +71,15 @@ export function MapBox({
       zoom: fallbackZoom,
     })
 
-    // Store reference immediately to ensure cleanup works even before load
     mapRef.current = map
-
     map.on('load', () => {
       setMap(map)
     })
 
     return () => {
-      // Use closure variable to ensure we remove the exact map we created
-      map.remove()
-      mapRef.current = null
       setMap(undefined)
+      mapRef.current = null
+      map.remove()
     }
   }, [setMap])
 
@@ -135,6 +131,16 @@ export function MapBox({
 export const EMPTY_FEATURE_COLLECTION: GeoJSON.FeatureCollection = {
   type: 'FeatureCollection',
   features: [],
+}
+
+export function isMapValid(map: mapboxgl.Map | undefined): map is mapboxgl.Map {
+  if (!map) return false
+  try {
+    // Check if the map container is still in DOM and map is loaded
+    return !!map.getContainer()?.isConnected && map.loaded()
+  } catch {
+    return false
+  }
 }
 
 export function getGeoJSONSource(

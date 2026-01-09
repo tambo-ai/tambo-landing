@@ -1,7 +1,12 @@
 import mapboxgl from 'mapbox-gl'
 import { useEffect, useEffectEvent, useRef } from 'react'
 import { useAssitant } from '~/integrations/tambo'
-import { EMPTY_FEATURE_COLLECTION, getGeoJSONSource, useMapPanMode } from './'
+import {
+  EMPTY_FEATURE_COLLECTION,
+  getGeoJSONSource,
+  isMapValid,
+  useMapPanMode,
+} from './'
 
 type BBox = { west: number; south: number; east: number; north: number }
 
@@ -85,10 +90,12 @@ export function useRectangleMapDrawing({
 
   // Map Sources and Layers Setup
   useEffect(() => {
-    if (!map) return
+    if (!isMapValid(map)) return
 
     map.dragPan.disable()
     map.doubleClickZoom.disable()
+
+    console.log('map', map)
 
     // Attribution can't be removed; compact is allowed
     map.addControl(new mapboxgl.AttributionControl({ compact: true }))

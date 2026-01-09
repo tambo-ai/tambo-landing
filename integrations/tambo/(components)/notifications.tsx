@@ -42,48 +42,50 @@ export function AssistantNotifications({ className }: { className: string }) {
             <WeatherWidget />
           </div>
         </li>
-        <li>
-          <span className="block typo-label-s opacity-50 dr-mb-6">
+        <li
+          className={cn(
+            'transition-opacity duration-200 ease-in-out starting:opacity-0',
+            isEmptyArray(choosedSeat) && 'hidden'
+          )}
+        >
+          <span className="block typo-label-s opacity-50">
             {'<'}Flight seats{'>'}
           </span>{' '}
           <span className="typo-label-s">
-            {' '}
             {!isEmptyArray(choosedSeat) ? choosedSeat.join(', ') : 'None'}
           </span>
         </li>
-        {selectedDemo === DEMOS.MAP && (
-          <li>
-            <span className="block typo-label-s opacity-50 dr-mb-6">
-              {'<'}Planned activities{'>'}
-            </span>{' '}
-            <ul className="flex flex-col dr-gap-8">
-              {itinerary.map((item) => (
-                <li
-                  className="typo-label-s list-disc list-inside"
-                  key={item?.poi?.id}
-                >
-                  <span className="inline-block align-top">
-                    <span className="block">{item?.poi?.name}</span>
-                    <span className="block">
-                      {item?.selectedDate &&
-                        new Date(item.selectedDate).toLocaleDateString(
-                          'en-US',
-                          {
-                            year: '2-digit',
-                            month: '2-digit',
-                            day: '2-digit',
-                          }
-                        )}
-                    </span>
-                    <span className="block">
-                      {item?.selectedDate && formatTimeRange(item.selectedDate)}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </li>
-        )}
+        <li
+          className={cn(
+            'transition-opacity duration-200 ease-in-out starting:opacity-0',
+            isEmptyArray(itinerary) && 'opacity-0 hidden'
+          )}
+        >
+          <span className="block typo-label-s opacity-50 dr-mb-6">
+            {'<'}Planned activities{'>'}
+          </span>{' '}
+          <ul className="flex flex-col dr-gap-8">
+            {itinerary.map((item) => (
+              <li
+                className="typo-label-s list-disc list-inside"
+                key={item?.poi?.id}
+              >
+                <span>{item?.poi?.name}</span>
+                <span className="block dr-pl-14">
+                  {item?.selectedDate &&
+                    new Date(item.selectedDate).toLocaleDateString('en-US', {
+                      year: '2-digit',
+                      month: '2-digit',
+                      day: '2-digit',
+                    })}
+                </span>
+                <span className="block dr-pl-14">
+                  {item?.selectedDate && formatTimeRange(item.selectedDate)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </li>
       </ul>
     </div>
   )
@@ -111,7 +113,8 @@ export function WeatherWidget() {
   if (!weather?.forecast || isEmptyArray(weather.forecast)) return null
 
   const today = weather.forecast[0]
-  const temp = Math.round(today.temperatureMax)
+  const tempMax = Math.round(today.temperatureMax)
+  const tempMin = Math.round(today.temperatureMin)
   const unit = today.temperatureUnit
   const description = today.weatherDescription
 
@@ -123,7 +126,8 @@ export function WeatherWidget() {
       </span>
       <span className="flex items-center dr-gap-4">
         <span>{getWeatherIcon(description)}</span>
-        {temp}
+        {tempMax}
+        {unit}/{tempMin}
         {unit}
       </span>
     </div>

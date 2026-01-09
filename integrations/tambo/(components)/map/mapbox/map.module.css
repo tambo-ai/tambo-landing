@@ -13,7 +13,6 @@
   .pin {
     svg {
       path {
-        fill: var(--color-mint);
         transition: fill 0.3s ease-in-out;
       }
     }
@@ -29,19 +28,11 @@
       box-shadow 0.3s ease-in-out;
 
     .text {
-      color: var(--color-teal);
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
-      white-space: nowrap;
-      z-index: 1;
     }
 
     .icon {
-      position: absolute;
-      z-index: 1;
-      background-color: var(--color-black);
-      right: desktop-vw(1px);
-
       svg {
         transition: opacity 0.3s ease-in-out;
         &:first-child {
