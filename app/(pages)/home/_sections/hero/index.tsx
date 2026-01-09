@@ -14,6 +14,7 @@ import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Kinesis } from '~/components/kinesis'
 import { Video } from '~/components/video'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { useStore } from '~/libs/store'
@@ -35,6 +36,8 @@ export function Hero() {
   const desktopVW = useDesktopVW()
 
   const setHasAppeared = useStore((state) => state.setHasAppeared)
+
+  const { isDesktop } = useDeviceDetection()
 
   const appear = useEffectEvent(() => {
     const proxy = {
@@ -217,6 +220,8 @@ export function Hero() {
   })
 
   useEffect(() => {
+    if (!isDesktop) return
+
     let timeline: gsap.core.Timeline | null = null
     setTimeout(() => {
       timeline = appear()
@@ -225,7 +230,7 @@ export function Hero() {
     return () => {
       timeline?.kill()
     }
-  }, [])
+  }, [isDesktop])
 
   useScrollTrigger({
     rect,
@@ -259,12 +264,12 @@ export function Hero() {
   return (
     <section
       ref={setRectRef}
-      className="flex flex-col items-center justify-center h-screen relative dt:px-0"
+      className="flex flex-col items-center justify-center h-screen relative dt:px-0 max-dt:bg-white"
     >
       {/* <div className="dt:dr-w-480 dt:aspect-square dt:border dt:border-[red] dt:rounded-full dt:absolute dt:left-[50%] dt:translate-x-[-50%] dt:top-[50%] dt:translate-y-[-50%]" /> */}
       <Kinesis
         getIndex={() => 50}
-        className="dt:dr-w-col-8 flex flex-col dt:dr-gap-8 text-center items-center dt:relative dt:top-[-2%]"
+        className="dt:dr-w-col-8 flex flex-col dt:dr-gap-8 text-center items-center dt:relative dt:top-[-2%] z-1"
       >
         <HeroVisualMobileSVG className="mobile-only dr-w-517 dr-h-178 absolute top-0 left-[-30%]" />
         <div className="relative">
@@ -310,7 +315,7 @@ export function Hero() {
           </div>
         </div>
         <div
-          className="dt:dr-w-col-8 flex flex-col dr-gap-8 text-center items-center opacity-0 "
+          className="dt:dr-w-col-8 flex flex-col dr-gap-8 text-center items-center dt:opacity-0 z-1"
           ref={titleRef}
         >
           <h1 className="dt:typo-h1 typo-h3">
@@ -345,9 +350,9 @@ export function Hero() {
         </div>
       </Kinesis>
 
-      <div className="mobile-only aspect-square bg-white bottom-0 dr:dr-mt-100  rounded-full absolute z-10">
+      <div className="mobile-only aspect-square bg-white bottom-0 dr:dr-mt-100  rounded-full absolute z-1 translate-y-[50%]">
         <DashedBorder className="aspect-square dr-w-104 " />
-        <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
+        <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-16" />
       </div>
 
       <div

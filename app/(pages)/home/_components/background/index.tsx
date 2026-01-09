@@ -199,7 +199,7 @@ export default function Background({
         getElement: () => elementRef.current,
       }}
     >
-      <div className="fixed inset-0" ref={elementRef}>
+      <div className="fixed inset-0 desktop-only" ref={elementRef}>
         <div
           className="absolute inset-0 flex flex-col items-center justify-center"
           ref={backgroundRef}
