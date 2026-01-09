@@ -47,12 +47,41 @@
     @media (--mobile) {
       box-shadow: var(--active-shadow);
       border-style: dashed;
-      border-color: var(--color-teal);
+      border-color: var(--color-dark-teal);
 
       .cardHeader {
         background-color: var(--active-header-bg);
         border-color: var(--active-header-border);
       }
+    }
+  }
+}
+
+.banner {
+  outline: mobile-vw(6px) solid transparent;
+  transition: outline-color 0.3s ease;
+
+  @media (--desktop) {
+    outline: desktop-vw(6px) solid transparent;
+  }
+
+  @media (--hover) {
+    &:hover {
+      outline-color: color-mix(
+        in oklab,
+        var(--color-off-white) 80%,
+        transparent
+      );
+    }
+  }
+
+  &.active {
+    @media (--mobile) {
+      outline-color: color-mix(
+        in oklab,
+        var(--color-off-white) 80%,
+        transparent
+      );
     }
   }
 }

@@ -72,9 +72,10 @@ export function Section12() {
             ))}
           </div>
           {/* BANNER */}
+
           <div
             className={cn(
-              'w-full dr-p-8 border border-dark-grey dr-rounded-20',
+              'w-full dr-p-8 border border-dark-grey dr-rounded-20 relative',
               s.banner,
               isActive && s.active
             )}
