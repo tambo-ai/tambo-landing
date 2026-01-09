@@ -8,6 +8,7 @@ import { useContext, useEffect, useEffectEvent, useRef } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
+import HeroVisualMobileSVG from '~/assets/svgs/hero-bg-visual-mobile.svg'
 import TamboLetters from '~/assets/svgs/tambo-letters.svg'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
@@ -258,13 +259,14 @@ export function Hero() {
   return (
     <section
       ref={setRectRef}
-      className="flex flex-col items-center justify-center h-screen relative  dt:px-0"
+      className="flex flex-col items-center justify-center h-screen relative dt:px-0"
     >
       {/* <div className="dt:dr-w-480 dt:aspect-square dt:border dt:border-[red] dt:rounded-full dt:absolute dt:left-[50%] dt:translate-x-[-50%] dt:top-[50%] dt:translate-y-[-50%]" /> */}
       <Kinesis
         getIndex={() => 50}
         className="dt:dr-w-col-8 flex flex-col dt:dr-gap-8 text-center items-center dt:relative dt:top-[-2%]"
       >
+        <HeroVisualMobileSVG className="mobile-only dr-w-517 dr-h-178 absolute top-0 left-[-30%]" />
         <div className="relative">
           <div
             className={cn(
@@ -296,7 +298,7 @@ export function Hero() {
             </Video>
           </div>
           <div
-            className="absolute left-[50%] translate-x-[-50%] top-full"
+            className="absolute left-[50%] translate-x-[-50%] top-full desktop-only"
             ref={subVideoRef}
           >
             <div className="dr-h-26 dr-mb-8">
@@ -342,12 +344,25 @@ export function Hero() {
           </div>
         </div>
       </Kinesis>
+
+      <div className="mobile-only aspect-square bg-white bottom-0 dr:dr-mt-100  rounded-full absolute z-10">
+        <DashedBorder className="aspect-square dr-w-104 " />
+        <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
+      </div>
+
       <div
         ref={arrowDownRef}
-        className="dt:dr-w-136 dt:aspect-square dt:bg-white dt:bottom-0 dt:left-[50%] dt:translate-x-[-50%] dt:translate-y-[50%] dt:rounded-full dt:fixed dt:opacity-0"
+        className=" desktop-only dt:dr-w-136 dt:aspect-square bg-white dt:bottom-0 dt:left-[50%] dt:translate-x-[-50%] dt:translate-y-[50%] rounded-full dt:fixed dt:opacity-0 z-10"
       >
-        <DashedBorder className="absolute inset-0" />
+        <DashedBorder className="absolute inset-0 " />
         <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
+      </div>
+      <div className="mobile-only absolute bottom-0 dr-h-280 w-full  dr-mt-250">
+        <Image
+          src="/assets/mobile-background/hero-mobile.png"
+          alt="Footer"
+          fill
+        />
       </div>
     </section>
   )
