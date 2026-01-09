@@ -338,6 +338,7 @@ export function Hero() {
           <div className="flex dt:flex-row flex-col dt:dr-gap-16 dr-gap-12 dt:dr-mt-40 dr-mt-24 place-items-center">
             <CTA
               snippet
+              href="https://docs.tambo.co/"
               snippetEyebrow="NPM"
               className="bg-black! text-teal border-teal"
             >

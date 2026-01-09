@@ -4,15 +4,15 @@ export const showcaseCards = [
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
-    href: 'https://docs.tambo.co',
+    href: 'https://db-thing.vercel.app/',
     image: '/assets/showcases/showcase-1.png',
   },
   {
-    title: 'Strudel AI',
+    title: 'Strudel LM',
     paragraph:
       'Strudel lets you code music patterns live. You layer drums, melodies, and synths in real time, making complex electronic music using code.',
     user: '@akinloluwami',
-    href: 'https://docs.tambo.co',
+    href: 'https://strudellm.com/',
     image: '/videos/Octo-Juggle.webm',
   },
   {
@@ -20,7 +20,7 @@ export const showcaseCards = [
     paragraph:
       'Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.',
     user: '@akinloluwami',
-    href: 'https://docs.tambo.co',
+    href: 'https://cheatsheet.tambo.co/',
     image: '/assets/showcases/showcase-1.png',
   },
 ]

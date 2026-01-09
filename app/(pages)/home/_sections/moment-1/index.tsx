@@ -101,6 +101,7 @@ export function Moment1() {
     <TimelineSection
       id="moment-1"
       messages={messages}
+      href="https://docs.tambo.co/concepts/components"
       title="AI-generated interfaces, powered by your own components."
       zIndex={10}
       proxyChildren={

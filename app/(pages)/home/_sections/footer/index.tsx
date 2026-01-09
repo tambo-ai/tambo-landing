@@ -256,10 +256,10 @@ export function Footer() {
             </TitleBlock.Subtitle>
             <div className="flex dr-gap-8 dr-mt-40 dt:flex-row flex-col">
               <CTA
-                href="https://docs.tambo.co/"
                 className="bg-black! text-teal border-teal"
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
+                href="https://docs.tambo.co/"
               >
                 START BUILDING
               </CTA>
@@ -268,6 +268,7 @@ export function Footer() {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className="w-full"
+                href="https://ui.tambo.co/"
               >
                 components
               </CTA>

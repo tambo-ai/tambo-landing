@@ -129,6 +129,7 @@ export function Moment3() {
       ref={setTimelineRectRef}
       messages={messages}
       title="Native MCP support, hard wiring done for you."
+      href="https://docs.tambo.co/concepts/model-context-protocol"
       zIndex={3}
       id="moment-3"
       proxyChildren={

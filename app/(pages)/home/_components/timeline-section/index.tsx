@@ -49,6 +49,7 @@ export function TimelineSection({
   ref,
   proxyChildren,
   proxyPosition = 'start',
+  href,
 }: {
   id: string
   messages: typeof messagesType
@@ -58,6 +59,7 @@ export function TimelineSection({
   zIndex: number
   proxyChildren?: React.ReactNode
   proxyPosition?: 'start' | 'end'
+  href?: string
 }) {
   const [rectRef, rect] = useRect()
   const [messagesVisible, setMessagesVisible] = useState(0)
@@ -182,6 +184,7 @@ export function TimelineSection({
               snippet
               className="bg-black! text-teal border-teal w-full dt:w-auto"
               wrapperRef={buttonRef}
+              href={href}
               wrapperClassName="dt:opacity-0 transition-opacity duration-300 ease-gleasing dt:dr-max-w-321"
             >
               START BUILDING
