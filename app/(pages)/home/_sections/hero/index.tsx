@@ -273,7 +273,7 @@ export function Hero() {
         getIndex={() => 50}
         className="dt:dr-w-col-8 flex flex-col dt:dr-gap-8 text-center items-center relative dt:top-[-2%] z-1"
       >
-        <HeroVisualMobileSVG className="mobile-only dr-w-517 dr-h-178 absolute top-0 left-[-30%]" />
+        <HeroVisualMobileSVG className="mobile-only dr-w-517 dr-h-178 absolute -dr-top-32 left-[-30%]" />
         <div className="relative">
           <div
             className={cn(
