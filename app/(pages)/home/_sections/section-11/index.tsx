@@ -2,7 +2,7 @@
 
 import cn from 'clsx'
 import { useIntersectionObserver } from 'hamo'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { SolidBackground } from '~/app/(pages)/home/_components/background'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
@@ -63,6 +63,7 @@ function PersonCard({ person }: PersonCardProps) {
 export function Section11() {
   const { isMobile, isDesktop } = useDeviceDetection()
   const [isOpenCard, setIsOpenCard] = useState<string | null>(null)
+  const contentRefs = useRef<HTMLDivElement[]>([])
 
   return (
     <SolidBackground>
@@ -94,6 +95,9 @@ export function Section11() {
                     s.cardWrapper,
                     isOpenCard === card?.title && s.isOpen
                   )}
+                  style={{
+                    '--content-height': `${contentRefs.current[i]?.offsetHeight}px`,
+                  }}
                 >
                   {/* Before was not working, div instead */}
                   <div className={s.cardRing} />
@@ -158,6 +162,11 @@ export function Section11() {
                         'absolute dt:dr-top-262 dr-top-242 dt:dr-ml-12',
                         s.cardContent
                       )}
+                      ref={(el) => {
+                        if (el) {
+                          contentRefs.current.push(el)
+                        }
+                      }}
                     >
                       <p className="typo-p text-mint dr-mb-17 dt:dr-w-298 dr-w-263">
                         {card?.paragraph}
