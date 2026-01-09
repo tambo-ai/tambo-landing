@@ -109,7 +109,7 @@ export function TimelineSection({
         className="h-[800svh]"
       >
         <div className="sticky top-0 dr-layout-grid-inner h-screen">
-          <div className="col-span-4 flex flex-col dr-pt-80 dt:dr-pt-112 max-dt:h-screen">
+          <div className="col-span-4 flex flex-col dr-pt-80 dt:dr-pt-112 max-dt:dr-pb-16 max-dt:h-screen">
             <div className="relative">
               <h3 className="relative typo-h1 dt:typo-h2 text-center dt:text-left z-10">
                 {title}
@@ -190,7 +190,7 @@ export function TimelineSection({
             </CTA>
           </div>
           <div
-            className="absolute dt:fixed left-0 dt:left-1/2 dt:-translate-x-1/2 top-0 dr-layout-grid-inner w-full h-screen pointer-events-none"
+            className="absolute dt:fixed left-0 dt:left-1/2 dt:-translate-x-1/2 top-0 dr-layout-grid-inner w-full h-screen pointer-events-none max-dt:scale-90 origin-top"
             style={{
               maxWidth: `calc(var(--max-width) * 1px)`,
             }}
@@ -207,16 +207,10 @@ export function TimelineSection({
         </div>
         {proxyChildren && (
           <div
-            className="absolute h-svh left-0 right-0 dr-layout-grid-inner"
-            style={
-              proxyPosition === 'start'
-                ? {
-                    top: '0',
-                  }
-                : {
-                    bottom: '0',
-                  }
-            }
+            className={cn(
+              'absolute h-svh left-0 right-0 dr-layout-grid-inner',
+              proxyPosition === 'start' ? 'top-0' : 'bottom-0'
+            )}
           >
             <div
               data-proxy-children
