@@ -13,6 +13,7 @@ import TamboLogo from '~/assets/svgs/tambo.svg'
 import XIcon from '~/assets/svgs/X.svg'
 import { Button, CTA } from '~/components/button'
 import { Link } from '~/components/link'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useStore } from '~/libs/store'
 import s from './navigation.module.css'
 
@@ -36,6 +37,7 @@ export function Navigation() {
   const [hasReachedLimits, setHasReachedLimits] = useState(false)
   // const [isFirstScroll, setIsFirstScroll] = useState(false)
   const hasAppeared = useStore((state) => state.hasAppeared)
+  const { isDesktop } = useDeviceDetection()
 
   const centerRef = useRef<HTMLDivElement>(null)
   const leftRef = useRef<HTMLUListElement>(null)
@@ -126,7 +128,7 @@ export function Navigation() {
     tl.to(
       logoRef.current,
       {
-        scale: 0.8,
+        scale: isDesktop ? 0.8 : 1,
         duration: 0.5,
         ease: 'power2.inOut',
       },
