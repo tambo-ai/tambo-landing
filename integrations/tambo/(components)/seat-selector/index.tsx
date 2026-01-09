@@ -53,7 +53,7 @@ export function SeatAssistant() {
 
   return (
     <MessageThreadFull
-      className="absolue z-10"
+      className="absolue z-10 transition-opacity duration-1000 ease-in-out starting:opacity-0"
       contextKey={selectedDemo}
       variant="compact"
     />

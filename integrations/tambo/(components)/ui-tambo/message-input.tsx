@@ -11,7 +11,7 @@ import {
   type TamboElicitationResponse,
   useTamboElicitationContext,
 } from '@tambo-ai/react/mcp'
-import { ArrowUp, Image as ImageIcon, Paperclip, Square, X } from 'lucide-react'
+import { ArrowUp, Image as ImageIcon, Paperclip, X } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import * as React from 'react'

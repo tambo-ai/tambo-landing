@@ -6,9 +6,8 @@ import mapboxgl from 'mapbox-gl'
 import { useEffect, useRef, useState } from 'react'
 import InfoSVG from '~/assets/svgs/info.svg'
 import { useAssitant } from '~/integrations/tambo'
-import { DEFAULT_DESTINATION } from '~/integrations/tambo/constants'
+import { DEFAULT_DESTINATION, DEMOS } from '~/integrations/tambo/constants'
 import { useRectangleMapDrawing } from './drawing'
-import { useMapNavigationListener } from './events'
 import s from './map.module.css'
 import { useMapSearch } from './search'
 
@@ -38,25 +37,11 @@ export function MapBox({
 }: Props) {
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const { setMap } = useAssitant()
+  const { selectedDemo, setMap, destination } = useAssitant()
   const lenis = useLenis()
 
   useRectangleMapDrawing({ center })
   useMapSearch({ center })
-  useMapNavigationListener((params) => {
-    const map = mapRef.current
-
-    if (!map) return
-    map.stop()
-
-    setTimeout(() => {
-      map.flyTo({
-        center: [params.center.lng, params.center.lat],
-        zoom: params.zoom ?? fallbackZoom,
-        essential: true,
-      })
-    }, 100)
-  })
 
   // Map Initialization
   useEffect(() => {
@@ -83,10 +68,23 @@ export function MapBox({
     }
   }, [setMap])
 
+  useEffect(() => {
+    if (selectedDemo !== DEMOS.MAP) return
+    if (!mapRef.current) return
+    mapRef.current.flyTo?.({
+      center: destination.center,
+      zoom: fallbackZoom,
+    })
+  }, [selectedDemo, destination.center, fallbackZoom])
+
   return (
     <>
       <div
-        className={className}
+        className={cn(
+          className,
+          'transition-opacity duration-1000 ease-in-out starting:opacity-0',
+          selectedDemo !== DEMOS.MAP && 'opacity-0 pointer-events-none'
+        )}
         style={{ width: '100%' }}
         data-lenis-prevent
         onMouseEnter={() => {

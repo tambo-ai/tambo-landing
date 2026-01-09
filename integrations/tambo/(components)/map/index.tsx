@@ -95,7 +95,7 @@ export function MapAssistant() {
       contextKey={selectedDemo}
       variant="compact"
       defaultOpen={true}
-      className="absolute dr-bottom-6 dr-right-4 dr-mr-8"
+      className="absolute dr-bottom-6 dr-right-4 dr-mr-8 transition-opacity duration-1000 ease-in-out starting:opacity-0"
     />
   )
 }
