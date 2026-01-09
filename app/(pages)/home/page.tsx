@@ -1,3 +1,4 @@
+import { ScrollRestoration } from '~/components/scroll-restoration'
 import { Wrapper } from '../_components/wrapper'
 import Background from './_components/background'
 import { Footer } from './_sections/footer'
@@ -12,22 +13,27 @@ import { Section12 } from './_sections/section-12'
 
 export default function Home() {
   return (
-    <Wrapper
-      theme="light"
-      lenis={{}}
-      className="mx-auto bg-primary max-w-screen dt:max-w-[calc(var(--max-width)*1px)] overflow-x-clip"
-    >
-      <Background>
-        <Hero />
-        <MeetTambo />
-        <Moments />
-        <Section8 />
-        <Section10 />
-        <HowItWorks />
-        <Section11 />
-        <Section12 />
-        <Footer />
-      </Background>
-    </Wrapper>
+    <>
+      {process.env.NODE_ENV === 'production' && (
+        <ScrollRestoration type="manual" />
+      )}
+      <Wrapper
+        theme="light"
+        lenis={{}}
+        className="mx-auto bg-primary max-w-screen dt:max-w-[calc(var(--max-width)*1px)] overflow-x-clip"
+      >
+        <Background>
+          <Hero />
+          <MeetTambo />
+          <Moments />
+          <Section8 />
+          <Section10 />
+          <HowItWorks />
+          <Section11 />
+          <Section12 />
+          <Footer />
+        </Background>
+      </Wrapper>
+    </>
   )
 }
