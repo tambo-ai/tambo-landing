@@ -147,7 +147,7 @@ function CollapsibleTrigger({
           <button
             type="button"
             className={cn(
-              'flex items-center justify-between w-full dr-p-12',
+              'flex items-center justify-between w-full dr-p-8',
               'hover:bg-muted/50 transition-colors'
             )}
             aria-expanded={isOpen}

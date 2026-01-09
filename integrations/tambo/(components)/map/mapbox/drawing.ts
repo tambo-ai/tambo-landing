@@ -15,11 +15,9 @@ export function useRectangleMapDrawing({
 }: {
   center: [number, number]
 }) {
-  //Drawing
   const startRef = useRef<mapboxgl.LngLat | null>(null)
   const drawingRef = useRef(false)
   const { setCurrentBBox } = useAssitant()
-
   const { map } = useAssitant()
   const panMode = useMapPanMode()
 
@@ -64,7 +62,6 @@ export function useRectangleMapDrawing({
     map.getCanvas().style.cursor = ''
 
     if (isValidBBox(bbox)) {
-      // logBBoxSelection(bbox)
       setCurrentBBox(bbox)
     }
 
@@ -75,7 +72,7 @@ export function useRectangleMapDrawing({
 
   // Drawing interaction event listeners
   useEffect(() => {
-    if (!map) return
+    if (!isMapValid(map)) return
 
     map.on('mousedown', handleDrawStart)
     map.on('mousemove', handleDrawMove)
@@ -88,56 +85,50 @@ export function useRectangleMapDrawing({
     }
   }, [map])
 
-  // Map Sources and Layers Setup
+  // Map sources and layers setup
   useEffect(() => {
     if (!isMapValid(map)) return
 
+    const attribution = new mapboxgl.AttributionControl({ compact: true })
     map.dragPan.disable()
     map.doubleClickZoom.disable()
+    map.addControl(attribution)
 
-    console.log('map', map)
-
-    // Attribution can't be removed; compact is allowed
-    map.addControl(new mapboxgl.AttributionControl({ compact: true }))
-    new mapboxgl.Marker()?.setLngLat(center)?.addTo(map)
-
-    // Add GeoJSON sources
     map.addSource('selection', {
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
     })
 
-    // Selection layers (visible rectangle)
     map.addLayer({
       id: 'selection-fill',
       type: 'fill',
       source: 'selection',
-      paint: {
-        'fill-color': '#B6FFDD',
-        'fill-opacity': 0.5,
-      },
+      paint: { 'fill-color': '#B6FFDD', 'fill-opacity': 0.5 },
     })
 
     map.addLayer({
       id: 'selection-line',
       type: 'line',
       source: 'selection',
-      paint: {
-        'line-color': '#80C1A2',
-        'line-width': 2,
-      },
-      layout: {
-        'line-join': 'round',
-        'line-cap': 'round',
-      },
+      paint: { 'line-color': '#80C1A2', 'line-width': 2 },
+      layout: { 'line-join': 'round', 'line-cap': 'round' },
     })
 
     return () => {
-      // Remove layers first (they depend on the source)
+      map.removeControl(attribution)
       if (map.getLayer('selection-line')) map.removeLayer('selection-line')
       if (map.getLayer('selection-fill')) map.removeLayer('selection-fill')
-      // Then remove source
       if (map.getSource('selection')) map.removeSource('selection')
+    }
+  }, [map])
+
+  // Center marker
+  useEffect(() => {
+    if (!isMapValid(map)) return
+    const marker = new mapboxgl.Marker().setLngLat(center).addTo(map)
+
+    return () => {
+      marker.remove()
     }
   }, [map, center])
 }

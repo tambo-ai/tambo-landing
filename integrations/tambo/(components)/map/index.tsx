@@ -10,10 +10,10 @@ import { DEMOS } from '~/integrations/tambo/constants'
 import { MessageThreadCollapsible } from '../ui-tambo/message-thread-collapsible'
 import { MapSchema, mapExampleContext } from './schema'
 
+const demo = DEMOS.MAP
 const introMessages = {
   map: 'While your waiting for your flight, you can search for entrainment options in your destination, do you want me to help you?',
 }
-const demo = DEMOS.MAP
 
 type MapComponentProps = {
   height: number
