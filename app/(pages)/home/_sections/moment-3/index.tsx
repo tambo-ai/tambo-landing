@@ -3,16 +3,17 @@ import { useRect, useWindowSize } from 'hamo'
 import { useContext } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TimelineSection } from '~/app/(pages)/home/_components/timeline-section'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { fromTo } from '~/libs/utils'
+import { fromTo, mapRange } from '~/libs/utils'
 import { Animation } from './animation'
 import { messages } from './data'
 
 export function Moment3() {
   const [setRectRef, rect] = useRect({ ignoreTransform: true })
   const [setTimelineRectRef, timelineRect] = useRect()
-  console.log('moment-3 rect', rect)
+  const { isDesktop } = useDeviceDetection()
 
   const desktopVW = useDesktopVW()
   const { getItems, getBackground } = useContext(BackgroundContext)
@@ -24,14 +25,28 @@ export function Moment3() {
       rect,
       start: 'center center',
       end: `${timelineRect?.bottom === undefined ? 'bottom' : timelineRect.bottom} center`,
-      onProgress: ({ progress, isActive }) => {
-        console.log('moment-3 progress', progress)
+      onProgress: ({ progress: triggerProgress, isActive }) => {
         if (!isActive) return
+
+        const containerExitProgress = mapRange(
+          0,
+          0.2,
+          triggerProgress,
+          0,
+          1,
+          true
+        )
+        const progress = mapRange(0.2, 1, triggerProgress, 0, 1, true)
+
+        const container = document.getElementById('section-6-container')
+        if (container) {
+          container.style.opacity = `${1 - containerExitProgress}`
+        }
 
         const background = getBackground()
 
-        if (background) {
-          background.style.opacity = progress === 0 ? '0' : '1'
+        if (background && isDesktop) {
+          background.style.opacity = containerExitProgress === 0 ? '0' : '1'
         }
 
         if (rect?.element) {

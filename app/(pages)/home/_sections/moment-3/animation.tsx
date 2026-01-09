@@ -169,7 +169,6 @@ export function Animation() {
       '--highlight-progress',
       `${circleFocusProgress - chatMessagesProgress}`
     )
-    container.style.opacity = isDesktop ? `${1 - exitProgress}` : '1'
 
     // Chat Animation
     chat.style.scale = `${mapRange(0, 1, circleFocusProgress, 1, 0.8, true) + mapRange(0, 1, chatMessagesProgress, 0, 0.2, true)}`
