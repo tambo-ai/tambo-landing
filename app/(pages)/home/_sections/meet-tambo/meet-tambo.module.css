@@ -97,10 +97,11 @@
         .plusButton {
           opacity: 0;
           pointer-events: none;
+          transition-delay: 0s;
 
-          @media (--desktop) {
+          /* @media (--desktop) {
             transform: translateX(desktop-vw(-80px));
-          }
+          } */
         }
 
         .cardContent {
@@ -174,14 +175,14 @@
 
 .plusButton {
   position: absolute;
-  transition:
-    opacity var(--ease) 0.3s,
-    transform var(--ease) var(--transition-duration);
+  transition: opacity var(--ease) 0.3s;
+  /* transform var(--ease) var(--transition-duration); */
   bottom: mobile-vw(12px);
   right: mobile-vw(12px);
 
   @media (--desktop) {
     left: 50%;
+    transition-delay: 0.4s;
     bottom: desktop-vw(32px);
     transform: translateX(-50%);
   }
