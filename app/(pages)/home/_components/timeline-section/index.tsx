@@ -89,8 +89,12 @@ export function TimelineSection({
       for (const callback of callbacks.current) {
         callback({ progress, steps, currentStep })
       }
-      if (messagesRef.current && !isDesktop) {
-        messagesRef.current.style.transform = `translateX(${(-messagesRef.current.scrollWidth / 4) * Math.min(3, Math.max(0, currentStep - 1))}px)`
+      if (messagesRef.current) {
+        if (!isDesktop) {
+          messagesRef.current.style.transform = `translateX(${(-messagesRef.current.scrollWidth / 4) * Math.min(3, Math.max(0, currentStep - 1))}px)`
+        } else {
+          messagesRef.current.style.transform = `translateX(0px)`
+        }
       }
     },
     steps: STEPS,
