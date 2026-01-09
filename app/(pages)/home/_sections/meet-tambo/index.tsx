@@ -75,7 +75,7 @@ export function MeetTambo() {
   return (
     <section
       ref={setRectRef}
-      className="dt:dr-pt-188 dr-pt-128 dt:dr-pb-204 dr-pb-200"
+      className="dt:dr-pt-188 dr-pt-128 dt:dr-pb-204 dr-pb-200 max-dt:bg-white"
     >
       <div className="dt:dr-layout-grid px-safe dt:px-0 dr-mb-120 dt:dr-mb-0">
         <TitleBlock className="dr-mb-56  dt:col-start-3 dt:col-end-11">
