@@ -23,10 +23,7 @@ const LEFT_LINKS = [
   { href: '/pricing', label: 'sanity' },
 ] as const
 
-const RIGHT_LINKS = [
-  { href: '/blog', label: 'Blog', external: true },
-  { href: '/ask', label: 'Ask Tambo' },
-] as const
+const RIGHT_LINKS = [{ href: '/blog', label: 'Blog', external: true }] as const
 
 export function Navigation() {
   // const [isVisible, setIsVisible] = useState(true)
