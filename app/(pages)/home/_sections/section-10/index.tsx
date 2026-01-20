@@ -6,7 +6,7 @@ import { BackgroundContext } from '~/app/(pages)/home/_components/background/con
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
-import { Kinesis } from '~/components/kinesis'
+// import { Kinesis } from '~/components/kinesis'
 import { Video } from '~/components/video'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
@@ -250,8 +250,8 @@ export function Section10() {
         />
       </div>
       <div className="dt:h-screen w-full flex flex-col items-center justify-center dt:bg-transparent bg-white ">
-        <Kinesis
-          getIndex={() => 50}
+        <div
+          // getIndex={() => 50}
           className="text-center flex flex-col items-center relative dt:-dr-top-48"
         >
           <div
@@ -301,7 +301,7 @@ export function Section10() {
               </TitleBlock.Title>
             </TitleBlock>
           </div>
-        </Kinesis>
+        </div>
         <div className="w-full dr-p-24 mobile-only flex flex-col dr-gap-y-8">
           {BUTTONS.map((button, index) => (
             <div className="w-full " key={button.title + index.toString()}>
