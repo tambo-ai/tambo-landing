@@ -219,7 +219,7 @@ export function TimelineSection({
         {proxyChildren && (
           <div
             className={cn(
-              "absolute h-svh left-0 right-0 dr-layout-grid-inner",
+              "absolute h-svh left-0 right-0 dr-layout-grid-inner pointer-events-none",
               proxyPosition === "start" ? "top-0" : "bottom-0",
             )}
           >

@@ -1,43 +1,43 @@
-"use client";
-import { useRect, useWindowSize } from "hamo";
-import { useContext } from "react";
-import { BackgroundContext } from "~/app/(pages)/home/_components/background/context";
-import { TimelineSection } from "~/app/(pages)/home/_components/timeline-section";
-import { useDesktopVW } from "~/hooks/use-device-values";
-import { useScrollTrigger } from "~/hooks/use-scroll-trigger";
-import { fromTo } from "~/libs/utils";
-import { Animation } from "./animation";
-import { messages } from "./data";
+'use client'
+import { useRect, useWindowSize } from 'hamo'
+import { useContext } from 'react'
+import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
+import { TimelineSection } from '~/app/(pages)/home/_components/timeline-section'
+import { useDesktopVW } from '~/hooks/use-device-values'
+import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { fromTo } from '~/libs/utils'
+import { Animation } from './animation'
+import { messages } from './data'
 
 export function Moment1() {
-  const [setRectRef, rect] = useRect({ ignoreTransform: true });
-  const [setTimelineRectRef, timelineRect] = useRect();
+  const [setRectRef, rect] = useRect({ ignoreTransform: true })
+  const [setTimelineRectRef, timelineRect] = useRect()
 
-  const { getItems, getBackground } = useContext(BackgroundContext);
+  const { getItems, getBackground } = useContext(BackgroundContext)
 
-  const desktopVW = useDesktopVW();
+  const desktopVW = useDesktopVW()
 
-  const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize();
+  const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
 
   useScrollTrigger(
     {
       rect,
-      start: "top bottom",
-      end: "center center",
+      start: 'top bottom',
+      end: 'center center',
       onProgress: ({ progress, isActive }) => {
-        if (!isActive) return;
+        if (!isActive) return
 
-        const background = getBackground();
+        const background = getBackground()
 
         if (background) {
-          background.style.opacity = progress === 1 ? "0" : "1";
+          background.style.opacity = progress === 1 ? '0' : '1'
         }
 
         if (rect?.element) {
-          rect.element.style.opacity = progress === 1 ? "1" : "0";
+          rect.element.style.opacity = progress === 1 ? '1' : '0'
         }
 
-        const items = getItems();
+        const items = getItems()
 
         fromTo(
           items,
@@ -60,71 +60,69 @@ export function Moment1() {
             kinesis: 0,
             boxShadowOpacity: (index) => {
               if (index === items.length - 1) {
-                return 1;
+                return 1
               }
-              return 0;
+              return 0
             },
           },
           progress,
           {
-            ease: "easeOutSine",
+            ease: 'easeOutSine',
             render: (
               item,
-              { width, height, borderRadius, kinesis, x, boxShadowOpacity },
+              { width, height, borderRadius, kinesis, x, boxShadowOpacity }
             ) => {
               // @ts-expect-error
-              const element = item?.getElement();
+              const element = item?.getElement()
               // @ts-expect-error
-              item?.setBorderRadius(`${borderRadius}px`);
+              item?.setBorderRadius(`${borderRadius}px`)
               // @ts-expect-error
-              item?.setKinesis(kinesis);
+              item?.setKinesis(kinesis)
 
               // @ts-expect-error
-              const boxShadow = item?.getBoxShadow();
+              const boxShadow = item?.getBoxShadow()
               if (boxShadow) {
-                boxShadow.style.opacity = `${boxShadowOpacity}`;
+                boxShadow.style.opacity = `${boxShadowOpacity}`
               }
 
               if (element instanceof HTMLElement) {
-                element.style.width = `${width}px`;
-                element.style.height = `${height}px`;
-                element.style.transform = `translateX(${x}px)`;
+                element.style.width = `${width}px`
+                element.style.height = `${height}px`
+                element.style.transform = `translateX(${x}px)`
               }
             },
-          },
-        );
+          }
+        )
       },
     },
-    [],
-  );
+    []
+  )
 
   useScrollTrigger(
     {
       rect,
-      start: "center center",
-      end: `${timelineRect?.bottom === undefined ? "bottom" : timelineRect.bottom} center`,
+      start: 'center center',
+      end: `${timelineRect?.bottom === undefined ? 'bottom' : timelineRect.bottom} center`,
       onProgress: ({ progress, isActive }) => {
-        if (!isActive) return;
+        if (!isActive) return
 
-        const background = getBackground();
+        const background = getBackground()
 
         if (background) {
-          background.style.opacity = progress === 0 ? "0" : "1";
+          background.style.opacity = progress === 0 ? '0' : '1'
         }
 
         if (rect?.element) {
-          rect.element.style.opacity = progress === 0 ? "1" : "0";
+          rect.element.style.opacity = progress === 0 ? '1' : '0'
         }
 
         // Hide the animation container when transition starts
-        const section4Container = document.getElementById(
-          "section-4-container",
-        );
+        const section4Container = document.getElementById('section-4-container')
         if (section4Container) {
-          section4Container.style.opacity = progress > 0 ? "0" : "1";
+          section4Container.style.opacity = progress > 0 ? '0' : '1'
         }
 
-        const items = getItems();
+        const items = getItems()
         fromTo(
           items,
           {
@@ -136,9 +134,9 @@ export function Moment1() {
             opacity: 1,
             boxShadowOpacity: (index) => {
               if (index === items.length - 1) {
-                return 1;
+                return 1
               }
-              return 0;
+              return 0
             },
           },
           {
@@ -152,7 +150,7 @@ export function Moment1() {
           },
           progress,
           {
-            ease: "easeOutSine",
+            ease: 'easeOutSine',
             render: (
               item,
               {
@@ -163,46 +161,46 @@ export function Moment1() {
                 kinesis,
                 opacity,
                 boxShadowOpacity,
-              },
+              }
             ) => {
               // @ts-expect-error
-              const element = item?.getElement();
+              const element = item?.getElement()
               // @ts-expect-error
-              item?.setBorderRadius(`${borderRadius}px`);
+              item?.setBorderRadius(`${borderRadius}px`)
               // @ts-expect-error
-              item?.setKinesis(kinesis);
+              item?.setKinesis(kinesis)
               // @ts-expect-error
-              const boxShadow = item?.getBoxShadow();
+              const boxShadow = item?.getBoxShadow()
               if (boxShadow) {
-                boxShadow.style.opacity = `${boxShadowOpacity}`;
+                boxShadow.style.opacity = `${boxShadowOpacity}`
               }
               if (element instanceof HTMLElement) {
-                element.style.width = `${width}px`;
-                element.style.height = `${height}px`;
+                element.style.width = `${width}px`
+                element.style.height = `${height}px`
                 if (progress === 1) {
-                  element.style.transform = `translateY(0px)`;
+                  element.style.transform = `translateY(0px)`
                 } else {
-                  element.style.transform = `translateX(${x}px)`;
+                  element.style.transform = `translateX(${x}px)`
                 }
-                element.style.opacity = `${opacity}`;
+                element.style.opacity = `${opacity}`
               }
             },
-          },
-        );
+          }
+        )
       },
     },
-    [],
-  );
+    []
+  )
 
   useScrollTrigger(
     {
       rect,
-      start: `${timelineRect?.bottom === undefined ? "bottom" : timelineRect.bottom} center`,
-      end: `${timelineRect?.bottom === undefined ? "bottom" : timelineRect.bottom + windowHeight * 0.5} center`,
+      start: `${timelineRect?.bottom === undefined ? 'bottom' : timelineRect.bottom} center`,
+      end: `${timelineRect?.bottom === undefined ? 'bottom' : timelineRect.bottom + windowHeight * 0.5} center`,
       onProgress: ({ progress, isActive }) => {
-        if (!isActive) return;
+        if (!isActive) return
 
-        const items = getItems();
+        const items = getItems()
         fromTo(
           items,
           {
@@ -229,7 +227,7 @@ export function Moment1() {
           },
           progress,
           {
-            ease: "easeOutSine",
+            ease: 'easeOutSine',
             render: (
               item,
               {
@@ -240,32 +238,32 @@ export function Moment1() {
                 kinesis,
                 opacity,
                 boxShadowOpacity,
-              },
+              }
             ) => {
               // @ts-expect-error
-              const element = item?.getElement();
+              const element = item?.getElement()
               // @ts-expect-error
-              item?.setBorderRadius(`${borderRadius}px`);
+              item?.setBorderRadius(`${borderRadius}px`)
               // @ts-expect-error
-              item?.setKinesis(kinesis);
+              item?.setKinesis(kinesis)
               // @ts-expect-error
-              const boxShadow = item?.getBoxShadow();
+              const boxShadow = item?.getBoxShadow()
               if (boxShadow) {
-                boxShadow.style.opacity = `${boxShadowOpacity}`;
+                boxShadow.style.opacity = `${boxShadowOpacity}`
               }
               if (element instanceof HTMLElement) {
-                element.style.width = `${width}px`;
-                element.style.height = `${height}px`;
-                element.style.transform = `translateY(${y}px)`;
-                element.style.opacity = `${opacity}`;
+                element.style.width = `${width}px`
+                element.style.height = `${height}px`
+                element.style.transform = `translateY(${y}px)`
+                element.style.opacity = `${opacity}`
               }
             },
-          },
-        );
+          }
+        )
       },
     },
-    [],
-  );
+    []
+  )
 
   return (
     <TimelineSection
@@ -285,5 +283,5 @@ export function Moment1() {
     >
       <Animation />
     </TimelineSection>
-  );
+  )
 }
