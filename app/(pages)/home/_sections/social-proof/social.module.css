@@ -1,0 +1,44 @@
+.social {
+  @media (--hover) {
+    &:hover {
+      .text {
+        border-color: color-mix(in srgb, var(--color-forest) 50%, transparent);
+        box-shadow: 0 0 16px 0px rgba(127, 255, 195, 0.7);
+
+        &::after {
+          border-color: color-mix(
+            in srgb,
+            var(--color-forest) 50%,
+            transparent
+          );
+          border-style: dashed;
+        }
+      }
+
+      .position {
+        background-color: var(--color-ghost-mint);
+      }
+    }
+  }
+}
+
+.text {
+  position: relative;
+  transition:
+    border-color 600ms ease,
+    box-shadow 600ms ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border: 1px solid var(--color-dark-grey);
+    border-radius: inherit;
+    pointer-events: none;
+    transition: opacity 600ms ease;
+  }
+}
+
+.position {
+  transition: background-color 600ms ease;
+}

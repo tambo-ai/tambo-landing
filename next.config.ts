@@ -28,10 +28,10 @@ const nextConfig: NextConfig = {
                   'removeOffCanvasPaths',
                   'reusePaths',
                   'removeElementsByAttr',
-                  'removeStyleElement',
+                  // 'removeStyleElement',
                   'removeScriptElement',
-                  'prefixIds',
-                  'cleanupIds',
+                  // 'prefixIds',
+                  // 'cleanupIds',
                   // {
                   //   name: 'cleanupNumericValues',
                   //   params: {
