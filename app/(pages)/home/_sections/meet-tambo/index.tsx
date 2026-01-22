@@ -56,7 +56,7 @@ function Card({ data }: CardProps) {
         s.cardWrapper
       )}
     >
-      <div className="dr-size-64 dr-p-4 dr-rounded-20 border border-dark-grey bg-grey overflow-hidden shrink-0 grid place-items-center">
+      <div className="dr-size-64 dr-p-4 dr-rounded-20 border border-dark-grey bg-off-white overflow-hidden shrink-0 grid place-items-center">
         <div className="dr-size-50">
           <Video
             autoPlay
