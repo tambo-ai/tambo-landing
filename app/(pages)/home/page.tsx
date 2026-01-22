@@ -2,7 +2,7 @@ import { ScrollRestoration } from '~/components/scroll-restoration'
 import { getGitHubStars } from '~/libs/github'
 import { generatePageMetadata } from '~/libs/metadata'
 import { Wrapper } from '../_components/wrapper'
-import Background from './_components/background'
+// import Background from './_components/background'
 import { Footer } from './_sections/footer'
 import { Hero } from './_sections/hero'
 import { HowItWorks } from './_sections/how-it-works'
@@ -38,17 +38,17 @@ export default async function Home() {
         className="mx-auto bg-primary max-w-screen dt:max-w-[calc(var(--max-width)*1px)] overflow-x-clip"
         githubStars={githubStars}
       >
-        <Background>
-          <Hero />
-          <MeetTambo />
-          <Moments />
-          <Section8 />
-          <Section10 />
-          <HowItWorks />
-          <Section11 />
-          <Section12 />
-          <Footer />
-        </Background>
+        {/* <Background> */}
+        <Hero />
+        <Moments />
+        <MeetTambo />
+        <Section8 />
+        <Section10 />
+        <HowItWorks />
+        <Section11 />
+        <Section12 />
+        <Footer />
+        {/* </Background> */}
       </Wrapper>
     </>
   )
