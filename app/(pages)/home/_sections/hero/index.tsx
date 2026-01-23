@@ -1,40 +1,40 @@
-'use client'
+"use client";
 
-import cn from 'clsx'
+import cn from "clsx";
 // import gsap from 'gsap'
-import { useRect } from 'hamo'
-import { useLenis } from 'lenis/react'
+import { useRect } from "hamo";
+import { useLenis } from "lenis/react";
 // import { useContext, useEffect, useEffectEvent, useRef } from 'react'
-import { useRef } from 'react'
+import { useRef } from "react";
 // import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
-import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
-import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
-import HeroVisualMobileSVG from '~/assets/svgs/hero-bg-visual-mobile.svg'
-import TamboLetters from '~/assets/svgs/tambo-letters.svg'
-import { CTA } from '~/components/button'
-import { Image } from '~/components/image'
-import { Kinesis } from '~/components/kinesis'
-import { Video } from '~/components/video'
+import { DashedBorder } from "~/app/(pages)/home/_components/dashed-border";
+import ArrowDownSVG from "~/assets/svgs/arrow-down.svg";
+import HeroVisualMobileSVG from "~/assets/svgs/hero-bg-visual-mobile.svg";
+import TamboLetters from "~/assets/svgs/tambo-letters.svg";
+import { CTA } from "~/components/button";
+import { Image } from "~/components/image";
+import { Kinesis } from "~/components/kinesis";
+import { Video } from "~/components/video";
 // import { useDeviceDetection } from '~/hooks/use-device-detection'
 // import { useDesktopVW } from '~/hooks/use-device-values'
-import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { useStore } from '~/libs/store'
-import { fromTo } from '~/libs/utils'
-import s from './hero.module.css'
+import { useScrollTrigger } from "~/hooks/use-scroll-trigger";
+import { useStore } from "~/libs/store";
+import { fromTo } from "~/libs/utils";
+import s from "./hero.module.css";
 
 export function Hero() {
   // const { getItems } = useContext(BackgroundContext)
 
-  const [setRectRef, rect] = useRect()
+  const [setRectRef, rect] = useRect();
 
-  const videoRef = useRef<HTMLDivElement>(null)
-  const subVideoRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLDivElement>(null)
-  const arrowDownRef = useRef<HTMLDivElement>(null)
-  const mobileArrowDownRef = useRef<HTMLDivElement>(null)
-  const visualRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLDivElement>(null);
+  const subVideoRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const arrowDownRef = useRef<HTMLDivElement>(null);
+  const mobileArrowDownRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
 
-  const lenis = useLenis()
+  const lenis = useLenis();
 
   // const desktopVW = useDesktopVW()
 
@@ -240,11 +240,11 @@ export function Hero() {
 
   useScrollTrigger({
     rect,
-    start: 'top top',
-    end: 'bottom center',
+    start: "top top",
+    end: "bottom center",
     onProgress: ({ progress }) => {
-      const hasAppeared = useStore.getState().hasAppeared
-      if (!hasAppeared) return
+      const hasAppeared = useStore.getState().hasAppeared;
+      if (!hasAppeared) return;
 
       fromTo(
         [arrowDownRef.current, mobileArrowDownRef.current],
@@ -256,16 +256,16 @@ export function Hero() {
         },
         progress,
         {
-          ease: 'linear',
+          ease: "linear",
           render: (element, { translate }) => {
             if (element instanceof HTMLElement) {
-              element.style.transform = `translate(-50%, 0%) translate(0px, 50%) translateY(${translate}%)`
+              element.style.transform = `translate(-50%, 0%) translate(0px, 50%) translateY(${translate}%)`;
             }
           },
-        }
-      )
+        },
+      );
     },
-  })
+  });
 
   return (
     <section
@@ -284,8 +284,8 @@ export function Hero() {
         <div className="relative">
           <div
             className={cn(
-              'dt:-dr-mb-60 -dr-mb-20 dt:dr-w-300 dr-w-181 aspect-square',
-              s.video
+              "dt:-dr-mb-60 -dr-mb-20 dt:dr-w-300 dr-w-181 aspect-square",
+              s.video,
             )}
             ref={videoRef}
           >
@@ -319,7 +319,7 @@ export function Hero() {
               <TamboLetters className="h-full" />
             </div>
             <div className="whitespace-nowrap typo-surtitle">
-              {'< REACT SDK >'}
+              {"< REACT SDK >"}
             </div>
           </div>
         </div>
@@ -333,7 +333,7 @@ export function Hero() {
             No PhD required.
           </h1>
           <p className="dt:typo-p-l typo-p text-black/70 ">
-            Tambo is the full-stack solution handling{' '}
+            Tambo is the full-stack solution handling{" "}
             <br className="mobile-only" /> AI orchestration,
             <br className="desktop-only" />
             so you don't have to.
@@ -351,8 +351,8 @@ export function Hero() {
               </span>
             </CTA>
             <CTA
-              className={cn(s.arrowCTA, 'desktop-only')}
-              onClick={() => lenis?.scrollTo('#demo', { lerp: 0.2 })}
+              className={cn(s.arrowCTA, "desktop-only")}
+              onClick={() => lenis?.scrollTo("#demo", { lerp: 0.2 })}
             >
               Try Live Demo
             </CTA>
@@ -364,7 +364,7 @@ export function Hero() {
         ref={mobileArrowDownRef}
         className={cn(
           s.arrowDown,
-          'mobile-only aspect-square bg-white bottom-0 dr:dr-mt-100  rounded-full z-1 left-[50%]  fixed'
+          "mobile-only aspect-square bg-white bottom-0 dr:dr-mt-100  rounded-full z-1 left-[50%]  fixed",
         )}
       >
         <DashedBorder className="aspect-square dr-w-104 " />
@@ -375,7 +375,7 @@ export function Hero() {
         ref={arrowDownRef}
         className={cn(
           s.arrowDown,
-          'desktop-only dt:dr-w-136 dt:aspect-square bg-white dt:bottom-0 left-[50%] rounded-full fixed z-10'
+          "desktop-only dt:dr-w-136 dt:aspect-square bg-white dt:bottom-0 left-[50%] rounded-full fixed z-10",
         )}
       >
         <DashedBorder className="absolute inset-0 " />
@@ -389,5 +389,5 @@ export function Hero() {
         />
       </div>
     </section>
-  )
+  );
 }
