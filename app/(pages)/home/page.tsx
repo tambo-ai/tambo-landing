@@ -46,7 +46,6 @@ export default async function Home() {
         <Section10 />
         <Section12 />
         <Investors />
-
         <Section11 />
         <Footer />
       </Wrapper>
