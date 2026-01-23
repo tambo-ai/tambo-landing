@@ -13,13 +13,16 @@ type ActiveCard = 'main' | number | null
 export function Investors() {
   const [activeCard, setActiveCard] = useState<ActiveCard>(null)
 
-  const handleIntersect = useCallback((id: ActiveCard, isIntersecting: boolean) => {
-    setActiveCard((prev) => {
-      if (isIntersecting) return id
-      if (prev === id) return null
-      return prev
-    })
-  }, [])
+  const handleIntersect = useCallback(
+    (id: ActiveCard, isIntersecting: boolean) => {
+      setActiveCard((prev) => {
+        if (isIntersecting) return id
+        if (prev === id) return null
+        return prev
+      })
+    },
+    []
+  )
 
   return (
     <section className="dt:dr-px-271 dt:dr-pb-200 dr-pb-120 px-safe">
@@ -60,7 +63,10 @@ function MainInvestorCard({
 
   useEffect(() => {
     const isIntersecting = intersection?.isIntersecting
-    if (isIntersecting !== undefined && isIntersecting !== prevIntersecting.current) {
+    if (
+      isIntersecting !== undefined &&
+      isIntersecting !== prevIntersecting.current
+    ) {
       prevIntersecting.current = isIntersecting
       onIntersect('main', isIntersecting)
     }
@@ -82,7 +88,7 @@ function MainInvestorCard({
         )}
       >
         <HashPattern className="absolute inset-0 text-dark-grey z-0" />
-        <PartnershipSVG className="dr-w-353 relative z-1" />
+        <PartnershipSVG className="dt:dr-w-353 dr-w-254 relative z-1" />
       </div>
     </div>
   )
@@ -107,7 +113,10 @@ function InvestorCard({
 
   useEffect(() => {
     const isIntersecting = intersection?.isIntersecting
-    if (isIntersecting !== undefined && isIntersecting !== prevIntersecting.current) {
+    if (
+      isIntersecting !== undefined &&
+      isIntersecting !== prevIntersecting.current
+    ) {
       prevIntersecting.current = isIntersecting
       onIntersect(index, isIntersecting)
     }
