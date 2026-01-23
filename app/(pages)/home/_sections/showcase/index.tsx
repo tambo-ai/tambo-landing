@@ -15,7 +15,7 @@ import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { showcaseCards } from './data'
 import s from './section-11.module.css'
 
-export function Section11() {
+export function Showcase() {
   const { isMobile, isDesktop } = useDeviceDetection()
   const [isOpenCard, setIsOpenCard] = useState<string | null>(null)
   const contentRefs = useRef<HTMLDivElement[]>([])
@@ -23,22 +23,16 @@ export function Section11() {
   return (
     <SolidBackground>
       <section
-        className={cn(
-          'dt:dr-pt-141 dr-pt-120 dt:dr-pb-200 dr-pb-120 relative max-dt:bg-black'
-        )}
+        className={cn('dt:dr-pt-141 dr-pt-200 dt:dr-pb-200 dr-pb-120 relative')}
       >
-        <div className="dr-layout-grid-inner dt:dr-top-141 dt:dr-mb-256 dr-mb-78">
-          <TitleBlock className="dt:col-start-4 dt:col-end-10 col-span-full dt:dr-mb-40 dr-mb-56 text-teal">
-            <TitleBlock.LeadIn className="text-dark-teal">
-              {'<'} SHowcase {'>'}
-            </TitleBlock.LeadIn>
+        <div className="dr-layout-grid-inner">
+          <TitleBlock className="dt:col-start-4 dt:col-end-10 col-span-full dr-mb-56">
             <TitleBlock.Title level="h2" className="dr-mb-8!">
               Built with Tambo
             </TitleBlock.Title>
-            <TitleBlock.Subtitle className="dt:dr-mb-40 text-dark-teal typo-p! dt:typo-p-l!">
-              Generative UI unlocks new possibilities.
-              <br />
-              Here are some of the best apps from our developer community.
+            <TitleBlock.Subtitle className="dt:dr-mb-40 typo-p! dt:typo-p-l! text-black/50">
+              Try our examples to see what tambo can do. Then build your own and
+              share it—we'd love to showcase your app!
             </TitleBlock.Subtitle>
           </TitleBlock>
           {/* SHOWCASE CARDS */}
@@ -62,7 +56,7 @@ export function Section11() {
                     key={`${card?.title}-${i}`}
                     href={isDesktop ? card?.href : undefined}
                     className={cn(
-                      'relative border border-dark-teal/50 dr-p-12 dr-pb-56 dt:dr-pb-12 bg-black dr-rounded-20 dt:dr-w-361 w-full dt:dr-max-h-390 dr-max-h-389 block overflow-hidden',
+                      'relative border border-dark-teal/50 dr-p-12 dr-pb-56 dt:dr-pb-12 bg-off-white dr-rounded-20 dt:dr-w-361 w-full dt:dr-max-h-390 dr-max-h-389 block overflow-hidden',
                       s.card
                     )}
                     onClick={() => {
@@ -89,13 +83,13 @@ export function Section11() {
                     </div>
 
                     <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between desktop-only">
-                      <p className={cn('typo-h5 w-fit text-teal', s.title)}>
+                      <p className={cn('typo-h5 w-fit', s.title)}>
                         {card?.title}
                       </p>
 
                       <div
                         className={cn(
-                          'dr-w-32 dr-h-32 bg-black border border-teal flex items-center justify-center dr-rounded-10 relative',
+                          'dr-w-32 dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
                           s.button
                         )}
                       >
@@ -145,13 +139,13 @@ export function Section11() {
                     )}
                     href={card?.href}
                   >
-                    <p className={cn('typo-h5 w-fit text-teal', s.title)}>
+                    <p className={cn('typo-h5 w-fit', s.title)}>
                       {card?.title}
                     </p>
 
                     <div
                       className={cn(
-                        'dr-w-32 dr-h-32 bg-black border border-teal flex items-center justify-center dr-rounded-10 relative',
+                        'dr-w-32 dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
                         s.button
                       )}
                     >

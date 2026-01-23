@@ -10,7 +10,10 @@
   &.isOpen {
     @media (--mobile) {
       .card {
+        max-height: mobile-vw(600px);
         padding-bottom: calc(var(--content-height) + mobile-vw(80px));
+        background-color: var(--color-black);
+        border-color: var(--color-teal);
         box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
       }
 
@@ -30,8 +33,9 @@
 
       .button {
         background-color: var(--color-teal);
-        &:before,
-        &:after {
+
+        &::before,
+        &::after {
           background-color: var(--color-teal);
         }
 
@@ -49,6 +53,7 @@
       }
 
       .title {
+        color: var(--color-teal);
         &::before {
           transform: scaleX(1);
         }
@@ -59,6 +64,7 @@
 
 .card {
   transition:
+    max-height 0.3s ease,
     padding-bottom 0.3s ease,
     background-color 0.3s ease,
     border-color 0.3s ease,
@@ -179,10 +185,6 @@
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
-
-  path {
-    stroke: var(--color-teal);
-  }
 }
 
 .arrow {

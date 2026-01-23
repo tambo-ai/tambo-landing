@@ -3,6 +3,7 @@
 import cn from 'clsx'
 import { useIntersectionObserver } from 'hamo'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { Button, CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Marquee } from '~/components/marquee'
@@ -16,13 +17,19 @@ export function Community() {
   return (
     <section className="dt:dr-pt-132 dt:dr-pb-200 dr-pb-120 dt:dr-px-155">
       <div className="flex flex-col items-center dr-mb-56 px-safe dt:dr-px-0">
-        <h2 className="dt:typo-h2 typo-h1 dr-mb-8 text-center">
-          Join the Tambo community
-        </h2>
-        <h3 className="dt:typo-p-l typo-p dt:dr-mb-40 dr-mb-32 dt:dr-w-550 text-center">
-          Build with us! <br className="mobile-only" /> Get help in our Discord,
-          contribute on GitHub, and shape what comes next.
-        </h3>
+        <TitleBlock className="dt:col-start-4 dt:col-end-10 col-span-full dr-mb-56">
+          <TitleBlock.Title
+            level="h2"
+            className="dr-mb-8! dt:typo-h2! typo-h1!"
+          >
+            Join the Tambo community
+          </TitleBlock.Title>
+          <TitleBlock.Subtitle className="dt:dr-mb-40 typo-p! dt:typo-p-l! text-black/50 dt:dr-w-550!">
+            Build with us! <br className="mobile-only" /> Get help in our
+            Discord, contribute on GitHub, and shape what comes next.
+          </TitleBlock.Subtitle>
+        </TitleBlock>
+
         <div className="flex dt:dr-gap-16 dr-gap-8 dt:flex-row flex-col items-center">
           {buttons.map((button, index) => (
             <CTA

@@ -10,8 +10,8 @@ import { Investors } from './_sections/investors'
 import { MeetTambo } from './_sections/meet-tambo'
 import { Moments } from './_sections/moments'
 import { Section10 } from './_sections/section-10'
-import { Section11 } from './_sections/section-11'
 import { Section12 } from './_sections/section-12'
+import { Showcase } from './_sections/showcase'
 import { SocialProof } from './_sections/social-proof'
 
 export async function generateMetadata() {
@@ -47,7 +47,7 @@ export default async function Home() {
         <Section10 />
         <Section12 />
         <Investors />
-        <Section11 />
+        <Showcase />
         <Community />
         <Footer />
       </Wrapper>
