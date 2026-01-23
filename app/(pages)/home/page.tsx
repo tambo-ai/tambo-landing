@@ -42,11 +42,12 @@ export default async function Home() {
         <Moments />
         <MeetTambo />
         <SocialProof />
-        <Section10 />
         <HowItWorks />
-        <Section11 />
+        <Section10 />
         <Section12 />
         <Investors />
+
+        <Section11 />
         <Footer />
       </Wrapper>
     </>
