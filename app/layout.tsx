@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from 'next'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import type { PropsWithChildren } from 'react'
+import { Suspense } from 'react'
+import {
+  PostHogPageview,
+  PostHogRootProvider,
+} from '~/providers/posthog-provider'
 import { ReactTempus } from 'tempus/react'
 import { RealViewport } from '~/components/real-viewport'
 
@@ -94,22 +99,27 @@ export default async function Layout({ children }: PropsWithChildren) {
       {/* this helps to track Satus usage thanks to Wappalyzer */}
       <Script async>{`window.satusVersion = '${AppData.version}';`}</Script>
       <body>
-        {/* Critical: CSS custom properties needed for layout */}
-        <RealViewport>
-          {/* Main app content */}
-          {children}
-        </RealViewport>
-        {/* Development tools - dynamically imported */}
-        <OrchestraTools />
+        <PostHogRootProvider>
+          <Suspense fallback={null}>
+            <PostHogPageview />
+          </Suspense>
+          {/* Critical: CSS custom properties needed for layout */}
+          <RealViewport>
+            {/* Main app content */}
+            {children}
+          </RealViewport>
+          {/* Development tools - dynamically imported */}
+          <OrchestraTools />
 
-        {/* Animation framework */}
-        <GSAPRuntime />
+          {/* Animation framework */}
+          <GSAPRuntime />
 
-        {/* RAF management - lightweight, but don't patch in draft mode to avoid conflicts */}
-        <ReactTempus
-          // patch={!isDraftMode}
-          patch={true}
-        />
+          {/* RAF management - lightweight, but don't patch in draft mode to avoid conflicts */}
+          <ReactTempus
+            // patch={!isDraftMode}
+            patch={true}
+          />
+        </PostHogRootProvider>
       </body>
     </html>
   )
