@@ -1,11 +1,11 @@
-import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
-import HowItWorksSVG from '~/assets/svgs/how-it-works/how-it-works-diagram-desktop.svg'
-import HowItWorksMobileSVG from '~/assets/svgs/how-it-works/how-it-works-diagram-mobile.svg'
-import { Image } from '~/components/image'
+import { TitleBlock } from "~/app/(pages)/home/_components/title-block";
+import HowItWorksSVG from "~/assets/svgs/how-it-works/how-it-works-diagram-desktop.svg";
+import HowItWorksMobileSVG from "~/assets/svgs/how-it-works/how-it-works-diagram-mobile.svg";
+import { Image } from "~/components/image";
 
 export function HowItWorks() {
   return (
-    <section className="bg-white">
+    <section className="bg-white dt:dr-pb-200">
       <TitleBlock className="dr-mb-56">
         <TitleBlock.LeadIn>how It Works</TitleBlock.LeadIn>
         <TitleBlock.Title level="h2" className="dt:mb-0! dr-mb-8">
@@ -16,7 +16,7 @@ export function HowItWorks() {
       <div className="dt:dr-px-8 dr-px-8">
         <div className="dt:dr-py-94 dr-py-40 dr-px-16 dr-rounded-20 flex overflow-hidden items-center justify-center relative w-full h-full">
           <Image
-            src={'/assets/how-it-works/how-it-works-bg-desktop.png'}
+            src={"/assets/how-it-works/how-it-works-bg-desktop.png"}
             alt="how it works background"
             fill
           />
@@ -25,5 +25,5 @@ export function HowItWorks() {
         </div>
       </div>
     </section>
-  )
+  );
 }
