@@ -241,13 +241,6 @@ export function Features() {
       //   height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
       // }}
     >
-      <div className="desktop-only w-full  absolute inset-0">
-        <Image
-          src="/assets/mobile-background/features-bg-desktop.png"
-          alt="Section 10 Background"
-          fill
-        />
-      </div>
       <div className="mobile-only w-full dr-h-280 relative">
         <Image
           src="/assets/mobile-background/section-10Top.png"
