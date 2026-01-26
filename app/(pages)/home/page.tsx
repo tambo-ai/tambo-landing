@@ -9,10 +9,10 @@ import { Hero } from './_sections/hero'
 import { HowItWorks } from './_sections/how-it-works'
 import { Investors } from './_sections/investors'
 import { MeetTambo } from './_sections/meet-tambo'
-import { Moments } from './_sections/moments'
 import { Section12 } from './_sections/section-12'
 import { Showcase } from './_sections/showcase'
 import { SocialProof } from './_sections/social-proof'
+import { TamboSteps } from './_sections/tambo-steps'
 
 export async function generateMetadata() {
   return generatePageMetadata({
@@ -40,7 +40,7 @@ export default async function Home() {
         githubStars={githubStars}
       >
         <Hero />
-        <Moments />
+        <TamboSteps />
         <MeetTambo />
         <SocialProof />
         <HowItWorks />

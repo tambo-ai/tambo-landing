@@ -10,7 +10,7 @@ import { fromTo } from '~/libs/utils'
 // import { Animation } from './animation'
 import { messages } from './data'
 
-export function Moment1() {
+export function TamboSteps() {
   const [setRectRef, rect] = useRect({ ignoreTransform: true })
   const [setTimelineRectRef, timelineRect] = useRect()
 
@@ -277,7 +277,7 @@ export function Moment1() {
       proxyChildren={
         <div
           ref={setRectRef}
-          className="pointer-events-none w-full opacity-0 aspect-668/470"
+          className="pointer-events-none w-full opacity-0 aspect-668/470 relative max-dt:bg-light-gray max-dt:dr-pb-140"
         />
       }
       proxyPosition="end"

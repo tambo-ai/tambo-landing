@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { messages as messagesType } from '~/app/(pages)/home/_sections/moment-1/data'
+import type { messages as messagesType } from '~/app/(pages)/home/_sections/tambo-steps/data'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
