@@ -4,6 +4,8 @@ import './libs/validate-env.ts'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Required for PostHog trailing slash API requests
+  skipTrailingSlashRedirect: true,
   reactCompiler: true,
   poweredByHeader: false,
   typescript: {
@@ -150,6 +152,15 @@ const nextConfig: NextConfig = {
     {
       source: '/',
       destination: '/home',
+    },
+    // PostHog reverse proxy for more accurate tracking (avoids ad blockers)
+    {
+      source: '/ph/static/:path*',
+      destination: 'https://us-assets.i.posthog.com/static/:path*',
+    },
+    {
+      source: '/ph/:path*',
+      destination: 'https://us.i.posthog.com/:path*',
     },
   ],
 }

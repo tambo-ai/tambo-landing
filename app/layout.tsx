@@ -2,11 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import type { PropsWithChildren } from 'react'
-import { Suspense } from 'react'
-import {
-  PostHogPageview,
-  PostHogRootProvider,
-} from '~/providers/posthog-provider'
+import { AnalyticsProvider } from '~/providers/posthog-provider'
 import { ReactTempus } from 'tempus/react'
 import { RealViewport } from '~/components/real-viewport'
 
@@ -99,10 +95,7 @@ export default async function Layout({ children }: PropsWithChildren) {
       {/* this helps to track Satus usage thanks to Wappalyzer */}
       <Script async>{`window.satusVersion = '${AppData.version}';`}</Script>
       <body>
-        <PostHogRootProvider>
-          <Suspense fallback={null}>
-            <PostHogPageview />
-          </Suspense>
+        <AnalyticsProvider>
           {/* Critical: CSS custom properties needed for layout */}
           <RealViewport>
             {/* Main app content */}
@@ -119,7 +112,7 @@ export default async function Layout({ children }: PropsWithChildren) {
             // patch={!isDraftMode}
             patch={true}
           />
-        </PostHogRootProvider>
+        </AnalyticsProvider>
       </body>
     </html>
   )
