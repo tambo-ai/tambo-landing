@@ -6,7 +6,6 @@ import {
   type RefObject,
   useCallback,
   useEffect,
-  useEffectEvent,
   useRef,
   useState,
 } from 'react'
@@ -53,7 +52,6 @@ export function TimelineSection({
   title: string
   children?: React.ReactNode
   ref?: React.RefCallback<HTMLElement | null>
-  zIndex: number
   proxyChildren?: React.ReactNode
   proxyPosition?: 'start' | 'end'
   href?: string
@@ -61,7 +59,6 @@ export function TimelineSection({
   const sectionRef = useRef<HTMLElement>(null)
   const [messagesVisible, setMessagesVisible] = useState(0)
   const whiteLineRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLDivElement>(null)
   const callbacks = useRef<TimelineCallback[]>([])
   const addCallback = useCallback((callback: TimelineCallback) => {
     callbacks.current.push(callback)
@@ -100,11 +97,6 @@ export function TimelineSection({
                   whiteLineRef.current.style.translate = `0 -${Math.max(mappedLineProgress, 8)}%`
                 }
 
-                // Update button opacity on last step
-                if (buttonRef.current && isDesktop && step === STEPS) {
-                  buttonRef.current.style.opacity = '1'
-                }
-
                 // Call registered callbacks
                 const steps = Array.from({ length: STEPS }, (_, i) =>
                   i < step ? 1 : 0
@@ -141,11 +133,8 @@ export function TimelineSection({
         id={id}
         ref={(node) => {
           sectionRef.current = node
-          if (ref) {
-            ref?.(node)
-          }
+          ref?.(node)
         }}
-        className=""
       >
         <div className="dr-layout-grid-inner h-screen">
           <div className="col-span-4 flex flex-col dr-pt-80 dt:dr-pt-112 max-dt:dr-pb-16 max-dt:h-screen">
@@ -189,15 +178,20 @@ export function TimelineSection({
                   ref={messagesRef}
                   className="flex dt:flex-col dr-gap-4 dt:items-start transition-transform duration-300 ease-gleasing"
                 >
-                  {messages.map((message, idx) => (
-                    <TimelineItem
-                      key={message.id}
-                      message={message}
-                      visible={idx < messagesVisible}
-                      idx={idx}
-                      last={idx === messages.length - 1}
-                    />
-                  ))}
+                  {messages.map((message, idx) => {
+                    const isLast = idx === messages.length - 1
+                    const isActive =
+                      idx === messagesVisible - 1 ||
+                      (isLast && messagesVisible >= messages.length)
+                    return (
+                      <TimelineItem
+                        key={message.id}
+                        message={message}
+                        isActive={isActive}
+                        idx={idx}
+                      />
+                    )
+                  })}
                 </ul>
               </div>
             </div>
@@ -214,9 +208,8 @@ export function TimelineSection({
             <CTA
               snippet
               className="bg-black! text-teal border-teal w-full dt:w-auto"
-              wrapperRef={buttonRef}
               href={href}
-              wrapperClassName="dt:opacity-0 transition-opacity duration-300 ease-gleasing dt:dr-max-w-321"
+              wrapperClassName="w-fit"
             >
               START BUILDING
               <span className="typo-code-snippet dr-pt-12 block">
@@ -267,154 +260,54 @@ export function TimelineSection({
 
 function TimelineItem({
   message,
-  visible,
+  isActive,
   idx,
-  last,
 }: {
   message: (typeof messagesType)[number]
-  visible: boolean
+  isActive: boolean
   idx: number
-  last: boolean
 }) {
-  const backgroundRef = useRef<HTMLDivElement>(null)
+  const liRef = useRef<HTMLLIElement>(null)
   const iconRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
-  const iconContentRef = useRef<HTMLDivElement>(null)
 
-  const { isDesktop } = useDeviceDetection()
+  // Background color and box-shadow animation
+  useEffect(() => {
+    if (!(iconRef.current && liRef.current)) return
 
-  const showItem = useEffectEvent(() => {
-    if (!isDesktop) return
-    const tl = gsap.timeline()
-    tl.to(
-      backgroundRef.current,
-      {
-        clipPath: 'inset(0 0% 0 0)',
-        opacity: 1,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
-    tl.to(
-      iconRef.current,
-      {
-        width: '100%',
-        height: '100%',
-        backgroundColor: last ? colors['ghost-mint'] : colors['light-gray'],
-        borderColor: colors['dark-grey'],
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
-    tl.to(
-      iconContentRef.current,
-      {
-        opacity: 1,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
-    tl.to(
-      textRef.current,
-      {
-        clipPath: 'inset(0 0% 0 0)',
-        opacity: 1,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
+    const activeColor = idx === 1 ? colors['light-pink'] : colors['ghost-mint']
+    const activeBorderColor =
+      idx === 1 ? colors['dark-pink'] : colors['dark-grey']
+    const activeBoxShadow =
+      idx === 1
+        ? '0 0 16px 0 rgba(255, 196, 235, 0.70)'
+        : '0 0 16px 0 rgba(127, 255, 195, 0.70)'
 
-    return () => {
-      tl.kill()
-    }
-  })
+    gsap.to(iconRef.current, {
+      backgroundColor: isActive ? activeColor : colors['light-gray'],
+      borderColor: isActive ? activeBorderColor : colors['dark-grey'],
+      duration: 0.35,
+      ease: 'power2.inOut',
+    })
 
-  const hideItem = useEffectEvent(() => {
-    if (!isDesktop) return
-    const tl = gsap.timeline()
-    tl.to(
-      backgroundRef.current,
-      {
-        clipPath: 'inset(0 100% 0 0)',
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
-    tl.to(
-      backgroundRef.current,
-      {
-        opacity: 0,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
-    tl.to(
-      iconRef.current,
-      {
-        width: '1vw',
-        height: '1vw',
-        backgroundColor: colors['light-gray'],
-        borderColor: '#79B599',
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
-    tl.to(
-      iconContentRef.current,
-      {
-        opacity: 0,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
-    tl.to(
-      textRef.current,
-      {
-        clipPath: 'inset(0 100% 0 0)',
-        opacity: 0,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      },
-      '<'
-    )
-
-    return () => {
-      tl.kill()
-    }
-  })
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: We need to re-run the effect when the desktop state changes
-  useEffect(() => (visible ? showItem() : hideItem()), [visible, isDesktop])
+    gsap.to(liRef.current, {
+      boxShadow: isActive ? activeBoxShadow : 'none',
+      duration: 0.35,
+      ease: 'power2.inOut',
+    })
+  }, [isActive, idx])
 
   return (
-    <li className="relative dr-w-328 shrink-0 dt:w-auto dr-h-84 dr-p-8 flex dr-gap-4">
-      <div
-        ref={backgroundRef}
-        className={cn(
-          'absolute inset-0 border border-dark-grey dr-rounded-20',
-          last ? 'bg-white' : 'bg-off-white'
-        )}
-      />
+    <li
+      ref={liRef}
+      className="relative dr-w-328 shrink-0 dt:w-auto dr-h-84 dr-p-8 flex dr-gap-4 dr-rounded-20"
+    >
+      <div className="absolute inset-0 border border-dark-grey dr-rounded-20 bg-off-white" />
       <div className="relative z-30 h-full aspect-53/66 dt:aspect-square grid place-items-center">
         <div
           ref={iconRef}
-          className={cn(
-            'size-full overflow-hidden dr-rounded-12 border border-dark-grey dr-p-4',
-            last ? 'bg-ghost-mint' : 'bg-light-gray'
-          )}
+          className="size-full overflow-hidden dr-rounded-12 border border-dark-grey dr-p-4 bg-light-gray"
         >
-          <div
-            ref={iconContentRef}
-            className="size-full grid place-items-center"
-          >
+          <div className="size-full grid place-items-center">
             {idx === 0 && <CursorClickIcon className="dr-size-24" />}
             {idx === 3 && <SealCheckIcon className="dr-size-24" />}
             {idx !== 0 && idx !== 3 && (
@@ -443,7 +336,7 @@ function TimelineItem({
           </div>
         </div>
       </div>
-      <div ref={textRef} className="relative z-10 dr-p-4">
+      <div className="relative z-10 dr-p-4">
         <div className="flex justify-between typo-label-s text-black/70 dr-mb-8">
           <p>
             {'<'}
