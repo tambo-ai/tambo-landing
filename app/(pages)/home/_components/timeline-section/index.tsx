@@ -1,7 +1,6 @@
 'use client'
 import cn from 'clsx'
 import gsap from 'gsap'
-import { useRect } from 'hamo'
 import {
   createContext,
   type RefObject,
@@ -16,8 +15,6 @@ import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
-import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { mapRange } from '~/libs/utils'
 import { colors } from '~/styles/colors'
 import CursorClickIcon from './cursor-click.svg'
 import SealCheckIcon from './seal-check.svg'
@@ -61,7 +58,7 @@ export function TimelineSection({
   proxyPosition?: 'start' | 'end'
   href?: string
 }) {
-  const [rectRef, rect] = useRect()
+  const sectionRef = useRef<HTMLElement>(null)
   const [messagesVisible, setMessagesVisible] = useState(0)
   const whiteLineRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
@@ -71,50 +68,86 @@ export function TimelineSection({
   }, [])
   const messagesRef = useRef<HTMLUListElement>(null)
   const { isDesktop } = useDeviceDetection()
+  const hasPlayed = useRef(false)
+  const timelineRef = useRef<gsap.core.Timeline | null>(null)
 
-  useScrollTrigger({
-    rect,
-    start: 'top top',
-    end: `${(rect?.bottom ?? 0) * (isDesktop ? 0.95 : 0.99)} bottom`,
-    onProgress: ({ progress, steps }) => {
-      const currentStep = Math.max(0, steps.lastIndexOf(1) + 1)
-      setMessagesVisible(currentStep)
-      const lineProgress =
-        (100 / STEPS) * steps[currentStep] + (100 / STEPS) * currentStep
-      if (whiteLineRef.current) {
-        const mappedLineProgress = mapRange(0, 100, lineProgress, 100, 8)
-        whiteLineRef.current.style.translate = `0 -${Math.min(mappedLineProgress, 90)}%`
-      }
-      if (buttonRef.current && isDesktop) {
-        buttonRef.current.style.opacity = `${steps[STEPS - 1] === 1 ? 1 : 0}`
-      }
-      for (const callback of callbacks.current) {
-        callback({ progress, steps, currentStep })
-      }
-      if (messagesRef.current) {
-        if (!isDesktop) {
-          messagesRef.current.style.transform = `translateX(${(-messagesRef.current.scrollWidth / 4) * Math.min(3, Math.max(0, currentStep - 1))}px)`
-        } else {
-          messagesRef.current.style.transform = `none`
+  const STEP_DURATION = 1 // 1 second per step
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        if (entry.isIntersecting && !hasPlayed.current) {
+          hasPlayed.current = true
+
+          // Create GSAP timeline
+          const tl = gsap.timeline()
+          timelineRef.current = tl
+
+          // Animate through each step
+          for (let step = 1; step <= STEPS; step++) {
+            tl.call(
+              () => {
+                setMessagesVisible(step)
+
+                // Update white line progress
+                if (whiteLineRef.current) {
+                  const lineProgress = (100 / STEPS) * step
+                  const mappedLineProgress = 100 - lineProgress * 0.82
+                  whiteLineRef.current.style.translate = `0 -${Math.max(mappedLineProgress, 8)}%`
+                }
+
+                // Update button opacity on last step
+                if (buttonRef.current && isDesktop && step === STEPS) {
+                  buttonRef.current.style.opacity = '1'
+                }
+
+                // Call registered callbacks
+                const steps = Array.from({ length: STEPS }, (_, i) =>
+                  i < step ? 1 : 0
+                )
+                for (const callback of callbacks.current) {
+                  callback({ progress: step / STEPS, steps, currentStep: step })
+                }
+
+                // Mobile horizontal scroll
+                if (messagesRef.current && !isDesktop) {
+                  messagesRef.current.style.transform = `translateX(${(-messagesRef.current.scrollWidth / 4) * Math.min(3, Math.max(0, step - 1))}px)`
+                }
+              },
+              [],
+              step === 1 ? 0 : `+=${STEP_DURATION}`
+            )
+          }
         }
-      }
-    },
-    steps: STEPS,
-  })
+      },
+      { threshold: 0.3 }
+    )
+
+    observer.observe(section)
+
+    return () => {
+      observer.disconnect()
+      timelineRef.current?.kill()
+    }
+  }, [isDesktop])
 
   return (
     <TimelineSectionContext.Provider value={{ callbacks, addCallback }}>
       <section
         id={id}
         ref={(node) => {
-          rectRef(node)
+          sectionRef.current = node
           if (ref) {
             ref?.(node)
           }
         }}
-        className="h-[10000px]"
+        className=""
       >
-        <div className="sticky top-0 dr-layout-grid-inner h-screen">
+        <div className="dr-layout-grid-inner h-screen">
           <div className="col-span-4 flex flex-col dr-pt-80 dt:dr-pt-112 max-dt:dr-pb-16 max-dt:h-screen">
             <div className="relative">
               <h3 className="relative typo-h1 dt:typo-h2 text-center dt:text-left z-10">
@@ -201,19 +234,12 @@ export function TimelineSection({
             </CTA>
           </div>
           <div
-            className="absolute dt:fixed left-0 dt:left-1/2 dt:-translate-x-1/2 top-0 dr-layout-grid-inner w-full h-screen pointer-events-none max-dt:scale-90 origin-top"
-            style={{
-              maxWidth: `calc(var(--max-width) * 1px)`,
-            }}
+            className={cn(
+              'col-start-6 col-end-12 max-dt:col-span-full flex items-center justify-center',
+              s.dynamicScale
+            )}
           >
-            <div
-              className={cn(
-                'col-start-6 col-end-12 max-dt:col-span-full flex items-center justify-center',
-                s.dynamicScale
-              )}
-            >
-              {children}
-            </div>
+            {children}
           </div>
         </div>
         {proxyChildren && (

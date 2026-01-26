@@ -3,10 +3,11 @@ import { useRect, useWindowSize } from 'hamo'
 import { useContext } from 'react'
 import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TimelineSection } from '~/app/(pages)/home/_components/timeline-section'
+import { RiveWrapper } from '~/components/rive'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
-import { Animation } from './animation'
+// import { Animation } from './animation'
 import { messages } from './data'
 
 export function Moment1() {
@@ -281,7 +282,11 @@ export function Moment1() {
       }
       proxyPosition="end"
     >
-      <Animation />
+      <RiveWrapper
+        src="/assets/rives/moment-1_loop_1.riv"
+        className="dr-w-668 dr-h-472"
+      />
+      {/* <Animation /> */}
     </TimelineSection>
   )
 }

@@ -33,6 +33,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
+    "@rive-app/react-canvas": "^4.26.1",
     "@tambo-ai/react": "^0.67.1",
     "clsx": "^2.1.1",
     "dompurify": "^3.3.1",
