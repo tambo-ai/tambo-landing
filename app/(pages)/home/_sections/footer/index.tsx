@@ -1,117 +1,117 @@
-"use client";
+'use client'
 
-import gsap from "gsap";
-import { useRect, useWindowSize } from "hamo";
-import { useContext, useEffect, useEffectEvent, useRef, useState } from "react";
-import { BackgroundContext } from "~/app/(pages)/home/_components/background/context";
-import { TitleBlock } from "~/app/(pages)/home/_components/title-block";
-import DiscordSVG from "~/assets/svgs/discord.svg";
-import GithubSVG from "~/assets/svgs/github.svg";
-import XSVG from "~/assets/svgs/X.svg";
-import { CTA } from "~/components/button";
-import { Image } from "~/components/image";
-import { Kinesis } from "~/components/kinesis";
-import { Link } from "~/components/link";
-import { useDesktopVW } from "~/hooks/use-device-values";
-import { useScrollTrigger } from "~/hooks/use-scroll-trigger";
-import { fromTo } from "~/libs/utils";
+import gsap from 'gsap'
+import { useRect, useWindowSize } from 'hamo'
+import { useContext, useEffect, useEffectEvent, useRef, useState } from 'react'
+import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
+import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
+import DiscordSVG from '~/assets/svgs/discord.svg'
+import GithubSVG from '~/assets/svgs/github.svg'
+import XSVG from '~/assets/svgs/X.svg'
+import { CTA } from '~/components/button'
+import { Image } from '~/components/image'
+import { Kinesis } from '~/components/kinesis'
+import { Link } from '~/components/link'
+import { useDesktopVW } from '~/hooks/use-device-values'
+import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { fromTo } from '~/libs/utils'
 
 const BOTTOM_LINKS = [
   {
-    label: "Documentation",
-    href: "https://docs.tambo.ai",
+    label: 'Documentation',
+    href: 'https://docs.tambo.ai',
   },
   {
-    label: "License",
-    href: "https://docs.tambo.ai",
+    label: 'License',
+    href: 'https://docs.tambo.ai',
   },
   {
-    label: "Privacy notice",
-    href: "https://docs.tambo.ai",
+    label: 'Privacy notice',
+    href: 'https://docs.tambo.ai',
   },
   {
-    label: "Terms of use",
-    href: "https://docs.tambo.ai",
+    label: 'Terms of use',
+    href: 'https://docs.tambo.ai',
   },
-];
+]
 
 export function Footer() {
-  const [setRectRef, rect] = useRect({ ignoreTransform: true });
+  const [setRectRef, rect] = useRect({ ignoreTransform: true })
 
-  const innerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null)
 
-  const [currentYear, setCurrentYear] = useState<number | null>(2026);
+  const [currentYear, setCurrentYear] = useState<number | null>(2026)
 
-  const { getItems, getBackground } = useContext(BackgroundContext);
+  const { getItems, getBackground } = useContext(BackgroundContext)
 
-  const { height: windowHeight = 0 } = useWindowSize();
+  const { height: windowHeight = 0 } = useWindowSize()
 
-  const desktopVW = useDesktopVW();
+  const desktopVW = useDesktopVW()
 
   useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+    setCurrentYear(new Date().getFullYear())
+  }, [])
 
   useScrollTrigger({
     rect,
     start: `top bottom`,
-    end: "bottom bottom",
+    end: 'bottom bottom',
     onEnter: () => {
-      const items = getItems();
+      const items = getItems()
       items.forEach((item, index) => {
-        const width = desktopVW(666 + (items.length - 1 - index) * 260, true);
+        const width = desktopVW(666 + (items.length - 1 - index) * 260, true)
 
-        const boxShadow = item?.getBoxShadow();
+        const boxShadow = item?.getBoxShadow()
         if (boxShadow) {
-          boxShadow.style.opacity = "0";
+          boxShadow.style.opacity = '0'
         }
 
-        item?.setBorderRadius(`${width * 2}px`);
+        item?.setBorderRadius(`${width * 2}px`)
 
-        const element = item?.getElement();
+        const element = item?.getElement()
         if (element) {
-          element.style.width = `${width}px`;
-          element.style.height = `${width}px`;
-          element.style.transform = `translateY(0px)`;
-          element.style.opacity = `1`;
+          element.style.width = `${width}px`
+          element.style.height = `${width}px`
+          element.style.transform = `translateY(0px)`
+          element.style.opacity = `1`
         }
 
-        const greyBackground = item?.getGreyBackground();
+        const greyBackground = item?.getGreyBackground()
         if (greyBackground) {
-          greyBackground.style.opacity = "1";
+          greyBackground.style.opacity = '1'
         }
-      });
+      })
     },
     onLeave: () => {
-      const items = getItems();
+      const items = getItems()
       items.forEach((item) => {
-        const greyBackground = item?.getGreyBackground();
+        const greyBackground = item?.getGreyBackground()
         if (greyBackground) {
-          greyBackground.style.opacity = "0";
+          greyBackground.style.opacity = '0'
         }
 
-        const element = item?.getElement();
+        const element = item?.getElement()
         if (element) {
-          element.style.opacity = `0`;
+          element.style.opacity = `0`
         }
-      });
+      })
     },
     onProgress: ({ progress, height, isActive }) => {
-      if (!isActive) return;
+      if (!isActive) return
 
-      const background = getBackground();
+      const background = getBackground()
 
       if (innerRef.current && background) {
         if (progress === 0) {
           innerRef.current.style.transform =
-            background.style.transform = `translateY(0px)`;
+            background.style.transform = `translateY(0px)`
         } else {
           innerRef.current.style.transform =
-            background.style.transform = `translateY(${-windowHeight * 0.5 * (1 - progress)}px)`;
+            background.style.transform = `translateY(${-windowHeight * 0.5 * (1 - progress)}px)`
         }
       }
 
-      const items = getItems();
+      const items = getItems()
 
       fromTo(
         items,
@@ -123,105 +123,93 @@ export function Footer() {
         },
         progress,
         {
-          ease: "linear",
+          ease: 'linear',
           render: (item, { y }) => {
             // @ts-expect-error
-            const element = item?.getElement();
+            const element = item?.getElement()
 
             if (element instanceof HTMLElement) {
-              element.style.transform = `translateY(${y}px)`;
+              element.style.transform = `translateY(${y}px)`
             }
           },
-        },
-      );
+        }
+      )
     },
-  });
+  })
 
   const onMouseEnter = useEffectEvent(() => {
-    const items = getItems();
+    const items = getItems()
     items.forEach((item, index) => {
-      const boxShadow = item?.getBoxShadow();
+      const boxShadow = item?.getBoxShadow()
       if (boxShadow) {
         gsap.to(boxShadow, {
           opacity: 1,
           duration: 1,
-          ease: "expo.out",
-        });
+          ease: 'expo.out',
+        })
       }
 
-      const element = item?.getElement();
+      const element = item?.getElement()
       if (element) {
-        const width = desktopVW(596 + (items.length - 1 - index) * 260, true);
+        const width = desktopVW(596 + (items.length - 1 - index) * 260, true)
 
         gsap.to(element, {
           width: width,
           height: width,
           duration: 1,
-          ease: "expo.out",
-        });
+          ease: 'expo.out',
+        })
       }
 
-      const greyBackground = item?.getGreyBackground();
+      const greyBackground = item?.getGreyBackground()
       if (greyBackground) {
         gsap.to(greyBackground, {
           opacity: 0,
           duration: 1,
-          ease: "expo.out",
-        });
+          ease: 'expo.out',
+        })
       }
-    });
-  });
+    })
+  })
 
   const onMouseLeave = useEffectEvent(() => {
-    const items = getItems();
+    const items = getItems()
     items.forEach((item, index) => {
-      const boxShadow = item?.getBoxShadow();
+      const boxShadow = item?.getBoxShadow()
       if (boxShadow) {
         gsap.to(boxShadow, {
           opacity: 0,
           duration: 1,
-          ease: "expo.out",
-        });
+          ease: 'expo.out',
+        })
       }
 
-      const element = item?.getElement();
+      const element = item?.getElement()
 
       if (element) {
-        const width = desktopVW(666 + (items.length - 1 - index) * 260, true);
+        const width = desktopVW(666 + (items.length - 1 - index) * 260, true)
 
         gsap.to(element, {
           width: width,
           height: width,
           duration: 1,
-          ease: "expo.out",
-        });
+          ease: 'expo.out',
+        })
       }
 
-      const greyBackground = item?.getGreyBackground();
+      const greyBackground = item?.getGreyBackground()
       if (greyBackground) {
         gsap.to(greyBackground, {
           opacity: 1,
           duration: 1,
-          ease: "expo.out",
-        });
+          ease: 'expo.out',
+        })
       }
-    });
-    // gsap.to(hoverProgressRef, {
-    //   current: 0,
-    //   duration: 1,
-    //   ease: 'expo.out',
-    // })
-  });
+    })
+  })
 
   return (
     <section ref={setRectRef} className="overflow-clip relative bg-white">
-      <div className="desktop-only w-full h-full absolute dr-pb-100">
-        <Image
-          src="/assets/footer/footer-bg-desktop.png"
-          alt="Footer Background"
-          fill
-        />
-      </div>
       <div
         className="relative flex flex-col items-center justify-center dt:h-screen"
         ref={innerRef}
@@ -238,18 +226,6 @@ export function Footer() {
           className="text-center flex flex-col items-center relative dr-mb-30 dt:dr-mb-0"
         >
           <div className="dr-w-172 aspect-square">
-            {/* <Video
-            autoPlay
-            fallback={
-              <Image src="/videos/Octo-Wave.png" alt="Octo Wave" unoptimized />
-            }
-          >
-            <source
-              src="/videos/Octo-Wave-compressed.mov"
-              type='video/mp4; codecs="hvc1"'
-            />
-            <source src="/videos/Octo-Wave-compressed.webm" type="video/webm" />
-          </Video> */}
             <Image src="/images/Octo-Sight.png" alt="Octo Sight" unoptimized />
           </div>
 
@@ -258,7 +234,7 @@ export function Footer() {
               Ready to get started?
             </TitleBlock.Title>
             <TitleBlock.Subtitle className="typo-p! dt:typo-p-l! text-black/70">
-              Ship an ai assistant with generative UI{" "}
+              Ship an ai assistant with generative UI{' '}
               <br className="mobile-only" /> in minutes.
             </TitleBlock.Subtitle>
             <div className="flex dr-gap-8 dr-mt-40 dt:flex-row flex-col">
@@ -334,5 +310,5 @@ export function Footer() {
         </div>
       </div>
     </section>
-  );
+  )
 }
