@@ -131,8 +131,8 @@ export function TimelineSection({
           ref?.(node)
         }}
       >
-        <div className="dr-layout-grid-inner h-screen">
-          <div className="col-span-4 flex flex-col dr-pt-80 dt:dr-pt-112 max-dt:dr-pb-16 max-dt:h-screen">
+        <div className="dr-layout-grid-inner dt:h-screen relative">
+          <div className="col-span-4 flex flex-col dr-pt-80 dt:dr-pt-112 max-dt:dr-pb-16 max-dt:h-screen z-1">
             <div className="relative">
               <h3 className="relative typo-h1 dt:typo-h2 text-center dt:text-left z-10">
                 {title}
@@ -218,12 +218,7 @@ export function TimelineSection({
           </div>
           {/* Right side */}
 
-          <div
-            className={cn(
-              'col-start-6 col-end-12 max-dt:col-span-full flex items-center justify-center',
-              s.dynamicScale
-            )}
-          >
+          <div className={cn('absolute w-full h-full', s.dynamicScale)}>
             {children}
           </div>
         </div>

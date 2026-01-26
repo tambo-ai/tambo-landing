@@ -284,7 +284,7 @@ export function Moment1() {
     >
       <RiveWrapper
         src="/assets/rives/moment-1_loop_1.riv"
-        className="dr-w-668 dr-h-472"
+        stateMachine="MainStateMachine"
       />
       {/* <Animation /> */}
     </TimelineSection>

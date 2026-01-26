@@ -2,19 +2,23 @@
 
 import { Alignment, Fit, Layout, useRive } from '@rive-app/react-canvas'
 
-// import cn from 'clsx'
-
 interface RiveWrapperProps {
   className?: string
   src: string
+  stateMachine?: string
 }
 
-export function RiveWrapper({ src, className }: RiveWrapperProps) {
+export function RiveWrapper({
+  src,
+  className,
+  stateMachine,
+}: RiveWrapperProps) {
   const { RiveComponent } = useRive({
     src,
     autoplay: true,
+    stateMachines: stateMachine,
     layout: new Layout({
-      fit: Fit.Cover,
+      fit: Fit.FitWidth,
       alignment: Alignment.Center,
     }),
   })
