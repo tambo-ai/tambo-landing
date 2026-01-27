@@ -1,7 +1,3 @@
-.video {
-  transform-origin: center 77%;
-}
-
 .arrowCTA {
   svg {
     transform: rotate(135deg);
@@ -10,4 +6,8 @@
 
 .arrowDown {
   transform: translate(-50%, 0%) translate(0px, 50%);
+}
+
+.inner {
+  box-shadow: 0 0 56px 16px rgba(127, 255, 195, 0.25);
 }
