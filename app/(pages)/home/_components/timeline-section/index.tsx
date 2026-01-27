@@ -192,7 +192,7 @@ export function TimelineSection({
               snippet
               className="bg-black! text-teal border-teal w-full dt:w-auto"
               href={href}
-              wrapperClassName="dt:w-fit"
+              wrapperClassName="dt:w-[80%]"
             >
               START BUILDING
               <span className="typo-code-snippet dr-pt-12 block">
