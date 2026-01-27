@@ -66,7 +66,7 @@ export function Hero() {
       <div
         className={cn(
           s.inner,
-          'content-max-width mx-auto flex dt:flex-row flex-col-reverse dt:dr-h-764 dr-p-24 items-center justify-center bg-white dr-rounded-20 overflow-hidden relative'
+          'content-max-width mx-auto flex dt:flex-row flex-col-reverse dt:dr-h-764 dr-p-24 dt:dr-px-65 items-center justify-center bg-white dr-rounded-20 overflow-hidden relative'
         )}
       >
         <div
