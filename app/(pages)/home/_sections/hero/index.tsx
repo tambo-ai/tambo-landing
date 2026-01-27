@@ -108,7 +108,7 @@ export function Hero() {
         ref={mobileArrowDownRef}
         className={cn(
           s.arrowDown,
-          'mobile-only aspect-square bg-white bottom-0 dr:dr-mt-100  rounded-full z-1 left-[50%]  fixed'
+          'mobile-only aspect-square  bottom-0 dr:dr-mt-100  rounded-full z-1 left-[50%]  fixed'
         )}
       >
         <DashedBorder className="aspect-square dr-w-104 " />
@@ -119,7 +119,7 @@ export function Hero() {
         ref={arrowDownRef}
         className={cn(
           s.arrowDown,
-          'desktop-only dt:dr-w-136 dt:aspect-square bg-white dt:bottom-0 left-[50%] rounded-full fixed z-10'
+          'desktop-only dt:dr-w-136 dt:aspect-square dt:bottom-0 left-[50%] rounded-full fixed z-10'
         )}
       >
         <DashedBorder className="absolute inset-0 " />

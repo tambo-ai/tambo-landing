@@ -6,6 +6,8 @@
 
 .arrowDown {
   transform: translate(-50%, 0%) translate(0px, 50%);
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .inner {
