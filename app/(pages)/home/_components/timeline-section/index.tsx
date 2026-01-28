@@ -30,7 +30,7 @@ export const TimelineSectionContext = createContext<{
   },
 })
 
-const STEPS = 5
+const STEPS = 6
 type CallbackParams = {
   progress: number
   steps: number[]
@@ -70,16 +70,23 @@ export function TimelineSection({
   const timelineRef = useRef<gsap.core.Timeline | null>(null)
 
   // Duration in seconds for each step (index 0 = step 1, etc.)
-  const STEP_DURATIONS = [2.5, 4.5, 6, 2, 2]
+  const STEP_DURATIONS = [2.5, 4.5, 6, 2, 2, 2]
 
   const animateStep = useCallback(
     (step: number) => {
       setMessagesVisible(step)
 
-      const scaleValue = (step / STEPS) * 0.92
+      const scaleValue = step / STEPS
 
       if (whiteLineRef.current) {
         whiteLineRef.current.style.transform = `scaleY(${scaleValue})`
+
+        // Pink shadow for steps 2 & 3 (idx 1 & 2), green for others
+        const isPinkStep = step === 2 || step === 3
+        const boxShadow = isPinkStep
+          ? '0 0 16px 0 rgba(255, 196, 235, 0.70)'
+          : '0 0 16px 0 rgba(127, 255, 195, 0.70)'
+        whiteLineRef.current.style.boxShadow = boxShadow
       }
 
       const steps = Array.from({ length: STEPS }, (_, i) => (i < step ? 1 : 0))
@@ -142,9 +149,9 @@ export function TimelineSection({
               </h3>
             </div>
             <div className="relative dr-py-40 max-dt:mt-auto ">
-              <div className="absolute z-15 dr-w-32 dt:inset-y-0 max-dt:h-[102vw] max-dt:-dr-mt-6 max-dt:-rotate-90 max-dt:-dr-top-40 left-[calc(var(--safe)+32vw)]  dt:dr-left-26">
+              <div className="absolute z-15 dr-w-32 dt:top-0 dt:-bottom-[120px] max-dt:h-[102vw] max-dt:-dr-mt-6 max-dt:-rotate-90 max-dt:-dr-top-40 left-[calc(var(--safe)+32vw)]  dt:dr-left-26 dt:mask-[linear-gradient(to_bottom,transparent_0%,black_5%)]">
                 <div
-                  className="absolute inset-y-0 dr-left-16 w-px z-1 dt:mask-[linear-gradient(to_bottom,transparent_0%,black_5%)]"
+                  className="absolute h-[80%] inset-y-0 dr-left-16 w-px z-1"
                   style={{
                     background:
                       'repeating-linear-gradient(0deg,#80C1A2 0 8px,#0000 0 14px)',
@@ -152,7 +159,7 @@ export function TimelineSection({
                 />
                 <div
                   ref={whiteLineRef}
-                  className="dr-w-9 h-full bg-white rounded-full shadow-xs mx-auto transition-transform duration-500 ease-out origin-top dt:mask-[linear-gradient(to_bottom,transparent_0%,black_20%)]"
+                  className="dr-w-9 h-full bg-white rounded-full mx-auto transition-transform duration-500 ease-out origin-top"
                   style={{
                     transform: 'scaleY(0)',
                   }}
@@ -192,7 +199,7 @@ export function TimelineSection({
               snippet
               className="bg-black! text-teal border-teal w-full dt:w-auto"
               href={href}
-              wrapperClassName="dt:w-[80%]"
+              wrapperClassName="dt:w-[80%] relative z-20"
             >
               START BUILDING
               <span className="typo-code-snippet dr-pt-12 block">
