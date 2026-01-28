@@ -304,7 +304,7 @@ export function Footer() {
             href="https://x.com/tambo_ai"
             className="col-span-2 justify-self-end link desktop-only"
           >
-            Twitter
+            <XSVG className="dr-w-16 dr-h-16" />
           </Link>
         </div>
       </div>
