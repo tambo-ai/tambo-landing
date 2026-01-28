@@ -14,7 +14,9 @@
       .mainContent {
         border-style: dashed;
         border-color: color-mix(in oklch, var(--color-forest) 50%, transparent);
-        box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+        /* Shadow-s working weird */
+        /* box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7); */
+        box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
       }
     }
   }
@@ -30,7 +32,7 @@
       .mainContent {
         border-style: dashed;
         border-color: color-mix(in oklch, var(--color-forest) 50%, transparent);
-        box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+        box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
       }
     }
   }
@@ -48,7 +50,7 @@
       .investor {
         border-style: dashed;
         border-color: color-mix(in oklch, var(--color-forest) 50%, transparent);
-        box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+        box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
       }
 
       .rim {
@@ -66,7 +68,7 @@
       .investor {
         border-style: dashed;
         border-color: color-mix(in oklch, var(--color-forest) 50%, transparent);
-        box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+        box-shadow: 0 0 16px 0 rgba(127, 255, 195, 0.7);
       }
 
       .rim {
