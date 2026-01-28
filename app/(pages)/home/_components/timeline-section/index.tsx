@@ -276,13 +276,12 @@ function TimelineItem({
       ref={liRef}
       className="relative dr-w-328 shrink-0 dt:w-auto dt:dr-max-w-393 dr-h-85 dr-p-8 flex dt:dr-gap-4 dr-gap-12 dr-rounded-20 bg-off-white border border-dark-grey"
     >
-      {/* <div className="absolute inset-0 border border-dark-grey dr-rounded-20 bg-off-white" /> */}
       <div className="relative z-30 h-full aspect-53/66 dt:aspect-square grid place-items-center">
         <div
           ref={iconRef}
           className="size-full overflow-hidden dr-rounded-12 border border-dark-grey dr-p-4 bg-light-gray"
         >
-          <div className="size-full grid place-items-center">
+          <div className="size-full grid place-items-center ">
             {idx === 0 && <CursorClickIcon className="dr-size-24" />}
             {idx === 3 && <SealCheckIcon className="dr-size-24" />}
             {idx !== 0 && idx !== 3 && (
