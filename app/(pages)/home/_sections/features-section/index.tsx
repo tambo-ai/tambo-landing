@@ -1,15 +1,16 @@
 'use client'
 
-import { useIntersectionObserver, useRect, useWindowSize } from 'hamo'
-import { useContext, useEffect, useRef, useState } from 'react'
-import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
+import { useIntersectionObserver } from 'hamo'
+import { useEffect, useRef } from 'react'
+// import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
-import { useDesktopVW } from '~/hooks/use-device-values'
-import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { fromTo } from '~/libs/utils'
+
+// import { useDesktopVW } from '~/hooks/use-device-values'
+// import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+// import { fromTo } from '~/libs/utils'
 
 const BUTTONS = [
   {
@@ -84,158 +85,155 @@ export function Features() {
   const buttonsRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonsWrapperRef = useRef<HTMLDivElement | null>(null)
 
-  const [setRectRef, rect] = useRect()
+  // const [setRectRef, rect] = useRect()
 
-  const { getItems, getBackground, getElement } = useContext(BackgroundContext)
+  // const { getItems, getBackground, getElement } = useContext(BackgroundContext)
 
-  const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
+  // const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
 
-  const desktopVW = useDesktopVW()
+  // const desktopVW = useDesktopVW()
 
-  const [isVisible, setIsVisible] = useState(false)
+  const hasAnimated = useRef(false)
 
-  useScrollTrigger({
-    rect,
-    start: 'top center',
-    end: 'top top',
-    onProgress: ({ progress, isActive }) => {
-      if (!isActive) return
-
-      const backgroundElement = getElement()
-      if (backgroundElement) {
-        backgroundElement.style.backgroundColor = `rgba(255, 255, 255, ${1 - progress})`
-      }
-
-      const background = getBackground()
-      if (progress > 0 && background) {
-        background.style.opacity = '1'
-      }
-
-      const items = getItems()
-      fromTo(
-        items,
-        {
-          width: (index) =>
-            desktopVW(
-              windowWidth * 1.5 + (items.length - 1 - index) * 100,
-              true
-            ),
-          opacity: 1,
-          kinesis: 1,
-          boxShadowOpacity: 1,
-        },
-        {
-          width: (index) =>
-            desktopVW(496 + (items.length - 1 - index) * 260, true),
-          opacity: 1,
-          kinesis: 1,
-          boxShadowOpacity: 1,
-        },
-        progress,
-        {
-          ease: 'easeOutSine',
-          render: (item, { width, opacity, kinesis, boxShadowOpacity }) => {
-            // @ts-expect-error
-            const element = item?.getElement()
-            // @ts-expect-error
-            item?.setBorderRadius(`${width * 2}px`)
-            // @ts-expect-error
-            item?.setKinesis(kinesis)
-
-            // @ts-expect-error
-            const boxShadow = item?.getBoxShadow()
-            if (boxShadow) {
-              boxShadow.style.opacity = `${boxShadowOpacity}`
-            }
-
-            if (element instanceof HTMLElement) {
-              element.style.width = `${width}px`
-              element.style.height = `${width}px`
-              element.style.opacity = `${opacity}`
-            }
-          },
-        }
-      )
-    },
-  })
-
-  // Trigger animation when title block is 50% visible
   const [setAnimationTriggerRef, intersection] = useIntersectionObserver({
     threshold: 0.5,
   })
 
+  // useScrollTrigger({
+  //   rect,
+  //   start: 'top center',
+  //   end: 'top top',
+  //   onProgress: ({ progress, isActive }) => {
+  //     if (!isActive) return
+
+  //     const backgroundElement = getElement()
+  //     if (backgroundElement) {
+  //       backgroundElement.style.backgroundColor = `rgba(255, 255, 255, ${1 - progress})`
+  //     }
+
+  //     const background = getBackground()
+  //     if (progress > 0 && background) {
+  //       background.style.opacity = '1'
+  //     }
+
+  //     const items = getItems()
+  //     fromTo(
+  //       items,
+  //       {
+  //         width: (index) =>
+  //           desktopVW(
+  //             windowWidth * 1.5 + (items.length - 1 - index) * 100,
+  //             true
+  //           ),
+  //         opacity: 1,
+  //         kinesis: 1,
+  //         boxShadowOpacity: 1,
+  //       },
+  //       {
+  //         width: (index) =>
+  //           desktopVW(496 + (items.length - 1 - index) * 260, true),
+  //         opacity: 1,
+  //         kinesis: 1,
+  //         boxShadowOpacity: 1,
+  //       },
+  //       progress,
+  //       {
+  //         ease: 'easeOutSine',
+  //         render: (item, { width, opacity, kinesis, boxShadowOpacity }) => {
+  //           // @ts-expect-error
+  //           const element = item?.getElement()
+  //           // @ts-expect-error
+  //           item?.setBorderRadius(`${width * 2}px`)
+  //           // @ts-expect-error
+  //           item?.setKinesis(kinesis)
+
+  //           // @ts-expect-error
+  //           const boxShadow = item?.getBoxShadow()
+  //           if (boxShadow) {
+  //             boxShadow.style.opacity = `${boxShadowOpacity}`
+  //           }
+
+  //           if (element instanceof HTMLElement) {
+  //             element.style.width = `${width}px`
+  //             element.style.height = `${width}px`
+  //             element.style.opacity = `${opacity}`
+  //           }
+  //         },
+  //       }
+  //     )
+  //   },
+  // })
+
+  // Trigger animation once when title block is 50% visible
+
   useEffect(() => {
-    if (intersection?.isIntersecting !== undefined) {
-      setIsVisible(intersection.isIntersecting)
+    if (intersection?.isIntersecting && !hasAnimated.current) {
+      hasAnimated.current = true
+      buttonsRefs.current.forEach((button) => {
+        if (button) {
+          button.style.opacity = '1'
+          button.style.transform = 'scale(1)'
+        }
+      })
     }
   }, [intersection?.isIntersecting])
 
-  // Staggered button animation (handles both enter and exit)
-  useEffect(() => {
-    buttonsRefs.current.forEach((button) => {
-      if (button) {
-        button.style.opacity = isVisible ? '1' : '0'
-        button.style.transform = isVisible ? 'scale(1)' : 'scale(1.1)'
-      }
-    })
-  }, [isVisible])
+  // useScrollTrigger({
+  //   rect,
+  //   start: 'bottom bottom',
+  //   end: `${rect?.top === undefined || rect?.height === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
+  //   onProgress: ({ progress, height, isActive }) => {
+  //     if (!isActive) return
 
-  useScrollTrigger({
-    rect,
-    start: 'bottom bottom',
-    end: `${rect?.top === undefined || rect?.height === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
-    onProgress: ({ progress, height, isActive }) => {
-      if (!isActive) return
+  //     // if (buttonsWrapperRef.current) {
+  //     //   buttonsWrapperRef.current.style.transform = `translateY(${-height * progress * 0.5}px)`
+  //     // }
 
-      // if (buttonsWrapperRef.current) {
-      //   buttonsWrapperRef.current.style.transform = `translateY(${-height * progress * 0.5}px)`
-      // }
+  //     const items = getItems()
+  //     fromTo(
+  //       items,
+  //       {
+  //         y: 0,
+  //         boxShadowOpacity: 1,
+  //         opacity: 1,
+  //       },
+  //       {
+  //         y: (index) => {
+  //           if (index === items.length - 1) return -height
 
-      const items = getItems()
-      fromTo(
-        items,
-        {
-          y: 0,
-          boxShadowOpacity: 1,
-          opacity: 1,
-        },
-        {
-          y: (index) => {
-            if (index === items.length - 1) return -height
+  //           return -height - (items.length - index) * height * 0.15
+  //           // (items.length - index) * -height
+  //         },
+  //         boxShadowOpacity: 1,
+  //         opacity: 1,
+  //       },
+  //       progress,
+  //       {
+  //         ease: 'linear',
+  //         render: (item, { y, boxShadowOpacity, opacity }) => {
+  //           // @ts-expect-error
+  //           const boxShadow = item?.getBoxShadow()
+  //           if (boxShadow) {
+  //             boxShadow.style.opacity = `${boxShadowOpacity}`
+  //           }
 
-            return -height - (items.length - index) * height * 0.15
-            // (items.length - index) * -height
-          },
-          boxShadowOpacity: 1,
-          opacity: 1,
-        },
-        progress,
-        {
-          ease: 'linear',
-          render: (item, { y, boxShadowOpacity, opacity }) => {
-            // @ts-expect-error
-            const boxShadow = item?.getBoxShadow()
-            if (boxShadow) {
-              boxShadow.style.opacity = `${boxShadowOpacity}`
-            }
+  //           // item?.setBorderRadius(`${width * 2}px`)
 
-            // item?.setBorderRadius(`${width * 2}px`)
-
-            // @ts-expect-error
-            const element = item?.getElement()
-            if (element instanceof HTMLElement) {
-              element.style.transform = `translateY(${y}px)`
-              element.style.opacity = `${opacity}`
-            }
-          },
-        }
-      )
-    },
-  })
+  //           // @ts-expect-error
+  //           const element = item?.getElement()
+  //           if (element instanceof HTMLElement) {
+  //             element.style.transform = `translateY(${y}px)`
+  //             element.style.opacity = `${opacity}`
+  //           }
+  //         },
+  //       }
+  //     )
+  //   },
+  // })
 
   return (
     <section
-      ref={setRectRef}
+      ref={setAnimationTriggerRef}
       className="relative overflow-x-clip dt:dr-py-400 bg-white flex flex-col items-center justify-center"
       // style={{
       //   height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
@@ -262,18 +260,18 @@ export function Features() {
                 autoPlay
                 fallback={
                   <Image
-                    src="/videos/Octo-Catch.png"
+                    src="/videos/Octo-Juggle.png"
                     alt="Octo Wave"
                     unoptimized
                   />
                 }
               >
                 <source
-                  src="/videos/Octo-Catch-compressed.mov"
+                  src="/videos/Octo-Juggle-compressed.mov"
                   type='video/mp4; codecs="hvc1"'
                 />
                 <source
-                  src="/videos/Octo-Catch-compressed.webm"
+                  src="/videos/Octo-Juggle-compressed.webm"
                   type="video/webm"
                 />
               </Video>
@@ -298,7 +296,7 @@ export function Features() {
               </CTA>
             </div>
           ))}
-          <CTA color="black" className="mobile-only w-full dr-mt-24">
+          <CTA color="black" className="mobile-only w-full dr-mt-24 dr-mb-80">
             Start building
           </CTA>
         </div>
