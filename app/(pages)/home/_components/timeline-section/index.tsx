@@ -31,6 +31,9 @@ export const TimelineSectionContext = createContext<{
 })
 
 const STEPS = 6
+// Mobile scale values to align with the 4 dots
+const MOBILE_SCALE_VALUES = [0, 0.17, 0.39, 0.62, 0.85, 1]
+
 type CallbackParams = {
   progress: number
   steps: number[]
@@ -76,7 +79,10 @@ export function TimelineSection({
     (step: number) => {
       setMessagesVisible(step)
 
-      const scaleValue = step / STEPS
+      // Use different scale for mobile vs desktop
+      const scaleValue = isDesktop
+        ? step / STEPS
+        : (MOBILE_SCALE_VALUES[step] ?? 0.875)
 
       if (whiteLineRef.current) {
         whiteLineRef.current.style.transform = `scaleY(${scaleValue})`
@@ -151,7 +157,7 @@ export function TimelineSection({
             <div className="relative dr-py-40 max-dt:mt-auto ">
               <div className="absolute z-15 dr-w-32 dt:top-0 dt:-bottom-[120px] max-dt:h-[102vw] max-dt:-dr-mt-6 max-dt:-rotate-90 max-dt:-dr-top-40 left-[calc(var(--safe)+32vw)]  dt:dr-left-26 dt:mask-[linear-gradient(to_bottom,transparent_0%,black_5%)]">
                 <div
-                  className="absolute h-[80%] inset-y-0 dr-left-16 w-px z-1"
+                  className="absolute dt:h-[80%] h-full inset-y-0 dr-left-16 w-px z-1"
                   style={{
                     background:
                       'repeating-linear-gradient(0deg,#80C1A2 0 8px,#0000 0 14px)',
@@ -268,7 +274,7 @@ function TimelineItem({
   return (
     <li
       ref={liRef}
-      className="relative dr-w-328 shrink-0 dt:w-auto dt:dr-max-w-393 dr-h-85 dr-p-8 flex dr-gap-4 dr-rounded-20 bg-off-white border border-dark-grey"
+      className="relative dr-w-328 shrink-0 dt:w-auto dt:dr-max-w-393 dr-h-85 dr-p-8 flex dt:dr-gap-4 dr-gap-12 dr-rounded-20 bg-off-white border border-dark-grey"
     >
       {/* <div className="absolute inset-0 border border-dark-grey dr-rounded-20 bg-off-white" /> */}
       <div className="relative z-30 h-full aspect-53/66 dt:aspect-square grid place-items-center">
