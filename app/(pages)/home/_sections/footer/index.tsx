@@ -214,9 +214,9 @@ export function Footer() {
         className="relative flex flex-col items-center justify-center dt:h-screen "
         ref={innerRef}
       >
-        <div className="mobile-only dr-h-280 w-full relative dr-mt-250">
+        <div className="mobile-only dr-h-280 w-full relative ">
           <Image
-            src="/assets/mobile-background/footer-top.png"
+            src="/assets/mobile-background/footer-top-mb.png"
             alt="Footer"
             fill
           />
@@ -258,9 +258,9 @@ export function Footer() {
             </div>
           </TitleBlock>
         </Kinesis>
-        <div className="mobile-only dr-h-156 w-full relative dr-mb-40">
+        <div className="mobile-only dr-h-259 w-full relative dr-mb-40">
           <Image
-            src="/assets/mobile-background/footer-bottom.png"
+            src="/assets/mobile-background/footer-bottom-mb.png"
             alt="Footer"
             fill
           />
