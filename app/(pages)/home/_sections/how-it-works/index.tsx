@@ -6,12 +6,11 @@ import { Image } from '~/components/image'
 
 export function HowItWorks() {
   return (
-    <section className="bg-white dt:dr-pb-200 dt:dr-px-40 ">
+    <section className="bg-white dt:dr-pb-200 dt:dr-px-40 dr-px-8 ">
       <TitleBlock className="dr-mb-56">
         <TitleBlock.LeadIn>how It Works</TitleBlock.LeadIn>
         <TitleBlock.Title level="h2" className="dt:mb-0! dr-mb-8">
-          The missing layer <br className="desktop-only" /> between React and
-          LLMs
+          The missing layer <br /> between React and LLMs
         </TitleBlock.Title>
         <CTA
           href="https://docs.tambo.co"
