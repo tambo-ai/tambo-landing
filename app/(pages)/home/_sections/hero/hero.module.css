@@ -1,15 +1,23 @@
-.arrowCTA {
-  svg {
-    transform: rotate(135deg);
+.wrapper {
+  height: 100vh;
+
+  .inner {
+    @media (--desktop) {
+      margin-inline: auto;
+      max-width: desktop-vw(1360px);
+      height: 100%;
+    }
   }
-}
 
-.arrowDown {
-  transform: translate(-50%, 0%) translate(0px, 50%);
-  backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 0.5);
-}
+  .arrowCTA {
+    svg {
+      transform: rotate(135deg);
+    }
+  }
 
-.inner {
-  box-shadow: 0 0 56px 16px rgba(127, 255, 195, 0.25);
+  .arrowDown {
+    transform: translate(-50%, 0%) translate(0px, 50%);
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.5);
+  }
 }
