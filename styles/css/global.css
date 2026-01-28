@@ -143,8 +143,19 @@ html.screenshot {
 }
 
 .content-max-width {
-  margin-inline: auto;
   @media (--desktop) {
+    margin-inline: auto;
     max-width: calc(var(--max-width) * 1px);
+  }
+}
+
+.section-rounded-bottom {
+  /* for test */
+  border-bottom-left-radius: mobile-vw(40px);
+  border-bottom-right-radius: mobile-vw(40px);
+
+  @media (--desktop) {
+    border-bottom-left-radius: desktop-vw(60px);
+    border-bottom-right-radius: desktop-vw(60px);
   }
 }
