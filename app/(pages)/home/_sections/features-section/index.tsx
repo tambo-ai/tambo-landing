@@ -199,7 +199,7 @@ export function Features() {
   useScrollTrigger({
     rect,
     start: 'center center',
-    end: `${rect?.top === undefined || rect?.height === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
+    end: `${rect?.top === undefined || rect?.height === undefined || windowHeight === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
     onProgress: ({ progress, height }) => {
       // if (buttonsWrapperRef.current) {
       //   buttonsWrapperRef.current.style.transform = `translateY(${-height * progress * 0.5}px)`
