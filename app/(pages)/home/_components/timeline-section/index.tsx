@@ -145,7 +145,7 @@ export function TimelineSection({
           setIntersectionRef(node)
           ref?.(node)
         }}
-        className="content-max-width dt:dr-mt-162"
+        className="content-max-width z-0"
       >
         <div className="dr-layout-grid-inner dt:h-screen dt:dr-max-h-900 relative ">
           <div className="col-span-4 flex flex-col dr-pt-80 dt:dr-pt-165 max-dt:dr-pb-16 max-dt:h-screen z-1">

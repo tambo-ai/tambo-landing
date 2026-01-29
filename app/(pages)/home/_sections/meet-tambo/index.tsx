@@ -13,7 +13,7 @@ export function MeetTambo() {
     <section className="content-max-width dt:dr-pt-106 dr-pt-120 dt:dr-pb-220 dr-pb-120">
       <div className="dr-layout-grid">
         <div className="dt:col-start-1 dt:col-end-5 col-span-full dr-mb-56 dt:dr-mb-0">
-          <TitleBlock className="dt:items-start dr-mb-40">
+          <TitleBlock className="dt:items-start dt:dr-mb-40 dr-mb-32">
             <TitleBlock.LeadIn className="dr-mb-16 dt:dr-mb-24">
               Why Tambo
             </TitleBlock.LeadIn>

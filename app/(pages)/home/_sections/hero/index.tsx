@@ -54,7 +54,7 @@ export function Hero() {
       ref={setRectRef}
       className={cn(
         s.wrapper,
-        'relative dt:dr-p-40 dr-p-24  dr-mb-10 dt:dr-mb-0 bg-white section-rounded-bottom section-shadow-bottom overflow-hidden'
+        'relative dt:dr-p-40 dr-p-24  dr-mb-10 dt:dr-mb-0 bg-white section-rounded-bottom section-shadow-bottom overflow-hidden z-1'
       )}
     >
       <LinesBg
