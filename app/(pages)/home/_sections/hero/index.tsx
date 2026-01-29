@@ -103,18 +103,6 @@ export function Hero() {
           <Image src="/assets/hero/hero-right-image.png" alt="Footer" fill />
         </div>
       </div>
-
-      <div
-        ref={mobileArrowDownRef}
-        className={cn(
-          s.arrowDown,
-          'mobile-only aspect-square  bottom-0 dr:dr-mt-100  rounded-full z-1 left-[50%]  fixed'
-        )}
-      >
-        <DashedBorder className="aspect-square dr-w-104 " />
-        <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-16" />
-      </div>
-
       <div
         ref={arrowDownRef}
         className={cn(
