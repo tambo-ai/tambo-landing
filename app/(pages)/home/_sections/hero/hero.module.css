@@ -3,8 +3,9 @@
 
   .inner {
     height: 100%;
+    box-shadow: 0 0 56px 16px rgba(127, 255, 195, 0.25);
+
     @media (--desktop) {
-      box-shadow: 0 0 56px 16px rgba(127, 255, 195, 0.25);
       margin-inline: auto;
       max-width: desktop-vw(1360px);
     }
