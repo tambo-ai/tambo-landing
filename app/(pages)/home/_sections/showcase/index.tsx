@@ -22,7 +22,7 @@ export function Showcase() {
   return (
     <section
       className={cn(
-        'dt:dr-pt-200 dr-pt-200 dt:dr-pb-200 dr-pb-120 relative content-max-width'
+        'dt:dr-pt-200 dr-pt-80 dt:dr-pb-200 dr-pb-120 relative content-max-width'
       )}
     >
       <div className="dr-layout-grid-inner">
