@@ -1,15 +1,11 @@
 'use client'
 
 import cn from 'clsx'
-import { useRect } from 'hamo'
-import { useContext, useImperativeHandle, useRef } from 'react'
+import { useImperativeHandle, useRef } from 'react'
 import { Kinesis } from '~/components/kinesis'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
-import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { ease, mapRange } from '~/libs/utils'
 import { DashedBorder } from '../dashed-border'
 import s from './background.module.css'
-import { BackgroundContext } from './context'
 
 // function BoxShadow({
 //   x = 0,
@@ -180,151 +176,95 @@ export function BackgroundItem({
   )
 }
 
+export type BackgroundRefType = {
+  getItems: () => BackgroundItemRef[] | null[]
+  getElement: () => HTMLDivElement | null
+}
+
 export default function Background({
-  children,
+  className,
+  ref,
 }: {
-  children?: React.ReactNode
+  className?: string
+  ref?: React.Ref<BackgroundRefType>
 }) {
   const itemsRef = useRef<BackgroundItemRef[] | null[]>([])
   const solidBackgroundRef = useRef<HTMLDivElement>(null)
   const backgroundRef = useRef<HTMLDivElement>(null)
   const elementRef = useRef<HTMLDivElement>(null)
 
+  useImperativeHandle(ref, () => ({
+    getItems: () => itemsRef.current,
+    getElement: () => elementRef.current,
+  }))
+
   return (
-    <BackgroundContext
-      value={{
-        getItems: () => itemsRef.current,
-        getSolidBackground: () => solidBackgroundRef.current,
-        getBackground: () => backgroundRef.current,
-        getElement: () => elementRef.current,
-      }}
-    >
-      <div className="fixed inset-0 desktop-only" ref={elementRef}>
-        <div
-          className="absolute inset-0 flex flex-col items-center justify-center"
-          ref={backgroundRef}
-        >
-          <BackgroundItem
-            opacity={0.4}
-            borderOpacity={0.1}
-            hashed={true}
-            ref={(node) => {
-              itemsRef.current[0] = node
-            }}
-            index={6}
-            // Values comming from older intro animation
-            style={{
-              width: 'calc(1854 / 1440 * 100vw)',
-              height: 'calc(1854 / 1440 * 100vw)',
-              transform: 'translateY(calc(-495 / 1440 * 100vw))',
-            }}
-          />
-          <BackgroundItem
-            opacity={0.6}
-            borderOpacity={0.2}
-            ref={(node) => {
-              itemsRef.current[1] = node
-            }}
-            index={12.5}
-            style={{
-              width: 'calc(1614 / 1440 * 100vw)',
-              height: 'calc(1614 / 1440 * 100vw)',
-              transform: 'translateY(calc(-405 / 1440 * 100vw))',
-            }}
-          />
-          <BackgroundItem
-            opacity={0.8}
-            borderOpacity={0.3}
-            hashed={true}
-            ref={(node) => {
-              itemsRef.current[2] = node
-            }}
-            index={25}
-            style={{
-              width: 'calc(1374 / 1440 * 100vw)',
-              height: 'calc(1374 / 1440 * 100vw)',
-              transform: 'translateY(calc(-315 / 1440 * 100vw))',
-            }}
-          />
-          <BackgroundItem
-            opacity={1}
-            outerBorder
-            borderOpacity={0.5}
-            ref={(node) => {
-              itemsRef.current[3] = node
-            }}
-            index={50}
-            style={{
-              width: 'calc(1134 / 1440 * 100vw)',
-              height: 'calc(1134 / 1440 * 100vw)',
-              transform: 'translateY(calc(-225 / 1440 * 100vw))',
-            }}
-          />
-        </div>
-        <div
-          className={cn('absolute inset-0 opacity-0')}
-          ref={solidBackgroundRef}
+    <div className={cn('desktop-only', className)} ref={elementRef}>
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center"
+        ref={backgroundRef}
+      >
+        <BackgroundItem
+          opacity={0.4}
+          borderOpacity={0.1}
+          hashed={true}
+          ref={(node) => {
+            itemsRef.current[0] = node
+          }}
+          index={6}
+          // Values comming from older intro animation
+          style={{
+            width: 'calc(1854 / 1440 * 100vw)',
+            height: 'calc(1854 / 1440 * 100vw)',
+            transform: 'translateY(calc(-495 / 1440 * 100vw))',
+          }}
+        />
+        <BackgroundItem
+          opacity={0.6}
+          borderOpacity={0.2}
+          ref={(node) => {
+            itemsRef.current[1] = node
+          }}
+          index={12.5}
+          style={{
+            width: 'calc(1614 / 1440 * 100vw)',
+            height: 'calc(1614 / 1440 * 100vw)',
+            transform: 'translateY(calc(-405 / 1440 * 100vw))',
+          }}
+        />
+        <BackgroundItem
+          opacity={0.8}
+          borderOpacity={0.3}
+          hashed={true}
+          ref={(node) => {
+            itemsRef.current[2] = node
+          }}
+          index={25}
+          style={{
+            width: 'calc(1374 / 1440 * 100vw)',
+            height: 'calc(1374 / 1440 * 100vw)',
+            transform: 'translateY(calc(-315 / 1440 * 100vw))',
+          }}
+        />
+        <BackgroundItem
+          opacity={1}
+          outerBorder
+          borderOpacity={0.5}
+          ref={(node) => {
+            itemsRef.current[3] = node
+          }}
+          index={50}
+          style={{
+            width: 'calc(1134 / 1440 * 100vw)',
+            height: 'calc(1134 / 1440 * 100vw)',
+            transform: 'translateY(calc(-225 / 1440 * 100vw))',
+          }}
         />
       </div>
-
-      <div className="relative">{children}</div>
-    </BackgroundContext>
-  )
-}
-
-export function SolidBackground({ children }: { children?: React.ReactNode }) {
-  const [setRectRef, rect] = useRect()
-  const wrapperRef = useRef<HTMLDivElement>(null)
-
-  const { getSolidBackground } = useContext(BackgroundContext)
-
-  useScrollTrigger({
-    rect,
-    start: 'bottom bottom',
-    end: 'bottom center',
-    onProgress: ({ progress, isActive }) => {
-      if (!isActive) return
-
-      const easedProgress = ease(progress, 'easeOutQuad')
-
-      const solidBackground = getSolidBackground()
-      if (solidBackground) {
-        const r = mapRange(0, 1, easedProgress, 15, 255)
-        const g = mapRange(0, 1, easedProgress, 26, 255)
-        const b = mapRange(0, 1, easedProgress, 23, 255)
-        const bgColor = `rgba(${r}, ${g}, ${b}, ${1})`
-        solidBackground.style.backgroundColor = bgColor
-      }
-    },
-  })
-
-  useScrollTrigger({
-    rect,
-    start: 'top bottom',
-    end: 'top center',
-    onProgress: ({ progress, isActive }) => {
-      if (!isActive) return
-
-      const easedProgress = ease(progress, 'easeOutQuad')
-
-      const solidBackground = getSolidBackground()
-      if (solidBackground) {
-        const bgColor = `rgba(15, 26, 23, ${easedProgress})`
-        solidBackground.style.backgroundColor = bgColor
-        solidBackground.style.opacity = '1'
-      }
-    },
-  })
-
-  return (
-    <div
-      className="relative"
-      ref={(el) => {
-        setRectRef(el)
-        wrapperRef.current = el
-      }}
-    >
-      {children}
+      <div
+        className={cn('absolute inset-0 opacity-0')}
+        ref={solidBackgroundRef}
+      />
     </div>
   )
 }

@@ -1,12 +1,18 @@
 'use client'
 
-import { useIntersectionObserver } from 'hamo'
+import { useIntersectionObserver, useRect } from 'hamo'
 import { useEffect, useRef } from 'react'
+import Background, {
+  type BackgroundRefType,
+} from '~/app/(pages)/home/_components/background'
 // import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
+import { useDesktopVW } from '~/hooks/use-device-values'
+import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { fromTo } from '~/libs/utils'
 
 // import { useDesktopVW } from '~/hooks/use-device-values'
 // import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
@@ -85,13 +91,13 @@ export function Features() {
   const buttonsRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonsWrapperRef = useRef<HTMLDivElement | null>(null)
 
-  // const [setRectRef, rect] = useRect()
+  const [setRectRef, rect] = useRect()
 
   // const { getItems, getBackground, getElement } = useContext(BackgroundContext)
 
   // const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
 
-  // const desktopVW = useDesktopVW()
+  const desktopVW = useDesktopVW()
 
   const hasAnimated = useRef(false)
 
@@ -99,70 +105,78 @@ export function Features() {
     threshold: 0.5,
   })
 
-  // useScrollTrigger({
-  //   rect,
-  //   start: 'top center',
-  //   end: 'top top',
-  //   onProgress: ({ progress, isActive }) => {
-  //     if (!isActive) return
+  const backgroundRef = useRef<BackgroundRefType>(null)
 
-  //     const backgroundElement = getElement()
-  //     if (backgroundElement) {
-  //       backgroundElement.style.backgroundColor = `rgba(255, 255, 255, ${1 - progress})`
-  //     }
+  useScrollTrigger({
+    rect,
+    start: 'top center',
+    end: 'center center',
+    onProgress: ({ progress }) => {
+      if (!backgroundRef.current) return
+      // if (!isActive) return
 
-  //     const background = getBackground()
-  //     if (progress > 0 && background) {
-  //       background.style.opacity = '1'
-  //     }
+      // const backgroundElement = getElement()
+      // if (backgroundElement) {
+      //   backgroundElement.style.backgroundColor = `rgba(255, 255, 255, ${1 - progress})`
+      // }
 
-  //     const items = getItems()
-  //     fromTo(
-  //       items,
-  //       {
-  //         width: (index) =>
-  //           desktopVW(
-  //             windowWidth * 1.5 + (items.length - 1 - index) * 100,
-  //             true
-  //           ),
-  //         opacity: 1,
-  //         kinesis: 1,
-  //         boxShadowOpacity: 1,
-  //       },
-  //       {
-  //         width: (index) =>
-  //           desktopVW(496 + (items.length - 1 - index) * 260, true),
-  //         opacity: 1,
-  //         kinesis: 1,
-  //         boxShadowOpacity: 1,
-  //       },
-  //       progress,
-  //       {
-  //         ease: 'easeOutSine',
-  //         render: (item, { width, opacity, kinesis, boxShadowOpacity }) => {
-  //           // @ts-expect-error
-  //           const element = item?.getElement()
-  //           // @ts-expect-error
-  //           item?.setBorderRadius(`${width * 2}px`)
-  //           // @ts-expect-error
-  //           item?.setKinesis(kinesis)
+      // const background = getBackground()
+      // if (progress > 0 && background) {
+      //   background.style.opacity = '1'
+      // }
 
-  //           // @ts-expect-error
-  //           const boxShadow = item?.getBoxShadow()
-  //           if (boxShadow) {
-  //             boxShadow.style.opacity = `${boxShadowOpacity}`
-  //           }
+      // const element = backgroundRef.current?.getElement?.()
+      // if (element) {
+      //   element.style.visibility = progress === 0 ? 'hidden' : 'visible'
+      // }
 
-  //           if (element instanceof HTMLElement) {
-  //             element.style.width = `${width}px`
-  //             element.style.height = `${width}px`
-  //             element.style.opacity = `${opacity}`
-  //           }
-  //         },
-  //       }
-  //     )
-  //   },
-  // })
+      const items = backgroundRef.current?.getItems()
+      fromTo(
+        items,
+        {
+          width: (index) =>
+            desktopVW(1440 * 1.5 + (items.length - 1 - index) * 100, true),
+          opacity: 1,
+          kinesis: 1,
+          boxShadowOpacity: 1,
+          y: 0,
+        },
+        {
+          width: (index) =>
+            desktopVW(496 + (items.length - 1 - index) * 260, true),
+          opacity: 1,
+          kinesis: 1,
+          boxShadowOpacity: 1,
+          y: 0,
+        },
+        progress,
+        {
+          ease: 'easeOutSine',
+          render: (item, { width, opacity, kinesis, boxShadowOpacity, y }) => {
+            // @ts-expect-error
+            const element = item?.getElement()
+            // @ts-expect-error
+            item?.setBorderRadius(`${width * 2}px`)
+            // @ts-expect-error
+            item?.setKinesis(kinesis)
+
+            // @ts-expect-error
+            const boxShadow = item?.getBoxShadow()
+            if (boxShadow) {
+              boxShadow.style.opacity = `${boxShadowOpacity}`
+            }
+
+            if (element instanceof HTMLElement) {
+              element.style.width = `${width}px`
+              element.style.height = `${width}px`
+              element.style.transform = `translateY(${y}px)`
+              element.style.opacity = `${opacity}`
+            }
+          },
+        }
+      )
+    },
+  })
 
   // Trigger animation once when title block is 50% visible
 
@@ -233,12 +247,21 @@ export function Features() {
 
   return (
     <section
-      ref={setAnimationTriggerRef}
+      ref={(node) => {
+        setRectRef(node)
+        setAnimationTriggerRef(node)
+      }}
       className="relative overflow-x-clip dt:dr-py-400 bg-white flex flex-col items-center justify-center"
       // style={{
       //   height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
       // }}
     >
+      <div className="absolute left-0 right-0 top-[-50vh] bottom-[-50vh]">
+        <Background
+          ref={backgroundRef}
+          className="sticky top-0 h-screen left-0 right-0 bg-white"
+        />
+      </div>
       <div className="mobile-only w-full dr-h-280 relative">
         <Image
           src="/assets/mobile-background/section-10Top.png"
