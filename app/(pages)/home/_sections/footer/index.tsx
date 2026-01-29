@@ -97,7 +97,7 @@ export function Footer() {
       //   }
       // })
     },
-    onProgress: ({ progress, height, isActive }) => {
+    onProgress: ({ progress }) => {
       // if (!isActive) return
 
       // const background = backgroundRef.current?.getBackground()
