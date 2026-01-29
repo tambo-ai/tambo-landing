@@ -32,17 +32,27 @@ export function Community() {
         </TitleBlock>
 
         <div className="flex dt:dr-gap-16 dr-gap-8 dt:flex-row flex-col items-center">
-          {buttons.map((button, index) => (
+          {buttons[0] && (
             <CTA
-              key={button.text}
-              href={button.href}
-              color={index === 0 ? 'black' : 'white'}
-              icon={button?.icon as 'github' | 'discord'}
+              key={buttons[0]?.text}
+              href={buttons[0]?.href}
+              icon={buttons[0]?.icon as 'github' | 'discord'}
+              className="bg-black! text-teal border-teal w-fit "
+            >
+              {buttons[0]?.text}
+            </CTA>
+          )}
+          {buttons[1] && (
+            <CTA
+              key={buttons[1]?.text}
+              href={buttons[1]?.href}
+              color="white"
+              icon={buttons[1]?.icon as 'github' | 'discord'}
               className="w-fit"
             >
-              {button?.text}
+              {buttons[1]?.text}
             </CTA>
-          ))}
+          )}
         </div>
       </div>
       <DesktopGrid />

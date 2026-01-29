@@ -283,7 +283,7 @@ export function Features() {
                 What Tambo <br /> solves for you
               </TitleBlock.Title>
             </TitleBlock>
-            <CTA color="black" className="desktop-only">
+            <CTA className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only">
               Start building
             </CTA>
           </div>
