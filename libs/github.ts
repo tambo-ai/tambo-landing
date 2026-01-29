@@ -9,7 +9,7 @@ interface GitHubRepoResponse {
 export function formatStarCount(count: number): string {
   if (count >= 1000) {
     const formatted = (count / 1000).toFixed(1)
-    return formatted.replace(/\.0$/, '') + 'k'
+    return `${formatted}k`
   }
   return count.toString()
 }
