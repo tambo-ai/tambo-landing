@@ -14,7 +14,7 @@ import { Kinesis } from '~/components/kinesis'
 import { Link } from '~/components/link'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { fromTo } from '~/libs/utils'
+import { fromTo, mapRange } from '~/libs/utils'
 import Background, {
   type BackgroundRefType,
 } from '../../_components/background'
@@ -52,6 +52,7 @@ export function Footer() {
   const desktopVW = useDesktopVW()
 
   const backgroundRef = useRef<BackgroundRefType>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear())
@@ -111,6 +112,17 @@ export function Footer() {
       //       background.style.transform = `translateY(${-windowHeight * 0.5 * (1 - progress)}px)`
       //   }
       // }
+
+      if (overlayRef.current) {
+        overlayRef.current.style.opacity = mapRange(
+          0,
+          1,
+          progress,
+          0.25,
+          0,
+          true
+        ).toString()
+      }
 
       const items = backgroundRef.current?.getItems()
       if (!items) return
@@ -227,6 +239,10 @@ export function Footer() {
     >
       <div className="absolute bottom-0 left-0 right-0 dt:top-[-100vh] top-0">
         <div className="h-screen sticky top-0 left-0 right-0">
+          <div
+            ref={overlayRef}
+            className="bg-black inset-0 absolute z-2 opacity-25 pointer-events-none"
+          />
           <div
             className={cn(
               'absolute left-0 right-0 top-0 bottom-0 desktop-only'
