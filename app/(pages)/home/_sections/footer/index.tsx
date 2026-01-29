@@ -53,6 +53,7 @@ export function Footer() {
 
   const backgroundRef = useRef<BackgroundRefType>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
+  const stickyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear())
@@ -122,6 +123,10 @@ export function Footer() {
           0,
           true
         ).toString()
+      }
+
+      if (stickyRef.current) {
+        stickyRef.current.style.transform = `translateY(${(1 - progress) * 50}%)`
       }
 
       const items = backgroundRef.current?.getItems()
@@ -238,7 +243,7 @@ export function Footer() {
       className="overflow-clip relative bg-white dt:bg-transparent h-screen"
     >
       <div className="absolute bottom-0 left-0 right-0 dt:top-[-100vh] top-0">
-        <div className="h-screen sticky top-0 left-0 right-0">
+        <div className="h-screen sticky top-0 left-0 right-0" ref={stickyRef}>
           <div
             ref={overlayRef}
             className="bg-black inset-0 absolute z-2 opacity-25 pointer-events-none"
