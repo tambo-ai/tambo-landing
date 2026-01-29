@@ -56,7 +56,7 @@ export function generatePageMetadata(
     keywords,
     image,
     url,
-    siteName = 'tambo',
+    siteName = 'Tambo',
     noIndex = false,
     type = 'website',
     publishedTime,
@@ -65,7 +65,7 @@ export function generatePageMetadata(
   } = options
 
   const fullUrl = url ? `${APP_BASE_URL}${url}` : APP_BASE_URL
-  const imageUrl = image?.url || '/opengraph-image.jpg'
+  const imageUrl = image?.url || '/opengraph-image.png'
   const imageWidth = image?.width || 1200
   const imageHeight = image?.height || 630
   const imageAlt = image?.alt || title || siteName
