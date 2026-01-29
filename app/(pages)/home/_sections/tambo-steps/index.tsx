@@ -12,7 +12,14 @@ export function TamboSteps() {
       href="https://docs.tambo.co/concepts/components"
       title="Generative UI, powered by your components."
     >
-      <RiveWrapper src="/assets/rives/moment-1_loop_1.riv" />
+      <RiveWrapper
+        className="desktop-only"
+        src="/assets/rives/moment-1_loop_1.riv"
+      />
+      <RiveWrapper
+        className="mobile-only"
+        src="/assets/rives/mobile_moment-1_loop_1.riv"
+      />
       {/* <Animation /> */}
     </TimelineSection>
   )
