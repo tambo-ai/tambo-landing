@@ -222,9 +222,6 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
         !hasAppeared && 'dt:opacity-0',
         'transition-opacity duration-600 ease-out-expo'
       )}
-      style={{
-        maxWidth: `calc(var(--max-width) * 1px)`,
-      }}
       // onMouseEnter={() => {
       //   setIsHovered(true)
       // }}
@@ -251,11 +248,11 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
         <span>{githubStars}</span>
       </Link>
 
-      <section className="col-span-full dt:col-start-3 dt:col-end-11 flex justify-center">
+      <section className="col-span-full dt:col-start-3 dt:col-end-11 flex justify-center ">
         {/* Desktop Nav */}
         <div
           ref={centerRef}
-          className="w-full dt:origin-center flex justify-between items-center  border border-dark-grey dt:pl-gap  dt:dr-pr-8  dt:rounded-full overflow-hidden dr-h-48  bg-white/50 backdrop-blur-[30px] desktop-only"
+          className="w-full dt:dr-max-w-1440 dt:origin-center flex justify-between items-center  border border-dark-grey dt:pl-gap  dt:dr-pr-8  dt:rounded-full overflow-hidden dr-h-48  bg-white/50 backdrop-blur-[30px] desktop-only"
         >
           <ul ref={leftRef} className=" flex dr-gap-20">
             {LEFT_LINKS.map((link) => (

@@ -54,7 +54,7 @@ export function Hero() {
       ref={setRectRef}
       className={cn(
         s.wrapper,
-        'relative dt:dr-p-40  dr-p-24   dr-mb-10 dt:dr-mb-0 bg-white section-rounded-bottom section-shadow-bottom overflow-hidden'
+        'relative dt:dr-p-40 dr-p-24  dr-mb-10 dt:dr-mb-0 bg-white section-rounded-bottom section-shadow-bottom overflow-hidden'
       )}
     >
       <LinesBg
@@ -66,41 +66,43 @@ export function Hero() {
       <div
         className={cn(
           s.inner,
-          'mx-auto flex dt:flex-row flex-col-reverse dr-p-24 dt:dr-px-65 items-center justify-center bg-white dr-rounded-20 overflow-hidden relative'
+          'flex bg-white dr-rounded-20 relative dt:dr-pl-64 dr-pb-24 dt:dr-pb-0'
         )}
       >
-        <div
-          className="dt:dr-w-col-4 flex  flex-col dr-gap-16 text-center items-start z-1 columns-1"
-          ref={titleRef}
-        >
-          <h1 className="dt:typo-h1 typo-h3 dt:text-start ">
-            Build agents
-            <br className="mobile-only" /> that <br className="desktop-only" />{' '}
-            speak your UI
-          </h1>
-          <p className=" typo-p text-black/50 dt:dr-w-322 dr-w-263 dt:text-start">
-            An open-source toolkit for adding agents <br /> to your React app.
-            Connect your existing components—Tambo handles streaming, state
-            management, and MCP.
-          </p>
-          <div className="dr-mt-24">
-            <CTA
-              snippet
-              href="https://docs.tambo.co/"
-              snippetEyebrow="NPM"
-              className="bg-black! text-teal border-teal"
-            >
-              get started for free
-              <span className="typo-code-snippet">
-                <span className="text-white">npm create tambo-app</span>
-              </span>
-            </CTA>
+        <div className="content-max-width  flex dt:flex-row flex-col-reverse items-center ">
+          <div
+            className="dt:dr-w-col-4 flex flex-col dr-gap-16 text-center items-start z-1 columns-1"
+            ref={titleRef}
+          >
+            <h1 className="dt:typo-h1 typo-h3 dt:text-start ">
+              Build agents
+              <br className="mobile-only" /> that{' '}
+              <br className="desktop-only" /> speak your UI
+            </h1>
+            <p className=" typo-p text-black/50 dt:dr-w-322 dr-w-263 dt:text-start">
+              An open-source toolkit for adding agents <br /> to your React app.
+              Connect your existing components—Tambo handles streaming, state
+              management, and MCP.
+            </p>
+            <div className="dr-mt-24">
+              <CTA
+                snippet
+                href="https://docs.tambo.co/"
+                snippetEyebrow="NPM"
+                className="bg-black! text-teal border-teal"
+              >
+                get started for free
+                <span className="typo-code-snippet">
+                  <span className="text-white">npm create tambo-app</span>
+                </span>
+              </CTA>
+            </div>
           </div>
-        </div>
 
-        {/* replace with real asset */}
-        <div className="dt:dr-h-771 dt:dr-w-860 dr-h-262 dr-w-326 relative dt:dr-mt-120 dt:-dr-mr-80">
-          <Image src="/assets/hero/hero-right-image.png" alt="Footer" fill />
+          {/* replace with real asset */}
+          <div className="dt:dr-h-771 dt:dr-w-860 dr-h-262 dr-w-326 relative dt:dr-mt-120 ">
+            <Image src="/assets/hero/hero-right-image.png" alt="Footer" fill />
+          </div>
         </div>
       </div>
       <div

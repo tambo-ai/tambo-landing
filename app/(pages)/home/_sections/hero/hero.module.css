@@ -3,18 +3,19 @@
   padding-top: mobile-vw(80px);
 
   @media (--desktop) {
-    margin-inline: auto;
+    /* margin-inline: auto; */
     padding-top: desktop-vw(94px);
+    height: 97vh;
   }
 
   .inner {
     height: 100%;
     box-shadow: 0 0 56px 16px rgba(127, 255, 195, 0.25);
 
-    @media (--desktop) {
+    /* @media (--desktop) {
       margin-inline: auto;
       max-width: desktop-vw(1360px);
-    }
+    } */
   }
 
   .arrowCTA {
