@@ -16,12 +16,12 @@ import { TamboSteps } from './_sections/tambo-steps'
 
 export async function generateMetadata() {
   return generatePageMetadata({
-    title: 'tambo',
+    title: 'Tambo - Build agents that speak your UI',
     description: 'Build generative UI apps. No PhD required.',
     image: { url: '/opengraph-image.jpg' },
     type: 'website',
     url: `/`,
-    siteName: 'tambo',
+    siteName: 'Tambo',
   })
 }
 
