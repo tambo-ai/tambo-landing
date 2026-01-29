@@ -24,14 +24,14 @@ const BUTTONS = [
   {
     title: 'Generative UI Components',
     href: ' https://docs.tambo.co/concepts/components',
-    top: 15,
-    left: 33,
+    top: 35,
+    left: 30,
   },
   {
     title: 'Interactable Components',
     href: 'https://docs.tambo.co/concepts/components/interactable-components',
-    top: 20,
-    right: 12,
+    top: 45,
+    right: 15,
   },
   {
     title: 'MCP-Native',
@@ -42,20 +42,20 @@ const BUTTONS = [
   {
     title: 'Local Tools',
     href: 'https://docs.tambo.co/concepts/tools/adding-tools',
-    top: 45,
+    top: 50,
     left: 25,
   },
   {
     title: 'Streaming Support',
     href: 'https://docs.tambo.co/concepts/streaming',
-    top: 60,
+    top: 45,
     right: 90,
   },
   {
     title: 'Message History',
     href: 'https://docs.tambo.co/concepts/message-threads',
-    top: 40,
-    left: 80,
+    top: 35,
+    left: 70,
   },
   {
     title: 'State Management',
@@ -66,26 +66,26 @@ const BUTTONS = [
   {
     title: 'Suggested Actions',
     href: 'https://docs.tambo.co/concepts/suggestions',
-    top: 75,
+    top: 65,
     right: 33,
   },
   {
     title: 'Tool Orchestration',
     href: 'Ahttps://docs.tambo.co/#why-tambo',
-    top: 80,
+    top: 70,
     left: 40,
   },
   {
     title: 'Model Flexibility',
     href: ' https://docs.tambo.co/models',
-    top: 90,
+    top: 73,
     right: 23,
   },
   {
     title: 'Component Library ',
     href: 'https://ui.tambo.co/',
-    top: 85,
-    left: 15,
+    top: 65,
+    left: 18,
   },
 ]
 
