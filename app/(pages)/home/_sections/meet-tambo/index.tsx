@@ -34,7 +34,7 @@ export function MeetTambo() {
           </CTA>
         </div>
 
-        <div className="grid dt:grid-cols-2 grid-cols-1 dt:dr-gap-x-24 dt:dr-gap-y-56 dr-gap-y-40 dt:dr-pt-56 dt:col-start-6 dt:col-end-12 col-span-full">
+        <div className="grid dt:grid-cols-2 grid-cols-1 dt:dr-gap-x-24 dt:dr-gap-y-56 dr-gap-y-40 dt:dr-pt-56 dt:col-start-6 dt:col-end-12 col-span-full dr-px-40 dt:px-0">
           {cards.map((card) => (
             <Card key={card?.title} data={card} />
           ))}
