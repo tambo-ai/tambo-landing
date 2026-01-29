@@ -263,7 +263,7 @@ export function Features() {
     >
       <div
         className={cn(
-          'absolute left-0 right-0 top-[-50vh] dr-bottom-400',
+          'absolute left-0 right-0 top-[-50vh] dr-bottom-400 desktop-only',
           s.background
         )}
       >
