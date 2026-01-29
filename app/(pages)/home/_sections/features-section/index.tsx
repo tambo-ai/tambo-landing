@@ -2,6 +2,7 @@
 
 import { useIntersectionObserver, useRect, useWindowSize } from 'hamo'
 import { useEffect, useRef } from 'react'
+import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import Background, {
   type BackgroundRefType,
 } from '~/app/(pages)/home/_components/background'
@@ -92,6 +93,7 @@ const BUTTONS = [
 export function Features() {
   const buttonsRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonsWrapperRef = useRef<HTMLDivElement | null>(null)
+  const setSnapRef = useLenisSnap('center')
 
   const [setRectRef, rect] = useRect()
 
@@ -255,6 +257,7 @@ export function Features() {
       ref={(node) => {
         setRectRef(node)
         setAnimationTriggerRef(node)
+        setSnapRef(node)
       }}
       className="relative overflow-clip dt:dr-py-400 bg-white flex flex-col items-center justify-center"
       // style={{
