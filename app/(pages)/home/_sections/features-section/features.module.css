@@ -1,0 +1,12 @@
+.background {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50vh;
+    left: 0;
+    right: 0;
+    height: 25vh;
+    background: linear-gradient(to bottom, #ffffff 0%, transparent 100%);
+    z-index: 2;
+  }
+}

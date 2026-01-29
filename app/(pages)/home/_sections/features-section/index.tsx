@@ -1,6 +1,6 @@
 'use client'
 
-import { useIntersectionObserver, useRect } from 'hamo'
+import { useIntersectionObserver, useRect, useWindowSize } from 'hamo'
 import { useEffect, useRef } from 'react'
 import Background, {
   type BackgroundRefType,
@@ -12,7 +12,9 @@ import { Image } from '~/components/image'
 import { Video } from '~/components/video'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { cn } from '~/integrations/tambo/(components)/lib/utils'
 import { fromTo } from '~/libs/utils'
+import s from './features.module.css'
 
 // import { useDesktopVW } from '~/hooks/use-device-values'
 // import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
@@ -192,58 +194,61 @@ export function Features() {
     }
   }, [intersection?.isIntersecting])
 
-  // useScrollTrigger({
-  //   rect,
-  //   start: 'bottom bottom',
-  //   end: `${rect?.top === undefined || rect?.height === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
-  //   onProgress: ({ progress, height, isActive }) => {
-  //     if (!isActive) return
+  const { height: windowHeight } = useWindowSize()
 
-  //     // if (buttonsWrapperRef.current) {
-  //     //   buttonsWrapperRef.current.style.transform = `translateY(${-height * progress * 0.5}px)`
-  //     // }
+  useScrollTrigger({
+    rect,
+    start: 'center center',
+    end: `${rect?.top === undefined || rect?.height === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
+    onProgress: ({ progress, height }) => {
+      // if (buttonsWrapperRef.current) {
+      //   buttonsWrapperRef.current.style.transform = `translateY(${-height * progress * 0.5}px)`
+      // }
 
-  //     const items = getItems()
-  //     fromTo(
-  //       items,
-  //       {
-  //         y: 0,
-  //         boxShadowOpacity: 1,
-  //         opacity: 1,
-  //       },
-  //       {
-  //         y: (index) => {
-  //           if (index === items.length - 1) return -height
+      const items = backgroundRef.current?.getItems()
+      if (!items) return
 
-  //           return -height - (items.length - index) * height * 0.15
-  //           // (items.length - index) * -height
-  //         },
-  //         boxShadowOpacity: 1,
-  //         opacity: 1,
-  //       },
-  //       progress,
-  //       {
-  //         ease: 'linear',
-  //         render: (item, { y, boxShadowOpacity, opacity }) => {
-  //           // @ts-expect-error
-  //           const boxShadow = item?.getBoxShadow()
-  //           if (boxShadow) {
-  //             boxShadow.style.opacity = `${boxShadowOpacity}`
-  //           }
+      fromTo(
+        items,
+        {
+          y: 0,
+          boxShadowOpacity: 1,
+          opacity: 1,
+        },
+        {
+          // y: 0,
+          y: (index) => {
+            if (index === items.length - 1) return 0
 
-  //           // item?.setBorderRadius(`${width * 2}px`)
+            return -(items.length - index * 1.2) * height * 0.1
+            // (items.length - index) * -height
+          },
+          boxShadowOpacity: 1,
+          opacity: 1,
+        },
+        progress,
+        {
+          ease: 'linear',
+          render: (item, { y, boxShadowOpacity, opacity }) => {
+            // @ts-expect-error
+            const boxShadow = item?.getBoxShadow()
+            if (boxShadow) {
+              boxShadow.style.opacity = `${boxShadowOpacity}`
+            }
 
-  //           // @ts-expect-error
-  //           const element = item?.getElement()
-  //           if (element instanceof HTMLElement) {
-  //             element.style.transform = `translateY(${y}px)`
-  //             element.style.opacity = `${opacity}`
-  //           }
-  //         },
-  //       }
-  //     )
-  //   },
-  // })
+            // item?.setBorderRadius(`${width * 2}px`)
+
+            // @ts-expect-error
+            const element = item?.getElement()
+            if (element instanceof HTMLElement) {
+              element.style.transform = `translateY(${y}px)`
+              element.style.opacity = `${opacity}`
+            }
+          },
+        }
+      )
+    },
+  })
 
   return (
     <section
@@ -256,7 +261,12 @@ export function Features() {
       //   height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
       // }}
     >
-      <div className="absolute left-0 right-0 top-[-50vh] bottom-[-50vh]">
+      <div
+        className={cn(
+          'absolute left-0 right-0 top-[-50vh] dr-bottom-400',
+          s.background
+        )}
+      >
         <Background
           ref={backgroundRef}
           className="sticky top-0 h-screen left-0 right-0 bg-white"

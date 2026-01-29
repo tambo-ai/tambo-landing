@@ -4,16 +4,10 @@ import HowItWorksSVG from '~/assets/svgs/how-it-works/how-it-works-diagram-deskt
 import HowItWorksMobileSVG from '~/assets/svgs/how-it-works/how-it-works-diagram-mobile.svg'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
-import s from './how-it-works.module.css'
 
 export function HowItWorks() {
   return (
-    <section
-      className={cn(
-        'dt:dr-pb-200 dt:dr-px-40 dr-px-8 z-1 max-dt:bg-white',
-        s.howItWorks
-      )}
-    >
+    <section className={cn('dt:dr-pb-200 dt:dr-px-40 dr-px-8 z-1 bg-white')}>
       <TitleBlock className="dr-mb-56">
         <TitleBlock.LeadIn>how It Works</TitleBlock.LeadIn>
         <TitleBlock.Title level="h2" className="dt:mb-0! dr-mb-8">
