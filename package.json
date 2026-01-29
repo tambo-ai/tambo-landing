@@ -1,6 +1,6 @@
 {
-  "name": "@darkroom.engineering/satus",
-  "description": "Satūs is a next.js starter",
+  "name": "Tambo Website",
+  "description": "Build agents that speak your UI",
   "version": "1.0.0",
   "license": "MIT",
   "type": "module",
