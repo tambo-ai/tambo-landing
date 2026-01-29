@@ -240,13 +240,16 @@ export function Footer() {
   return (
     <section
       ref={setRectRef}
-      className="overflow-clip relative bg-white dt:bg-transparent h-screen"
+      className="overflow-clip relative bg-white dt:bg-transparent dt:h-screen"
     >
-      <div className="absolute bottom-0 left-0 right-0 dt:top-[-100vh] top-0">
-        <div className="h-screen sticky top-0 left-0 right-0" ref={stickyRef}>
+      <div className="dt:absolute dt:bottom-0 dt:left-0 dt:right-0 dt:top-[-100vh]">
+        <div
+          className="dt:h-screen dt:sticky dt:top-0 dt:left-0 dt:right-0 max-dt:transform-[unset]!"
+          ref={stickyRef}
+        >
           <div
             ref={overlayRef}
-            className="bg-black inset-0 absolute z-2 opacity-25 pointer-events-none"
+            className="bg-black inset-0 absolute z-2 opacity-25 pointer-events-none desktop-only"
           />
           <div
             className={cn(
