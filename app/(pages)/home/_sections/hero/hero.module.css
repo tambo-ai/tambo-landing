@@ -1,11 +1,10 @@
 .wrapper {
-  height: 100vh;
+  height: 97vh;
   padding-top: mobile-vw(80px);
 
   @media (--desktop) {
     /* margin-inline: auto; */
     padding-top: desktop-vw(94px);
-    height: 97vh;
   }
 
   .inner {
