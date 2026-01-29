@@ -256,7 +256,7 @@ export function Features() {
         setRectRef(node)
         setAnimationTriggerRef(node)
       }}
-      className="relative overflow-x-clip dt:dr-py-400 bg-white flex flex-col items-center justify-center"
+      className="relative overflow-clip dt:dr-py-400 bg-white flex flex-col items-center justify-center"
       // style={{
       //   height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
       // }}
