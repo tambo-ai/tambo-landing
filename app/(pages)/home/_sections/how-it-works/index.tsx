@@ -1,7 +1,5 @@
 import cn from 'clsx'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
-import HowItWorksSVG from '~/assets/svgs/how-it-works/how-it-works-diagram-desktop.svg'
-import HowItWorksMobileSVG from '~/assets/svgs/how-it-works/how-it-works-diagram-mobile.svg'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 
@@ -23,8 +21,22 @@ export function HowItWorks() {
           </CTA>
         </TitleBlock>
         <div className="content-max-width">
-          <HowItWorksSVG className="desktop-only dr-w-946 dr-h-430 relative" />
-          <HowItWorksMobileSVG className="mobile-only relative" />
+          <div className="desktop-only relative dr-w-946 aspect-946/431">
+            <Image
+              block
+              src="/images/how-it-works/how-it-works-diagram-desktop.svg"
+              alt="how it works diagram desktop"
+              className="min-w-full min-h-full"
+            />
+          </div>
+          <div className="mobile-only relative aspect-327/466">
+            <Image
+              block
+              src="/images/how-it-works/how-it-works-diagram-mobile.svg"
+              alt="how it works diagram mobile"
+              className="min-w-full min-h-full"
+            />
+          </div>
         </div>
         <Image
           src={'/assets/how-it-works/how-it-works-bg-desktop.png'}
