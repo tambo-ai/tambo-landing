@@ -68,6 +68,7 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
+    images: ['/opengraph-image.png'],
   },
   authors: [
     { name: 'darkroom.engineering', url: 'https://darkroom.engineering' },
