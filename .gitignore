@@ -48,3 +48,6 @@ certificates
 
 next-env.d.ts
 .vercel
+
+.playwright-mcp
+.playwright-cli

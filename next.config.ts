@@ -1,5 +1,11 @@
 import bundleAnalyzer from '@next/bundle-analyzer'
 import type { NextConfig } from 'next'
+import nextra from 'nextra'
+import rehypeKatex from 'rehype-katex'
+import rehypePrettyCode from 'rehype-pretty-code'
+import remarkGfm from 'remark-gfm'
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+import { remarkInjectBlogLayout } from './libs/mdx/inject-blog-layout.mjs'
 import './libs/validate-env.ts'
 
 const nextConfig: NextConfig = {
@@ -163,14 +169,74 @@ const nextConfig: NextConfig = {
       destination: 'https://us.i.posthog.com/:path*',
     },
   ],
+  // Webpack config for SVG handling and optional peer dependencies
+  webpack: (config) => {
+    // Add SVGR loader for SVG files
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            memo: true,
+            dimensions: false,
+            svgoConfig: {
+              multipass: true,
+              plugins: [
+                'removeDimensions',
+                'removeOffCanvasPaths',
+                'reusePaths',
+                'removeElementsByAttr',
+                'removeStyleElement',
+                'removeScriptElement',
+                'prefixIds',
+                'cleanupIds',
+              ],
+            },
+          },
+        },
+      ],
+    })
+
+    // Ignore optional peer dependencies for @tambo-ai/react
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      effect: false,
+      sury: false,
+    }
+    return config
+  },
 }
+
+// Nextra MDX config
+const withNextra = nextra({
+  defaultShowCopyCode: true,
+  readingTime: true,
+  mdxOptions: {
+    remarkPlugins: [remarkGfm, remarkMdxFrontmatter, remarkInjectBlogLayout],
+    rehypePlugins: [
+      rehypeKatex,
+      [
+        rehypePrettyCode,
+        {
+          theme: {
+            light: "github-light",
+            dark: "github-dark",
+          },
+          keepBackground: false,
+          defaultLang: "typescript",
+        },
+      ],
+    ],
+  },
+})
 
 const bundleAnalyzerPlugin = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
 const NextApp = () => {
-  const plugins = [bundleAnalyzerPlugin]
+  const plugins = [withNextra, bundleAnalyzerPlugin]
   return plugins.reduce((config, plugin) => plugin(config), nextConfig)
 }
 

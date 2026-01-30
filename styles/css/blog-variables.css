@@ -1,0 +1,36 @@
+/* ============================================
+   BLOG PROSE STYLES
+   ============================================ */
+
+.blog-prose {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: #374151;
+}
+
+.blog-prose h1 { font-size: 2.25rem; font-weight: 700; margin: 3rem 0 1.25rem; color: #1a2e28; }
+.blog-prose h2 { font-size: 1.625rem; font-weight: 700; margin: 3rem 0 1rem; padding-bottom: 0.75rem; color: #1a2e28; border-bottom: 1px solid #e5e7eb; }
+.blog-prose h3 { font-size: 1.375rem; font-weight: 600; margin: 2.5rem 0 0.75rem; color: #1a2e28; }
+.blog-prose h4 { font-size: 1.125rem; font-weight: 600; margin: 2rem 0 0.5rem; color: #1a2e28; }
+
+.blog-prose p { margin-bottom: 1.5rem; color: #374151; }
+.blog-prose a { color: #1a2e28; text-decoration: underline; }
+.blog-prose strong { font-weight: 600; color: #1a2e28; }
+
+.blog-prose blockquote {
+  border-left: 3px solid #3b82f6;
+  padding: 1rem 1.5rem;
+  margin: 2rem 0;
+  background: #F1F7FA;
+  font-style: italic;
+}
+
+.blog-prose ul, .blog-prose ol { margin: 1.5rem 0; padding-left: 1.75rem; }
+.blog-prose ul { list-style: disc; }
+.blog-prose ol { list-style: decimal; }
+.blog-prose li { margin-bottom: 0.5rem; color: #374151; }
+
+/* Other elements */
+.blog-prose hr { border: none; border-top: 1px solid #e5e7eb; margin: 3rem 0; }
+.blog-prose img { max-width: 100%; border-radius: 0.75rem; margin: 2rem 0; }
