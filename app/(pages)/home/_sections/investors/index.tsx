@@ -4,8 +4,8 @@ import cn from 'clsx'
 import { useIntersectionObserver } from 'hamo'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
+import { Image } from '~/components/image'
 import { investors } from './data'
-import PartnershipSVG from './icons/partnership.svg'
 import s from './investors.module.css'
 
 type ActiveCard = 'main' | number | null
@@ -86,11 +86,17 @@ function MainInvestorCard({
       <div
         className={cn(
           s.mainContent,
-          'relative overflow-hidden border border-dark-grey dr-rounded-12 flex items-center justify-center bg-white'
+          'relative overflow-hidden border border-dark-grey dr-rounded-12 flex items-center justify-center bg-white dt:dr-h-160 dr-h-104'
         )}
       >
         <HashPattern className="absolute inset-0 text-dark-grey z-0" />
-        <PartnershipSVG className="dt:dr-w-353 dr-w-254 relative z-1" />
+        {/* <PartnershipSVG className="dt:dr-w-353 dr-w-254 relative z-1" /> */}
+        <Image
+          block
+          src="/images/gp.png"
+          alt="Partnership"
+          className="dt:dr-w-353 dr-w-254 relative z-1"
+        />
       </div>
     </div>
   )
