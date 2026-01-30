@@ -15,7 +15,7 @@ type ActiveCard = number | null
 
 export function Community() {
   return (
-    <section className="dt:dr-pt-132 dt:dr-pb-200 dr-pb-120 section-rounded-bottom section-shadow-bottom z-1 bg-light-gray">
+    <section className="dt:dr-pt-132 dt:dr-pb-200 dr-pb-120 section-rounded-bottom section-shadow-bottom z-1 bg-light-gray dt:mb-0 -dr-mb-30">
       <div className="flex flex-col items-center dr-mb-56 dt:dr-px-0 mx-auto px-safe">
         <TitleBlock className="dr-mb-32 dt:mb-0">
           <TitleBlock.Title
