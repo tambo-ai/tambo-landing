@@ -1,8 +1,8 @@
-.background {
+.section {
   &::before {
     content: "";
     position: absolute;
-    top: 50vh;
+    top: 0;
     left: 0;
     right: 0;
     height: 25vh;

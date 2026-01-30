@@ -25,67 +25,67 @@ const BUTTONS = [
   {
     title: 'Generative UI Components',
     href: ' https://docs.tambo.co/concepts/components',
-    top: 35,
+    top: 18,
     left: 30,
   },
   {
     title: 'Interactable Components',
     href: 'https://docs.tambo.co/concepts/components/interactable-components',
-    top: 45,
+    top: 35,
     right: 15,
   },
   {
     title: 'MCP-Native',
     href: 'https://docs.tambo.co/concepts/model-context-protocol',
-    top: 30,
+    top: 20,
     left: 10,
   },
   {
     title: 'Local Tools',
     href: 'https://docs.tambo.co/concepts/tools/adding-tools',
-    top: 50,
+    top: 45,
     left: 25,
   },
   {
     title: 'Streaming Support',
     href: 'https://docs.tambo.co/concepts/streaming',
-    top: 45,
+    top: 35,
     right: 90,
   },
   {
     title: 'Message History',
     href: 'https://docs.tambo.co/concepts/message-threads',
-    top: 35,
+    top: 18,
     left: 70,
   },
   {
     title: 'State Management',
     href: ' https://docs.tambo.co/api-reference/react-hooks',
-    top: 60,
+    top: 68,
     left: 85,
   },
   {
     title: 'Suggested Actions',
     href: 'https://docs.tambo.co/concepts/suggestions',
-    top: 65,
+    top: 76,
     right: 33,
   },
   {
     title: 'Tool Orchestration',
     href: 'Ahttps://docs.tambo.co/#why-tambo',
-    top: 70,
+    top: 85,
     left: 40,
   },
   {
     title: 'Model Flexibility',
     href: ' https://docs.tambo.co/models',
-    top: 73,
+    top: 90,
     right: 23,
   },
   {
     title: 'Component Library ',
     href: 'https://ui.tambo.co/',
-    top: 65,
+    top: 76,
     left: 18,
   },
 ]
@@ -117,6 +117,8 @@ export function Features() {
     end: 'center center',
     onProgress: ({ progress }) => {
       if (!backgroundRef.current) return
+
+      console.log('progress', progress)
       // if (!isActive) return
 
       // const backgroundElement = getElement()
@@ -129,10 +131,10 @@ export function Features() {
       //   background.style.opacity = '1'
       // }
 
-      // const element = backgroundRef.current?.getElement?.()
-      // if (element) {
-      //   element.style.visibility = progress === 0 ? 'hidden' : 'visible'
-      // }
+      const element = backgroundRef.current?.getElement?.()
+      if (element) {
+        element.style.visibility = progress === 0 ? 'hidden' : 'visible'
+      }
 
       const items = backgroundRef.current?.getItems()
       fromTo(
@@ -253,126 +255,128 @@ export function Features() {
   })
 
   return (
-    <section
-      ref={(node) => {
-        setRectRef(node)
-        setAnimationTriggerRef(node)
-        setSnapRef(node)
-      }}
-      className="relative overflow-clip dt:dr-py-400 bg-white flex flex-col items-center justify-center"
-      // style={{
-      //   height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
-      // }}
-    >
-      <div
-        className={cn(
-          'absolute left-0 right-0 top-[-50vh] dr-bottom-400 desktop-only',
-          s.background
-        )}
+    <div className={cn('dt:dr-py-200 bg-white relative', s.section)}>
+      <section
+        ref={(node) => {
+          setRectRef(node)
+          setAnimationTriggerRef(node)
+          setSnapRef(node)
+        }}
+        className="relative flex flex-col items-center justify-center"
+        // style={{
+        //   height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
+        // }}
       >
-        <Background
-          ref={backgroundRef}
-          className="sticky top-0 h-screen left-0 right-0 bg-white"
-        />
-      </div>
-      <div className="mobile-only w-full dr-h-280 relative">
-        <Image
-          src="/assets/mobile-background/section-10Top.png"
-          alt="Section 10 Background"
-          fill
-        />
-      </div>
-      <div className="dt:h-screen w-full flex flex-col items-center justify-center dt:bg-transparent bg-white ">
         <div
-          // getIndex={() => 50}
-          className="text-center flex flex-col items-center relative dt:-dr-top-48"
+          className={cn(
+            'absolute left-0 right-0 top-[-50vh] bottom-0 desktop-only',
+            s.background
+          )}
         >
-          <div
-            ref={setAnimationTriggerRef}
-            className="flex flex-col items-center justify-center"
-          >
-            <div className="dr-w-172 aspect-square">
-              <Video
-                autoPlay
-                fallback={
-                  <Image
-                    src="/videos/Octo-Juggle.png"
-                    alt="Octo Wave"
-                    unoptimized
-                  />
-                }
-              >
-                <source
-                  src="/videos/Octo-Juggle-compressed.mov"
-                  type='video/mp4; codecs="hvc1"'
-                />
-                <source
-                  src="/videos/Octo-Juggle-compressed.webm"
-                  type="video/webm"
-                />
-              </Video>
-            </div>
-
-            <TitleBlock className="dt:dr-mb-40">
-              <TitleBlock.LeadIn>FEATURES</TitleBlock.LeadIn>
-              <TitleBlock.Title level="h2" className="dt:typo-h2! typo-h1!">
-                What Tambo <br /> solves for you
-              </TitleBlock.Title>
-            </TitleBlock>
-            <CTA className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only">
-              Start building
-            </CTA>
-          </div>
+          <Background
+            ref={backgroundRef}
+            className="sticky top-0 h-screen left-0 right-0 bg-white visibility-hidden"
+          />
         </div>
-        <div className="w-full px-safe mobile-only flex flex-col dr-gap-y-8 dr-mt-56">
-          {BUTTONS.map((button, index) => (
-            <div className="w-full " key={button.title + index.toString()}>
-              <CTA className="flex! justify-between" href={button.href}>
-                {button.title}
-              </CTA>
-            </div>
-          ))}
-          <CTA color="black" className="mobile-only w-full dr-mt-24 dr-mb-80">
-            Start building
-          </CTA>
-        </div>
-
-        <div className="mobile-only w-full  dr-h-280 relative">
-          <div className="absolute  bottom-0 left-0 right-0  dr-h-280 w-full mobile-only dr-mb-[-1]" />
+        <div className="mobile-only w-full dr-h-280 relative">
           <Image
-            src="/assets/mobile-background/section-10Bottom.png"
+            src="/assets/mobile-background/section-10Top.png"
             alt="Section 10 Background"
             fill
           />
         </div>
-        <div
-          className="absolute inset-0 pointer-events-none desktop-only"
-          ref={buttonsWrapperRef}
-        >
-          {BUTTONS.map((button, index) => (
+        <div className="dt:h-screen w-full flex flex-col items-center justify-center dt:bg-transparent bg-white ">
+          <div
+            // getIndex={() => 50}
+            className="text-center flex flex-col items-center relative dt:-dr-top-48"
+          >
             <div
-              className="absolute pointer-events-auto"
-              style={{
-                ...(button.right
-                  ? { top: `${button.top}%`, right: `${button.right}%` }
-                  : { top: `${button.top}%`, left: `${button.left}%` }),
-                opacity: 0,
-                transform: 'scale(1.1)',
-                transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
-                transitionDelay: `${index * 150}ms`,
-              }}
-              key={button.title + index.toString()}
-              ref={(node) => {
-                buttonsRefs.current[index] = node
-              }}
+              ref={setAnimationTriggerRef}
+              className="flex flex-col items-center justify-center"
             >
-              <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                <CTA href={button.href}>{button.title}</CTA>
+              <div className="dr-w-172 aspect-square">
+                <Video
+                  autoPlay
+                  fallback={
+                    <Image
+                      src="/videos/Octo-Juggle.png"
+                      alt="Octo Wave"
+                      unoptimized
+                    />
+                  }
+                >
+                  <source
+                    src="/videos/Octo-Juggle-compressed.mov"
+                    type='video/mp4; codecs="hvc1"'
+                  />
+                  <source
+                    src="/videos/Octo-Juggle-compressed.webm"
+                    type="video/webm"
+                  />
+                </Video>
               </div>
+
+              <TitleBlock className="dt:dr-mb-40">
+                <TitleBlock.LeadIn>FEATURES</TitleBlock.LeadIn>
+                <TitleBlock.Title level="h2" className="dt:typo-h2! typo-h1!">
+                  What Tambo <br /> solves for you
+                </TitleBlock.Title>
+              </TitleBlock>
+              <CTA className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only">
+                Start building
+              </CTA>
             </div>
-          ))}
+          </div>
+          <div className="w-full px-safe mobile-only flex flex-col dr-gap-y-8 dr-mt-56">
+            {BUTTONS.map((button, index) => (
+              <div className="w-full " key={button.title + index.toString()}>
+                <CTA className="flex! justify-between" href={button.href}>
+                  {button.title}
+                </CTA>
+              </div>
+            ))}
+            <CTA color="black" className="mobile-only w-full dr-mt-24 dr-mb-80">
+              Start building
+            </CTA>
+          </div>
+
+          <div className="mobile-only w-full  dr-h-280 relative">
+            <div className="absolute  bottom-0 left-0 right-0  dr-h-280 w-full mobile-only dr-mb-[-1]" />
+            <Image
+              src="/assets/mobile-background/section-10Bottom.png"
+              alt="Section 10 Background"
+              fill
+            />
+          </div>
+          <div
+            className="absolute inset-0 pointer-events-none desktop-only"
+            ref={buttonsWrapperRef}
+          >
+            {BUTTONS.map((button, index) => (
+              <div
+                className="absolute pointer-events-auto"
+                style={{
+                  ...(button.right
+                    ? { top: `${button.top}%`, right: `${button.right}%` }
+                    : { top: `${button.top}%`, left: `${button.left}%` }),
+                  opacity: 0,
+                  transform: 'scale(1.1)',
+                  transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
+                  transitionDelay: `${index * 150}ms`,
+                }}
+                key={button.title + index.toString()}
+                ref={(node) => {
+                  buttonsRefs.current[index] = node
+                }}
+              >
+                <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                  <CTA href={button.href}>{button.title}</CTA>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }
