@@ -1,12 +1,11 @@
-import 'mapbox-gl/dist/mapbox-gl.css'
+// import 'mapbox-gl/dist/mapbox-gl.css'
 import type { Metadata, Viewport } from 'next'
 
 import type { PropsWithChildren } from 'react'
-import { AnalyticsProvider } from '~/providers/posthog-provider'
 import { ReactTempus } from 'tempus/react'
 import { RealViewport } from '~/components/real-viewport'
-
 import AppData from '~/package.json'
+import { AnalyticsProvider } from '~/providers/posthog-provider'
 import { themes } from '~/styles/colors'
 import '~/styles/css/index.css'
 
