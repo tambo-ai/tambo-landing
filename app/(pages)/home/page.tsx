@@ -42,14 +42,3 @@ export default async function Home() {
     </>
   )
 }
-
-// export async function generateMetadata() {
-//   return generatePageMetadata({
-//     title: 'Tambo - Build agents that speak your UI',
-//     description: 'Build generative UI apps. No PhD required.',
-//     image: { url: '/opengraph-image.png' },
-//     type: 'website',
-//     url: `/`,
-//     siteName: 'Tambo',
-//   })
-// }
