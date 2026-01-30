@@ -21,7 +21,6 @@ export function BackgroundItem({
   style,
   borderOpacity,
   outerBorder,
-  index = 1,
   ref,
 }: {
   opacity?: number
