@@ -2,6 +2,7 @@
 
 import { useIntersectionObserver, useRect, useWindowSize } from 'hamo'
 import { useEffect, useRef } from 'react'
+import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import Background, {
   type BackgroundRefType,
 } from '~/app/(pages)/home/_components/background'
@@ -9,6 +10,7 @@ import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Video } from '~/components/video'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { cn } from '~/integrations/tambo/(components)/lib/utils'
@@ -93,6 +95,8 @@ export function Features() {
   const [setAnimationTriggerRef, intersection] = useIntersectionObserver({
     threshold: 0.5,
   })
+  const setSnapRef = useLenisSnap('center')
+  const { isDesktop } = useDeviceDetection()
 
   const backgroundRef = useRef<BackgroundRefType>(null)
 
@@ -219,7 +223,10 @@ export function Features() {
   })
 
   return (
-    <div className={cn('dt:dr-py-200 bg-white relative', s.section)}>
+    <div
+      className={cn('dt:dr-py-200 bg-white relative', s.section)}
+      ref={isDesktop ? setSnapRef : undefined}
+    >
       <section
         ref={(node) => {
           setRectRef(node)
