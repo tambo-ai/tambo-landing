@@ -7,6 +7,7 @@ import { useRef } from 'react'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
 import LinesBg from '~/assets/svgs/hero-line-bg.svg'
+import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
 import { RiveWrapper } from '~/components/rive'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
@@ -60,10 +61,14 @@ export function Hero() {
     >
       <LinesBg
         className={
-          'absolute top-0 dr-inset-24 left-1/2 -translate-x-1/2 dt:w-screen dt:h-screen h-full section-rounded-bottom'
+          'absolute desktop-only top-0 dr-inset-24 left-1/2 -translate-x-1/2 dt:w-screen dt:h-screen h-full section-rounded-bottom'
         }
       />
-
+      <MobileLinesBg
+        className={
+          'absolute mobile-only top-0 dr-inset-24 left-1/2 -translate-x-1/2 h-full section-rounded-bottom'
+        }
+      />
       <div
         className={cn(
           s.inner,
