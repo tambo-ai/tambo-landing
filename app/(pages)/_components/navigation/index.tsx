@@ -7,9 +7,9 @@ import CloseIcon from '~/assets/svgs/close.svg'
 import DiscordIcon from '~/assets/svgs/discord.svg'
 import GithubIcon from '~/assets/svgs/github.svg'
 import NavMobile from '~/assets/svgs/nav-mobile.svg'
-import TamboLogo from '~/assets/svgs/tambo.svg'
 import XIcon from '~/assets/svgs/X.svg'
 import { Button, CTA } from '~/components/button'
+import { Image } from '~/components/image'
 import { Link } from '~/components/link'
 import { useStore } from '~/libs/store'
 import s from './navigation.module.css'
@@ -33,7 +33,6 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
   const centerRef = useRef<HTMLDivElement>(null)
   const leftRef = useRef<HTMLUListElement>(null)
   const rightRef = useRef<HTMLUListElement>(null)
-  const logoRef = useRef<SVGSVGElement>(null)
   const githubRef = useRef<HTMLAnchorElement>(null)
   const discordRef = useRef<HTMLAnchorElement>(null)
 
@@ -81,7 +80,15 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
             ))}
           </ul>
           <div className="dt:absolute dt:left-1/2 dt:-translate-x-1/2 dt:grid dt:place-items-center">
-            <TamboLogo className="dr-h-24" ref={logoRef} />
+            <div className="dr-h-24 relative">
+              <Image
+                block
+                src="/images/tambo.png"
+                alt="Tambo Logo"
+                className="min-h-full"
+                desktopSize="25vw"
+              />
+            </div>
           </div>
           <ul
             ref={rightRef}
@@ -116,7 +123,15 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
           )}
         >
           <div className="absolute dr-h-48 dr-pl-24 dr-pr-20  flex justify-between items-center w-full ">
-            <TamboLogo className="dr-h-24" ref={logoRef} />
+            <div className="dr-h-24 relative">
+              <Image
+                block
+                src="/images/tambo.png"
+                alt="Tambo Logo"
+                className="min-h-full"
+                mobileSize="25vw"
+              />
+            </div>
             <Button
               onClick={() => {
                 setIsMobileNavOpened(!isMobileNavOpened)
