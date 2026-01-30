@@ -1,8 +1,9 @@
-import XSVG from "~/assets/svgs/x.svg";
+import XSVG from "~/assets/svgs/X.svg";
 import DiscordSVG from "~/assets/svgs/discord.svg";
 import GithubSVG from "~/assets/svgs/github.svg";
 
 export const BLUR_FADE_DELAY = 0.15;
+export const CURRENT_YEAR = new Date().getFullYear();
 
 export const siteConfig = {
   name: "tambo-ai",
@@ -98,7 +99,7 @@ export const siteConfig = {
       { text: "Privacy Notice", url: "/privacy" },
       { text: "Terms of Use", url: "/terms" },
     ],
-    bottomText: "Fractal Dynamics Inc © 2025",
+    bottomText: `Fractal Dynamics Inc © ${CURRENT_YEAR ?? 2025}`,
     brandText: "tambo-ai",
   },
 };
