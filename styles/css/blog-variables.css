@@ -34,3 +34,132 @@
 /* Other elements */
 .blog-prose hr { border: none; border-top: 1px solid #e5e7eb; margin: 3rem 0; }
 .blog-prose img { max-width: 100%; border-radius: 0.75rem; margin: 2rem 0; }
+
+/* ============================================
+   BLOG CARD STYLES
+   ============================================ */
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75rem;
+  background-color: #e8f3ef;
+  border: 1px solid #d4e5df;
+  border-radius: 0.875rem;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blog-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+  border-color: #c4d8d0;
+}
+
+.blog-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.blog-card-title {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: #1a2e28;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.blog-card-description {
+  font-size: 0.9375rem;
+  color: #4a6860;
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #5d7a72;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.blog-card-author {
+  font-weight: 500;
+}
+
+.blog-card-separator {
+  opacity: 0.5;
+}
+
+/* ============================================
+   BLOG FOOTER STYLES
+   ============================================ */
+
+.blog-footer {
+  background-color: #f4f9f7;
+  border-top: 1px solid #e5ebe8;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.blog-footer-container {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.blog-footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.blog-footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.blog-footer-social-link {
+  color: #5d7a72;
+  transition: color 0.15s;
+}
+
+.blog-footer-social-link:hover {
+  color: #1a2e28;
+}
+
+.blog-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+.blog-footer-link {
+  color: #5d7a72;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.blog-footer-link:hover {
+  color: #1a2e28;
+}
+
+.blog-footer-copyright {
+  font-size: 0.8125rem;
+  color: #8aa8a0;
+  margin-top: 0.5rem;
+}
