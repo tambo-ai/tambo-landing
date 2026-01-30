@@ -98,12 +98,6 @@ export function Hero() {
               </CTA>
             </div>
           </div>
-          <div className="mobile-only dr-w-326 dr-h-262 absolute top-0 left-0">
-            <RiveWrapper
-              src="/assets/rives/Mobile_hero_loop_1.riv"
-              className="size-full"
-            />
-          </div>
         </div>
       </div>
       <div
@@ -119,7 +113,13 @@ export function Hero() {
       <div className="desktop-only absolute inset-0 content-max-width">
         <RiveWrapper
           src="/assets/rives/hero_loop_1.riv"
-          className="size-full"
+          className="size-full pointer-events-none"
+        />
+      </div>
+      <div className="mobile-only w-full h-full -dr-top-110 left-0 absolute">
+        <RiveWrapper
+          src="/assets/rives/Mobile_hero_loop_1.riv"
+          className="size-full pointer-events-none"
         />
       </div>
     </section>
