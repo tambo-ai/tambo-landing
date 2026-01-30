@@ -7,7 +7,6 @@ import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
 import LinesBg from '~/assets/svgs/hero-line-bg.svg'
 import { CTA } from '~/components/button'
-import { Image } from '~/components/image'
 import { RiveWrapper } from '~/components/rive'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { useStore } from '~/libs/store'
@@ -99,10 +98,11 @@ export function Hero() {
               </CTA>
             </div>
           </div>
-
-          {/* replace with real asset */}
-          <div className="dr-h-262 dr-w-326 relative mobile-only">
-            <Image src="/assets/hero/hero-right-image.png" alt="Footer" fill />
+          <div className="mobile-only dr-w-326 dr-h-262 absolute top-0 left-0 border">
+            <RiveWrapper
+              src="/assets/rives/Mobile_hero_loop_1.riv"
+              className="size-full"
+            />
           </div>
         </div>
       </div>
