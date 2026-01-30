@@ -98,7 +98,7 @@ export function Hero() {
               </CTA>
             </div>
           </div>
-          <div className="mobile-only dr-w-326 dr-h-262 absolute top-0 left-0 border">
+          <div className="mobile-only dr-w-326 dr-h-262 absolute top-0 left-0">
             <RiveWrapper
               src="/assets/rives/Mobile_hero_loop_1.riv"
               className="size-full"
