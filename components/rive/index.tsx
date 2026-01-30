@@ -8,9 +8,10 @@ import { useEffect } from 'react'
 interface RiveWrapperProps {
   className?: string
   src: string
+  alignment?: Alignment
 }
 
-export function RiveWrapper({ src, className }: RiveWrapperProps) {
+export function RiveWrapper({ src, className, alignment }: RiveWrapperProps) {
   const [setRef, intersection] = useIntersectionObserver({
     threshold: 0.3,
   })
@@ -22,7 +23,7 @@ export function RiveWrapper({ src, className }: RiveWrapperProps) {
     autoBind: true,
     layout: new Layout({
       fit: Fit.FitWidth,
-      alignment: Alignment.Center,
+      alignment: alignment || Alignment.Center,
     }),
   })
 

@@ -1,5 +1,6 @@
 'use client'
 
+import { Alignment } from '@rive-app/react-webgl2'
 import cn from 'clsx'
 import { useRect } from 'hamo'
 import { useRef } from 'react'
@@ -98,6 +99,13 @@ export function Hero() {
               </CTA>
             </div>
           </div>
+          <div className="mobile-only w-full h-full top-0 left-0 absolute">
+            <RiveWrapper
+              src="/assets/rives/Mobile_hero_loop_1.riv"
+              className="size-full pointer-events-none"
+              alignment={Alignment.TopCenter}
+            />
+          </div>
         </div>
       </div>
       <div
@@ -113,12 +121,6 @@ export function Hero() {
       <div className="desktop-only absolute inset-0 content-max-width">
         <RiveWrapper
           src="/assets/rives/hero_loop_1.riv"
-          className="size-full pointer-events-none"
-        />
-      </div>
-      <div className="mobile-only w-full h-full -dr-top-110 left-0 absolute">
-        <RiveWrapper
-          src="/assets/rives/Mobile_hero_loop_1.riv"
           className="size-full pointer-events-none"
         />
       </div>
