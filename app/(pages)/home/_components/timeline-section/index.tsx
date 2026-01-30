@@ -292,8 +292,8 @@ function TimelineItem({
                   <Image
                     src={`/videos/${message.video}.png`}
                     alt={message.video}
-                    unoptimized
-                    preload
+                    mobileSize="20vw"
+                    fill
                   />
                 }
               >

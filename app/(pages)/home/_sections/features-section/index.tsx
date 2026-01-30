@@ -263,7 +263,8 @@ export function Features() {
                     <Image
                       src="/videos/Octo-Juggle.png"
                       alt="Octo Wave"
-                      unoptimized
+                      mobileSize="50vw"
+                      fill
                     />
                   }
                 >

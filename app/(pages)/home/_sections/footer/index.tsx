@@ -178,11 +178,12 @@ export function Footer() {
               />
             </div>
             <div className="text-center flex flex-col items-center relative dr-mb-30 dt:dr-mb-0">
-              <div className="dr-w-172 aspect-square">
+              <div className="dr-w-172 aspect-square relative">
                 <Image
                   src="/images/Octo-Sight.png"
                   alt="Octo Sight"
-                  unoptimized
+                  mobileSize="50vw"
+                  fill
                 />
               </div>
 
