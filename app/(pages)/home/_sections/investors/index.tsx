@@ -91,12 +91,14 @@ function MainInvestorCard({
       >
         <HashPattern className="absolute inset-0 text-dark-grey z-0" />
         {/* <PartnershipSVG className="dt:dr-w-353 dr-w-254 relative z-1" /> */}
-        <Image
-          block
-          src="/images/gp.png"
-          alt="Partnership"
-          className="dt:dr-w-353 dr-w-254 relative z-1"
-        />
+        <div className="dt:dr-w-353 dr-w-254">
+          <Image
+            block
+            src="/images/gp.png"
+            alt="Partnership"
+            className="relative z-1 min-w-full"
+          />
+        </div>
       </div>
     </div>
   )
