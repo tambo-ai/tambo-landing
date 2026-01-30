@@ -8,6 +8,7 @@ import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
 import LinesBg from '~/assets/svgs/hero-line-bg.svg'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
+import { RiveWrapper } from '~/components/rive'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { useStore } from '~/libs/store'
 import { fromTo } from '~/libs/utils'
@@ -69,7 +70,7 @@ export function Hero() {
           'flex bg-white dr-rounded-20 relative dt:dr-pl-64 dr-pb-24 dt:dr-pb-0'
         )}
       >
-        <div className="content-max-width  flex dt:flex-row flex-col-reverse items-center ">
+        <div className="flex dt:flex-row flex-col-reverse items-center content-max-width w-full">
           <div
             className="dt:dr-w-col-4 flex flex-col dr-gap-16 text-center items-start z-1 columns-1"
             ref={titleRef}
@@ -100,7 +101,7 @@ export function Hero() {
           </div>
 
           {/* replace with real asset */}
-          <div className="dt:dr-h-771 dt:dr-w-860 dr-h-262 dr-w-326 relative dt:dr-mt-120 ">
+          <div className="dr-h-262 dr-w-326 relative mobile-only">
             <Image src="/assets/hero/hero-right-image.png" alt="Footer" fill />
           </div>
         </div>
@@ -114,6 +115,12 @@ export function Hero() {
       >
         <DashedBorder className="absolute inset-0 " />
         <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
+      </div>
+      <div className="desktop-only absolute inset-0 content-max-width">
+        <RiveWrapper
+          src="/assets/rives/hero_loop_1.riv"
+          className="size-full"
+        />
       </div>
     </section>
   )
