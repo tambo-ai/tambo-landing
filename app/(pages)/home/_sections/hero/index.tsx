@@ -11,7 +11,6 @@ import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
 import { RiveWrapper } from '~/components/rive'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { useStore } from '~/libs/store'
 import { fromTo } from '~/libs/utils'
 import s from './hero.module.css'
 
@@ -20,18 +19,14 @@ export function Hero() {
 
   const titleRef = useRef<HTMLDivElement>(null)
   const arrowDownRef = useRef<HTMLDivElement>(null)
-  const mobileArrowDownRef = useRef<HTMLDivElement>(null)
 
   useScrollTrigger({
     rect,
     start: 'top top',
     end: 'bottom center',
     onProgress: ({ progress }) => {
-      const hasAppeared = useStore.getState().hasAppeared
-      if (!hasAppeared) return
-
       fromTo(
-        [arrowDownRef.current, mobileArrowDownRef.current],
+        arrowDownRef.current,
         {
           translate: 0,
         },
