@@ -1,9 +1,6 @@
 'use client'
 
 import cn from 'clsx'
-// import gsap from 'gsap'
-// import { useLenis } from 'lenis/react'
-// import { useEffect, useEffectEvent, useRef, useState } from 'react'
 import { useRef } from 'react'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import CloseIcon from '~/assets/svgs/close.svg'
@@ -14,7 +11,6 @@ import TamboLogo from '~/assets/svgs/tambo.svg'
 import XIcon from '~/assets/svgs/X.svg'
 import { Button, CTA } from '~/components/button'
 import { Link } from '~/components/link'
-// import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useStore } from '~/libs/store'
 import s from './navigation.module.css'
 
@@ -31,189 +27,15 @@ interface NavigationProps {
 }
 
 export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
-  // const [isVisible, setIsVisible] = useState(true)
-  // const [isHovered, setIsHovered] = useState(false)
   const isMobileNavOpened = useStore((state) => state.isMobileNavOpened)
   const setIsMobileNavOpened = useStore((state) => state.setIsMobileNavOpened)
-  // const [hasScrolledUpwards, setHasScrolledUpwards] = useState(false)
-  // const [hasReachedLimits, setHasReachedLimits] = useState(false)
-  // const [isFirstScroll, setIsFirstScroll] = useState(false)
   const hasAppeared = useStore((state) => state.hasAppeared)
-  // const { isDesktop } = useDeviceDetection()
-
   const centerRef = useRef<HTMLDivElement>(null)
   const leftRef = useRef<HTMLUListElement>(null)
   const rightRef = useRef<HTMLUListElement>(null)
   const logoRef = useRef<SVGSVGElement>(null)
   const githubRef = useRef<HTMLAnchorElement>(null)
   const discordRef = useRef<HTMLAnchorElement>(null)
-
-  // useLenis(({ lastVelocity, progress, scroll }) => {
-
-  //   if (lastVelocity !== 0) setHasScrolledUpwards(lastVelocity < 0)
-
-  //   setHasReachedLimits(scroll < 100 || progress > 0.99)
-  // })
-
-  // const isVisible =
-  //   hasAppeared && (hasScrolledUpwards || hasReachedLimits || isHovered)
-
-  // useEffect(() => {
-  //   console.log('isVisible', isVisible)
-  // }, [isVisible])
-
-  // function toggleNavigation(action: 'show' | 'hide') {
-  //   if (!lenis) return
-  //   if (lenis.scroll < 100) {
-  //     setIsVisible(true)
-  //   } else {
-  //     setIsVisible(action === 'show')
-  //   }
-  // }
-
-  // const hideNavigation = useEffectEvent(() => {
-  //   // if (isHovered) return
-  //   const tl = gsap.timeline()
-
-  //   tl.to(centerRef.current, {
-  //     width: '11.1vw',
-  //     duration: 0.5,
-  //     ease: 'power2.inOut',
-  //   })
-
-  //   tl.to(
-  //     leftRef.current,
-  //     {
-  //       x: 100,
-  //       opacity: 0,
-  //       duration: 0.3,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '<'
-  //   )
-
-  //   tl.to(
-  //     rightRef.current,
-  //     {
-  //       x: -100,
-  //       opacity: 0,
-  //       duration: 0.3,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '<'
-  //   )
-
-  //   tl.to(
-  //     githubRef.current,
-  //     {
-  //       x: '100%',
-  //       opacity: 0,
-  //       duration: 0.4,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '<'
-  //   )
-
-  //   tl.to(
-  //     discordRef.current,
-  //     {
-  //       x: '-100%',
-  //       opacity: 0,
-  //       duration: 0.4,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '<'
-  //   )
-
-  //   tl.to(
-  //     logoRef.current,
-  //     {
-  //       scale: isDesktop ? 0.8 : 1,
-  //       duration: 0.5,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '-=.3'
-  //   )
-
-  //   return () => {
-  //     tl.kill()
-  //   }
-  // })
-
-  // const showNavigation = useEffectEvent(() => {
-  //   const tl = gsap.timeline()
-
-  //   tl.to(centerRef.current, {
-  //     width: '100%',
-  //     duration: 0.5,
-  //     ease: 'power2.inOut',
-  //   })
-
-  //   tl.to(
-  //     logoRef.current,
-  //     {
-  //       scale: 1,
-  //       duration: 0.5,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '<'
-  //   )
-
-  //   tl.to(
-  //     leftRef.current,
-  //     {
-  //       x: 0,
-  //       opacity: 1,
-  //       duration: 0.5,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '-=.4'
-  //   )
-
-  //   tl.to(
-  //     rightRef.current,
-  //     {
-  //       x: 0,
-  //       opacity: 1,
-  //       duration: 0.5,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '<'
-  //   )
-
-  //   tl.to(
-  //     githubRef.current,
-  //     {
-  //       x: 0,
-  //       opacity: 1,
-  //       duration: 0.5,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '<'
-  //   )
-
-  //   tl.to(
-  //     discordRef.current,
-  //     {
-  //       x: 0,
-  //       opacity: 1,
-  //       duration: 0.5,
-  //       ease: 'power2.inOut',
-  //     },
-  //     '<'
-  //   )
-
-  //   return () => {
-  //     tl.kill()
-  //   }
-  // })
-
-  // useEffect(() => {
-  //   if (isVisible) {
-  //     return showNavigation()
-  //   }
-  //   return hideNavigation()
-  // }, [isVisible])
 
   return (
     <nav
@@ -222,12 +44,6 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
         !hasAppeared && 'dt:opacity-0',
         'transition-opacity duration-600 ease-out-expo'
       )}
-      // onMouseEnter={() => {
-      //   setIsHovered(true)
-      // }}
-      // onMouseLeave={() => {
-      //   setIsHovered(false)
-      // }}
     >
       <Link
         href="https://github.com/tambo-ai"

@@ -3,10 +3,7 @@
 import cn from 'clsx'
 import { SplitText as GSAPSplitText } from 'gsap/SplitText'
 import { useEffect, useImperativeHandle, useRef, useState } from 'react'
-// import { useIsVisualEditor } from '~/integrations/storyblok/use-is-visual-editor'
 import s from './split-text.module.css'
-
-// @refresh reset
 
 interface SplitTextProps {
   children: React.ReactNode
@@ -36,8 +33,6 @@ export function SplittedText({
     | React.RefObject<SplitTextRef | null>
     | ((node: SplitTextRef | null) => void)
 }) {
-  // const isVisualEditor = useIsVisualEditor()
-
   const splitRef = useRef<HTMLDivElement>(null)
   const splittedRef = useRef<GSAPSplitText | null>(null)
   const [splittedText, setSplittedText] = useState<GSAPSplitText | null>(null)
@@ -89,20 +84,6 @@ export function SplittedText({
     }),
     [splittedText]
   )
-
-  // if (isVisualEditor) {
-  //   return (
-  //     <Tag
-  //       className={cn(s.splitText, className)}
-  //       ref={splitRef}
-  //       style={{
-  //         opacity: willAppear ? 0 : 1,
-  //       }}
-  //     >
-  //       {children}
-  //     </Tag>
-  //   )
-  // }
 
   return (
     <Tag

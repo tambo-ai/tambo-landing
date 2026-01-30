@@ -40,17 +40,9 @@ const BOTTOM_LINKS = [
 
 export function Footer() {
   const [setRectRef, rect] = useRect({ ignoreTransform: true })
-
   const innerRef = useRef<HTMLDivElement>(null)
-
   const [currentYear, setCurrentYear] = useState<number | null>(2026)
-
-  // const { getItems, getBackground } = useContext(BackgroundContext)
-
-  // const { height: windowHeight = 0 } = useWindowSize()
-
   const desktopVW = useDesktopVW()
-
   const backgroundRef = useRef<BackgroundRefType>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const stickyRef = useRef<HTMLDivElement>(null)
@@ -63,57 +55,8 @@ export function Footer() {
     rect,
     start: `top bottom`,
     end: 'bottom bottom',
-    onEnter: () => {
-      // const items = backgroundRef.current?.getItems()
-      // if (!items) return
-      // items.forEach((item, index) => {
-      //   const width = desktopVW(666 + (items.length - 1 - index) * 260, true)
-      //   const boxShadow = item?.getBoxShadow()
-      //   if (boxShadow) {
-      //     boxShadow.style.opacity = '0'
-      //   }
-      //   item?.setBorderRadius(`${width * 2}px`)
-      //   const element = item?.getElement()
-      //   if (element) {
-      //     element.style.width = `${width}px`
-      //     element.style.height = `${width}px`
-      //     element.style.transform = `translateY(0px)`
-      //     element.style.opacity = `1`
-      //   }
-      //   const greyBackground = item?.getGreyBackground()
-      //   if (greyBackground) {
-      //     greyBackground.style.opacity = '1'
-      //   }
-      // })
-    },
-    onLeave: () => {
-      // const items = getItems()
-      // items.forEach((item) => {
-      //   const greyBackground = item?.getGreyBackground()
-      //   if (greyBackground) {
-      //     greyBackground.style.opacity = '0'
-      //   }
-      //   const element = item?.getElement()
-      //   if (element) {
-      //     element.style.opacity = `0`
-      //   }
-      // })
-    },
+
     onProgress: ({ progress }) => {
-      // if (!isActive) return
-
-      // const background = backgroundRef.current?.getBackground()
-
-      // if (innerRef.current && background) {
-      //   if (progress === 0) {
-      //     innerRef.current.style.transform =
-      //       background.style.transform = `translateY(0px)`
-      //   } else {
-      //     innerRef.current.style.transform =
-      //       background.style.transform = `translateY(${-windowHeight * 0.5 * (1 - progress)}px)`
-      //   }
-      // }
-
       if (overlayRef.current) {
         overlayRef.current.style.opacity = mapRange(
           0,
@@ -167,15 +110,6 @@ export function Footer() {
     const items = backgroundRef.current?.getItems()
     if (!items) return
     items.forEach((item, index) => {
-      // const boxShadow = item?.getBoxShadow()
-      // if (boxShadow) {
-      //   gsap.to(boxShadow, {
-      //     opacity: 1,
-      //     duration: 1,
-      //     ease: 'expo.out',
-      //   })
-      // }
-
       const element = item?.getElement()
       if (element) {
         const width = desktopVW(596 + (items.length - 1 - index) * 260, true)
@@ -187,32 +121,13 @@ export function Footer() {
           ease: 'expo.out',
         })
       }
-
-      // const greyBackground = item?.getGreyBackground()
-      // if (greyBackground) {
-      //   gsap.to(greyBackground, {
-      //     opacity: 0,
-      //     duration: 1,
-      //     ease: 'expo.out',
-      //   })
-      // }
     })
   })
 
   const onMouseLeave = useEffectEvent(() => {
-    // return
     const items = backgroundRef.current?.getItems()
     if (!items) return
     items.forEach((item, index) => {
-      // const boxShadow = item?.getBoxShadow()
-      // if (boxShadow) {
-      //   gsap.to(boxShadow, {
-      //     opacity: 0,
-      //     duration: 1,
-      //     ease: 'expo.out',
-      //   })
-      // }
-
       const element = item?.getElement()
 
       if (element) {
@@ -225,15 +140,6 @@ export function Footer() {
           ease: 'expo.out',
         })
       }
-
-      // const greyBackground = item?.getGreyBackground()
-      // if (greyBackground) {
-      //   gsap.to(greyBackground, {
-      //     opacity: 1,
-      //     duration: 1,
-      //     ease: 'expo.out',
-      //   })
-      // }
     })
   })
 
@@ -272,10 +178,7 @@ export function Footer() {
                 fill
               />
             </div>
-            <Kinesis
-              getIndex={() => 50}
-              className="text-center flex flex-col items-center relative dr-mb-30 dt:dr-mb-0"
-            >
+            <Kinesis className="text-center flex flex-col items-center relative dr-mb-30 dt:dr-mb-0">
               <div className="dr-w-172 aspect-square">
                 <Image
                   src="/images/Octo-Sight.png"

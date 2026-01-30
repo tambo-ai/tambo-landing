@@ -5,7 +5,6 @@ import { useEffect, useRef } from 'react'
 import Background, {
   type BackgroundRefType,
 } from '~/app/(pages)/home/_components/background'
-// import { BackgroundContext } from '~/app/(pages)/home/_components/background/context'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
@@ -15,10 +14,6 @@ import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { cn } from '~/integrations/tambo/(components)/lib/utils'
 import { fromTo } from '~/libs/utils'
 import s from './features.module.css'
-
-// import { useDesktopVW } from '~/hooks/use-device-values'
-// import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-// import { fromTo } from '~/libs/utils'
 
 const BUTTONS = [
   {
@@ -92,18 +87,9 @@ const BUTTONS = [
 export function Features() {
   const buttonsRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonsWrapperRef = useRef<HTMLDivElement | null>(null)
-  // const setSnapRef = useLenisSnap('center')
-
   const [setRectRef, rect] = useRect()
-
-  // const { getItems, getBackground, getElement } = useContext(BackgroundContext)
-
-  // const { width: windowWidth = 0, height: windowHeight = 0 } = useWindowSize()
-
   const desktopVW = useDesktopVW()
-
   const hasAnimated = useRef(false)
-
   const [setAnimationTriggerRef, intersection] = useIntersectionObserver({
     threshold: 0.5,
   })
@@ -118,17 +104,6 @@ export function Features() {
       if (!backgroundRef.current) return
 
       console.log('progress', progress)
-      // if (!isActive) return
-
-      // const backgroundElement = getElement()
-      // if (backgroundElement) {
-      //   backgroundElement.style.backgroundColor = `rgba(255, 255, 255, ${1 - progress})`
-      // }
-
-      // const background = getBackground()
-      // if (progress > 0 && background) {
-      //   background.style.opacity = '1'
-      // }
 
       const element = backgroundRef.current?.getElement?.()
       if (element) {
@@ -184,7 +159,6 @@ export function Features() {
   })
 
   // Trigger animation once when title block is 50% visible
-
   useEffect(() => {
     if (intersection?.isIntersecting && !hasAnimated.current) {
       hasAnimated.current = true
@@ -204,10 +178,6 @@ export function Features() {
     start: 'center center',
     end: `${rect?.top === undefined || rect?.height === undefined || windowHeight === undefined ? 'bottom' : rect?.top + rect?.height + windowHeight * 0.5} top`,
     onProgress: ({ progress, height }) => {
-      // if (buttonsWrapperRef.current) {
-      //   buttonsWrapperRef.current.style.transform = `translateY(${-height * progress * 0.5}px)`
-      // }
-
       const items = backgroundRef.current?.getItems()
       if (!items) return
 
@@ -219,12 +189,10 @@ export function Features() {
           opacity: 1,
         },
         {
-          // y: 0,
           y: (index) => {
             if (index === items.length - 1) return 0
 
             return -(items.length - index * 1.2) * height * 0.1
-            // (items.length - index) * -height
           },
           boxShadowOpacity: 1,
           opacity: 1,
@@ -238,9 +206,6 @@ export function Features() {
             if (boxShadow) {
               boxShadow.style.opacity = `${boxShadowOpacity}`
             }
-
-            // item?.setBorderRadius(`${width * 2}px`)
-
             // @ts-expect-error
             const element = item?.getElement()
             if (element instanceof HTMLElement) {
@@ -259,12 +224,8 @@ export function Features() {
         ref={(node) => {
           setRectRef(node)
           setAnimationTriggerRef(node)
-          // setSnapRef(node)
         }}
         className="relative flex flex-col items-center justify-center"
-        // style={{
-        //   height: isDesktop ? `${BUTTONS.length * 500}px` : 'auto',
-        // }}
       >
         <div
           className={cn(
@@ -285,10 +246,7 @@ export function Features() {
           />
         </div>
         <div className="dt:h-screen w-full flex flex-col items-center justify-center dt:bg-transparent bg-white ">
-          <div
-            // getIndex={() => 50}
-            className="text-center flex flex-col items-center relative dt:-dr-top-48"
-          >
+          <div className="text-center flex flex-col items-center relative dt:-dr-top-48">
             <div
               ref={setAnimationTriggerRef}
               className="flex flex-col items-center justify-center"

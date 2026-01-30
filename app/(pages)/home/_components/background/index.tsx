@@ -7,42 +7,6 @@ import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { DashedBorder } from '../dashed-border'
 import s from './background.module.css'
 
-// function BoxShadow({
-//   x = 0,
-//   y = 0,
-//   blur: _blur = 0,
-//   opacity: _opacity = 1,
-// }: {
-//   x?: number
-//   y?: number
-//   blur?: number
-//   opacity?: number
-// }) {
-//   return (
-//     <>
-//       <div
-//         className={cn('absolute inset-[-5%] rounded-[inherit]', s.boxShadow)}
-//         style={{
-//           transform: `translate(${x}%, ${y}%)`,
-//           // filter: `blur(${blur}px)`,
-//           // filter: `blur(${blur}px)`,
-//           // opacity: opacity * 2,
-//           // backgroundColor: `rgba(127, 255, 195, 1)`,
-//           backgroundImage: `radial-gradient(circle at center, rgba(127, 255, 195, 1) 50%, rgba(127, 255, 195, 0) 70%)`,
-//         }}
-//       />
-//       {/* <div
-//         className={cn('absolute inset-[-5%] rounded-[inherit]')}
-//         style={{
-//           transform: `translate(${x}%, ${y}%)`,
-//           // filter: `blur(${50}px)`,
-//           backgroundImage: `linear-gradient(to top, rgba(127, 255, 195, 1) 50%, rgba(127, 255, 195, 0) 70%)`,
-//         }}
-//       /> */}
-//     </>
-//   )
-// }
-
 export type BackgroundItemRef = {
   getElement: () => HTMLDivElement | null
   getBoxShadow: () => HTMLDivElement | null
@@ -108,19 +72,12 @@ export function BackgroundItem({
           'absolute inset-0 rounded-[inherit]',
           outerBorder && 'card-outline'
         )}
-        getIndex={() => index * kinesisRef.current}
       >
         <div
           className="absolute inset-0 rounded-[inherit] shadow-m"
           ref={boxShadowRef}
-        >
-          {/* <BoxShadow y={36} blur={231} opacity={0.02} />
-        <BoxShadow y={20} blur={195} opacity={0.07} />
-        <BoxShadow y={9} blur={145} opacity={0.12} />
-        <BoxShadow y={2} blur={79} opacity={0.14} /> */}
+        />
 
-          {/* <BoxShadow y={4} blur={56} opacity={0.25} /> */}
-        </div>
         <div
           className={cn('absolute inset-0 rounded-[inherit] bg-white')}
           style={{ opacity: opacity }}
@@ -159,18 +116,6 @@ export function BackgroundItem({
             }}
           />
         )}
-
-        {/* <div
-        className={cn(
-          'absolute inset-0 rounded-[inherit] translate-z-0',
-          s.border
-        )}
-        style={{
-          opacity: borderOpacity,
-          backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100%' ry='100%' stroke='%23333' stroke-width='1' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
-          borderRadius: '100%',
-        }}
-      /> */}
       </Kinesis>
     </div>
   )
