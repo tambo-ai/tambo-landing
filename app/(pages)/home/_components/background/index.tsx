@@ -2,7 +2,6 @@
 
 import cn from 'clsx'
 import { useImperativeHandle, useRef } from 'react'
-import { Kinesis } from '~/components/kinesis'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { DashedBorder } from '../dashed-border'
 import s from './background.module.css'
@@ -66,7 +65,7 @@ export function BackgroundItem({
       style={style}
       ref={elementRef}
     >
-      <Kinesis
+      <div
         className={cn(
           'absolute inset-0 rounded-[inherit]',
           outerBorder && 'card-outline'
@@ -115,7 +114,7 @@ export function BackgroundItem({
             }}
           />
         )}
-      </Kinesis>
+      </div>
     </div>
   )
 }
