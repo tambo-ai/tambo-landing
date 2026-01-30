@@ -240,7 +240,7 @@ export function Footer() {
   return (
     <section
       ref={setRectRef}
-      className="overflow-clip relative bg-white dt:bg-transparent dt:h-screen"
+      className=" relative bg-white dt:bg-transparent dt:h-screen"
     >
       <div className="dt:absolute dt:bottom-0 dt:left-0 dt:right-0 dt:top-[-100vh]">
         <div
