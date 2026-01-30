@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { BlogFooter } from "~/components/blog/blog-footer";
 
 export const metadata: Metadata = {
@@ -48,7 +49,7 @@ export default function BlogLayout({ children }: BlogLayoutProps) {
             alignItems: "center",
           }}
         >
-          <a
+          <Link
             href="/"
             style={{
               fontWeight: 700,
@@ -59,9 +60,9 @@ export default function BlogLayout({ children }: BlogLayoutProps) {
             }}
           >
             tambo
-          </a>
+          </Link>
           <span style={{ marginLeft: "1rem", color: "#8aa8a0" }}>/</span>
-          <a
+          <Link
             href="/blog"
             style={{
               marginLeft: "1rem",
@@ -72,7 +73,7 @@ export default function BlogLayout({ children }: BlogLayoutProps) {
             }}
           >
             blog
-          </a>
+          </Link>
         </div>
       </header>
       <main style={{ flex: 1 }}>{children}</main>

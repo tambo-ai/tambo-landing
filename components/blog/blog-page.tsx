@@ -22,19 +22,22 @@ export function BlogPage({ posts }: BlogPageProps) {
     );
   }, [posts, searchQuery]);
 
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL ?? "https://tambo.co";
+
   const blogListSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "tambo Blog",
     description: "Latest updates, tutorials, and insights about tambo.",
-    url: "/blog",
+    url: `${baseUrl}/blog`,
     blogPost: posts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,
       description: post.description,
       author: { "@type": "Person", name: post.author || "tambo team" },
       datePublished: post.date,
-      url: `/blog/posts/${post.slug}`,
+      url: `${baseUrl}/blog/posts/${post.slug}`,
     })),
   };
 

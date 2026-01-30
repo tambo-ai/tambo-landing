@@ -1,5 +1,3 @@
-"use client";
-
 import type { BlogPostListItem } from "~/libs/blog/types";
 import { formatDate } from "~/libs/blog/format-date";
 import Link from "next/link";
@@ -10,81 +8,27 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   return (
-    <Link 
-      href={`/blog/posts/${post.slug}`} 
-      style={{
-        display: "block",
-        textDecoration: "none",
-        color: "inherit",
-      }}
+    <Link
+      href={`/blog/posts/${post.slug}`}
+      className="block no-underline text-inherit"
     >
       <article
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          padding: "1.75rem",
-          backgroundColor: "#e8f3ef",
-          border: "1px solid #d4e5df",
-          borderRadius: "0.875rem",
-          transition: "all 0.2s ease",
-          fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-          cursor: "pointer",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = "0 8px 30px rgba(0, 0, 0, 0.06)";
-          e.currentTarget.style.transform = "translateY(-2px)";
-          e.currentTarget.style.borderColor = "#c4d8d0";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = "none";
-          e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.borderColor = "#d4e5df";
-        }}
+        className="flex flex-col h-full p-7 bg-[#e8f3ef] border border-[#d4e5df] rounded-[0.875rem] transition-all duration-200 ease-out cursor-pointer hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 hover:border-[#c4d8d0]"
+        style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}
       >
-        <h3 
-          style={{ 
-            fontSize: "1.1875rem",
-            fontWeight: 600,
-            color: "#1a2e28",
-            marginBottom: "0.75rem",
-            lineHeight: 1.35,
-            letterSpacing: "-0.01em",
-          }}
-        >
+        <h3 className="text-[1.1875rem] font-semibold text-[#1a2e28] mb-3 leading-[1.35] tracking-[-0.01em]">
           {post.title}
         </h3>
         {post.description && (
-          <p 
-            style={{ 
-              fontSize: "0.9375rem",
-              color: "#4a6860",
-              lineHeight: 1.65,
-              marginBottom: "1.25rem",
-              display: "-webkit-box",
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            }}
-          >
+          <p className="text-[0.9375rem] text-[#4a6860] leading-[1.65] mb-5 line-clamp-3">
             {post.description}
           </p>
         )}
-        <div 
-          style={{ 
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            fontSize: "0.8125rem",
-            color: "#5d7a72",
-            marginTop: "auto",
-            paddingTop: "0.5rem",
-          }}
-        >
+        <div className="flex items-center gap-2 text-[0.8125rem] text-[#5d7a72] mt-auto pt-2">
           {post.author && (
             <>
-              <span style={{ fontWeight: 500 }}>{post.author}</span>
-              <span style={{ opacity: 0.5 }}>•</span>
+              <span className="font-medium">{post.author}</span>
+              <span className="opacity-50">•</span>
             </>
           )}
           <time dateTime={post.date}>{formatDate(post.date)}</time>

@@ -287,9 +287,3 @@ export function fromTo<T>(
   }
 }
 
-// cn utility for classname merging (compatible with clsx)
-import clsx, { type ClassValue } from 'clsx'
-
-export function cn(...inputs: ClassValue[]) {
-  return clsx(inputs)
-}

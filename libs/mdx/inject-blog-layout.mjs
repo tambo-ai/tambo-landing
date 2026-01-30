@@ -17,7 +17,9 @@ import { visit } from "unist-util-visit";
 export function remarkInjectBlogLayout() {
   return (tree, file) => {
     // Only apply this plugin to blog post files
-    if (!file.history[0] || !file.history[0].includes("/blog/posts/")) {
+    // Normalize path separators for cross-platform compatibility
+    const filePath = (file.history[0] ?? "").replaceAll("\\", "/");
+    if (!filePath.includes("/blog/posts/")) {
       return;
     }
 

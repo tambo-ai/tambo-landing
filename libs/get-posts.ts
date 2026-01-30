@@ -10,6 +10,7 @@ export interface BlogFrontMatter {
   description?: string;
   author?: string;
   authorImage?: string;
+  category?: BlogCategory;
 }
 
 export interface BlogPost {
@@ -59,6 +60,7 @@ export async function getPosts(): Promise<BlogPost[]> {
         description: item.frontMatter.description,
         author: item.frontMatter.author ?? BLOG_DEFAULTS.author,
         authorImage: item.frontMatter.authorImage ?? BLOG_DEFAULTS.authorImage,
+        category: item.frontMatter.category,
       },
     }))
     .toSorted(
@@ -76,7 +78,8 @@ export async function getPostListItems(): Promise<BlogPostListItem[]> {
 
   return posts.map((post) => {
     const slug = post.name;
-    const category = determineCategory(post.name);
+    // Prefer explicit frontmatter category, fall back to heuristic
+    const category = post.frontMatter.category ?? determineCategory(post.name);
 
     return {
       id: slug,
