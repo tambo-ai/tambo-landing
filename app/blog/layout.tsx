@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "~/components/link";
+import TamboLogo from "~/assets/svgs/tambo.svg";
 import { BlogFooter } from "~/components/blog/blog-footer";
 
 export const metadata: Metadata = {
@@ -19,64 +20,25 @@ interface BlogLayoutProps {
 export default function BlogLayout({ children }: BlogLayoutProps) {
   return (
     <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#f4f9f7",
-        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-      }}
+      className="min-h-screen flex flex-col"
+      style={{ backgroundColor: "#F2F8F6" }}
     >
-      <header
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 50,
-          height: "4rem",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          borderBottom: "1px solid rgba(212, 229, 223, 0.6)",
-          backgroundColor: "rgba(244, 249, 247, 0.9)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "64rem",
-            margin: "0 auto",
-            padding: "0 1.5rem",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Link
-            href="/"
-            style={{
-              fontWeight: 700,
-              fontSize: "1.25rem",
-              color: "#1a2e28",
-              textDecoration: "none",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            tambo
-          </Link>
-          <span style={{ marginLeft: "1rem", color: "#8aa8a0" }}>/</span>
-          <Link
-            href="/blog"
-            style={{
-              marginLeft: "1rem",
-              color: "#5d7a72",
-              textDecoration: "none",
-              fontWeight: 500,
-              transition: "color 0.15s",
-            }}
-          >
-            blog
-          </Link>
+      <header className="sticky top-0 z-50 pt-gap dr-layout-grid-inner">
+        <div className="col-span-full dt:col-start-3 dt:col-end-11 flex justify-center">
+          <div className="w-full flex justify-between items-center border border-dark-grey dr-pl-24 dr-pr-8 rounded-full dr-h-48 bg-white/50 backdrop-blur-[30px]">
+            <Link href="/" className="grid place-items-center">
+              <TamboLogo className="dr-h-24" />
+            </Link>
+            <Link
+              href={process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://console.tambo.co"}
+              className="dr-px-16 dr-h-32 rounded-full bg-mint grid place-items-center uppercase typo-button"
+            >
+              Log in
+            </Link>
+          </div>
         </div>
       </header>
-      <main style={{ flex: 1 }}>{children}</main>
+      <main className="flex-1">{children}</main>
       <BlogFooter />
     </div>
   );
