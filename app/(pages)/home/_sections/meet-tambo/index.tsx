@@ -1,5 +1,3 @@
-'use client'
-
 import cn from 'clsx'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'

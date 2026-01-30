@@ -1,7 +1,4 @@
-'use client'
-
 import cn from 'clsx'
-// import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import HowItWorksSVG from '~/assets/svgs/how-it-works/how-it-works-diagram-desktop.svg'
 import HowItWorksMobileSVG from '~/assets/svgs/how-it-works/how-it-works-diagram-mobile.svg'
@@ -9,8 +6,6 @@ import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 
 export function HowItWorks() {
-  // const setSnapRef = useLenisSnap('center')
-
   return (
     <section
       className={cn(
