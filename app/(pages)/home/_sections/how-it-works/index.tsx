@@ -20,7 +20,7 @@ export function HowItWorks() {
       <div className="z-1 overflow-hidden dr-rounded-20 dt:dr-py-80 dr-py-56 dr-px-16 dt:dr-px-0 flex flex-col relative content-max-width">
         <TitleBlock className="dr-mb-56">
           <TitleBlock.LeadIn>how It Works</TitleBlock.LeadIn>
-          <TitleBlock.Title level="h2" className="dt:dr-mb-40! dr-mb-8">
+          <TitleBlock.Title level="h2" className="dt:dr-mb-40! dr-mb-32">
             The missing layer <br /> between React and LLMs
           </TitleBlock.Title>
           <CTA href="https://docs.tambo.co" className="w-fit mx-auto">
