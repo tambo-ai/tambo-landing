@@ -1,8 +1,15 @@
 'use client'
+import dynamic from 'next/dynamic'
 import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import { TimelineSection } from '~/app/(pages)/home/_components/timeline-section'
-import { RiveWrapper } from '~/components/rive'
 import { messages } from './data'
+
+const RiveWrapper = dynamic(
+  () => import('~/components/rive').then((mod) => mod.RiveWrapper),
+  {
+    ssr: false,
+  }
+)
 
 export function TamboSteps() {
   const setSnapRef = useLenisSnap('center')

@@ -1,18 +1,25 @@
 'use client'
 
-import { Alignment } from '@rive-app/react-webgl2'
+// import { Alignment } from '@rive-app/react-webgl2'
 import cn from 'clsx'
 import { useRect } from 'hamo'
+import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
 import LinesBg from '~/assets/svgs/hero-line-bg.svg'
 import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
-import { RiveWrapper } from '~/components/rive'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
 import s from './hero.module.css'
+
+const RiveWrapper = dynamic(
+  () => import('~/components/rive').then((mod) => mod.RiveWrapper),
+  {
+    ssr: false,
+  }
+)
 
 export function Hero() {
   const [setRectRef, rect] = useRect()
@@ -103,7 +110,7 @@ export function Hero() {
             <RiveWrapper
               src="/assets/rives/Mobile_hero_loop_1.riv"
               className="size-full pointer-events-none"
-              alignment={Alignment.TopCenter}
+              alignment="TopCenter"
             />
           </div>
         </div>
