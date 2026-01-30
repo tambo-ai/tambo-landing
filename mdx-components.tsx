@@ -153,10 +153,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 
     blockquote: ({ className, ...props }) => (
       <blockquote
-        className={cn(
-          "border-l-4 border-blue-500 pl-6 pr-4 my-6 italic text-gray-700 bg-blue-50/50 rounded-r-lg",
-          className,
-        )}
+        className={cn("blog-blockquote", className)}
         {...props}
       />
     ),

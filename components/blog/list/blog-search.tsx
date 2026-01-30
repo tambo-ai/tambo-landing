@@ -1,6 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
+import { useCallback, useRef } from "react";
 
 interface BlogSearchProps {
   value: string;
@@ -13,54 +14,35 @@ export function BlogSearch({
   onChange,
   placeholder = "Search posts...",
 }: BlogSearchProps) {
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value;
+
+      // Clear existing timer
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+
+      // Set new debounced call (300ms)
+      debounceTimerRef.current = setTimeout(() => {
+        onChange(newValue);
+      }, 300);
+    },
+    [onChange]
+  );
+
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-      }}
-    >
-      <Search
-        style={{
-          position: "absolute",
-          left: "1.125rem",
-          top: "50%",
-          transform: "translateY(-50%)",
-          color: "#8aa8a0",
-          width: "1.125rem",
-          height: "1.125rem",
-          pointerEvents: "none",
-        }}
-      />
+    <div className="blog-search">
+      <Search className="blog-search-icon" />
       <input
         type="text"
         placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        style={{
-          display: "block",
-          height: "3rem",
-          width: "100%",
-          borderRadius: "0.625rem",
-          border: "1px solid #d4e5df",
-          backgroundColor: "#ffffff",
-          paddingLeft: "3rem",
-          paddingRight: "1.25rem",
-          fontSize: "1rem",
-          color: "#1a2e28",
-          outline: "none",
-          boxSizing: "border-box",
-          fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-          transition: "border-color 0.15s, box-shadow 0.15s",
-        }}
-        onFocus={(e) => {
-          e.target.style.borderColor = "#8aa8a0";
-          e.target.style.boxShadow = "0 0 0 3px rgba(138, 168, 160, 0.1)";
-        }}
-        onBlur={(e) => {
-          e.target.style.borderColor = "#d4e5df";
-          e.target.style.boxShadow = "none";
-        }}
+        defaultValue={value}
+        onChange={handleChange}
+        className="blog-search-input"
+        maxLength={200}
       />
     </div>
   );

@@ -17,11 +17,4 @@ export interface BlogPostListItem {
   description?: string;
   date: string;
   author?: string;
-  authorImage?: string;
-}
-
-// Sort options
-export interface BlogSortOptions {
-  field: "date" | "title";
-  order: "asc" | "desc";
 }

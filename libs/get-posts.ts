@@ -9,7 +9,6 @@ export interface BlogFrontMatter {
   date: string;
   description?: string;
   author?: string;
-  authorImage?: string;
   category?: BlogCategory;
 }
 
@@ -18,23 +17,6 @@ export interface BlogPost {
   route: string;
   frontMatter: BlogFrontMatter;
   content?: string;
-}
-
-// Helper to determine category from post name/slug
-function determineCategory(name: string): BlogCategory {
-  const slug = name.toLowerCase();
-
-  // Map slug patterns to categories
-  if (slug.includes("hack") || slug.includes("event")) return "event";
-  if (slug.includes("support") || slug.includes("feature")) return "feature";
-  if (slug.includes("announcement") || slug.includes("launch"))
-    return "announcement";
-  if (slug.includes("tutorial") || slug.includes("guide")) return "tutorial";
-  if (slug.includes("fix")) return "bug fix";
-  if (slug.includes("new")) return "new";
-
-  // Default category
-  return "update";
 }
 
 export async function getPosts(): Promise<BlogPost[]> {
@@ -59,7 +41,6 @@ export async function getPosts(): Promise<BlogPost[]> {
         date: item.frontMatter.date ?? new Date().toISOString(),
         description: item.frontMatter.description,
         author: item.frontMatter.author ?? BLOG_DEFAULTS.author,
-        authorImage: item.frontMatter.authorImage ?? BLOG_DEFAULTS.authorImage,
         category: item.frontMatter.category,
       },
     }))
@@ -78,8 +59,8 @@ export async function getPostListItems(): Promise<BlogPostListItem[]> {
 
   return posts.map((post) => {
     const slug = post.name;
-    // Prefer explicit frontmatter category, fall back to heuristic
-    const category = post.frontMatter.category ?? determineCategory(post.name);
+    // Use explicit frontmatter category or default to "update"
+    const category = post.frontMatter.category ?? "update";
 
     return {
       id: slug,
@@ -89,7 +70,6 @@ export async function getPostListItems(): Promise<BlogPostListItem[]> {
       date: post.frontMatter.date,
       description: post.frontMatter.description,
       author: post.frontMatter.author,
-      authorImage: post.frontMatter.authorImage,
     };
   });
 }

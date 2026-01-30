@@ -42,68 +42,33 @@ export function BlogPage({ posts }: BlogPageProps) {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#f4f9f7",
-        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-      }}
-    >
+    <div className="blog-page">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
       />
 
-      <div
-        style={{
-          maxWidth: "64rem",
-          margin: "0 auto",
-          padding: "3rem 1.5rem",
-        }}
-      >
+      <div className="blog-page-container">
         {/* Header */}
-        <header style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-          <h1
-            style={{
-              fontSize: "2.75rem",
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              marginBottom: "0.875rem",
-              color: "#1a2e28",
-              lineHeight: 1.15,
-            }}
-          >
-            tambo updates
-          </h1>
-          <p style={{ color: "#5d7a72", fontSize: "1.0625rem", lineHeight: 1.6 }}>
+        <header className="blog-page-header">
+          <h1 className="blog-page-title">tambo updates</h1>
+          <p className="blog-page-subtitle">
             Latest features, fixes, changes, and events from the tambo team.
           </p>
         </header>
 
         {/* Search */}
-        <div style={{ maxWidth: "32rem", margin: "0 auto 2rem auto" }}>
+        <div className="blog-page-search-wrapper">
           <BlogSearch value={searchQuery} onChange={setSearchQuery} />
         </div>
 
         {/* Results Count */}
-        <p
-          style={{
-            fontSize: "0.9375rem",
-            color: "#5d7a72",
-            marginBottom: "1.5rem",
-          }}
-        >
+        <p className="blog-page-count">
           {filteredPosts.length} {filteredPosts.length === 1 ? "post" : "posts"}
         </p>
 
         {/* Posts Grid - 2 columns */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: "1.25rem",
-          }}
-        >
+        <div className="blog-page-grid">
           {filteredPosts.map((post) => (
             <BlogCard key={post.id} post={post} />
           ))}
@@ -111,8 +76,8 @@ export function BlogPage({ posts }: BlogPageProps) {
 
         {/* Empty State */}
         {filteredPosts.length === 0 && (
-          <div style={{ textAlign: "center", padding: "4rem 0" }}>
-            <p style={{ color: "#5d7a72" }}>No posts found matching your criteria.</p>
+          <div className="blog-page-empty">
+            <p>No posts found matching your criteria.</p>
           </div>
         )}
       </div>
