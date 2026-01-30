@@ -107,8 +107,6 @@ export function Features() {
     onProgress: ({ progress }) => {
       if (!backgroundRef.current) return
 
-      console.log('progress', progress)
-
       const element = backgroundRef.current?.getElement?.()
       if (element) {
         element.style.visibility = progress === 0 ? 'hidden' : 'visible'
