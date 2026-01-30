@@ -1,5 +1,5 @@
-import type { Metadata, Viewport } from 'next'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import type { Metadata, Viewport } from 'next'
 
 import type { PropsWithChildren } from 'react'
 import { ReactTempus } from 'tempus/react'
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     url: APP_BASE_URL,
     images: [
       {
-        url: '/opengraph-image.png',
+        url: '/opengraph-image.jpg',
         width: 1200,
         height: 630,
         alt: APP_DEFAULT_TITLE,
@@ -68,7 +68,6 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    images: ['/opengraph-image.png'],
   },
   authors: [
     { name: 'darkroom.engineering', url: 'https://darkroom.engineering' },
