@@ -1,4 +1,3 @@
-import { ScrollRestoration } from '~/components/scroll-restoration'
 import { getGitHubStars } from '~/libs/github'
 import { Wrapper } from '../_components/wrapper'
 import { Community } from './_sections/comunity'
@@ -17,28 +16,23 @@ export default async function Home() {
   const githubStars = await getGitHubStars()
 
   return (
-    <>
-      {process.env.NODE_ENV === 'production' && (
-        <ScrollRestoration type="manual" />
-      )}
-      <Wrapper
-        theme="light"
-        lenis={{}}
-        className="mx-auto bg-primary max-w-screen overflow-x-clip"
-        githubStars={githubStars}
-      >
-        <Hero />
-        <TamboSteps />
-        <MeetTambo />
-        <SocialProof />
-        <HowItWorks />
-        <Features />
-        <Pricing />
-        <Investors />
-        <Showcase />
-        <Community />
-        <Footer />
-      </Wrapper>
-    </>
+    <Wrapper
+      theme="light"
+      lenis={{}}
+      className="mx-auto bg-primary max-w-screen overflow-x-clip"
+      githubStars={githubStars}
+    >
+      <Hero />
+      <TamboSteps />
+      <MeetTambo />
+      <SocialProof />
+      <HowItWorks />
+      <Features />
+      <Pricing />
+      <Investors />
+      <Showcase />
+      <Community />
+      <Footer />
+    </Wrapper>
   )
 }
