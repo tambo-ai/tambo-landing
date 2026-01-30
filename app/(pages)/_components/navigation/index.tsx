@@ -87,6 +87,7 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
                 alt="Tambo Logo"
                 className="min-h-full"
                 desktopSize="25vw"
+                preload
               />
             </div>
           </div>
@@ -130,6 +131,7 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
                 alt="Tambo Logo"
                 className="min-h-full"
                 mobileSize="25vw"
+                preload
               />
             </div>
             <Button
