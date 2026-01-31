@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Link } from "~/components/link";
 import TamboLogo from "~/assets/svgs/tambo.svg";
 import { BlogFooter } from "~/components/blog/blog-footer";
+import { siteConfig } from "~/libs/config";
 
 export const metadata: Metadata = {
   title: {
@@ -30,7 +31,7 @@ export default function BlogLayout({ children }: BlogLayoutProps) {
               <TamboLogo className="dr-h-24" />
             </Link>
             <Link
-              href={process.env.NEXT_PUBLIC_DASHBOARD_URL ?? "https://console.tambo.co"}
+              href={siteConfig.links.dashboard}
               className="dr-px-16 dr-h-32 rounded-full bg-mint grid place-items-center uppercase typo-button"
             >
               Log in
