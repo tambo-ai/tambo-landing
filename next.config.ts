@@ -153,6 +153,72 @@ const nextConfig: NextConfig = {
       destination: '/',
       permanent: true,
     },
+    {
+      source: '/docs',
+      destination: process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.tambo.co',
+      permanent: true,
+    },
+    {
+      source: '/docs/:path*',
+      destination: process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.tambo.co',
+      permanent: true,
+    },
+    {
+      source: '/blog/posts',
+      destination: '/blog',
+      permanent: true,
+    },
+    {
+      source: '/book',
+      destination: 'https://cal.com/michaelmagan',
+      permanent: false,
+    },
+    {
+      source: '/discord',
+      destination: 'https://discord.gg/dJNvPEHth6',
+      permanent: false,
+    },
+    {
+      source: '/gh',
+      destination: 'https://github.com/tambo-ai/tambo',
+      permanent: false,
+    },
+    {
+      source: '/issue',
+      destination: 'https://github.com/tambo-ai/tambo/issues/new',
+      permanent: false,
+    },
+    {
+      source: '/license',
+      destination:
+        process.env.NEXT_PUBLIC_LICENSE_URL ||
+        'https://docs.google.com/document/d/1UHvU9pKnuZ4wHRjxRk_8nqmeDK8KTmHc/edit?usp=sharing&ouid=105761745283245441798&rtpof=true&sd=true',
+      permanent: false,
+    },
+    {
+      source: '/privacy',
+      destination:
+        process.env.NEXT_PUBLIC_PRIVACY_URL ||
+        'https://docs.google.com/document/d/1OFX8Y-uc7_TLDFUKxq3dYI0ozbpN8igD/edit?usp=sharing&ouid=105761745283245441798&rtpof=true&sd=true',
+      permanent: false,
+    },
+    {
+      source: '/start',
+      destination: 'https://stackblitz.com/~/github.com/tambo-ai/tambo-template',
+      permanent: false,
+    },
+    {
+      source: '/terms',
+      destination:
+        process.env.NEXT_PUBLIC_TERMS_URL ||
+        'https://docs.google.com/document/d/1GOjwt8tHx3AQ1SeZJ0rXhxuuSfRYnjLIaF02chvFqYo/edit?usp=sharing',
+      permanent: false,
+    },
+    {
+      source: '/x',
+      destination: 'https://x.com/tambo_ai',
+      permanent: false,
+    },
   ],
   rewrites: async () => [
     {
