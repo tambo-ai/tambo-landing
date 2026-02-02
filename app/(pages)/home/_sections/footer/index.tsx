@@ -15,25 +15,7 @@ import { Link } from '~/components/link'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
-
-const BOTTOM_LINKS = [
-  {
-    label: 'Documentation',
-    href: 'https://docs.tambo.ai',
-  },
-  {
-    label: 'License',
-    href: 'https://docs.tambo.ai',
-  },
-  {
-    label: 'Privacy notice',
-    href: 'https://docs.tambo.ai',
-  },
-  {
-    label: 'Terms of use',
-    href: 'https://docs.tambo.ai',
-  },
-]
+import { siteConfig } from '~/libs/config'
 
 export function Footer() {
   const [setRectRef, rect] = useRect({ ignoreTransform: true })
@@ -268,7 +250,7 @@ export function Footer() {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className="w-full"
-                href="https://ui.tambo.co/"
+                href={siteConfig.links.componentLibrary}
               >
                 components
               </CTA>
@@ -284,19 +266,19 @@ export function Footer() {
         </div>
         <div className="mobile-only flex dr-gap-12 dr-mb-32">
           <Link
-            href="https://github.com/tambo-ai/tambo"
+            href={siteConfig.links.github}
             className="dr-size-32 rounded-full bg-grey grid place-items-center"
           >
             <GithubSVG className="dr-w-16 dr-h-16" />
           </Link>
           <Link
-            href="https://discord.com/invite/dJNvPEHth6"
+            href={siteConfig.links.discord}
             className="dr-size-32 rounded-full bg-grey grid place-items-center"
           >
             <DiscordSVG className="dr-w-16 dr-h-16" />
           </Link>
           <Link
-            href="https://x.com/tambo_ai"
+            href={siteConfig.links.twitter}
             className="dr-size-32 rounded-full bg-grey grid place-items-center"
           >
             <XSVG className="dr-w-16 dr-h-16" />
@@ -308,18 +290,18 @@ export function Footer() {
             Fractal Dynamics Inc © {currentYear ?? 2025}
           </span>
           <div className="dt:col-[3/-3] flex items-center justify-center dt:dr-gap-24 dr-gap-13 dr-mb-16 dt:mb-0">
-            {BOTTOM_LINKS.map((link, index) => (
+            {siteConfig.footer.links.map((link: { text: string; url: string }, index: number) => (
               <Link
-                key={link.label + index.toString()}
-                href={link.href}
-                className="link typo-label-s dt:typo-label-m"
+                key={link.text + index.toString()}
+                href={link.url}
+                className="link typo-label-s dt:typo-label-m whitespace-nowrap"
               >
-                {link.label}
+                {link.text}
               </Link>
             ))}
           </div>
           <Link
-            href="https://x.com/tambo_ai"
+            href={siteConfig.links.twitter}
             className="col-span-2 justify-self-end link desktop-only"
           >
             Twitter

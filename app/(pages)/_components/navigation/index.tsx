@@ -15,6 +15,7 @@ import { Button, CTA } from '~/components/button'
 import { Link } from '~/components/link'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useStore } from '~/libs/store'
+import { siteConfig } from '~/libs/config'
 import s from './navigation.module.css'
 
 const LEFT_LINKS = [
@@ -235,7 +236,7 @@ export function Navigation() {
       }}
     >
       <Link
-        href="https://github.com/tambo-ai"
+        href={siteConfig.links.githubOrg}
         className="desktop-only dr-size-48 rounded-full border border-dark-grey grid place-items-center bg-white/50 backdrop-blur-[30px]"
         ref={githubRef}
       >
@@ -281,7 +282,7 @@ export function Navigation() {
             ))}
             <li>
               <Link
-                href={process.env.NEXT_PUBLIC_LOGIN_URL}
+                href={siteConfig.links.dashboard}
                 className={cn(
                   'dr-px-16 dr-h-32 rounded-full bg-mint grid place-items-center',
                   s.loginButton
@@ -333,7 +334,7 @@ export function Navigation() {
             </div>
             <div className="flex dr-gap-x-12 dr-mb-40">
               <Link
-                href="https://github.com/tambo-ai"
+                href={siteConfig.links.githubOrg}
                 className={cn(
                   'rounded-full bg-mint grid place-items-center dr-h-32 dr-w-32',
                   s.loginButton
@@ -342,7 +343,7 @@ export function Navigation() {
                 <GithubIcon className="dr-w-16 icon" />
               </Link>
               <Link
-                href="https://discord.com/invite/dJNvPEHth6"
+                href={siteConfig.links.discord}
                 className={cn(
                   'rounded-full bg-mint grid place-items-center dr-h-32 dr-w-32',
                   s.loginButton
@@ -351,7 +352,7 @@ export function Navigation() {
                 <DiscordIcon className="dr-w-16 icon" />
               </Link>
               <Link
-                href="https://x.com/tamboai"
+                href={siteConfig.links.twitter}
                 className={cn(
                   'rounded-full bg-mint grid place-items-center dr-h-32 dr-w-32',
                   s.loginButton
@@ -361,7 +362,7 @@ export function Navigation() {
               </Link>
             </div>
 
-            <CTA className={s.ctaMobile} href="https://ui.tambo.co/">
+            <CTA className={s.ctaMobile} href={siteConfig.links.dashboard}>
               Sign In
             </CTA>
           </div>
@@ -369,7 +370,7 @@ export function Navigation() {
       </section>
 
       <Link
-        href="https://discord.com/invite/dJNvPEHth6"
+        href={siteConfig.links.discord}
         className="desktop-only col-start-12 dr-size-48 rounded-full border border-dark-grey grid place-items-center bg-white/50 backdrop-blur-[30px] justify-self-end"
         ref={discordRef}
       >

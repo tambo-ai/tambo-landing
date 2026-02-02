@@ -22,7 +22,7 @@ export function generateBlogPostSchema({
   slug: string;
   image?: string;
 }) {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || siteConfig.url;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || siteConfig.url;
 
   return {
     "@context": "https://schema.org",
