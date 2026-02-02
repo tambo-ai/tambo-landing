@@ -48,6 +48,7 @@ export function Section12() {
 
   return (
     <section
+      id="section-12"
       className="dt:dr-pt-65 dr-pt-120 dr-pb-120 dt:dr-pb-137 max-dt:bg-white"
       ref={setRectRef}
     >
