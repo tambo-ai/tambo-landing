@@ -21,7 +21,7 @@ import s from './navigation.module.css'
 const LEFT_LINKS = [
   { href: '/docs', label: 'Docs', external: true },
   { href: '#moment-3', label: 'MCP' },
-  { href: '#section-12', label: 'Pricing' },
+  { href: '#section-12', label: 'Sanity' },
 ] as const
 
 const RIGHT_LINKS = [
