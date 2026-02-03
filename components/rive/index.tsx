@@ -1,6 +1,6 @@
 'use client'
 
-import { Alignment, Fit, Layout, useRive } from '@rive-app/react-canvas'
+import { Alignment, Fit, Layout, useRive } from '@rive-app/react-webgl2'
 import cn from 'clsx'
 import { useIntersectionObserver } from 'hamo'
 import { useEffect } from 'react'
