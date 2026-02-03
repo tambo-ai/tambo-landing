@@ -4,6 +4,7 @@ import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import { TimelineSection } from '~/app/(pages)/home/_components/timeline-section'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { messages } from './data'
+import { siteConfig } from '~/libs/config'
 
 const RiveWrapper = dynamic(
   () => import('~/components/rive').then((mod) => mod.RiveWrapper),
@@ -21,7 +22,7 @@ export function TamboSteps() {
       ref={setSnapRef}
       id="moment-1"
       messages={messages}
-      href="https://docs.tambo.co/concepts/components"
+      href={siteConfig.links.generativeUiComponents}
       title="Generative UI, powered by your components."
     >
       {/* Only render the appropriate Rive animation for the device */}
