@@ -28,12 +28,10 @@
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",
-    "@modelcontextprotocol/sdk": "^1.25.1",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
-    "@rive-app/react-canvas": "^4.26.1",
     "@rive-app/react-webgl2": "^4.26.2",
     "@tambo-ai/react": "^0.67.1",
     "clsx": "^2.1.1",
@@ -57,7 +55,6 @@
     "three": "^0.181.2",
     "tunnel-rat": "^0.1.2",
     "zod": "^4.2.1",
-    "zod-to-json-schema": "^3.25.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
