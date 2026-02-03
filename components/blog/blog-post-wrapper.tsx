@@ -2,11 +2,7 @@ import { BlogPost } from './blog-post'
 
 interface BlogPostWithFrontmatterProps {
   children: React.ReactNode
-  meta: {
-    title?: string
-    author?: string
-    date?: string
-  }
+  meta: Record<string, unknown>
 }
 
 /**

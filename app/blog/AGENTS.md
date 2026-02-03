@@ -96,8 +96,8 @@ The plugin automatically injects:
 import { BlogPostWithFrontmatter as BlogPost } from "~/components/blog/blog-post-wrapper";
 
 export default function Layout(props) {
-  const raw = typeof frontmatter === 'object' && frontmatter ? frontmatter : {}
-  const meta = { title: raw.title, author: raw.author, date: raw.date }
+  const meta =
+    typeof frontmatter === 'object' && frontmatter ? frontmatter : {}
   return <BlogPost meta={meta}>{props.children}</BlogPost>;
 }
 ```

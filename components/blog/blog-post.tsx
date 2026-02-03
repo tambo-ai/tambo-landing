@@ -2,19 +2,36 @@ import { ChevronRight } from 'lucide-react'
 import { Link } from '~/components/link'
 import { formatDate } from '~/libs/blog/format-date'
 
-interface BlogPostProps {
-  children: React.ReactNode
-  meta?: {
-    title?: string
-    author?: string
-    date?: string
-  }
+function getMetaString(
+  meta: Record<string, unknown> | undefined,
+  key: string
+): string | undefined {
+  const value = meta?.[key]
+  return typeof value === 'string' ? value : undefined
 }
 
-export function BlogPost({ children, meta }: BlogPostProps) {
-  const title = meta?.title
-  const author = meta?.author
-  const rawDate = meta?.date
+interface BlogPostProps {
+  children: React.ReactNode
+  meta?: Record<string, unknown>
+  frontmatter?: Record<string, unknown>
+  title?: string
+  author?: string
+  date?: string
+}
+
+export function BlogPost({
+  children,
+  meta,
+  frontmatter,
+  title: titleProp,
+  author: authorProp,
+  date: dateProp,
+}: BlogPostProps) {
+  const source = meta ?? frontmatter
+
+  const title = getMetaString(source, 'title') ?? titleProp
+  const author = getMetaString(source, 'author') ?? authorProp
+  const rawDate = getMetaString(source, 'date') ?? dateProp
   const date = rawDate ? formatDate(rawDate) : undefined
 
   return (
