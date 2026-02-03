@@ -2,6 +2,7 @@
 import dynamic from 'next/dynamic'
 import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import { TimelineSection } from '~/app/(pages)/home/_components/timeline-section'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { messages } from './data'
 
 const RiveWrapper = dynamic(
@@ -13,6 +14,7 @@ const RiveWrapper = dynamic(
 
 export function TamboSteps() {
   const setSnapRef = useLenisSnap('center')
+  const { isMobile, isDesktop } = useDeviceDetection()
 
   return (
     <TimelineSection
@@ -22,15 +24,11 @@ export function TamboSteps() {
       href="https://docs.tambo.co/concepts/components"
       title="Generative UI, powered by your components."
     >
-      <RiveWrapper
-        className="desktop-only"
-        src="/assets/rives/moment-1_loop_1.riv"
-      />
-      <RiveWrapper
-        className="mobile-only"
-        src="/assets/rives/mobile_moment-1_loop_1.riv"
-      />
-      {/* <Animation /> */}
+      {/* Only render the appropriate Rive animation for the device */}
+      {isDesktop && <RiveWrapper src="/assets/rives/moment-1_loop_1.riv" />}
+      {isMobile && (
+        <RiveWrapper src="/assets/rives/mobile_moment-1_loop_1.riv" />
+      )}
     </TimelineSection>
   )
 }

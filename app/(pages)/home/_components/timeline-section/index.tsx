@@ -18,7 +18,6 @@ import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { colors } from '~/styles/colors'
 import CursorClickIcon from './cursor-click.svg'
 import SealCheckIcon from './seal-check.svg'
-// import s from './timeline-section.module.css'
 
 export const TimelineSectionContext = createContext<{
   callbacks: RefObject<TimelineCallback[]>

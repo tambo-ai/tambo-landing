@@ -1,6 +1,5 @@
 'use client'
 
-// import { Alignment } from '@rive-app/react-webgl2'
 import cn from 'clsx'
 import { useRect } from 'hamo'
 import dynamic from 'next/dynamic'
@@ -10,6 +9,7 @@ import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
 import LinesBg from '~/assets/svgs/hero-line-bg.svg'
 import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo } from '~/libs/utils'
 import s from './hero.module.css'
@@ -23,6 +23,7 @@ const RiveWrapper = dynamic(
 
 export function Hero() {
   const [setRectRef, rect] = useRect()
+  const { isMobile, isDesktop } = useDeviceDetection()
 
   const titleRef = useRef<HTMLDivElement>(null)
   const arrowDownRef = useRef<HTMLDivElement>(null)
@@ -106,31 +107,39 @@ export function Hero() {
               </CTA>
             </div>
           </div>
-          <div className="mobile-only w-full h-full top-0 left-0 absolute">
-            <RiveWrapper
-              src="/assets/rives/Mobile_hero_loop_1.riv"
-              className="size-full pointer-events-none"
-              alignment="TopCenter"
-            />
-          </div>
+          {/* Mobile Rive - only renders on mobile devices */}
+          {isMobile && (
+            <div className="w-full h-full top-0 left-0 absolute">
+              <RiveWrapper
+                src="/assets/rives/Mobile_hero_loop_1.riv"
+                className="size-full pointer-events-none"
+                alignment="TopCenter"
+              />
+            </div>
+          )}
         </div>
       </div>
-      <div
-        ref={arrowDownRef}
-        className={cn(
-          s.arrowDown,
-          'desktop-only dt:dr-w-136 dt:aspect-square dt:bottom-0 left-[50%] rounded-full fixed z-10'
-        )}
-      >
-        <DashedBorder className="absolute inset-0 " />
-        <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
-      </div>
-      <div className="desktop-only absolute inset-0 content-max-width">
-        <RiveWrapper
-          src="/assets/rives/hero_loop_1.riv"
-          className="size-full pointer-events-none"
-        />
-      </div>
+      {isDesktop && (
+        <div
+          ref={arrowDownRef}
+          className={cn(
+            s.arrowDown,
+            'dt:dr-w-136 dt:aspect-square dt:bottom-0 left-[50%] rounded-full fixed z-10'
+          )}
+        >
+          <DashedBorder className="absolute inset-0 " />
+          <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
+        </div>
+      )}
+      {/* Desktop Rive - only renders on desktop devices */}
+      {isDesktop && (
+        <div className="absolute inset-0 content-max-width">
+          <RiveWrapper
+            src="/assets/rives/hero_loop_1.riv"
+            className="size-full pointer-events-none"
+          />
+        </div>
+      )}
     </section>
   )
 }

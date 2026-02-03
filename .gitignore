@@ -39,6 +39,9 @@ yarn-error.log*
 
 .eslintcache
 
+# tasks
+/tasks/
+
 .env*.local
 
 .npmrc
