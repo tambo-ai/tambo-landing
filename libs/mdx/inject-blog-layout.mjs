@@ -108,8 +108,8 @@ export function remarkInjectBlogLayout() {
     tree.children.push({
       type: 'mdxjsEsm',
       value: `export default function Layout(props) {
-  const meta =
-    typeof frontmatter === 'object' && frontmatter ? frontmatter : {};
+  const raw = typeof frontmatter === 'object' && frontmatter ? frontmatter : {};
+  const meta = { title: raw.title, author: raw.author, date: raw.date };
   return <BlogPost meta={meta}>{props.children}</BlogPost>;
 }`,
       data: {
@@ -132,7 +132,7 @@ export function remarkInjectBlogLayout() {
                       declarations: [
                         {
                           type: 'VariableDeclarator',
-                          id: { type: 'Identifier', name: 'meta' },
+                          id: { type: 'Identifier', name: 'raw' },
                           init: {
                             type: 'ConditionalExpression',
                             test: {
@@ -165,6 +165,57 @@ export function remarkInjectBlogLayout() {
                               type: 'ObjectExpression',
                               properties: [],
                             },
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      type: 'VariableDeclaration',
+                      kind: 'const',
+                      declarations: [
+                        {
+                          type: 'VariableDeclarator',
+                          id: { type: 'Identifier', name: 'meta' },
+                          init: {
+                            type: 'ObjectExpression',
+                            properties: [
+                              {
+                                type: 'Property',
+                                key: { type: 'Identifier', name: 'title' },
+                                value: {
+                                  type: 'MemberExpression',
+                                  object: { type: 'Identifier', name: 'raw' },
+                                  property: {
+                                    type: 'Identifier',
+                                    name: 'title',
+                                  },
+                                },
+                              },
+                              {
+                                type: 'Property',
+                                key: { type: 'Identifier', name: 'author' },
+                                value: {
+                                  type: 'MemberExpression',
+                                  object: { type: 'Identifier', name: 'raw' },
+                                  property: {
+                                    type: 'Identifier',
+                                    name: 'author',
+                                  },
+                                },
+                              },
+                              {
+                                type: 'Property',
+                                key: { type: 'Identifier', name: 'date' },
+                                value: {
+                                  type: 'MemberExpression',
+                                  object: { type: 'Identifier', name: 'raw' },
+                                  property: {
+                                    type: 'Identifier',
+                                    name: 'date',
+                                  },
+                                },
+                              },
+                            ],
                           },
                         },
                       ],

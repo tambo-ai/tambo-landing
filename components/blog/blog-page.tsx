@@ -43,10 +43,15 @@ export function BlogPage({ posts }: BlogPageProps) {
     [baseUrl, posts]
   )
 
+  const blogListSchemaJson = useMemo(
+    () => JSON.stringify(blogListSchema).replaceAll('<', '\\u003c'),
+    [blogListSchema]
+  )
+
   return (
     <div className="dr-layout-grid-inner dr-py-64">
       <script type="application/ld+json">
-        {JSON.stringify(blogListSchema)}
+        {blogListSchemaJson}
       </script>
 
       <div className="col-span-full dt:col-start-4 dt:col-end-10">
