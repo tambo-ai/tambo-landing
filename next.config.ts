@@ -251,7 +251,9 @@ const bundleAnalyzerPlugin = bundleAnalyzer({
 
 const NextApp = () => {
   const plugins = [withNextra, bundleAnalyzerPlugin]
-  return plugins.reduce((config, plugin) => plugin(config), nextConfig)
+  const config = plugins.reduce((next, plugin) => plugin(next), nextConfig)
+  const { turbopack: _turbopack, ...configWithoutTurbopack } = config
+  return configWithoutTurbopack
 }
 
 export default NextApp
