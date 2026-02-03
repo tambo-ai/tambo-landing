@@ -58,7 +58,6 @@ export function Dropdown({
           aria-hidden={!isOpened}
           onClick={(e) => e.stopPropagation()}
           onWheel={(e) => e.stopPropagation()}
-          onTouchMove={(e) => e.stopPropagation()}
         >
           {options.map((value, i) => (
             <button

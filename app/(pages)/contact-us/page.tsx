@@ -192,9 +192,12 @@ export default function ContactUsPage() {
                     onChange={(e) => handleChange('name', e.target.value)}
                     className={cn(s.input, errors.name && s.inputError)}
                     placeholder="Your name"
+                    required
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? 'name-error' : undefined}
                   />
                   {errors.name && (
-                    <span className={cn('typo-label-s', s.error)}>
+                    <span id="name-error" className={cn('typo-label-s', s.error)} role="alert">
                       {errors.name}
                     </span>
                   )}
@@ -211,9 +214,12 @@ export default function ContactUsPage() {
                     onChange={(e) => handleChange('email', e.target.value)}
                     className={cn(s.input, errors.email && s.inputError)}
                     placeholder="you@company.com"
+                    required
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? 'email-error' : undefined}
                   />
                   {errors.email && (
-                    <span className={cn('typo-label-s', s.error)}>
+                    <span id="email-error" className={cn('typo-label-s', s.error)} role="alert">
                       {errors.email}
                     </span>
                   )}
@@ -233,9 +239,12 @@ export default function ContactUsPage() {
                     className={cn(s.textarea, errors.useCase && s.inputError)}
                     placeholder="Tell us about your project..."
                     rows={4}
+                    required
+                    aria-invalid={!!errors.useCase}
+                    aria-describedby={errors.useCase ? 'useCase-error' : undefined}
                   />
                   {errors.useCase && (
-                    <span className={cn('typo-label-s', s.error)}>
+                    <span id="useCase-error" className={cn('typo-label-s', s.error)} role="alert">
                       {errors.useCase}
                     </span>
                   )}
@@ -248,11 +257,19 @@ export default function ContactUsPage() {
                   <Dropdown
                     placeholder="Select an option"
                     options={SOURCE_OPTIONS}
-                    defaultValue={formData.source ? SOURCE_OPTIONS.indexOf(formData.source) : undefined}
-                    onChange={(index) => handleChange('source', SOURCE_OPTIONS[index])}
+                    defaultValue={
+                      formData.source
+                        ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source))
+                        : undefined
+                    }
+                    onChange={(index) => {
+                      if (index >= 0 && index < SOURCE_OPTIONS.length) {
+                        handleChange('source', SOURCE_OPTIONS[index])
+                      }
+                    }}
                   />
                   {errors.source && (
-                    <span className={cn('typo-label-s', s.error)}>
+                    <span id="source-error" className={cn('typo-label-s', s.error)} role="alert">
                       {errors.source}
                     </span>
                   )}

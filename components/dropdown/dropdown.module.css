@@ -46,18 +46,24 @@
     box-shadow: 0 8px 32px rgba(15, 26, 23, 0.12);
     padding: mobile-vw(8px);
     max-height: min(mobile-vw(180px), 40vh);
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-dark-grey) transparent;
 
     &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
-      display: none;
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--color-dark-grey);
+      border-radius: 4px;
     }
 
     @media (--desktop) {
