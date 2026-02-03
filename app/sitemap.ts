@@ -31,7 +31,9 @@ async function getBlogPostSlugsAndDates(): Promise<
   const postsDir = path.join(process.cwd(), 'app', 'blog', 'posts')
   const entries = await readdir(postsDir, { withFileTypes: true })
 
-  const slugs = entries.filter((entry) => entry.isDirectory()).map((d) => d.name)
+  const slugs = entries
+    .filter((entry) => entry.isDirectory())
+    .map((d) => d.name)
   const posts = await Promise.all(
     slugs.map(async (slug) => {
       const mdxPath = path.join(postsDir, slug, 'page.mdx')
@@ -49,7 +51,9 @@ async function getBlogPostSlugsAndDates(): Promise<
     })
   )
 
-  return posts.filter((post): post is { slug: string; date: string } => post !== null)
+  return posts.filter(
+    (post): post is { slug: string; date: string } => post !== null
+  )
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
