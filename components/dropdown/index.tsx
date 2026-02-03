@@ -49,7 +49,7 @@ export function Dropdown({
           }
         }}
       >
-        <span>{selected && !isOpened ? options[selected] : placeholder}</span>
+        <span>{selected !== undefined && !isOpened ? options[selected] : placeholder}</span>
       </button>
       {/* Activity pre-renders options for instant first open */}
       <Activity mode={isOpened ? 'visible' : 'hidden'}>
@@ -57,6 +57,8 @@ export function Dropdown({
           className={s.options}
           aria-hidden={!isOpened}
           onClick={(e) => e.stopPropagation()}
+          onWheel={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
         >
           {options.map((value, i) => (
             <button

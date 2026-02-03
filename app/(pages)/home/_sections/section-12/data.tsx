@@ -37,7 +37,7 @@ export const pricingCards = [
     description: 'For large organisations',
     button: {
       text: 'contact us',
-      href: 'https://cal.com/michaelmagan/chat?duration=30',
+      href: '/contact-us',
     },
     features: [
       'negotiated message volume',
