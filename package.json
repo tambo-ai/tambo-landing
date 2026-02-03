@@ -1,6 +1,6 @@
 {
   "name": "tambo-website",
-  "description": "Build agents that speak your UI",
+  "description": "Tambo is the open-source generative UI toolkit for React. Build agents that render your components.",
   "version": "1.0.0",
   "license": "MIT",
   "type": "module",

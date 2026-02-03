@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: "blog",
   },
   description:
-    "Latest updates, tutorials, and insights about tambo - the AI orchestration framework for React frontends.",
+    "Tutorials, updates, and ideas from the Tambo team—building the open-source generative UI toolkit for React.",
 };
 
 interface BlogLayoutProps {

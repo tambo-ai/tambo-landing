@@ -30,18 +30,16 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   keywords: [
-    'AI-Powered React Components',
-    'Generative UI Components',
-    'React AI Integration',
-    'Contextual UI Generation',
-    'Dynamic Interface Adaptation',
-    'Conversational UI Framework',
-    'Context-Aware Interfaces',
-    'Natural Language UI',
-    'AI UX Development',
-    'Client Side MCP Integration',
-    'Server Side MCP Integration',
-    'React AI Agent Framework',
+    'generative UI',
+    'React AI toolkit',
+    'open-source AI',
+    'AI components',
+    'MCP',
+    'Model Context Protocol',
+    'React agent',
+    'AI copilot',
+    'streaming UI',
+    'component rendering',
   ],
   alternates: {
     canonical: '/',
@@ -69,7 +67,7 @@ export const metadata: Metadata = {
         url: '/opengraph-image.jpg',
         width: 1200,
         height: 630,
-        alt: APP_DEFAULT_TITLE,
+        alt: 'Tambo - the open-source generative UI toolkit for React',
       },
     ],
     locale: 'en_US',
@@ -110,6 +108,46 @@ export default async function Layout({ children }: PropsWithChildren) {
         <link rel="preconnect" href="https://us-assets.i.posthog.com" />
         <link rel="dns-prefetch" href="https://api.mapbox.com" />
         <link rel="dns-prefetch" href="https://api.open-meteo.com" />
+        {/* AI agent discovery */}
+        <link rel="help" type="text/plain" href="/llms.txt" />
+        {/* JSON-LD structured data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': `${APP_BASE_URL}/#organization`,
+                  name: 'Tambo',
+                  url: APP_BASE_URL,
+                  logo: {
+                    '@type': 'ImageObject',
+                    url: `${APP_BASE_URL}/icon.png`,
+                  },
+                  sameAs: [
+                    'https://github.com/tambo-ai/tambo',
+                    'https://twitter.com/tambo_ai',
+                    'https://discord.gg/wMeVUZXBPg',
+                  ],
+                  description:
+                    'Tambo is the open-source generative UI toolkit for React. Build agents that render your components.',
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': `${APP_BASE_URL}/#website`,
+                  url: APP_BASE_URL,
+                  name: 'Tambo',
+                  publisher: {
+                    '@id': `${APP_BASE_URL}/#organization`,
+                  },
+                  description: APP_DESCRIPTION,
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       {/* this helps to track Satus usage thanks to Wappalyzer */}
       <Script async>{`window.satusVersion = '${AppData.version}';`}</Script>

@@ -5,11 +5,11 @@ import { getPostListItems } from "~/libs/get-posts";
 export const metadata: Metadata = {
   title: "blog",
   description:
-    "Latest updates, tutorials, and insights about tambo - the AI orchestration framework for React frontends.",
+    "Tutorials, updates, and ideas from the Tambo team—building the open-source generative UI toolkit for React.",
   openGraph: {
     title: "blog",
     description:
-      "Latest updates, tutorials, and insights about tambo - the AI orchestration framework for React frontends.",
+      "Tutorials, updates, and ideas from the Tambo team—building the open-source generative UI toolkit for React.",
     type: "website",
     siteName: "blog",
   },
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "blog",
     description:
-      "Latest updates, tutorials, and insights about tambo - the AI orchestration framework for React frontends.",
+      "Tutorials, updates, and ideas from the Tambo team—building the open-source generative UI toolkit for React.",
   },
   alternates: {
     canonical: "/blog",
