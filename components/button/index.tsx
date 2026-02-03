@@ -23,12 +23,14 @@ type ButtonProps = {
   onMouseEnter?: () => void
   onMouseLeave?: () => void
   children: React.ReactNode
+  ref?: React.Ref<HTMLButtonElement>
 }
 
 export function Button({
   className,
   href,
   as,
+  ref,
   children,
   onClick,
   onMouseEnter,
@@ -40,6 +42,7 @@ export function Button({
   if (href) {
     const Component = as || Link
     return React.createElement(Component, {
+      ref,
       href,
       className: baseClassName,
       children,
@@ -52,6 +55,7 @@ export function Button({
 
   return (
     <button
+      ref={ref}
       className={baseClassName}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

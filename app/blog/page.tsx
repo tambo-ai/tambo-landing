@@ -26,6 +26,8 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const allPosts = await getPostListItems();
+  const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl = (rawBaseUrl || "https://tambo.co").replace(/\/+$/, "");
 
-  return <BlogPageComponent posts={allPosts} />;
+  return <BlogPageComponent posts={allPosts} baseUrl={baseUrl} />;
 }

@@ -23,6 +23,7 @@ export function generateBlogPostSchema({
   image?: string;
 }) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || siteConfig.url;
+  const postUrl = `${baseUrl}/blog/posts/${slug}`;
 
   return {
     "@context": "https://schema.org",
@@ -35,7 +36,7 @@ export function generateBlogPostSchema({
       url: authorUrl,
     },
     image: image || `${baseUrl}/api/og`,
-    url: `${baseUrl}/blog/${slug}`,
+    url: postUrl,
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
     publisher: {
@@ -48,7 +49,7 @@ export function generateBlogPostSchema({
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${baseUrl}/blog/${slug}`,
+      "@id": postUrl,
     },
   };
 }

@@ -4,6 +4,8 @@ const colors = {
   green: '#00ff88',
   purple: '#7928ca',
   pink: '#FFC4EB',
+  'light-pink': '#FFD6F1',
+  'dark-pink': '#E1C9D9',
   // PRIMARY
   'ghost-mint': '#D6FFEC',
   mint: '#B6FFDD',

@@ -17,7 +17,7 @@ export const useStore = create<Store>((set) => ({
   setIsNavOpened: (value: boolean) => set({ isNavOpened: value }),
   lenisSnap: null,
   setLenisSnap: (value: LenisSnap) => set({ lenisSnap: value }),
-  hasAppeared: false,
+  hasAppeared: true,
   setHasAppeared: (value: boolean) => set({ hasAppeared: value }),
   isMobileNavOpened: false,
   setIsMobileNavOpened: (value: boolean) => set({ isMobileNavOpened: value }),

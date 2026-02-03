@@ -1,0 +1,224 @@
+.cardWrapper {
+  position: relative;
+
+  @media (--hover) {
+    &:hover .cardRing {
+      opacity: 0.2;
+    }
+  }
+
+  &.isOpen {
+    @media (--mobile) {
+      .card {
+        max-height: mobile-vw(600px);
+        padding-bottom: calc(var(--content-height) + mobile-vw(80px));
+        background-color: var(--color-black);
+        border-color: var(--color-teal);
+        box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+      }
+
+      .pattern {
+        opacity: 1;
+      }
+
+      .plus {
+        opacity: 0;
+        transform: rotate(90deg);
+      }
+
+      .arrow {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+      }
+
+      .button {
+        background-color: var(--color-teal);
+
+        &::before,
+        &::after {
+          background-color: var(--color-teal);
+        }
+
+        &::before {
+          transform: scale(1.25);
+        }
+
+        &::after {
+          transform: scale(1.5);
+        }
+      }
+
+      .cardRing {
+        opacity: 0.2;
+      }
+
+      .title {
+        color: var(--color-teal);
+        &::before {
+          transform: scaleX(1);
+        }
+      }
+    }
+  }
+}
+
+.card {
+  transition:
+    max-height 0.3s ease,
+    padding-bottom 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  @media (--hover) {
+    &:hover {
+      @media (--desktop) {
+        padding-bottom: desktop-vw(140px);
+        background-color: var(--color-black);
+        box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+
+        border-color: var(--color-teal);
+      }
+
+      .title {
+        color: var(--color-teal);
+
+        &::before {
+          transform: scaleX(1);
+        }
+      }
+
+      .cardContent {
+        opacity: 1;
+      }
+
+      .cardImage {
+        border-color: var(--color-teal);
+      }
+
+      .pattern {
+        opacity: 1;
+      }
+
+      .plus {
+        opacity: 0;
+        transform: rotate(90deg);
+      }
+
+      .arrow {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+      }
+
+      .button {
+        background-color: var(--color-teal);
+
+        &::before {
+          transform: scale(1.25);
+        }
+
+        &::after {
+          transform: scale(1.5);
+        }
+      }
+    }
+  }
+
+  &.personInViewport {
+    box-shadow: 0 0 24px 8px rgba(127, 255, 195, 0.7);
+    border-color: var(--color-teal);
+    border-style: dashed;
+  }
+}
+
+.cardRing {
+  position: absolute;
+  inset: calc(-1 * mobile-vw(8px));
+  border-radius: mobile-vw(28px);
+  background-color: var(--color-white);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+
+  @media (--desktop) {
+    inset: calc(-1 * desktop-vw(8px));
+    border-radius: desktop-vw(28px);
+  }
+}
+
+.cardImage {
+  transition: border-color 0.3s ease;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    z-index: -1;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-teal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+}
+
+.cardContent {
+  transition: opacity 0.3s ease;
+
+  @media (--desktop) {
+    opacity: 0;
+  }
+}
+
+.pattern {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.plus {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.arrow {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.button {
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-mint);
+    transition: transform 0.3s ease;
+    border-radius: mobile-vw(10px);
+
+    @media (--desktop) {
+      border-radius: desktop-vw(10px);
+    }
+  }
+
+  &::before {
+    z-index: -1;
+    opacity: 0.4;
+  }
+
+  &::after {
+    z-index: -1;
+    opacity: 0.2;
+  }
+}

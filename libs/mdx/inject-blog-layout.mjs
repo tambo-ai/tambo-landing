@@ -79,7 +79,7 @@ export function remarkInjectBlogLayout() {
     tree.children.push({
       type: "mdxjsEsm",
       value: `export default function Layout(props) {
-  return <BlogPost meta={frontmatter}>{props.children}</BlogPost>;
+  return <BlogPost meta={typeof frontmatter === "undefined" ? {} : frontmatter}>{props.children}</BlogPost>;
 }`,
       data: {
         estree: {

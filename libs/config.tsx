@@ -45,6 +45,7 @@ export const siteConfig = {
     docs: process.env.NEXT_PUBLIC_DOCS_URL || "https://docs.tambo.co",
     dashboard: process.env.NEXT_PUBLIC_DASHBOARD_URL || "https://console.tambo.co",
     componentLibrary: "https://ui.tambo.co",
+    generativeUiComponents: "https://docs.tambo.co/concepts/generative-interfaces/generative-components",
   },
   metadata: {
     title: "Add React UI to your AI agent/copilot | tambo-ai",

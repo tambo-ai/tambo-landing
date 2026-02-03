@@ -1,12 +1,10 @@
 import type { Metadata, Viewport } from 'next'
-import 'mapbox-gl/dist/mapbox-gl.css'
 
 import type { PropsWithChildren } from 'react'
-import { AnalyticsProvider } from '~/providers/posthog-provider'
 import { ReactTempus } from 'tempus/react'
 import { RealViewport } from '~/components/real-viewport'
-
 import AppData from '~/package.json'
+import { AnalyticsProvider } from '~/providers/posthog-provider'
 import { themes } from '~/styles/colors'
 import '~/styles/css/index.css'
 
@@ -17,7 +15,7 @@ import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
 
 const APP_NAME = AppData.name
-const APP_DEFAULT_TITLE = 'tambo'
+const APP_DEFAULT_TITLE = 'Tambo'
 const APP_TITLE_TEMPLATE = '%s'
 const APP_DESCRIPTION = AppData.description
 const APP_BASE_URL =
@@ -106,6 +104,13 @@ export default async function Layout({ children }: PropsWithChildren) {
       // NOTE: This is due to the data-theme attribute being set which causes hydration errors
       suppressHydrationWarning
     >
+      <head>
+        {/* Preconnect to external origins for faster resource loading */}
+        <link rel="preconnect" href="https://us.i.posthog.com" />
+        <link rel="preconnect" href="https://us-assets.i.posthog.com" />
+        <link rel="dns-prefetch" href="https://api.mapbox.com" />
+        <link rel="dns-prefetch" href="https://api.open-meteo.com" />
+      </head>
       {/* this helps to track Satus usage thanks to Wappalyzer */}
       <Script async>{`window.satusVersion = '${AppData.version}';`}</Script>
       <body>

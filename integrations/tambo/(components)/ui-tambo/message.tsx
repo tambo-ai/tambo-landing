@@ -5,10 +5,6 @@ import { useTambo } from '@tambo-ai/react'
 import type TamboAI from '@tambo-ai/typescript-sdk'
 import stringify from 'json-stringify-pretty-compact'
 // import { Check, ChevronDown, ExternalLink, Loader2, X } from 'lucide-react'
-import Image from 'next/image'
-import * as React from 'react'
-import { useState } from 'react'
-import { Streamdown } from 'streamdown'
 import { markdownComponents } from '@/components/tambo/markdown-components'
 import {
   checkHasContent,
@@ -16,6 +12,10 @@ import {
   getSafeContent,
 } from '@/lib/thread-hooks'
 import { cn, cva, type VariantProps } from '@/lib/utils'
+import Image from 'next/image'
+import * as React from 'react'
+import { useState } from 'react'
+import { Streamdown } from 'streamdown'
 import CheckSVG from '~/assets/svgs/check.svg'
 
 /**

@@ -1,0 +1,59 @@
+# Tambo
+
+> Build agents that speak your UI
+
+Tambo is an open-source toolkit for adding AI agents to React applications. It's the missing layer between React and LLMs.
+
+## What Tambo Does
+
+Tambo connects your existing React components to AI agents. The agent renders your UI with the right props—no separate chat interface needed.
+
+### Core Features
+
+- **Generative UI**: AI agents render your React components with correct props
+- **Streaming Support**: Real-time streaming built-in
+- **State Management**: Handles complex state across agent interactions
+- **MCP-Native**: Full Model Context Protocol support
+- **Message History**: Persistent conversation threads
+- **Tool Orchestration**: Coordinate multiple tools seamlessly
+- **Model Flexibility**: Works with various LLM providers
+- **Agent-Native Auth**: Agents inherit user permissions
+
+## Quick Start
+
+```bash
+npm create tambo-app
+```
+
+Or add to an existing project:
+
+```bash
+npm install @tambo-ai/react
+```
+
+## Resources
+
+- Documentation: https://docs.tambo.co
+- GitHub: https://github.com/tambo-ai/tambo
+- Component Library: https://ui.tambo.co
+- Discord: https://discord.com/invite/dJNvPEHth6
+- Twitter: https://x.com/tambo_ai
+
+## Pricing
+
+- **Starter**: Free forever (self-hosted)
+- **Growth**: $25/month (managed infrastructure)
+- **Enterprise**: Custom pricing
+
+## Built With Tambo
+
+Examples of apps built with Tambo:
+- db-thing: Natural language SQL query interface
+- Strudel AI: AI-powered music creation
+- CheatSheet: AI document assistant
+
+## About
+
+Tambo is developed by Fractal Dynamics Inc. The toolkit is open-source and free to self-host forever.
+
+Website: https://tambo.co

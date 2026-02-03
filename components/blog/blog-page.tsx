@@ -7,11 +7,11 @@ import type { BlogPostListItem } from "~/libs/blog/types";
 
 interface BlogPageProps {
   posts: BlogPostListItem[];
+  baseUrl: string;
 }
 
-export function BlogPage({ posts }: BlogPageProps) {
+export function BlogPage({ posts, baseUrl }: BlogPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://tambo.co";
 
   const filteredPosts = useMemo(() => {
     if (!searchQuery.trim()) return posts;
