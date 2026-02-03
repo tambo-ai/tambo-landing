@@ -82,7 +82,8 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForDev: true,
     taint: true,
     browserDebugInfoInTerminal: true,
-    // isolatedDevBuild: true,
+    // Inline critical CSS to reduce render-blocking
+    inlineCss: true,
     optimizePackageImports: [
       '@phosphor-icons/react',
       '@react-three/drei',
