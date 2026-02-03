@@ -3,10 +3,10 @@ import { getGitHubStars } from '~/libs/github'
 import { Wrapper } from '../_components/wrapper'
 // Above-fold: static imports
 import { Hero } from './_sections/hero'
-import { TamboSteps } from './_sections/tambo-steps'
 // Server Components (no client JS)
 import { HowItWorks } from './_sections/how-it-works'
 import { MeetTambo } from './_sections/meet-tambo'
+import { TamboSteps } from './_sections/tambo-steps'
 
 // Below-fold: dynamic imports to reduce initial JS and TBT
 const SocialProof = dynamic(() =>

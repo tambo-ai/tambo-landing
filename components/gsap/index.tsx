@@ -12,7 +12,7 @@ export function GSAP() {
 
   // Initialize GSAP on first render, not at module load
   useEffect(() => {
-    if (!initialized.current && !gsapInitialized) {
+    if (!(initialized.current || gsapInitialized)) {
       initialized.current = true
       gsapInitialized = true
       gsap.defaults({ ease: 'none' })
