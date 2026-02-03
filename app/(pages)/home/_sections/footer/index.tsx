@@ -17,23 +17,24 @@ import { fromTo, mapRange } from '~/libs/utils'
 import Background, {
   type BackgroundRefType,
 } from '../../_components/background'
+import { siteConfig } from '~/libs/config'
 
 const BOTTOM_LINKS = [
   {
     label: 'Documentation',
-    href: 'https://docs.tambo.ai',
+    href: siteConfig.links.docs,
   },
   {
     label: 'License',
-    href: 'https://docs.tambo.ai',
+    href: '/license',
   },
   {
     label: 'Privacy notice',
-    href: 'https://docs.tambo.ai',
+    href: '/privacy',
   },
   {
     label: 'Terms of use',
-    href: 'https://docs.tambo.ai',
+    href: '/terms',
   },
 ]
 
@@ -199,7 +200,7 @@ export function Footer() {
                     className="bg-black! text-teal border-teal"
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
-                    href="https://docs.tambo.co/"
+                    href={siteConfig.links.docs}
                   >
                     START BUILDING
                   </CTA>
@@ -224,19 +225,19 @@ export function Footer() {
             </div>
             <div className="mobile-only flex dr-gap-12 dr-mb-32">
               <Link
-                href="https://github.com/tambo-ai/tambo"
+                href={siteConfig.links.github}
                 className="dr-size-32 rounded-full bg-grey grid place-items-center"
               >
                 <GithubSVG className="dr-w-16 dr-h-16" />
               </Link>
               <Link
-                href="https://discord.com/invite/dJNvPEHth6"
+                href={siteConfig.links.discord}
                 className="dr-size-32 rounded-full bg-grey grid place-items-center"
               >
                 <DiscordSVG className="dr-w-16 dr-h-16" />
               </Link>
               <Link
-                href="https://x.com/tambo_ai"
+                href={siteConfig.links.twitter}
                 className="dr-size-32 rounded-full bg-grey grid place-items-center"
               >
                 <XSVG className="dr-w-16 dr-h-16" />
@@ -259,7 +260,7 @@ export function Footer() {
                 ))}
               </div>
               <Link
-                href="https://x.com/tambo_ai"
+                href={siteConfig.links.twitter}
                 className="col-span-2 justify-self-end link desktop-only"
               >
                 <XSVG className="dr-w-16 dr-h-16" />

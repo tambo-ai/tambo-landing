@@ -2,6 +2,7 @@ import cn from 'clsx'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
+import { siteConfig } from '~/libs/config'
 
 export function HowItWorks() {
   return (
@@ -16,7 +17,7 @@ export function HowItWorks() {
           <TitleBlock.Title level="h2" className="dt:dr-mb-40! dr-mb-32">
             The missing layer <br /> between React and LLMs
           </TitleBlock.Title>
-          <CTA href="https://docs.tambo.co" className="w-fit mx-auto">
+          <CTA href={siteConfig.links.docs} className="w-fit mx-auto">
             learn more
           </CTA>
         </TitleBlock>
