@@ -2,9 +2,12 @@
 
 import cn from 'clsx'
 import { useEffect, useState } from 'react'
+import { Navigation } from '~/app/(pages)/_components/navigation'
+import { Theme } from '~/app/(pages)/_components/theme'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
+import { BlogFooter } from '~/components/blog/blog-footer'
 import { Dropdown } from '~/components/dropdown'
-import { Wrapper } from '../_components/wrapper'
+import { useStore } from '~/libs/store'
 import s from './contact-us.module.css'
 
 type FormData = {
@@ -40,10 +43,13 @@ export default function ContactUsPage() {
     {}
   )
   const [mounted, setMounted] = useState(false)
+  const setHasAppeared = useStore((state) => state.setHasAppeared)
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+    setHasAppeared(true)
+    window.scrollTo(0, 0)
+  }, [setHasAppeared])
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof FormData, string>> = {}
@@ -120,188 +126,211 @@ export default function ContactUsPage() {
   }
 
   return (
-    <Wrapper
-      theme="light"
-      lenis={{}}
-      className="mx-auto bg-off-white max-w-screen dt:max-w-[calc(var(--max-width)*1px)]"
-    >
-      <div className={cn(s.container, mounted && s.mounted)}>
-        <HashPattern className={s.background} />
+    <Theme theme="light" global>
+      <div className="min-h-dvh flex flex-col bg-off-white">
+        <Navigation forceOpen />
+        <main className="flex-1">
+          <div
+            className={cn(
+              'flex items-center justify-center dr-pt-120 dr-px-20 dr-pb-60 dt:dr-pt-160 dt:dr-px-40 dt:dr-pb-80 relative overflow-x-hidden',
+              s.container
+            )}
+          >
+            <HashPattern className="absolute inset-0 text-teal opacity-[0.08] pointer-events-none" />
 
-        <div className={s.content}>
-          {status === 'success' ? (
-            <div className={cn(s.successMessage, s.fadeIn)}>
-              <div className={s.successIcon}>
-                <svg
-                  width="64"
-                  height="64"
-                  viewBox="0 0 64 64"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="32"
-                    cy="32"
-                    r="30"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M20 32L28 40L44 24"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <h1 className={cn('typo-h1', s.successTitle)}>
-                Thanks for your request.
-              </h1>
-              <p className={cn('typo-p', s.successText)}>
-                We'll get back to you soon!
-              </p>
-              <button
-                onClick={() => setStatus('idle')}
-                className={cn('typo-button', s.backButton)}
-              >
-                Send another message
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className={s.header}>
-                <h1 className={cn('typo-h1', s.title)}>
-                  Got something in mind?
-                </h1>
-                <p className={cn('typo-p-l', s.subtitle)}>
-                  Drop us a line and we'll get back to you{' '}
-                  <span className={s.subtitleHighlight}>as soon as possible</span>.
-                </p>
-              </div>
-
-              <form onSubmit={handleSubmit} className={s.form}>
-                <div className={s.field}>
-                  <label htmlFor="name" className={cn('typo-label-m', s.label)}>
-                    Name
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
-                    className={cn(s.input, errors.name && s.inputError)}
-                    placeholder="Your name"
-                    required
-                    aria-invalid={!!errors.name}
-                    aria-describedby={errors.name ? 'name-error' : undefined}
-                  />
-                  {errors.name && (
-                    <span id="name-error" className={cn('typo-label-s', s.error)} role="alert">
-                      {errors.name}
-                    </span>
-                  )}
-                </div>
-
-                <div className={s.field}>
-                  <label htmlFor="email" className={cn('typo-label-m', s.label)}>
-                    Company email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    className={cn(s.input, errors.email && s.inputError)}
-                    placeholder="you@company.com"
-                    required
-                    aria-invalid={!!errors.email}
-                    aria-describedby={errors.email ? 'email-error' : undefined}
-                  />
-                  {errors.email && (
-                    <span id="email-error" className={cn('typo-label-s', s.error)} role="alert">
-                      {errors.email}
-                    </span>
-                  )}
-                </div>
-
-                <div className={s.field}>
-                  <label
-                    htmlFor="useCase"
-                    className={cn('typo-label-m', s.label)}
-                  >
-                    What's your use case for Tambo?
-                  </label>
-                  <textarea
-                    id="useCase"
-                    value={formData.useCase}
-                    onChange={(e) => handleChange('useCase', e.target.value)}
-                    className={cn(s.textarea, errors.useCase && s.inputError)}
-                    placeholder="Tell us about your project..."
-                    rows={4}
-                    required
-                    aria-invalid={!!errors.useCase}
-                    aria-describedby={errors.useCase ? 'useCase-error' : undefined}
-                  />
-                  {errors.useCase && (
-                    <span id="useCase-error" className={cn('typo-label-s', s.error)} role="alert">
-                      {errors.useCase}
-                    </span>
-                  )}
-                </div>
-
-                <div className={s.field}>
-                  <label htmlFor="source" className={cn('typo-label-m', s.label)}>
-                    How did you hear about us?
-                  </label>
-                  <Dropdown
-                    placeholder="Select an option"
-                    options={SOURCE_OPTIONS}
-                    defaultValue={
-                      formData.source
-                        ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source))
-                        : undefined
-                    }
-                    onChange={(index) => {
-                      if (index >= 0 && index < SOURCE_OPTIONS.length) {
-                        handleChange('source', SOURCE_OPTIONS[index])
-                      }
-                    }}
-                  />
-                  {errors.source && (
-                    <span id="source-error" className={cn('typo-label-s', s.error)} role="alert">
-                      {errors.source}
-                    </span>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className={cn('typo-button', s.submitButton, {
-                    [s.loading]: status === 'loading',
-                  })}
-                >
-                  {status === 'loading' ? (
-                    <span className={s.loadingText}>
-                      <span className={s.spinner} />
-                      Sending...
-                    </span>
-                  ) : (
-                    'Talk to Tambo'
-                  )}
-                </button>
-
-                {status === 'error' && (
-                  <div className={cn('typo-p', s.errorMessage)}>
-                    Something went wrong. Please try again or email us directly.
+            <div className="w-full dr-max-w-400 dt:dr-max-w-640 mx-auto relative z-10">
+              {status === 'success' ? (
+                <div className={cn('text-center dr-py-80 dr-px-32 dt:dr-py-120 dt:dr-px-48 bg-white border-2 border-dark-grey dr-rounded-24 dt:dr-rounded-32 shadow-[0_8px_32px_rgba(15,26,23,0.08)]', s.fadeIn)}>
+                  <div className={cn('dr-w-96 dr-h-96 dt:dr-w-112 dt:dr-h-112 mx-auto dr-mb-40 dt:dr-mb-48 text-forest', s.successIcon)}>
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-full h-full"
+                    >
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="30"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                      />
+                      <path
+                        d="M20 32L28 40L44 24"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </div>
-                )}
-              </form>
-            </>
-          )}
-        </div>
+                  <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-24 font-semibold">
+                    Thanks for your request.
+                  </h1>
+                  <p className="typo-p-l text-black dr-mb-48 dt:dr-mb-56 leading-[1.6] dr-max-w-340 dt:dr-max-w-420 mx-auto">
+                    We'll get back to you soon!
+                  </p>
+                  <button
+                    onClick={() => setStatus('idle')}
+                    className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0"
+                  >
+                    Send another message
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="text-center dr-mb-48 dt:dr-mb-64">
+                    <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-28">
+                      Got something in mind?
+                    </h1>
+                    <p className="typo-p-l text-black dr-max-w-340 dt:dr-max-w-500 mx-auto leading-[1.6]">
+                      Drop us a line and we'll get back to you{' '}
+                      <span className="text-forest font-semibold relative whitespace-nowrap after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:dr-h-6 dt:after:dr-h-8 after:bg-mint after:opacity-40 after:-z-10">
+                        as soon as possible
+                      </span>.
+                    </p>
+                  </div>
+
+                  <form
+                    onSubmit={handleSubmit}
+                    className="bg-white border-2 border-dark-grey dr-rounded-24 dt:dr-rounded-32 dr-p-32 dt:dr-p-48 backdrop-blur-[30px] shadow-[0_4px_24px_rgba(15,26,23,0.04)] relative overflow-visible"
+                  >
+                    <div className="dr-mb-24 dt:dr-mb-32 last:dr-mb-32 last:dt:dr-mb-40">
+                      <label htmlFor="name" className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase tracking-[0.05em]">
+                        Name
+                      </label>
+                      <input
+                        id="name"
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) => handleChange('name', e.target.value)}
+                        className={cn(
+                          'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-off-white border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-dark-teal placeholder:opacity-50 focus:outline-none focus:border-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal',
+                          errors.name && 'border-red! focus:shadow-[0_0_0_4px_rgba(227,6,19,0.1)]!'
+                        )}
+                        placeholder="Your name"
+                        required
+                        aria-invalid={!!errors.name}
+                        aria-describedby={errors.name ? 'name-error' : undefined}
+                      />
+                      {errors.name && (
+                        <span id="name-error" className="typo-label-s block text-red dr-mt-6 dt:dr-mt-8" role="alert">
+                          {errors.name}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="dr-mb-24 dt:dr-mb-32 last:dr-mb-32 last:dt:dr-mb-40">
+                      <label htmlFor="email" className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase tracking-[0.05em]">
+                        Company email
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleChange('email', e.target.value)}
+                        className={cn(
+                          'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-off-white border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-dark-teal placeholder:opacity-50 focus:outline-none focus:border-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal',
+                          errors.email && 'border-red! focus:shadow-[0_0_0_4px_rgba(227,6,19,0.1)]!'
+                        )}
+                        placeholder="you@company.com"
+                        required
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? 'email-error' : undefined}
+                      />
+                      {errors.email && (
+                        <span id="email-error" className="typo-label-s block text-red dr-mt-6 dt:dr-mt-8" role="alert">
+                          {errors.email}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="dr-mb-24 dt:dr-mb-32 last:dr-mb-32 last:dt:dr-mb-40">
+                      <label
+                        htmlFor="useCase"
+                        className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase tracking-[0.05em]"
+                      >
+                        What's your use case for Tambo?
+                      </label>
+                      <textarea
+                        id="useCase"
+                        value={formData.useCase}
+                        onChange={(e) => handleChange('useCase', e.target.value)}
+                        className={cn(
+                          'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-off-white border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-dark-teal placeholder:opacity-50 focus:outline-none focus:border-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal resize-vertical dr-min-h-120 dt:dr-min-h-140',
+                          errors.useCase && 'border-red! focus:shadow-[0_0_0_4px_rgba(227,6,19,0.1)]!'
+                        )}
+                        placeholder="Tell us about your project..."
+                        rows={4}
+                        required
+                        aria-invalid={!!errors.useCase}
+                        aria-describedby={errors.useCase ? 'useCase-error' : undefined}
+                      />
+                      {errors.useCase && (
+                        <span id="useCase-error" className="typo-label-s block text-red dr-mt-6 dt:dr-mt-8" role="alert">
+                          {errors.useCase}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="dr-mb-32 dt:dr-mb-40">
+                      <label htmlFor="source" className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase tracking-[0.05em]">
+                        How did you hear about us?
+                      </label>
+                      <Dropdown
+                        placeholder="Select an option"
+                        options={SOURCE_OPTIONS}
+                        defaultValue={
+                          formData.source
+                            ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source))
+                            : undefined
+                        }
+                        onChange={(index) => {
+                          if (index >= 0 && index < SOURCE_OPTIONS.length) {
+                            handleChange('source', SOURCE_OPTIONS[index])
+                          }
+                        }}
+                      />
+                      {errors.source && (
+                        <span id="source-error" className="typo-label-s block text-red dr-mt-6 dt:dr-mt-8" role="alert">
+                          {errors.source}
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className={cn(
+                        'typo-button w-full dr-py-18 dr-px-32 dt:dr-py-20 dt:dr-px-40 bg-teal text-black border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 font-semibold uppercase tracking-[0.05em] cursor-pointer transition-all duration-300 ease-out-cubic relative hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.3)] hover:border-teal active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed',
+                        status === 'loading' && 'pointer-events-none'
+                      )}
+                    >
+                      {status === 'loading' ? (
+                        <span className="flex items-center justify-center dr-gap-12 dt:dr-gap-12">
+                          <span className={cn('dr-w-16 dr-h-16 dt:dr-w-16 dt:dr-h-16 border-2 border-black border-t-transparent rounded-full', s.spinner)} />
+                          Sending...
+                        </span>
+                      ) : (
+                        'Talk to Tambo'
+                      )}
+                    </button>
+
+                    {status === 'error' && (
+                      <div className="typo-p text-red text-center dr-p-16 dt:dr-p-20 bg-[rgba(227,6,19,0.05)] dr-rounded-12 dt:dr-rounded-16 dr-mt-16 dt:dr-mt-20">
+                        Something went wrong. Please try again or email us directly.
+                      </div>
+                    )}
+                  </form>
+                </>
+              )}
+            </div>
+          </div>
+        </main>
+        <BlogFooter />
       </div>
-    </Wrapper>
+    </Theme>
   )
 }

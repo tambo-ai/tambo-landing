@@ -11,5 +11,5 @@ export function BlogNavWrapper() {
     setHasAppeared(true);
   }, [setHasAppeared]);
 
-  return <Navigation />;
+  return <Navigation forceOpen />;
 }

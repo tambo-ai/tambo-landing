@@ -20,16 +20,15 @@ import s from './navigation.module.css'
 
 const LEFT_LINKS = [
   { href: '/docs', label: 'Docs', external: true },
-  { href: '#moment-3', label: 'MCP' },
-  { href: '#section-12', label: 'Sanity' },
+  { href: '/#moment-3', label: 'MCP' },
+  { href: '/#section-12', label: 'Sanity' },
 ] as const
 
 const RIGHT_LINKS = [
   { href: '/blog', label: 'Blog', external: true },
-  { href: '/ask', label: 'Ask Tambo' },
 ] as const
 
-export function Navigation() {
+export function Navigation({ forceOpen = false }: { forceOpen?: boolean }) {
   // const [isVisible, setIsVisible] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
   const isMobileNavOpened = useStore((state) => state.isMobileNavOpened)
@@ -57,7 +56,7 @@ export function Navigation() {
   })
 
   const isVisible =
-    hasAppeared && (hasScrolledUpwards || hasReachedLimits || isHovered)
+    forceOpen || (hasAppeared && (hasScrolledUpwards || hasReachedLimits || isHovered))
 
   // useEffect(() => {
   //   console.log('isVisible', isVisible)
@@ -267,7 +266,9 @@ export function Navigation() {
             ))}
           </ul>
           <div className="dt:absolute dt:left-1/2 dt:-translate-x-1/2 dt:grid dt:place-items-center">
-            <TamboLogo className="dr-h-24" ref={logoRef} />
+            <Link href="/">
+              <TamboLogo className="dr-h-24" ref={logoRef} />
+            </Link>
           </div>
           <ul
             ref={rightRef}
@@ -302,7 +303,9 @@ export function Navigation() {
           )}
         >
           <div className="absolute dr-h-48 dr-pl-24 dr-pr-20  flex justify-between items-center w-full ">
-            <TamboLogo className="dr-h-24" ref={logoRef} />
+            <Link href="/">
+              <TamboLogo className="dr-h-24" ref={logoRef} />
+            </Link>
             <Button
               onClick={() => {
                 setIsMobileNavOpened(!isMobileNavOpened)
