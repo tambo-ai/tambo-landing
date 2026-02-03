@@ -128,9 +128,14 @@ const nextConfig: NextConfig = {
           key: 'X-Content-Type-Options',
           value: 'nosniff',
         },
-        // Note: Removed X-Frame-Options and CSP frame-ancestors to allow
-        // PageSpeed Insights and similar tools to analyze the site.
-        // These can be re-added in production if clickjacking protection is needed.
+        {
+          key: 'Content-Security-Policy',
+          value: "frame-ancestors 'self';",
+        },
+        {
+          key: 'X-Frame-Options',
+          value: 'SAMEORIGIN',
+        },
         {
           key: 'X-XSS-Protection',
           value: '1; mode=block',
