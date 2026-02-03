@@ -1,44 +1,44 @@
-"use client";
+'use client'
 
-import { useState, useMemo } from "react";
-import { BlogCard } from "~/components/blog/shared/blog-card";
-import { BlogSearch } from "~/components/blog/list/blog-search";
-import type { BlogPostListItem } from "~/libs/blog/types";
+import { useMemo, useState } from 'react'
+import { BlogSearch } from '~/components/blog/list/blog-search'
+import { BlogCard } from '~/components/blog/shared/blog-card'
+import type { BlogPostListItem } from '~/libs/blog/types'
 
 interface BlogPageProps {
-  posts: BlogPostListItem[];
+  posts: BlogPostListItem[]
 }
 
 export function BlogPage({ posts }: BlogPageProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://tambo.co";
+  const [searchQuery, setSearchQuery] = useState('')
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://tambo.co'
 
   const filteredPosts = useMemo(() => {
-    if (!searchQuery.trim()) return posts;
-    const query = searchQuery.toLowerCase();
+    if (!searchQuery.trim()) return posts
+    const query = searchQuery.toLowerCase()
     return posts.filter(
       (post) =>
         post.title.toLowerCase().includes(query) ||
         post.description?.toLowerCase().includes(query) ||
         post.author?.toLowerCase().includes(query)
-    );
-  }, [posts, searchQuery]);
+    )
+  }, [posts, searchQuery])
 
   const blogListSchema = {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    name: "tambo Blog",
-    description: "Latest updates, tutorials, and insights about tambo.",
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Tambo Blog',
+    description: 'Latest updates, tutorials, and insights about Tambo.',
     url: `${baseUrl}/blog`,
     blogPost: posts.map((post) => ({
-      "@type": "BlogPosting",
+      '@type': 'BlogPosting',
       headline: post.title,
       description: post.description,
-      author: { "@type": "Person", name: post.author || "tambo team" },
+      author: { '@type': 'Person', name: post.author || 'Tambo Team' },
       datePublished: post.date,
       url: `${baseUrl}/blog/posts/${post.slug}`,
     })),
-  };
+  }
 
   return (
     <div className="dr-layout-grid-inner dr-py-64">
@@ -54,7 +54,7 @@ export function BlogPage({ posts }: BlogPageProps) {
             Tambo Blog
           </h1>
           <p className="typo-p dr-text-16 text-black text-pretty">
-            Latest features, fixes, changes, and events from the tambo team.
+            Latest features, fixes, changes, and events from the Tambo team.
           </p>
         </header>
 
@@ -66,9 +66,7 @@ export function BlogPage({ posts }: BlogPageProps) {
         {/* Posts */}
         <div className="flex flex-col dr-gap-16">
           {filteredPosts.length > 0 ? (
-            filteredPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
-            ))
+            filteredPosts.map((post) => <BlogCard key={post.id} post={post} />)
           ) : (
             <p className="typo-p dr-text-16 text-black text-center dr-py-32">
               No posts found matching your search.
@@ -77,5 +75,5 @@ export function BlogPage({ posts }: BlogPageProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

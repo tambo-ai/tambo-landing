@@ -1,18 +1,18 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import XSVG from "~/assets/svgs/X.svg";
-import DiscordSVG from "~/assets/svgs/discord.svg";
-import GithubSVG from "~/assets/svgs/github.svg";
-import { Link } from "~/components/link";
-import { siteConfig } from "~/libs/config";
+import { useEffect, useState } from 'react'
+import DiscordSVG from '~/assets/svgs/discord.svg'
+import GithubSVG from '~/assets/svgs/github.svg'
+import XSVG from '~/assets/svgs/X.svg'
+import { Link } from '~/components/link'
+import { siteConfig } from '~/libs/config'
 
 export function BlogFooter() {
-  const [currentYear, setCurrentYear] = useState<number | null>(2026);
+  const [currentYear, setCurrentYear] = useState<number | null>(2026)
 
   useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+    setCurrentYear(new Date().getFullYear())
+  }, [])
 
   return (
     <footer className="dr-py-16 dr-layout-grid-inner">
@@ -22,15 +22,17 @@ export function BlogFooter() {
         </span>
 
         <div className="flex items-center justify-center dr-gap-13 dt:dr-gap-24">
-          {siteConfig.footer.links.map((link: { text: string; url: string }, index: number) => (
-            <Link
-              key={link.text + index.toString()}
-              href={link.url}
-              className="link typo-label-s dt:typo-label-m whitespace-nowrap"
-            >
-              {link.text}
-            </Link>
-          ))}
+          {siteConfig.footer.links.map(
+            (link: { text: string; url: string }, index: number) => (
+              <Link
+                key={link.text + index.toString()}
+                href={link.url}
+                className="link typo-label-s dt:typo-label-m whitespace-nowrap"
+              >
+                {link.text}
+              </Link>
+            )
+          )}
         </div>
 
         <div className="flex dr-gap-12 justify-center dt:justify-end">
@@ -55,5 +57,5 @@ export function BlogFooter() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

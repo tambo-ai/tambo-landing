@@ -1,20 +1,20 @@
-import type { ReactNode } from "react";
-import type { Metadata } from "next";
-import { BlogNavWrapper } from "~/components/blog/blog-nav-wrapper";
-import { BlogFooter } from "~/components/blog/blog-footer";
-import { Theme } from "~/app/(pages)/_components/theme";
+import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
+import { Theme } from '~/app/(pages)/_components/theme'
+import { BlogFooter } from '~/components/blog/blog-footer'
+import { BlogNavWrapper } from '~/components/blog/blog-nav-wrapper'
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | tambo blog",
-    default: "blog",
+    template: '%s | Tambo Blog',
+    default: 'Blog',
   },
   description:
-    "Latest updates, tutorials, and insights about tambo - the AI orchestration framework for React frontends.",
-};
+    'Latest updates, tutorials, and insights about Tambo - a React toolkit for building agents with Generative UI',
+}
 
 interface BlogLayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export default function BlogLayout({ children }: BlogLayoutProps) {
@@ -26,5 +26,5 @@ export default function BlogLayout({ children }: BlogLayoutProps) {
         <BlogFooter />
       </div>
     </Theme>
-  );
+  )
 }
