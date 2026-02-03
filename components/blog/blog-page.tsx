@@ -44,7 +44,10 @@ export function BlogPage({ posts }: BlogPageProps) {
   )
 
   const blogListSchemaJson = useMemo(
-    () => JSON.stringify(blogListSchema).replaceAll('<', '\\u003c'),
+    () =>
+      JSON.stringify(blogListSchema)
+        .replaceAll('</script', '<\\/script')
+        .replaceAll('<', '\\u003c'),
     [blogListSchema]
   )
 
