@@ -29,6 +29,11 @@ const geist = localFont({
       weight: '400',
       style: 'normal',
     },
+    {
+      path: '../public/fonts/Geist/Geist-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
   ],
   display: 'swap',
   variable: '--next-font-geist',

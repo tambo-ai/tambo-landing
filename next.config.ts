@@ -1,11 +1,5 @@
 import bundleAnalyzer from '@next/bundle-analyzer'
 import type { NextConfig } from 'next'
-import nextra from 'nextra'
-import rehypeKatex from 'rehype-katex'
-import rehypePrettyCode from 'rehype-pretty-code'
-import remarkGfm from 'remark-gfm'
-import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
-import { remarkInjectBlogLayout } from './libs/mdx/inject-blog-layout.mjs'
 import './libs/validate-env.ts'
 
 const nextConfig: NextConfig = {
@@ -36,10 +30,10 @@ const nextConfig: NextConfig = {
                   'removeOffCanvasPaths',
                   'reusePaths',
                   'removeElementsByAttr',
-                  'removeStyleElement',
+                  // 'removeStyleElement',
                   'removeScriptElement',
-                  'prefixIds',
-                  'cleanupIds',
+                  // 'prefixIds',
+                  // 'cleanupIds',
                   // {
                   //   name: 'cleanupNumericValues',
                   //   params: {
@@ -88,17 +82,27 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForDev: true,
     taint: true,
     browserDebugInfoInTerminal: true,
-    // isolatedDevBuild: true,
+    // Inline critical CSS to reduce render-blocking
+    inlineCss: true,
     optimizePackageImports: [
       '@phosphor-icons/react',
       '@react-three/drei',
       '@react-three/fiber',
+      '@rive-app/react-webgl2',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-tooltip',
+      '@base-ui-components/react',
       'gsap',
       'three',
       'postprocessing',
-      '@base-ui-components/react',
       'lenis',
       'zustand',
+      'lucide-react',
+      'highlight.js',
+      'mapbox-gl',
+      'hamo',
+      'tempus',
+      'posthog-js',
     ],
   },
   devIndicators: false,
@@ -144,6 +148,14 @@ const nextConfig: NextConfig = {
           key: 'Strict-Transport-Security',
           value: 'max-age=63072000; includeSubDomains; preload',
         },
+        {
+          key: 'Referrer-Policy',
+          value: 'strict-origin-when-cross-origin',
+        },
+        {
+          key: 'Permissions-Policy',
+          value: 'camera=(), microphone=(), geolocation=()',
+        },
       ],
     },
   ],
@@ -152,72 +164,6 @@ const nextConfig: NextConfig = {
       source: '/home',
       destination: '/',
       permanent: true,
-    },
-    {
-      source: '/docs',
-      destination: process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.tambo.co',
-      permanent: true,
-    },
-    {
-      source: '/docs/:path*',
-      destination: process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.tambo.co',
-      permanent: true,
-    },
-    {
-      source: '/blog/posts',
-      destination: '/blog',
-      permanent: true,
-    },
-    {
-      source: '/book',
-      destination: 'https://cal.com/michaelmagan',
-      permanent: false,
-    },
-    {
-      source: '/discord',
-      destination: 'https://discord.gg/dJNvPEHth6',
-      permanent: false,
-    },
-    {
-      source: '/gh',
-      destination: 'https://github.com/tambo-ai/tambo',
-      permanent: false,
-    },
-    {
-      source: '/issue',
-      destination: 'https://github.com/tambo-ai/tambo/issues/new',
-      permanent: false,
-    },
-    {
-      source: '/license',
-      destination:
-        process.env.NEXT_PUBLIC_LICENSE_URL ||
-        'https://docs.google.com/document/d/1UHvU9pKnuZ4wHRjxRk_8nqmeDK8KTmHc/edit?usp=sharing&ouid=105761745283245441798&rtpof=true&sd=true',
-      permanent: false,
-    },
-    {
-      source: '/privacy',
-      destination:
-        process.env.NEXT_PUBLIC_PRIVACY_URL ||
-        'https://docs.google.com/document/d/1OFX8Y-uc7_TLDFUKxq3dYI0ozbpN8igD/edit?usp=sharing&ouid=105761745283245441798&rtpof=true&sd=true',
-      permanent: false,
-    },
-    {
-      source: '/start',
-      destination: 'https://stackblitz.com/~/github.com/tambo-ai/tambo-template',
-      permanent: false,
-    },
-    {
-      source: '/terms',
-      destination:
-        process.env.NEXT_PUBLIC_TERMS_URL ||
-        'https://docs.google.com/document/d/1GOjwt8tHx3AQ1SeZJ0rXhxuuSfRYnjLIaF02chvFqYo/edit?usp=sharing',
-      permanent: false,
-    },
-    {
-      source: '/x',
-      destination: 'https://x.com/tambo_ai',
-      permanent: false,
     },
   ],
   rewrites: async () => [
@@ -235,74 +181,14 @@ const nextConfig: NextConfig = {
       destination: 'https://us.i.posthog.com/:path*',
     },
   ],
-  // Webpack config for SVG handling and optional peer dependencies
-  webpack: (config) => {
-    // Add SVGR loader for SVG files
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: [
-        {
-          loader: '@svgr/webpack',
-          options: {
-            memo: true,
-            dimensions: false,
-            svgoConfig: {
-              multipass: true,
-              plugins: [
-                'removeDimensions',
-                'removeOffCanvasPaths',
-                'reusePaths',
-                'removeElementsByAttr',
-                'removeStyleElement',
-                'removeScriptElement',
-                'prefixIds',
-                'cleanupIds',
-              ],
-            },
-          },
-        },
-      ],
-    })
-
-    // Ignore optional peer dependencies for @tambo-ai/react
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      effect: false,
-      sury: false,
-    }
-    return config
-  },
 }
-
-// Nextra MDX config
-const withNextra = nextra({
-  defaultShowCopyCode: true,
-  readingTime: true,
-  mdxOptions: {
-    remarkPlugins: [remarkGfm, remarkMdxFrontmatter, remarkInjectBlogLayout],
-    rehypePlugins: [
-      rehypeKatex,
-      [
-        rehypePrettyCode,
-        {
-          theme: {
-            light: "github-light",
-            dark: "github-dark",
-          },
-          keepBackground: false,
-          defaultLang: "typescript",
-        },
-      ],
-    ],
-  },
-})
 
 const bundleAnalyzerPlugin = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
 const NextApp = () => {
-  const plugins = [withNextra, bundleAnalyzerPlugin]
+  const plugins = [bundleAnalyzerPlugin]
   return plugins.reduce((config, plugin) => plugin(config), nextConfig)
 }
 

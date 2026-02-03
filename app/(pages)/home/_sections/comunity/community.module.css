@@ -1,0 +1,44 @@
+.card {
+  @media (--hover) {
+    &:hover {
+      .tweetContent {
+        box-shadow: 0 0 16px 0px rgba(127, 255, 195, 0.7);
+        border-style: dashed;
+        border-color: color-mix(in srgb, var(--color-forest) 50%, transparent);
+      }
+
+      .position {
+        background-color: var(--color-ghost-mint);
+      }
+    }
+  }
+
+  &.active {
+    @media (--mobile) {
+      .tweetContent {
+        box-shadow: 0 0 16px 0px rgba(127, 255, 195, 0.7);
+        border-style: dashed;
+        border-color: color-mix(in srgb, var(--color-forest) 50%, transparent);
+      }
+
+      .position {
+        background-color: var(--color-ghost-mint);
+      }
+    }
+  }
+}
+
+.tweetContent {
+  transition:
+    box-shadow 0.3s ease,;
+}
+
+.position {
+  transition: background-color 0.3s ease;
+}
+
+.tweet {
+  @media (--desktop) {
+    font-size: desktop-vw(14px);
+  }
+}

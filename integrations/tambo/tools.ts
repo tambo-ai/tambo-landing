@@ -1,12 +1,17 @@
 import { defineTool, type TamboTool } from '@tambo-ai/react'
 import { z } from 'zod'
 import type { POI } from '~/integrations/tambo'
-import {
-  dispatchAddToItinerary,
-  dispatchMapNavigation,
-  dispatchMapSearch,
-} from '~/integrations/tambo/(components)/map/mapbox/events'
 import { isEmptyArray } from '~/libs/utils'
+import { MAPBOX_ENABLED } from './constants'
+
+// Mapbox event dispatchers - only imported when Mapbox is enabled
+const mapboxEvents = MAPBOX_ENABLED
+  ? await import('~/integrations/tambo/(components)/map/mapbox/events')
+  : null
+
+const dispatchAddToItinerary = mapboxEvents?.dispatchAddToItinerary
+const dispatchMapNavigation = mapboxEvents?.dispatchMapNavigation
+const dispatchMapSearch = mapboxEvents?.dispatchMapSearch
 
 type BBox = {
   west: number
@@ -77,7 +82,8 @@ async function analyzeArea(params: {
   brandFilter?: string
 }): Promise<AnalyzeAreaResult> {
   try {
-    const result = await dispatchMapSearch({
+    // dispatchMapSearch is guaranteed to exist when this tool is registered (MAPBOX_ENABLED=true)
+    const result = await dispatchMapSearch!({
       category: params.category,
       brandFilter: params.brandFilter,
     })
@@ -129,9 +135,10 @@ export async function searchLocation(params: {
     const results = data.results as LocationResult[]
 
     // Navigate to the first result
+    // dispatchMapNavigation is guaranteed to exist when this tool is registered (MAPBOX_ENABLED=true)
     if (!isEmptyArray(results)) {
       const firstResult = results[0]
-      dispatchMapNavigation({
+      dispatchMapNavigation!({
         destination: params.location,
         center: firstResult.center,
         zoom: 12,
@@ -181,7 +188,8 @@ async function addPoiToItinerary(params: {
   selectedDate: string
 }): Promise<AddToItineraryToolResult> {
   try {
-    const result = await dispatchAddToItinerary(params)
+    // dispatchAddToItinerary is guaranteed to exist when this tool is registered (MAPBOX_ENABLED=true)
+    const result = await dispatchAddToItinerary!(params)
     return {
       success: result.success,
       message: `Added "${result.addedItem.name}" to your itinerary`,
@@ -282,122 +290,129 @@ export async function getWeather(params: {
   }
 }
 
-export const mapTools: TamboTool[] = [
-  defineTool({
-    name: 'analyze_selected_area',
-    description:
-      'Search for places in the selected map area and display them as pins. ' +
-      "Extract the category (type of place) and optionally a specific brand/name filter from the user's request. " +
-      'The user must draw a rectangle on the map first.',
-    tool: analyzeArea,
-    inputSchema: z.object({
-      category: z
-        .string()
-        .describe(
-          'The type of place to search for. Can be any text query. ' +
-            'Examples: "coffee shop", "restaurant", "hotel", "gym", "pharmacy", "Starbucks", "museum"'
-        ),
-      brandFilter: z
-        .string()
-        .optional()
-        .describe(
-          'Optional: specific brand or business name to combine with the category. ' +
-            'Examples: "Starbucks", "McDonald\'s", "Hilton", "Planet Fitness"'
-        ),
-    }),
-    outputSchema: z.object({
-      success: z.boolean(),
-      message: z.string(),
-      count: z.number(),
-      names: z.array(z.string()),
-    }),
-  }),
-  defineTool({
-    name: 'search_location',
-    description:
-      'Search for a location by name (e.g., "New York City", "Paris, France", "Central Park") and navigate the map to that location. ' +
-      'The map will automatically fly to the first matching result.',
-    tool: searchLocation,
-    inputSchema: z.object({
-      location: z.string().describe('The location name to search for'),
-    }),
-    outputSchema: z.object({
-      found: z.boolean(),
-      message: z.string(),
-      results: z
-        .array(
-          z.object({
-            name: z.string(),
-            center: z.object({
-              lng: z.number(),
-              lat: z.number(),
-            }),
-            bbox: z
-              .object({
-                west: z.number(),
-                south: z.number(),
-                east: z.number(),
-                north: z.number(),
-              })
-              .nullable(),
-            placeType: z.string(),
-          })
-        )
-        .optional(),
-    }),
-  }),
-  defineTool({
-    name: 'get_area_suggestions',
-    description:
-      'Get suggestions for what types of places can be searched for in a map area',
-    tool: getAreaSuggestions,
-    inputSchema: z.object({}),
-    outputSchema: z.object({
-      message: z.string(),
-      suggestions: z.array(
-        z.object({
-          category: z.string(),
-          queries: z.array(z.string()),
-        })
-      ),
-    }),
-  }),
-  defineTool({
-    name: 'add_to_itinerary',
-    description:
-      "Add a point of interest (POI) to the user's travel itinerary. " +
-      'Use this when the user wants to save a location they found on the map to their itinerary. ' +
-      'The POI must have been returned from a previous search or analysis.',
-    tool: addPoiToItinerary,
-    inputSchema: z.object({
-      poi: z
-        .object({
-          id: z
-            .union([z.string(), z.number()])
-            .describe('Unique identifier for the POI'),
-          type: z
+// Map-specific tools (only included when Mapbox is enabled)
+const mapSpecificTools: TamboTool[] = MAPBOX_ENABLED
+  ? [
+      defineTool({
+        name: 'analyze_selected_area',
+        description:
+          'Search for places in the selected map area and display them as pins. ' +
+          "Extract the category (type of place) and optionally a specific brand/name filter from the user's request. " +
+          'The user must draw a rectangle on the map first.',
+        tool: analyzeArea,
+        inputSchema: z.object({
+          category: z
             .string()
-            .describe('Type of the POI (e.g., "restaurant", "museum")'),
-          name: z.string().nullable().describe('Name of the POI'),
-          lat: z.number().describe('Latitude coordinate'),
-          lon: z.number().describe('Longitude coordinate'),
-        })
-        .describe('The point of interest to add to the itinerary'),
-      selectedDate: z
-        .string()
-        .describe(
-          'Date for when to visit this location (YYYY-MM-DD HH:MM format)'
-        ),
-    }),
-    outputSchema: z.object({
-      success: z.boolean(),
-      message: z.string(),
-      addedItem: z.object({
-        name: z.string(),
-        id: z.union([z.string(), z.number()]),
+            .describe(
+              'The type of place to search for. Can be any text query. ' +
+                'Examples: "coffee shop", "restaurant", "hotel", "gym", "pharmacy", "Starbucks", "museum"'
+            ),
+          brandFilter: z
+            .string()
+            .optional()
+            .describe(
+              'Optional: specific brand or business name to combine with the category. ' +
+                'Examples: "Starbucks", "McDonald\'s", "Hilton", "Planet Fitness"'
+            ),
+        }),
+        outputSchema: z.object({
+          success: z.boolean(),
+          message: z.string(),
+          count: z.number(),
+          names: z.array(z.string()),
+        }),
       }),
-    }),
-  }),
+      defineTool({
+        name: 'search_location',
+        description:
+          'Search for a location by name (e.g., "New York City", "Paris, France", "Central Park") and navigate the map to that location. ' +
+          'The map will automatically fly to the first matching result.',
+        tool: searchLocation,
+        inputSchema: z.object({
+          location: z.string().describe('The location name to search for'),
+        }),
+        outputSchema: z.object({
+          found: z.boolean(),
+          message: z.string(),
+          results: z
+            .array(
+              z.object({
+                name: z.string(),
+                center: z.object({
+                  lng: z.number(),
+                  lat: z.number(),
+                }),
+                bbox: z
+                  .object({
+                    west: z.number(),
+                    south: z.number(),
+                    east: z.number(),
+                    north: z.number(),
+                  })
+                  .nullable(),
+                placeType: z.string(),
+              })
+            )
+            .optional(),
+        }),
+      }),
+      defineTool({
+        name: 'get_area_suggestions',
+        description:
+          'Get suggestions for what types of places can be searched for in a map area',
+        tool: getAreaSuggestions,
+        inputSchema: z.object({}),
+        outputSchema: z.object({
+          message: z.string(),
+          suggestions: z.array(
+            z.object({
+              category: z.string(),
+              queries: z.array(z.string()),
+            })
+          ),
+        }),
+      }),
+      defineTool({
+        name: 'add_to_itinerary',
+        description:
+          "Add a point of interest (POI) to the user's travel itinerary. " +
+          'Use this when the user wants to save a location they found on the map to their itinerary. ' +
+          'The POI must have been returned from a previous search or analysis.',
+        tool: addPoiToItinerary,
+        inputSchema: z.object({
+          poi: z
+            .object({
+              id: z
+                .union([z.string(), z.number()])
+                .describe('Unique identifier for the POI'),
+              type: z
+                .string()
+                .describe('Type of the POI (e.g., "restaurant", "museum")'),
+              name: z.string().nullable().describe('Name of the POI'),
+              lat: z.number().describe('Latitude coordinate'),
+              lon: z.number().describe('Longitude coordinate'),
+            })
+            .describe('The point of interest to add to the itinerary'),
+          selectedDate: z
+            .string()
+            .describe(
+              'Date for when to visit this location (YYYY-MM-DD HH:MM format)'
+            ),
+        }),
+        outputSchema: z.object({
+          success: z.boolean(),
+          message: z.string(),
+          addedItem: z.object({
+            name: z.string(),
+            id: z.union([z.string(), z.number()]),
+          }),
+        }),
+      }),
+    ]
+  : []
+
+// Common tools (always included)
+const commonTools: TamboTool[] = [
   defineTool({
     name: 'get_current_date',
     description: 'Get local current date',
@@ -451,3 +466,5 @@ export const mapTools: TamboTool[] = [
     }),
   }),
 ]
+
+export const mapTools: TamboTool[] = [...mapSpecificTools, ...commonTools]

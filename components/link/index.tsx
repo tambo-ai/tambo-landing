@@ -10,8 +10,6 @@ import {
   useState,
 } from 'react'
 
-// import { usePageTransitionNavigate } from '../page-transition/context'
-
 type CustomLinkProps = Omit<
   AnchorHTMLAttributes<HTMLAnchorElement>,
   keyof ComponentProps<typeof NextLink> | 'href'

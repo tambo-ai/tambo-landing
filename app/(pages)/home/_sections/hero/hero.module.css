@@ -1,13 +1,31 @@
-.video {
-  transform-origin: center 77%;
-}
+.wrapper {
+  height: 97vh;
+  padding-top: mobile-vw(80px);
 
-.arrowCTA {
-  svg {
-    transform: rotate(135deg);
+  @media (--desktop) {
+    /* margin-inline: auto; */
+    padding-top: desktop-vw(94px);
   }
-}
 
-.arrowDown {
-  transform: translate(-50%, 0%) translate(0px, 50%);
+  .inner {
+    height: 100%;
+    box-shadow: 0 0 56px 16px rgba(127, 255, 195, 0.25);
+
+    /* @media (--desktop) {
+      margin-inline: auto;
+      max-width: desktop-vw(1360px);
+    } */
+  }
+
+  .arrowCTA {
+    svg {
+      transform: rotate(135deg);
+    }
+  }
+
+  .arrowDown {
+    transform: translate(-50%, 0%) translate(0px, 50%);
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.5);
+  }
 }

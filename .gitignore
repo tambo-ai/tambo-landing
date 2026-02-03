@@ -39,6 +39,9 @@ yarn-error.log*
 
 .eslintcache
 
+# tasks
+/tasks/
+
 .env*.local
 
 .npmrc
@@ -48,6 +51,3 @@ certificates
 
 next-env.d.ts
 .vercel
-
-.playwright-mcp
-.playwright-cli
