@@ -1,7 +1,8 @@
 'use client'
 
 import { Search } from 'lucide-react'
-import { useCallback, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { ChangeEvent } from 'react'
 
 interface BlogSearchProps {
   value: string
@@ -14,22 +15,33 @@ export function BlogSearch({
   onChange,
   placeholder = 'Search posts...',
 }: BlogSearchProps) {
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const [localValue, setLocalValue] = useState(value)
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value
+  useEffect(() => {
+    setLocalValue(value)
+  }, [value])
 
+  useEffect(() => {
+    return () => {
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current)
       }
+    }
+  }, [])
 
-      debounceTimerRef.current = setTimeout(() => {
-        onChange(newValue)
-      }, 300)
-    },
-    [onChange]
-  )
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const newValue = e.target.value
+    setLocalValue(newValue)
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current)
+    }
+
+    debounceTimerRef.current = setTimeout(() => {
+      onChange(newValue)
+    }, 300)
+  }
 
   return (
     <div className="relative">
@@ -37,7 +49,7 @@ export function BlogSearch({
       <input
         type="text"
         placeholder={placeholder}
-        defaultValue={value}
+        value={localValue}
         onChange={handleChange}
         className="w-full dr-pl-48 dr-pr-16 dr-py-12 bg-white border border-dark-grey dr-rounded-20 typo-p dr-text-14 text-black placeholder:text-dark-grey focus:outline-none focus:border-forest transition-colors duration-150"
         maxLength={200}

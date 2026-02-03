@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import DiscordSVG from '~/assets/svgs/discord.svg'
 import GithubSVG from '~/assets/svgs/github.svg'
 import XSVG from '~/assets/svgs/X.svg'
@@ -8,17 +7,13 @@ import { Link } from '~/components/link'
 import { siteConfig } from '~/libs/config'
 
 export function BlogFooter() {
-  const [currentYear, setCurrentYear] = useState<number | null>(2026)
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear())
-  }, [])
+  const currentYear = new Date().getFullYear()
 
   return (
     <footer className="dr-py-16 dr-layout-grid-inner">
       <div className="col-span-full dt:col-start-4 dt:col-end-10 flex flex-col-reverse dt:flex-row dt:items-center dt:justify-between dr-gap-16 dt:dr-gap-0">
         <span className="typo-label-s dt:typo-label-m text-center dt:text-left text-black/70">
-          Fractal Dynamics Inc © {currentYear ?? 2025}
+          Fractal Dynamics Inc © {currentYear}
         </span>
 
         <div className="flex items-center justify-center dr-gap-13 dt:dr-gap-24">

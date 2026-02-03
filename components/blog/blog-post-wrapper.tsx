@@ -36,5 +36,5 @@ export function BlogPostWithFrontmatter({
   children,
   meta,
 }: BlogPostWithFrontmatterProps) {
-  return <BlogPost frontmatter={meta}>{children}</BlogPost>
+  return <BlogPost meta={meta}>{children}</BlogPost>
 }

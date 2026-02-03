@@ -24,28 +24,32 @@ export function BlogPage({ posts }: BlogPageProps) {
     )
   }, [posts, searchQuery])
 
-  const blogListSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    name: 'tambo Blog',
-    description: 'Latest updates, tutorials, and insights about tambo.',
-    url: `${baseUrl}/blog`,
-    blogPost: posts.map((post) => ({
-      '@type': 'BlogPosting',
-      headline: post.title,
-      description: post.description,
-      author: { '@type': 'Person', name: post.author || 'tambo team' },
-      datePublished: post.date,
-      url: `${baseUrl}/blog/posts/${post.slug}`,
-    })),
-  }
+  const blogListSchema = useMemo(
+    () => ({
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      name: 'tambo Blog',
+      description: 'Latest updates, tutorials, and insights about tambo.',
+      url: `${baseUrl}/blog`,
+      blogPost: posts.map((post) => ({
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.description,
+        author: { '@type': 'Person', name: post.author || 'tambo team' },
+        datePublished: post.date,
+        url: `${baseUrl}/blog/posts/${post.slug}`,
+      })),
+    }),
+    [baseUrl, posts]
+  )
 
   return (
     <div className="dr-layout-grid-inner dr-py-64">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
-      />
+      >
+        {JSON.stringify(blogListSchema)}
+      </script>
 
       <div className="col-span-full dt:col-start-4 dt:col-end-10">
         {/* Header */}

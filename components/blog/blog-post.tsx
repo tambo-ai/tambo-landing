@@ -4,26 +4,17 @@ import { formatDate } from '~/libs/blog/format-date'
 
 interface BlogPostProps {
   children: React.ReactNode
-  title?: string
-  author?: string
-  date?: string
-  frontmatter?: {
+  meta?: {
     title?: string
     author?: string
     date?: string
   }
 }
 
-export function BlogPost({
-  children,
-  title: titleProp,
-  author: authorProp,
-  date: dateProp,
-  frontmatter,
-}: BlogPostProps) {
-  const title = titleProp ?? frontmatter?.title
-  const author = authorProp ?? frontmatter?.author
-  const rawDate = dateProp ?? frontmatter?.date
+export function BlogPost({ children, meta }: BlogPostProps) {
+  const title = meta?.title
+  const author = meta?.author
+  const rawDate = meta?.date
   const date = rawDate ? formatDate(rawDate) : undefined
 
   return (

@@ -18,28 +18,57 @@ export function remarkInjectBlogLayout() {
   return (tree, file) => {
     // Only apply this plugin to blog post files
     // Normalize path separators for cross-platform compatibility
-    const filePath = (file.history[0] ?? '').replaceAll('\\', '/')
+    const rawPath = file.path ?? file.history?.[0] ?? ''
+    const filePath = String(rawPath).replaceAll('\\', '/')
     if (!filePath.includes('/blog/posts/')) {
       return
     }
 
     // Check if the file already has a layout export (to avoid double-wrapping)
     // Use AST-based detection instead of string matching for robustness
+    let hasBlogPostWrapperImport = false
+    let hasDefaultExport = false
     let hasLayoutExport = false
     visit(tree, 'mdxjsEsm', (node) => {
       // Check the estree AST structure for export default declarations
       if (node.data?.estree?.body) {
         for (const statement of node.data.estree.body) {
+          if (
+            statement.type === 'ImportDeclaration' &&
+            statement.source?.type === 'Literal' &&
+            statement.source.value === '~/components/blog/blog-post-wrapper'
+          ) {
+            hasBlogPostWrapperImport = true
+          }
+
           if (statement.type === 'ExportDefaultDeclaration') {
-            hasLayoutExport = true
-            break
+            hasDefaultExport = true
+
+            if (
+              statement.declaration?.type === 'FunctionDeclaration' &&
+              statement.declaration.id?.type === 'Identifier' &&
+              statement.declaration.id.name === 'Layout'
+            ) {
+              hasLayoutExport = true
+            }
+
+            if (
+              statement.declaration?.type === 'Identifier' &&
+              statement.declaration.name === 'Layout'
+            ) {
+              hasLayoutExport = true
+            }
           }
         }
       }
     })
 
     // If the file already has a layout, don't inject
-    if (hasLayoutExport) {
+    if (hasBlogPostWrapperImport || hasLayoutExport) {
+      return
+    }
+
+    if (hasDefaultExport) {
       return
     }
 
@@ -79,7 +108,9 @@ export function remarkInjectBlogLayout() {
     tree.children.push({
       type: 'mdxjsEsm',
       value: `export default function Layout(props) {
-  return <BlogPost meta={frontmatter}>{props.children}</BlogPost>;
+  const meta =
+    typeof frontmatter === 'object' && frontmatter ? frontmatter : {};
+  return <BlogPost meta={meta}>{props.children}</BlogPost>;
 }`,
       data: {
         estree: {
@@ -96,6 +127,49 @@ export function remarkInjectBlogLayout() {
                   type: 'BlockStatement',
                   body: [
                     {
+                      type: 'VariableDeclaration',
+                      kind: 'const',
+                      declarations: [
+                        {
+                          type: 'VariableDeclarator',
+                          id: { type: 'Identifier', name: 'meta' },
+                          init: {
+                            type: 'ConditionalExpression',
+                            test: {
+                              type: 'LogicalExpression',
+                              operator: '&&',
+                              left: {
+                                type: 'BinaryExpression',
+                                operator: '===',
+                                left: {
+                                  type: 'UnaryExpression',
+                                  operator: 'typeof',
+                                  prefix: true,
+                                  argument: {
+                                    type: 'Identifier',
+                                    name: 'frontmatter',
+                                  },
+                                },
+                                right: { type: 'Literal', value: 'object' },
+                              },
+                              right: {
+                                type: 'Identifier',
+                                name: 'frontmatter',
+                              },
+                            },
+                            consequent: {
+                              type: 'Identifier',
+                              name: 'frontmatter',
+                            },
+                            alternate: {
+                              type: 'ObjectExpression',
+                              properties: [],
+                            },
+                          },
+                        },
+                      ],
+                    },
+                    {
                       type: 'ReturnStatement',
                       argument: {
                         type: 'JSXElement',
@@ -110,7 +184,7 @@ export function remarkInjectBlogLayout() {
                                 type: 'JSXExpressionContainer',
                                 expression: {
                                   type: 'Identifier',
-                                  name: 'frontmatter',
+                                  name: 'meta',
                                 },
                               },
                             },
