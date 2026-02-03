@@ -50,9 +50,7 @@ export function BlogPage({ posts }: BlogPageProps) {
 
   return (
     <div className="dr-layout-grid-inner dr-py-64">
-      <script type="application/ld+json">
-        {blogListSchemaJson}
-      </script>
+      <script type="application/ld+json">{blogListSchemaJson}</script>
 
       <div className="col-span-full dt:col-start-4 dt:col-end-10">
         {/* Header */}
