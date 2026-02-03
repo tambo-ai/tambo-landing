@@ -20,12 +20,10 @@ export function BlogSearch({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
 
-      // Clear existing timer
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
       }
 
-      // Set new debounced call (300ms)
       debounceTimerRef.current = setTimeout(() => {
         onChange(newValue);
       }, 300);
@@ -34,14 +32,14 @@ export function BlogSearch({
   );
 
   return (
-    <div className="blog-search">
-      <Search className="blog-search-icon" />
+    <div className="relative">
+      <Search className="absolute dr-left-16 top-1/2 -translate-y-1/2 dr-size-16 text-dark-grey" />
       <input
         type="text"
         placeholder={placeholder}
         defaultValue={value}
         onChange={handleChange}
-        className="blog-search-input"
+        className="w-full dr-pl-48 dr-pr-16 dr-py-12 bg-white border border-dark-grey dr-rounded-20 typo-p dr-text-14 text-black placeholder:text-dark-grey focus:outline-none focus:border-forest transition-colors duration-150"
         maxLength={200}
       />
     </div>

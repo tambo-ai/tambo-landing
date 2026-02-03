@@ -1,9 +1,9 @@
 "use client";
 
-import { BlogSearch } from "~/components/blog/list/blog-search";
+import { useState, useMemo } from "react";
 import { BlogCard } from "~/components/blog/shared/blog-card";
+import { BlogSearch } from "~/components/blog/list/blog-search";
 import type { BlogPostListItem } from "~/libs/blog/types";
-import { useMemo, useState } from "react";
 
 interface BlogPageProps {
   posts: BlogPostListItem[];
@@ -11,19 +11,18 @@ interface BlogPageProps {
 
 export function BlogPage({ posts }: BlogPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://tambo.co";
 
   const filteredPosts = useMemo(() => {
-    if (!searchQuery) return posts;
-    const query = searchQuery.toLocaleLowerCase();
+    if (!searchQuery.trim()) return posts;
+    const query = searchQuery.toLowerCase();
     return posts.filter(
       (post) =>
-        post.title.toLocaleLowerCase().includes(query) ||
-        post.description?.toLocaleLowerCase().includes(query),
+        post.title.toLowerCase().includes(query) ||
+        post.description?.toLowerCase().includes(query) ||
+        post.author?.toLowerCase().includes(query)
     );
   }, [posts, searchQuery]);
-
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL ?? "https://tambo.co";
 
   const blogListSchema = {
     "@context": "https://schema.org",
@@ -42,44 +41,40 @@ export function BlogPage({ posts }: BlogPageProps) {
   };
 
   return (
-    <div className="blog-page">
+    <div className="dr-layout-grid-inner dr-py-64">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
       />
 
-      <div className="blog-page-container">
+      <div className="col-span-full dt:col-start-4 dt:col-end-10">
         {/* Header */}
-        <header className="blog-page-header">
-          <h1 className="blog-page-title">tambo updates</h1>
-          <p className="blog-page-subtitle">
+        <header className="text-center dr-mb-48">
+          <h1 className="typo-h1 dr-text-48 dt:dr-text-64 dr-mb-16 text-balance">
+            Tambo Blog
+          </h1>
+          <p className="typo-p dr-text-16 text-black text-pretty">
             Latest features, fixes, changes, and events from the tambo team.
           </p>
         </header>
 
         {/* Search */}
-        <div className="blog-page-search-wrapper">
+        <div className="dr-mb-24 max-w-[320px] mx-auto">
           <BlogSearch value={searchQuery} onChange={setSearchQuery} />
         </div>
 
-        {/* Results Count */}
-        <p className="blog-page-count">
-          {filteredPosts.length} {filteredPosts.length === 1 ? "post" : "posts"}
-        </p>
-
-        {/* Posts Grid - 2 columns */}
-        <div className="blog-page-grid">
-          {filteredPosts.map((post) => (
-            <BlogCard key={post.id} post={post} />
-          ))}
+        {/* Posts */}
+        <div className="flex flex-col dr-gap-16">
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
+              <BlogCard key={post.id} post={post} />
+            ))
+          ) : (
+            <p className="typo-p dr-text-16 text-black text-center dr-py-32">
+              No posts found matching your search.
+            </p>
+          )}
         </div>
-
-        {/* Empty State */}
-        {filteredPosts.length === 0 && (
-          <div className="blog-page-empty">
-            <p>No posts found matching your criteria.</p>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ This file provides detailed guidance for AI agents working with the Tambo blog s
 - Next.js 16 App Router
 - React 19.2
 - Tailwind CSS 4
-- Client-side filtering/sorting (BlogPage is "use client")
+- Client-side search (BlogPage is "use client")
 
 **Configuration:**
 
@@ -43,18 +43,15 @@ app/blog/
 └── AGENTS.md                     # This file
 
 components/blog/
-├── blog-page.tsx                 # Client component with search/filter/sort
+├── blog-page.tsx                 # Client component with search
 ├── blog-post.tsx                 # Individual post wrapper
 ├── blog-post-wrapper.tsx         # Wrapper that receives frontmatter from plugin
-├── blog-header.tsx
+├── blog-footer.tsx               # Blog footer with social links
+├── blog-nav-wrapper.tsx          # Navigation wrapper for blog pages
 ├── list/
-│   ├── blog-filters.tsx          # Category filters
-│   ├── blog-search.tsx           # Search input
-│   └── blog-sort.tsx             # Sort dropdown
+│   └── blog-search.tsx           # Search input with debounce
 └── shared/
-    ├── blog-card.tsx             # Post card component
-    ├── blog-badge.tsx            # Category badge
-    └── featured-post-card.tsx    # Featured post display
+    └── blog-card.tsx             # Post card component
 
 libs/
 ├── get-posts.ts                  # Uses Nextra's getPageMap() API

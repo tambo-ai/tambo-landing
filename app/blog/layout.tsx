@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Link } from "~/components/link";
-import TamboLogo from "~/assets/svgs/tambo.svg";
+import { BlogNavWrapper } from "~/components/blog/blog-nav-wrapper";
 import { BlogFooter } from "~/components/blog/blog-footer";
-import { siteConfig } from "~/libs/config";
+import { Theme } from "~/app/(pages)/_components/theme";
 
 export const metadata: Metadata = {
   title: {
@@ -20,27 +19,12 @@ interface BlogLayoutProps {
 
 export default function BlogLayout({ children }: BlogLayoutProps) {
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ backgroundColor: "#F2F8F6" }}
-    >
-      <header className="sticky top-0 z-50 pt-gap dr-layout-grid-inner">
-        <div className="col-span-full dt:col-start-3 dt:col-end-11 flex justify-center">
-          <div className="w-full flex justify-between items-center border border-dark-grey dr-pl-24 dr-pr-8 rounded-full dr-h-48 bg-white/50 backdrop-blur-[30px]">
-            <Link href="/" className="grid place-items-center">
-              <TamboLogo className="dr-h-24" />
-            </Link>
-            <Link
-              href={siteConfig.links.dashboard}
-              className="dr-px-16 dr-h-32 rounded-full bg-mint grid place-items-center uppercase typo-button"
-            >
-              Log in
-            </Link>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1">{children}</main>
-      <BlogFooter />
-    </div>
+    <Theme theme="light" global>
+      <div className="min-h-dvh flex flex-col bg-white">
+        <BlogNavWrapper />
+        <main className="flex-1 dr-pt-80">{children}</main>
+        <BlogFooter />
+      </div>
+    </Theme>
   );
 }
