@@ -3,38 +3,15 @@ import { Link } from '~/components/link'
 import { formatDate } from '~/libs/blog/format-date'
 import type { BlogPostMeta } from '~/libs/blog/types'
 
-type BlogPostMetaKey = 'title' | 'author' | 'date'
-
-function getMetaString(
-  meta: BlogPostMeta | undefined,
-  key: BlogPostMetaKey
-): string | undefined {
-  const value = meta?.[key]
-  return typeof value === 'string' ? value : undefined
-}
-
 interface BlogPostProps {
   children: React.ReactNode
   meta?: BlogPostMeta
-  frontmatter?: BlogPostMeta
-  title?: string
-  author?: string
-  date?: string
 }
 
-export function BlogPost({
-  children,
-  meta,
-  frontmatter,
-  title: titleProp,
-  author: authorProp,
-  date: dateProp,
-}: BlogPostProps) {
-  const source = meta ?? frontmatter
-
-  const title = titleProp ?? getMetaString(source, 'title')
-  const author = authorProp ?? getMetaString(source, 'author')
-  const rawDate = dateProp ?? getMetaString(source, 'date')
+export function BlogPost({ children, meta }: BlogPostProps) {
+  const title = typeof meta?.title === 'string' ? meta.title : undefined
+  const author = typeof meta?.author === 'string' ? meta.author : undefined
+  const rawDate = typeof meta?.date === 'string' ? meta.date : undefined
   const date = rawDate ? formatDate(rawDate) : undefined
 
   return (

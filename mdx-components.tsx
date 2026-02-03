@@ -1,8 +1,9 @@
 import type { MDXComponents } from 'mdx/types'
-import Image from 'next/image'
-import { cn } from '@/lib/utils'
-import { BlogPost } from './components/blog/blog-post'
-import { ImageZoom } from './components/ui/imagezoom'
+import { BlogPost } from '~/components/blog/blog-post'
+import { Image } from '~/components/image'
+import { Link } from '~/components/link'
+import { ImageZoom } from '~/components/ui/imagezoom'
+import { cn } from '~/integrations/tambo/(components)/lib/utils'
 
 /**
  * MDX Components Configuration
@@ -103,7 +104,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
 
     a: ({ className, ...props }) => (
-      <a
+      <Link
         className={cn(
           'font-medium rounded hover:bg-blue-50 underline transition-colors inline-flex items-center',
           className

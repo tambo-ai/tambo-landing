@@ -1,6 +1,7 @@
 import DiscordSVG from '~/assets/svgs/discord.svg'
 import GithubSVG from '~/assets/svgs/github.svg'
 import XSVG from '~/assets/svgs/X.svg'
+import { getBaseUrl } from './base-url'
 
 export const BLUR_FADE_DELAY = 0.15
 export const CURRENT_YEAR = new Date().getFullYear()
@@ -9,7 +10,7 @@ export const siteConfig = {
   name: 'tambo-ai',
   description:
     'An open-source AI orchestration framework for your React front end.',
-  url: process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co',
+  url: getBaseUrl(),
   keywords: [
     'AI-Powered React Components',
     'Contextual UI Generation',

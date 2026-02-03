@@ -24,11 +24,19 @@ export function remarkInjectBlogLayout() {
       return
     }
 
-    // Check if the file already has a layout export (to avoid double-wrapping)
-    // Use AST-based detection instead of string matching for robustness
+    const originalLayoutName = '__BlogPostOriginalLayout'
+
+    // Use AST-based detection instead of string matching for robustness.
+    //
+    // If a post already has `export default function Layout(...)`, assume the
+    // author/tooling is handling layout explicitly and don't inject.
+    //
+    // If a post has *some other* default export, rewrite it into a named
+    // declaration and inject our own default `Layout` that wraps it.
     let hasBlogPostWrapperImport = false
-    let hasDefaultExport = false
     let hasLayoutExport = false
+    /** @type {{ node: any; body: any[]; index: number; statement: any } | null} */
+    let defaultExport = null
     visit(tree, 'mdxjsEsm', (node) => {
       // Check the estree AST structure for export default declarations
       if (node.data?.estree?.body) {
@@ -42,8 +50,6 @@ export function remarkInjectBlogLayout() {
           }
 
           if (statement.type === 'ExportDefaultDeclaration') {
-            hasDefaultExport = true
-
             if (
               statement.declaration?.type === 'FunctionDeclaration' &&
               statement.declaration.id?.type === 'Identifier' &&
@@ -58,13 +64,69 @@ export function remarkInjectBlogLayout() {
             ) {
               hasLayoutExport = true
             }
+
+            if (!(hasLayoutExport || defaultExport)) {
+              defaultExport = {
+                node,
+                body: node.data.estree.body,
+                index: node.data.estree.body.indexOf(statement),
+                statement,
+              }
+            }
           }
         }
       }
     })
 
-    // If the file already imports the wrapper or defines a default export, don't inject.
-    if (hasBlogPostWrapperImport || hasLayoutExport || hasDefaultExport) {
+    // If the file already imports the wrapper or defines a default Layout export,
+    // don't inject.
+    if (hasBlogPostWrapperImport || hasLayoutExport) {
+      return
+    }
+
+    const shouldWrapExistingLayout = (() => {
+      if (!defaultExport) return false
+
+      const declaration = defaultExport.statement.declaration
+      if (!declaration) return false
+
+      if (
+        declaration.type === 'FunctionDeclaration' ||
+        declaration.type === 'ClassDeclaration'
+      ) {
+        defaultExport.body[defaultExport.index] = {
+          ...declaration,
+          id: { type: 'Identifier', name: originalLayoutName },
+        }
+        return true
+      }
+
+      if (
+        declaration.type === 'Identifier' ||
+        declaration.type === 'ArrowFunctionExpression' ||
+        declaration.type === 'FunctionExpression' ||
+        declaration.type === 'ClassExpression'
+      ) {
+        defaultExport.body[defaultExport.index] = {
+          type: 'VariableDeclaration',
+          kind: 'const',
+          declarations: [
+            {
+              type: 'VariableDeclarator',
+              id: { type: 'Identifier', name: originalLayoutName },
+              init: declaration,
+            },
+          ],
+        }
+        return true
+      }
+
+      return false
+    })()
+
+    // If there is a default export and we can't safely rewrite it, bail rather
+    // than injecting a second default export.
+    if (defaultExport && !shouldWrapExistingLayout) {
       return
     }
 
@@ -110,7 +172,11 @@ export function remarkInjectBlogLayout() {
     !Array.isArray(frontmatter)
       ? frontmatter
       : {};
-  return <BlogPost meta={meta}>{props.children}</BlogPost>;
+  return ${
+    shouldWrapExistingLayout
+      ? `<${originalLayoutName} {...props}><BlogPost meta={meta}>{props.children}</BlogPost></${originalLayoutName}>`
+      : '<BlogPost meta={meta}>{props.children}</BlogPost>'
+  };
 }`,
       data: {
         estree: {
@@ -204,39 +270,118 @@ export function remarkInjectBlogLayout() {
                         type: 'JSXElement',
                         openingElement: {
                           type: 'JSXOpeningElement',
-                          name: { type: 'JSXIdentifier', name: 'BlogPost' },
-                          attributes: [
-                            {
-                              type: 'JSXAttribute',
-                              name: { type: 'JSXIdentifier', name: 'meta' },
-                              value: {
-                                type: 'JSXExpressionContainer',
-                                expression: {
-                                  type: 'Identifier',
-                                  name: 'meta',
+                          name: {
+                            type: 'JSXIdentifier',
+                            name: shouldWrapExistingLayout
+                              ? originalLayoutName
+                              : 'BlogPost',
+                          },
+                          attributes: shouldWrapExistingLayout
+                            ? [
+                                {
+                                  type: 'JSXSpreadAttribute',
+                                  argument: {
+                                    type: 'Identifier',
+                                    name: 'props',
+                                  },
                                 },
-                              },
-                            },
-                          ],
+                              ]
+                            : [
+                                {
+                                  type: 'JSXAttribute',
+                                  name: {
+                                    type: 'JSXIdentifier',
+                                    name: 'meta',
+                                  },
+                                  value: {
+                                    type: 'JSXExpressionContainer',
+                                    expression: {
+                                      type: 'Identifier',
+                                      name: 'meta',
+                                    },
+                                  },
+                                },
+                              ],
                           selfClosing: false,
                         },
                         closingElement: {
                           type: 'JSXClosingElement',
-                          name: { type: 'JSXIdentifier', name: 'BlogPost' },
-                        },
-                        children: [
-                          {
-                            type: 'JSXExpressionContainer',
-                            expression: {
-                              type: 'MemberExpression',
-                              object: { type: 'Identifier', name: 'props' },
-                              property: {
-                                type: 'Identifier',
-                                name: 'children',
-                              },
-                            },
+                          name: {
+                            type: 'JSXIdentifier',
+                            name: shouldWrapExistingLayout
+                              ? originalLayoutName
+                              : 'BlogPost',
                           },
-                        ],
+                        },
+                        children: shouldWrapExistingLayout
+                          ? [
+                              {
+                                type: 'JSXElement',
+                                openingElement: {
+                                  type: 'JSXOpeningElement',
+                                  name: {
+                                    type: 'JSXIdentifier',
+                                    name: 'BlogPost',
+                                  },
+                                  attributes: [
+                                    {
+                                      type: 'JSXAttribute',
+                                      name: {
+                                        type: 'JSXIdentifier',
+                                        name: 'meta',
+                                      },
+                                      value: {
+                                        type: 'JSXExpressionContainer',
+                                        expression: {
+                                          type: 'Identifier',
+                                          name: 'meta',
+                                        },
+                                      },
+                                    },
+                                  ],
+                                  selfClosing: false,
+                                },
+                                closingElement: {
+                                  type: 'JSXClosingElement',
+                                  name: {
+                                    type: 'JSXIdentifier',
+                                    name: 'BlogPost',
+                                  },
+                                },
+                                children: [
+                                  {
+                                    type: 'JSXExpressionContainer',
+                                    expression: {
+                                      type: 'MemberExpression',
+                                      object: {
+                                        type: 'Identifier',
+                                        name: 'props',
+                                      },
+                                      property: {
+                                        type: 'Identifier',
+                                        name: 'children',
+                                      },
+                                    },
+                                  },
+                                ],
+                              },
+                            ]
+                          : [
+                              {
+                                type: 'JSXExpressionContainer',
+                                expression: {
+                                  type: 'MemberExpression',
+                                  object: {
+                                    type: 'Identifier',
+                                    name: 'props',
+                                  },
+                                  property: {
+                                    type: 'Identifier',
+                                    name: 'children',
+                                  },
+                                },
+                              },
+                            ],
                       },
                     },
                   ],

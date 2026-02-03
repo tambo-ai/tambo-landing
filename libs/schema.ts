@@ -1,3 +1,4 @@
+import { getBaseUrl } from './base-url'
 import { siteConfig } from './config'
 
 /**
@@ -22,7 +23,8 @@ export function generateBlogPostSchema({
   slug: string
   image?: string
 }) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || siteConfig.url
+  const baseUrl = getBaseUrl()
+  const postUrl = `${baseUrl}/blog/posts/${slug}`
 
   return {
     '@context': 'https://schema.org',
@@ -35,7 +37,7 @@ export function generateBlogPostSchema({
       url: authorUrl,
     },
     image: image || `${baseUrl}/api/og`,
-    url: `${baseUrl}/blog/${slug}`,
+    url: postUrl,
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
     publisher: {
@@ -48,7 +50,7 @@ export function generateBlogPostSchema({
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${baseUrl}/blog/${slug}`,
+      '@id': postUrl,
     },
   }
 }

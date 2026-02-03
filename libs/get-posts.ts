@@ -3,6 +3,20 @@ import { getPageMap } from 'nextra/page-map'
 import { BLOG_DEFAULTS } from './blog/defaults'
 import type { BlogCategory, BlogPostListItem } from './blog/types'
 
+const BLOG_CATEGORIES: readonly BlogCategory[] = [
+  'new',
+  'feature',
+  'bug fix',
+  'update',
+  'event',
+  'tutorial',
+  'announcement',
+]
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
 // Define our blog post types
 export interface BlogFrontMatter {
   title: string
@@ -27,23 +41,50 @@ export async function getPosts(): Promise<BlogPost[]> {
   })
 
   const posts = directories
-    .filter(
-      (item: { name?: string; frontMatter?: unknown }): item is BlogPost => {
-        return item.name !== 'index' && !!item.frontMatter
+    .filter((item: { name?: string }) => item.name !== 'index')
+    .map((item) => {
+      const frontMatter = item.frontMatter
+      if (!isPlainObject(frontMatter)) {
+        return null
       }
-    )
-    .map((item) => ({
-      name: item.name,
-      route: item.route,
-      content: (item as unknown as { content?: string }).content || '',
-      frontMatter: {
-        title: item.frontMatter.title ?? '',
-        date: item.frontMatter.date ?? new Date().toISOString(),
-        description: item.frontMatter.description,
-        author: item.frontMatter.author ?? BLOG_DEFAULTS.author,
-        category: item.frontMatter.category,
-      },
-    }))
+
+      const title = typeof frontMatter.title === 'string' ? frontMatter.title : null
+      const date = typeof frontMatter.date === 'string' ? frontMatter.date : null
+      if (!(title && date)) {
+        return null
+      }
+
+      const description =
+        typeof frontMatter.description === 'string'
+          ? frontMatter.description
+          : undefined
+
+      const author =
+        typeof frontMatter.author === 'string'
+          ? frontMatter.author
+          : BLOG_DEFAULTS.author
+
+      const categoryRaw =
+        typeof frontMatter.category === 'string' ? frontMatter.category : null
+      const category =
+        categoryRaw && BLOG_CATEGORIES.includes(categoryRaw as BlogCategory)
+          ? (categoryRaw as BlogCategory)
+          : undefined
+
+      return {
+        name: item.name,
+        route: item.route,
+        content: (item as unknown as { content?: string }).content || '',
+        frontMatter: {
+          title,
+          date,
+          description,
+          author,
+          category,
+        },
+      }
+    })
+    .filter((post): post is BlogPost => post !== null)
     .toSorted(
       (a, b) =>
         new Date(b.frontMatter.date).getTime() -

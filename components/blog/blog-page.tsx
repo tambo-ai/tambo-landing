@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { BlogSearch } from '~/components/blog/list/blog-search'
 import { BlogCard } from '~/components/blog/shared/blog-card'
 import type { BlogPostListItem } from '~/libs/blog/types'
+import { getBaseUrl } from '~/libs/base-url'
 
 function toSafeJsonScriptContent(value: unknown): string {
   return JSON.stringify(value)
@@ -17,7 +18,7 @@ interface BlogPageProps {
 
 export function BlogPage({ posts }: BlogPageProps) {
   const [searchQuery, setSearchQuery] = useState('')
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://tambo.co'
+  const baseUrl = getBaseUrl()
 
   const filteredPosts = useMemo(() => {
     if (!searchQuery.trim()) return posts
