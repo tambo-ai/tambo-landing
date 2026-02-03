@@ -93,6 +93,8 @@ const nextConfig: NextConfig = {
       '@base-ui-components/react',
       'lenis',
       'zustand',
+      'lucide-react',
+      'highlight.js',
     ],
   },
   devIndicators: false,

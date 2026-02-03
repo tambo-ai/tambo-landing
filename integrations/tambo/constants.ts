@@ -1,8 +1,7 @@
 import type { Destination } from '.'
 
 // Feature flag - set NEXT_PUBLIC_MAPBOX_ENABLED=true to enable Mapbox integration
-export const MAPBOX_ENABLED =
-  process.env.NEXT_PUBLIC_MAPBOX_ENABLED === 'true'
+export const MAPBOX_ENABLED = process.env.NEXT_PUBLIC_MAPBOX_ENABLED === 'true'
 
 export const DEMOS = {
   INTRO: 'intro',
