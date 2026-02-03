@@ -45,7 +45,7 @@ export function Video({
         {(priority || intersection?.isIntersecting) && children}
       </video>
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 grid place-items-center"
         style={{
           visibility: isPlaying ? 'hidden' : 'visible',
         }}

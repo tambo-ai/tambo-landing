@@ -141,3 +141,39 @@ html.screenshot {
 .dashed-border {
   border: 1px dashed color-mix(in oklab, var(--color-forest) 50%, transparent);
 }
+
+.content-max-width {
+  @media (--desktop) {
+    margin-inline: auto;
+    max-width: calc(var(--max-width) * 1px);
+  }
+}
+
+.section-shadow-top {
+  box-shadow: 0 -64px 56px 8px rgba(127, 255, 195, 0.25);
+}
+
+.section-shadow-bottom {
+  box-shadow: 0 64px 56px 8px rgba(127, 255, 195, 0.25);
+}
+
+.section-rounded-top {
+  border-top-left-radius: mobile-vw(40px);
+  border-top-right-radius: mobile-vw(40px);
+
+  @media (--desktop) {
+    border-top-left-radius: desktop-vw(60px);
+    border-top-right-radius: desktop-vw(60px);
+  }
+}
+
+.section-rounded-bottom {
+  /* for test */
+  border-bottom-left-radius: mobile-vw(40px);
+  border-bottom-right-radius: mobile-vw(40px);
+
+  @media (--desktop) {
+    border-bottom-left-radius: desktop-vw(60px);
+    border-bottom-right-radius: desktop-vw(60px);
+  }
+}

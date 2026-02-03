@@ -1,16 +1,20 @@
-.iconWrapper {
+.linkWrapper {
+  @media (--hover) {
+    &:hover {
+      .icon {
+        background-color: var(--color-black);
+        color: var(--color-teal);
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+.icon {
   transition:
     background-color 300ms,
     color 300ms,
     transform 300ms;
-
-  @media (--hover) {
-    &:hover {
-      background-color: var(--color-black);
-      color: var(--color-teal);
-      transform: scale(1.1);
-    }
-  }
 }
 
 .loginButton {

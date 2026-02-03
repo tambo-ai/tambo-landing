@@ -8,10 +8,15 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { useAddToItineraryListener } from './(components)/map/mapbox/events'
 import { seatComponent } from './(components)/seat-selector/schema'
-import { DEFAULT_DESTINATION, DEMOS } from './constants'
+import { DEFAULT_DESTINATION, DEMOS, MAPBOX_ENABLED } from './constants'
 import { type ForecastDay, getCurrentDate, mapTools } from './tools'
+
+// Mapbox event listener - only used when Mapbox is enabled
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const useAddToItineraryListener = MAPBOX_ENABLED
+  ? require('./(components)/map/mapbox/events').useAddToItineraryListener
+  : (_callback: unknown) => undefined
 
 const components = [...seatComponent]
 const tools = [...mapTools]

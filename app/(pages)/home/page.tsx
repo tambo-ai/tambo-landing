@@ -1,51 +1,62 @@
-import { ScrollRestoration } from '~/components/scroll-restoration'
-import { generatePageMetadata } from '~/libs/metadata'
+import dynamic from 'next/dynamic'
+import { getDiscordMembers } from '~/libs/discord'
+import { getGitHubStars } from '~/libs/github'
 import { Wrapper } from '../_components/wrapper'
-import Background from './_components/background'
-import { Footer } from './_sections/footer'
+// Above-fold: static imports
 import { Hero } from './_sections/hero'
+// Server Components (no client JS)
 import { HowItWorks } from './_sections/how-it-works'
 import { MeetTambo } from './_sections/meet-tambo'
-import { Moments } from './_sections/moments'
-import { Section8 } from './_sections/section-8'
-import { Section10 } from './_sections/section-10'
-import { Section11 } from './_sections/section-11'
-import { Section12 } from './_sections/section-12'
+import { TamboSteps } from './_sections/tambo-steps'
 
-export async function generateMetadata() {
-  return generatePageMetadata({
-    title: 'tambo',
-    description: 'Build generative UI apps. No PhD required.',
-    image: { url: '/opengraph-image.jpg' },
-    type: 'website',
-    url: `/`,
-    siteName: 'tambo',
-  })
-}
+// Below-fold: dynamic imports to reduce initial JS and TBT
+const SocialProof = dynamic(() =>
+  import('./_sections/social-proof').then((mod) => mod.SocialProof)
+)
+const Features = dynamic(() =>
+  import('./_sections/features-section').then((mod) => mod.Features)
+)
+const Pricing = dynamic(() =>
+  import('./_sections/pricing').then((mod) => mod.Pricing)
+)
+const Investors = dynamic(() =>
+  import('./_sections/investors').then((mod) => mod.Investors)
+)
+const Showcase = dynamic(() =>
+  import('./_sections/showcase').then((mod) => mod.Showcase)
+)
+const Community = dynamic(() =>
+  import('./_sections/comunity').then((mod) => mod.Community)
+)
+const Footer = dynamic(() =>
+  import('./_sections/footer').then((mod) => mod.Footer)
+)
 
-export default function Home() {
+export default async function Home() {
+  const [githubStars, discordMembers] = await Promise.all([
+    getGitHubStars(),
+    getDiscordMembers(),
+  ])
+
   return (
-    <>
-      {process.env.NODE_ENV === 'production' && (
-        <ScrollRestoration type="manual" />
-      )}
-      <Wrapper
-        theme="light"
-        lenis={{}}
-        className="mx-auto bg-primary max-w-screen dt:max-w-[calc(var(--max-width)*1px)] overflow-x-clip"
-      >
-        <Background>
-          <Hero />
-          <MeetTambo />
-          <Moments />
-          <Section8 />
-          <Section10 />
-          <HowItWorks />
-          <Section11 />
-          <Section12 />
-          <Footer />
-        </Background>
-      </Wrapper>
-    </>
+    <Wrapper
+      theme="light"
+      lenis={{}}
+      className="mx-auto bg-primary max-w-screen overflow-x-clip"
+      githubStars={githubStars}
+      discordMembers={discordMembers}
+    >
+      <Hero />
+      <TamboSteps />
+      <MeetTambo />
+      <SocialProof />
+      <HowItWorks />
+      <Features />
+      <Pricing />
+      <Investors />
+      <Showcase />
+      <Community />
+      <Footer />
+    </Wrapper>
   )
 }
