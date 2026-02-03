@@ -3,8 +3,8 @@
 import { useMemo, useState } from 'react'
 import { BlogSearch } from '~/components/blog/list/blog-search'
 import { BlogCard } from '~/components/blog/shared/blog-card'
-import type { BlogPostListItem } from '~/libs/blog/types'
 import { getBaseUrl } from '~/libs/base-url'
+import type { BlogPostListItem } from '~/libs/blog/types'
 
 function toSafeJsonScriptContent(value: unknown): string {
   return JSON.stringify(value)

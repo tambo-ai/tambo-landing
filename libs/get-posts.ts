@@ -48,8 +48,10 @@ export async function getPosts(): Promise<BlogPost[]> {
         return null
       }
 
-      const title = typeof frontMatter.title === 'string' ? frontMatter.title : null
-      const date = typeof frontMatter.date === 'string' ? frontMatter.date : null
+      const title =
+        typeof frontMatter.title === 'string' ? frontMatter.title : null
+      const date =
+        typeof frontMatter.date === 'string' ? frontMatter.date : null
       if (!(title && date)) {
         return null
       }
