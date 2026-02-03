@@ -1,16 +1,35 @@
+import dynamic from 'next/dynamic'
 import { getGitHubStars } from '~/libs/github'
 import { Wrapper } from '../_components/wrapper'
-import { Community } from './_sections/comunity'
-import { Features } from './_sections/features-section'
-import { Footer } from './_sections/footer'
+// Above-fold: static imports
 import { Hero } from './_sections/hero'
-import { HowItWorks } from './_sections/how-it-works'
-import { Investors } from './_sections/investors'
-import { MeetTambo } from './_sections/meet-tambo'
-import { Pricing } from './_sections/pricing'
-import { Showcase } from './_sections/showcase'
-import { SocialProof } from './_sections/social-proof'
 import { TamboSteps } from './_sections/tambo-steps'
+// Server Components (no client JS)
+import { HowItWorks } from './_sections/how-it-works'
+import { MeetTambo } from './_sections/meet-tambo'
+
+// Below-fold: dynamic imports to reduce initial JS and TBT
+const SocialProof = dynamic(() =>
+  import('./_sections/social-proof').then((mod) => mod.SocialProof)
+)
+const Features = dynamic(() =>
+  import('./_sections/features-section').then((mod) => mod.Features)
+)
+const Pricing = dynamic(() =>
+  import('./_sections/pricing').then((mod) => mod.Pricing)
+)
+const Investors = dynamic(() =>
+  import('./_sections/investors').then((mod) => mod.Investors)
+)
+const Showcase = dynamic(() =>
+  import('./_sections/showcase').then((mod) => mod.Showcase)
+)
+const Community = dynamic(() =>
+  import('./_sections/comunity').then((mod) => mod.Community)
+)
+const Footer = dynamic(() =>
+  import('./_sections/footer').then((mod) => mod.Footer)
+)
 
 export default async function Home() {
   const githubStars = await getGitHubStars()
