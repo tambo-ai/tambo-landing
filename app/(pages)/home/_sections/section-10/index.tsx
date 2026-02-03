@@ -12,6 +12,7 @@ import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { fromTo, mapRange } from '~/libs/utils'
+import { siteConfig } from '~/libs/config'
 
 const BUTTONS = [
   {
@@ -76,7 +77,7 @@ const BUTTONS = [
   },
   {
     title: 'Component Library ',
-    href: 'https://ui.tambo.co/',
+    href: siteConfig.links.componentLibrary,
     top: 85,
     left: 15,
   },
