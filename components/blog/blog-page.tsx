@@ -45,9 +45,7 @@ export function BlogPage({ posts }: BlogPageProps) {
 
   return (
     <div className="dr-layout-grid-inner dr-py-64">
-      <script
-        type="application/ld+json"
-      >
+      <script type="application/ld+json">
         {JSON.stringify(blogListSchema)}
       </script>
 
