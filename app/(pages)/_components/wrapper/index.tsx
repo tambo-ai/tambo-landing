@@ -9,6 +9,7 @@ interface WrapperProps extends React.HTMLAttributes<HTMLDivElement> {
   theme?: ThemeName
   lenis?: boolean | LenisOptions
   githubStars?: string
+  discordMembers?: string
 }
 
 export function Wrapper({
@@ -17,11 +18,12 @@ export function Wrapper({
   className,
   lenis = true,
   githubStars,
+  discordMembers,
   ...props
 }: WrapperProps) {
   const content = (
     <>
-      <Navigation githubStars={githubStars} />
+      <Navigation githubStars={githubStars} discordMembers={discordMembers} />
       <main
         className={cn('relative flex flex-col grow w-full', className)}
         {...props}

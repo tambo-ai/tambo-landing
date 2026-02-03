@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import { getDiscordMembers } from '~/libs/discord'
 import { getGitHubStars } from '~/libs/github'
 import { Wrapper } from '../_components/wrapper'
 // Above-fold: static imports
@@ -32,7 +33,10 @@ const Footer = dynamic(() =>
 )
 
 export default async function Home() {
-  const githubStars = await getGitHubStars()
+  const [githubStars, discordMembers] = await Promise.all([
+    getGitHubStars(),
+    getDiscordMembers(),
+  ])
 
   return (
     <Wrapper
@@ -40,6 +44,7 @@ export default async function Home() {
       lenis={{}}
       className="mx-auto bg-primary max-w-screen overflow-x-clip"
       githubStars={githubStars}
+      discordMembers={discordMembers}
     >
       <Hero />
       <TamboSteps />

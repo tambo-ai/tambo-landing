@@ -24,9 +24,13 @@ const RIGHT_LINKS = [{ href: '/blog', label: 'Blog', external: true }] as const
 
 interface NavigationProps {
   githubStars?: string
+  discordMembers?: string
 }
 
-export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
+export function Navigation({
+  githubStars = '2.8k',
+  discordMembers = '1.6k',
+}: NavigationProps) {
   const isMobileNavOpened = useStore((state) => state.isMobileNavOpened)
   const setIsMobileNavOpened = useStore((state) => state.setIsMobileNavOpened)
   const hasAppeared = useStore((state) => state.hasAppeared)
@@ -60,7 +64,7 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
         >
           <DiscordIcon className="dr-w-16 icon" />
         </div>
-        <span>0.6k</span>
+        <span>{discordMembers}</span>
       </Link>
       <section className="col-span-full dt:col-start-3 dt:col-end-11 flex justify-center ">
         {/* Desktop Nav */}
@@ -185,7 +189,7 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
                 <div className="dr-size-24 bg-mint grid place-items-center rounded-full">
                   <DiscordIcon className="dr-w-16 icon" />
                 </div>
-                <span>0.6k</span>
+                <span>{discordMembers}</span>
               </Link>
               <Link
                 href="https://x.com/tamboai"
