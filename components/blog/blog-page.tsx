@@ -5,6 +5,12 @@ import { BlogSearch } from '~/components/blog/list/blog-search'
 import { BlogCard } from '~/components/blog/shared/blog-card'
 import type { BlogPostListItem } from '~/libs/blog/types'
 
+function toSafeJsonScriptContent(value: unknown): string {
+  return JSON.stringify(value)
+    .replaceAll('</script', '<\\u002Fscript')
+    .replaceAll('<', '\\u003c')
+}
+
 interface BlogPageProps {
   posts: BlogPostListItem[]
 }
@@ -44,7 +50,7 @@ export function BlogPage({ posts }: BlogPageProps) {
   )
 
   const blogListSchemaJson = useMemo(
-    () => JSON.stringify(blogListSchema).replaceAll('<', '\\u003c'),
+    () => toSafeJsonScriptContent(blogListSchema),
     [blogListSchema]
   )
 
