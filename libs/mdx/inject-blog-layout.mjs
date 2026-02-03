@@ -63,12 +63,8 @@ export function remarkInjectBlogLayout() {
       }
     })
 
-    // If the file already has a layout, don't inject
-    if (hasBlogPostWrapperImport || hasLayoutExport) {
-      return
-    }
-
-    if (hasDefaultExport) {
+    // If the file already imports the wrapper or defines a default export, don't inject.
+    if (hasBlogPostWrapperImport || hasLayoutExport || hasDefaultExport) {
       return
     }
 
