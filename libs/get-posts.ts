@@ -30,7 +30,7 @@ export interface BlogPost {
   name: string
   route: string
   frontMatter: BlogFrontMatter
-  content?: string
+  content: string
 }
 
 export async function getPosts(): Promise<BlogPost[]> {
@@ -42,7 +42,7 @@ export async function getPosts(): Promise<BlogPost[]> {
 
   const posts = directories
     .filter((item: { name?: string }) => item.name !== 'index')
-    .map((item) => {
+    .map((item): BlogPost | null => {
       const frontMatter = item.frontMatter
       if (!isPlainObject(frontMatter)) {
         return null
