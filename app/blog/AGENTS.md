@@ -97,7 +97,11 @@ import { BlogPostWithFrontmatter as BlogPost } from "~/components/blog/blog-post
 
 export default function Layout(props) {
   const meta =
-    typeof frontmatter === 'object' && frontmatter ? frontmatter : {}
+    typeof frontmatter === 'object' &&
+    frontmatter &&
+    !Array.isArray(frontmatter)
+      ? frontmatter
+      : {}
   return <BlogPost meta={meta}>{props.children}</BlogPost>;
 }
 ```

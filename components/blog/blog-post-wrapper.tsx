@@ -1,8 +1,9 @@
 import { BlogPost } from './blog-post'
+import type { BlogPostMeta } from '~/libs/blog/types'
 
 interface BlogPostWithFrontmatterProps {
   children: React.ReactNode
-  meta: Record<string, unknown>
+  meta: BlogPostMeta
 }
 
 /**

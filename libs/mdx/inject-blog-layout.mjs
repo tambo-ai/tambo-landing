@@ -105,7 +105,11 @@ export function remarkInjectBlogLayout() {
       type: 'mdxjsEsm',
       value: `export default function Layout(props) {
   const meta =
-    typeof frontmatter === 'object' && frontmatter ? frontmatter : {};
+    typeof frontmatter === 'object' &&
+    frontmatter &&
+    !Array.isArray(frontmatter)
+      ? frontmatter
+      : {};
   return <BlogPost meta={meta}>{props.children}</BlogPost>;
 }`,
       data: {
@@ -135,22 +139,51 @@ export function remarkInjectBlogLayout() {
                               type: 'LogicalExpression',
                               operator: '&&',
                               left: {
-                                type: 'BinaryExpression',
-                                operator: '===',
+                                type: 'LogicalExpression',
+                                operator: '&&',
                                 left: {
-                                  type: 'UnaryExpression',
-                                  operator: 'typeof',
-                                  prefix: true,
-                                  argument: {
-                                    type: 'Identifier',
-                                    name: 'frontmatter',
+                                  type: 'BinaryExpression',
+                                  operator: '===',
+                                  left: {
+                                    type: 'UnaryExpression',
+                                    operator: 'typeof',
+                                    prefix: true,
+                                    argument: {
+                                      type: 'Identifier',
+                                      name: 'frontmatter',
+                                    },
                                   },
+                                  right: { type: 'Literal', value: 'object' },
                                 },
-                                right: { type: 'Literal', value: 'object' },
+                                right: {
+                                  type: 'Identifier',
+                                  name: 'frontmatter',
+                                },
                               },
                               right: {
-                                type: 'Identifier',
-                                name: 'frontmatter',
+                                type: 'UnaryExpression',
+                                operator: '!',
+                                prefix: true,
+                                argument: {
+                                  type: 'CallExpression',
+                                  callee: {
+                                    type: 'MemberExpression',
+                                    object: {
+                                      type: 'Identifier',
+                                      name: 'Array',
+                                    },
+                                    property: {
+                                      type: 'Identifier',
+                                      name: 'isArray',
+                                    },
+                                  },
+                                  arguments: [
+                                    {
+                                      type: 'Identifier',
+                                      name: 'frontmatter',
+                                    },
+                                  ],
+                                },
                               },
                             },
                             consequent: {

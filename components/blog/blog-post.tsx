@@ -1,9 +1,10 @@
 import { ChevronRight } from 'lucide-react'
 import { Link } from '~/components/link'
 import { formatDate } from '~/libs/blog/format-date'
+import type { BlogPostMeta } from '~/libs/blog/types'
 
 function getMetaString(
-  meta: Record<string, unknown> | undefined,
+  meta: BlogPostMeta | undefined,
   key: string
 ): string | undefined {
   const value = meta?.[key]
@@ -12,8 +13,8 @@ function getMetaString(
 
 interface BlogPostProps {
   children: React.ReactNode
-  meta?: Record<string, unknown>
-  frontmatter?: Record<string, unknown>
+  meta?: BlogPostMeta
+  frontmatter?: BlogPostMeta
   title?: string
   author?: string
   date?: string

@@ -18,3 +18,9 @@ export interface BlogPostListItem {
   date: string
   author?: string
 }
+
+export interface BlogPostMeta extends Record<string, unknown> {
+  title?: string
+  author?: string
+  date?: string
+}
