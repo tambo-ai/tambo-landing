@@ -1,7 +1,7 @@
 'use client'
 
 import { RuntimeLoader } from '@rive-app/react-webgl2'
-import { useEffect, useState, type ReactNode } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 
 // Configure Rive to use self-hosted WASM instead of CDN
 // This must be called BEFORE any Rive component renders

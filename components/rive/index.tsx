@@ -77,9 +77,7 @@ export function RiveWrapper({
   return (
     <div ref={setRef} className={cn('relative size-full', className)}>
       <div className="absolute inset-0">
-        {shouldLoad && RiveComponent && (
-          <RiveComponent className="size-full" />
-        )}
+        {shouldLoad && RiveComponent && <RiveComponent className="size-full" />}
       </div>
     </div>
   )

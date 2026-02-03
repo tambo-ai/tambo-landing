@@ -27,16 +27,10 @@ export function TamboSteps() {
       {/* Only render the appropriate Rive animation for the device */}
       {/* Also uses lazy loading - loads when section approaches viewport */}
       {isDesktop && (
-        <RiveWrapper
-          src="/assets/rives/moment-1_loop_1.riv"
-          lazy
-        />
+        <RiveWrapper src="/assets/rives/moment-1_loop_1.riv" lazy />
       )}
       {isMobile && (
-        <RiveWrapper
-          src="/assets/rives/mobile_moment-1_loop_1.riv"
-          lazy
-        />
+        <RiveWrapper src="/assets/rives/mobile_moment-1_loop_1.riv" lazy />
       )}
     </TimelineSection>
   )
