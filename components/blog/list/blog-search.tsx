@@ -4,6 +4,8 @@ import { Search } from 'lucide-react'
 import type { ChangeEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
+const DEBOUNCE_MS = 300
+
 interface BlogSearchProps {
   value: string
   onChange: (value: string) => void
@@ -45,7 +47,7 @@ export function BlogSearch({
 
     debounceTimerRef.current = setTimeout(() => {
       onChange(newValue)
-    }, 300)
+    }, DEBOUNCE_MS)
   }
 
   return (

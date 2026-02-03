@@ -3,7 +3,7 @@ import { BlogPost } from './blog-post'
 
 interface BlogPostWithFrontmatterProps {
   children: React.ReactNode
-  meta: BlogPostMeta
+  meta?: BlogPostMeta
 }
 
 /**

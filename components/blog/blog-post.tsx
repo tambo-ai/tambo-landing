@@ -3,9 +3,11 @@ import { Link } from '~/components/link'
 import { formatDate } from '~/libs/blog/format-date'
 import type { BlogPostMeta } from '~/libs/blog/types'
 
+type BlogPostMetaKey = 'title' | 'author' | 'date'
+
 function getMetaString(
   meta: BlogPostMeta | undefined,
-  key: string
+  key: BlogPostMetaKey
 ): string | undefined {
   const value = meta?.[key]
   return typeof value === 'string' ? value : undefined
@@ -30,9 +32,9 @@ export function BlogPost({
 }: BlogPostProps) {
   const source = meta ?? frontmatter
 
-  const title = getMetaString(source, 'title') ?? titleProp
-  const author = getMetaString(source, 'author') ?? authorProp
-  const rawDate = getMetaString(source, 'date') ?? dateProp
+  const title = titleProp ?? getMetaString(source, 'title')
+  const author = authorProp ?? getMetaString(source, 'author')
+  const rawDate = dateProp ?? getMetaString(source, 'date')
   const date = rawDate ? formatDate(rawDate) : undefined
 
   return (
