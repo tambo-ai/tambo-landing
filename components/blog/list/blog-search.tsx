@@ -20,6 +20,11 @@ export function BlogSearch({
 
   useEffect(() => {
     setLocalValue(value)
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current)
+      debounceTimerRef.current = null
+    }
   }, [value])
 
   useEffect(() => {
