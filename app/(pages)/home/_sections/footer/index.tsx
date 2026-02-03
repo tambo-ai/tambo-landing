@@ -209,7 +209,7 @@ export function Footer() {
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
                     className="w-full"
-                    href="https://cal.com/michaelmagan/chat?duration=30"
+                    href="/contact-us"
                   >
                     contact us
                   </CTA>
