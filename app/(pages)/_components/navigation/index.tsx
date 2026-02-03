@@ -192,7 +192,7 @@ export function Navigation({
                 <span>{discordMembers}</span>
               </Link>
               <Link
-                href="https://x.com/tamboai"
+                href="https://x.com/tambo_ai"
                 className={cn(
                   'rounded-full border border-dark-grey flex items-center dr-gap-x-4 dr-pl-4 dr-h-32 dr-w-79',
                   s.loginButton
@@ -201,7 +201,7 @@ export function Navigation({
                 <div className="dr-size-24 bg-mint grid place-items-center rounded-full">
                   <XIcon className="dr-w-16 icon" />
                 </div>
-                <span>0.6k</span>
+                <span>1.6k</span>
               </Link>
             </div>
 

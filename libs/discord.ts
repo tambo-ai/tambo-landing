@@ -1,5 +1,5 @@
 const DISCORD_INVITE_CODE = process.env.DISCORD_INVITE_CODE ?? 'dJNvPEHth6'
-const FALLBACK_MEMBERS = '0.6k'
+const FALLBACK_MEMBERS = '1.6k'
 const REVALIDATE_SECONDS = 3600 // 1 hour
 
 export function formatMemberCount(count: number): string {
