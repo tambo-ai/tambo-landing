@@ -57,3 +57,7 @@ Examples of apps built with Tambo:
 Tambo is developed by Fractal Dynamics Inc. The toolkit is open-source and free to self-host forever.
 
 Website: https://tambo.co
+
+## Deep Dive
+
+For full API docs and implementation details: https://docs.tambo.co/llms.txt
