@@ -7,7 +7,7 @@ export function HowItWorks() {
   return (
     <section
       className={cn(
-        'dt:dr-p-40 dt:dr-pb-40 dr-px-8 dt:dr-px-40 bg-white z-1 relative'
+        'dt:dr-p-40 dr-px-8 dt:dr-px-40 dt:dr-py-0 bg-white z-1 relative'
       )}
     >
       <div className="z-1 overflow-hidden dr-rounded-20 dt:dr-py-80 dr-py-56 dr-px-16 dt:dr-px-0 flex flex-col relative content-max-width">
