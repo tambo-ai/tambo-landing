@@ -15,8 +15,30 @@ import { useEffect, useState } from 'react'
 let wasmConfigured = false
 function ensureWasmConfigured() {
   if (wasmConfigured) return
-  RuntimeLoader.setWasmUrl('/assets/rive/rive.wasm')
-  wasmConfigured = true
+  try {
+    RuntimeLoader.setWasmUrl('/assets/rive/rive.wasm')
+    wasmConfigured = true
+  } catch {
+    // Silently fail - Rive will use default CDN
+  }
+}
+
+// Check if WebGL2 is available (Lighthouse's emulated environment may not support it)
+function isWebGL2Available(): boolean {
+  if (typeof window === 'undefined') return false
+  try {
+    const canvas = document.createElement('canvas')
+    const gl = canvas.getContext('webgl2')
+    return gl !== null
+  } catch {
+    return false
+  }
+}
+
+// Check for reduced motion preference
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 interface RiveWrapperProps {
@@ -37,22 +59,39 @@ export function RiveWrapper({
     threshold: lazy ? 0 : 0.3,
     rootMargin: lazy ? '200px' : '0px',
   })
-  const [shouldLoad, setShouldLoad] = useState(!lazy)
+  const [shouldLoad, setShouldLoad] = useState(false)
+  const [canUseWebGL, setCanUseWebGL] = useState(true)
 
-  // Configure WASM before first render
+  // Check WebGL2 support and configure WASM on mount
   useEffect(() => {
+    // Skip Rive entirely if reduced motion is preferred or WebGL2 unavailable
+    if (prefersReducedMotion()) {
+      setCanUseWebGL(false)
+      return
+    }
+
+    if (!isWebGL2Available()) {
+      setCanUseWebGL(false)
+      return
+    }
+
     ensureWasmConfigured()
-  }, [])
+
+    // For non-lazy, start loading immediately
+    if (!lazy) {
+      setShouldLoad(true)
+    }
+  }, [lazy])
 
   // For lazy loading, only load when near viewport
   useEffect(() => {
-    if (lazy && intersection?.isIntersecting && !shouldLoad) {
+    if (lazy && canUseWebGL && intersection?.isIntersecting && !shouldLoad) {
       setShouldLoad(true)
     }
-  }, [lazy, intersection, shouldLoad])
+  }, [lazy, canUseWebGL, intersection, shouldLoad])
 
   const { RiveComponent, rive } = useRive(
-    shouldLoad
+    shouldLoad && canUseWebGL
       ? {
           src,
           autoplay: false,
@@ -73,6 +112,11 @@ export function RiveWrapper({
       rive?.pause()
     }
   }, [intersection, rive])
+
+  // If WebGL2 not available, render nothing (graceful degradation)
+  if (!canUseWebGL) {
+    return <div ref={setRef} className={cn('relative size-full', className)} />
+  }
 
   return (
     <div ref={setRef} className={cn('relative size-full', className)}>
