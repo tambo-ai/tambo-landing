@@ -45,12 +45,12 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
       )}
     >
       <Link
-        href="https://github.com/tambo-ai"
+        href="https://discord.com/invite/dJNvPEHth6"
         className={cn(
           s.linkWrapper,
           'desktop-only dr-size-48 dr-w-99 dr-pl-8 flex items-center dr-gap-x-8 rounded-full border border-dark-grey bg-white/50 backdrop-blur-[30px]'
         )}
-        ref={githubRef}
+        ref={discordRef}
       >
         <div
           className={cn(
@@ -58,11 +58,10 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
             s.icon
           )}
         >
-          <GithubIcon className="dr-w-16 icon" />
+          <DiscordIcon className="dr-w-16 icon" />
         </div>
-        <span>{githubStars}</span>
+        <span>0.6k</span>
       </Link>
-
       <section className="col-span-full dt:col-start-3 dt:col-end-11 flex justify-center ">
         {/* Desktop Nav */}
         <div
@@ -208,25 +207,25 @@ export function Navigation({ githubStars = '2.8k' }: NavigationProps) {
           </div>
         </div>
       </section>
-
       <Link
-        href="https://discord.com/invite/dJNvPEHth6"
+        href="https://github.com/tambo-ai"
         className={cn(
           s.linkWrapper,
           'desktop-only col-start-12 dr-size-48 dr-w-99 dr-pr-8 flex justify-end items-center dr-gap-x-8 rounded-full border border-dark-grey bg-white/50 backdrop-blur-[30px] justify-self-end'
         )}
-        ref={discordRef}
+        ref={githubRef}
       >
-        <span>0.6k</span>
+        <span>{githubStars}</span>
         <div
           className={cn(
             'group dr-w-32 aspect-square grid place-items-center bg-teal rounded-full',
             s.icon
           )}
         >
-          <DiscordIcon className="dr-w-16 icon" />
+          <GithubIcon className="dr-w-16 icon" />
         </div>
       </Link>
+
       <div
         className={cn(
           'mobile-only h-screen w-full  absolute inset -z-1 bg-ghost-mint/80 opacity-0 transition-opacity duration-300 ease-in-out pointer-events-none',
