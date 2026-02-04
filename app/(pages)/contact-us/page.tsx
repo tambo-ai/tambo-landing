@@ -3,7 +3,7 @@ import { Handshake, Shield } from 'lucide-react'
 import { Theme } from '~/app/(pages)/_components/theme'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { Wrapper } from '~/app/(pages)/_components/wrapper'
-import { BlogFooter } from '~/components/blog/blog-footer'
+import { FooterContent } from '~/components/footer-content'
 import { ContactForm } from '~/components/contact-form'
 import { getDiscordMembers } from '~/libs/discord'
 import { getGitHubStars } from '~/libs/github'
@@ -96,7 +96,7 @@ export default async function ContactUsPage() {
             </div>
           </div>
         </main>
-        <BlogFooter />
+          <FooterContent />
       </div>
     </Theme>
   )

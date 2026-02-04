@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Wrapper } from "~/app/(pages)/_components/wrapper";
-import { BlogFooter } from "~/components/blog/blog-footer";
+import { FooterContent } from "~/components/footer-content";
 import { Theme } from "~/app/(pages)/_components/theme";
 import { getGitHubStars } from "~/libs/github";
 import { getDiscordMembers } from "~/libs/discord";
@@ -31,7 +31,7 @@ export default async function BlogLayout({ children }: BlogLayoutProps) {
       <div className="min-h-dvh flex flex-col bg-white">
         <Wrapper githubStars={githubStars} discordMembers={discordMembers} />
         <main className="flex-1 dr-pt-80">{children}</main>
-        <BlogFooter />
+          <FooterContent />
       </div>
     </Theme>
   );
