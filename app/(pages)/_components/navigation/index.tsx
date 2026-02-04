@@ -17,10 +17,10 @@ import { siteConfig } from '~/libs/config'
 
 const LEFT_LINKS = [
   { href: '/docs', label: 'Docs', external: true },
-  { href: '/#pricing', label: 'sanity' },
+  { href: 'blog', label: 'Blog' },
 ] as const
 
-const RIGHT_LINKS = [{ href: '/blog', label: 'Blog', external: true }] as const
+const RIGHT_LINKS = [{ href: '/contact-us', label: 'Contact Us' }] as const
 
 interface NavigationProps {
   githubStars?: string

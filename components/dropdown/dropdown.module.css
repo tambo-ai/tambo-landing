@@ -1,5 +1,8 @@
 .options {
+  display: block;
   max-height: min(180px, 40vh);
+  overflow-y: scroll;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   scrollbar-width: thin;

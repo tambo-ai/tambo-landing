@@ -1,6 +1,7 @@
 'use client'
 
 import cn from 'clsx'
+import { CheckCircle2, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { Dropdown } from '~/components/dropdown'
 import s from './contact-form.module.css'
@@ -109,83 +110,49 @@ export function ContactForm() {
     }
   }
 
-  if (status === 'success') {
-    return (
-      <div
-        className={cn(
-          'text-center dr-py-80 dr-px-32 dt:dr-py-120 dt:dr-px-48 bg-white border-2 border-dark-grey dr-rounded-24 dt:dr-rounded-32 shadow-[0_8px_32px_rgba(15,26,23,0.08)]',
-          s.fadeIn
-        )}
-      >
+  return (
+    <div className="bg-white border border-dark-grey dr-rounded-24 dt:dr-rounded-32 shadow-[0_8px_32px_rgba(15,26,23,0.08)] relative">
+        {/* Success overlay - absolutely positioned over the form */}
         <div
           className={cn(
-            'dr-w-96 dr-h-96 dt:dr-w-112 dt:dr-h-112 mx-auto dr-mb-40 dt:dr-mb-48 text-forest',
-            s.successIcon
+            'absolute inset-0 bg-white dr-p-32 dt:dr-p-48 flex flex-col justify-center text-center transition-opacity duration-300 dr-rounded-24 dt:dr-rounded-32',
+            status === 'success' ? 'opacity-100 z-50' : 'opacity-0 pointer-events-none z-0'
           )}
         >
-          <svg
-            width="64"
-            height="64"
-            viewBox="0 0 64 64"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-full"
+          <CheckCircle2
+            className={cn(
+              'dr-w-96 dr-h-96 dt:dr-w-112 dt:dr-h-112 mx-auto dr-mb-40 dt:dr-mb-48 text-forest',
+              status === 'success' && s.successIcon
+            )}
+            strokeWidth={1.5}
+          />
+          <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-24 font-semibold">
+            Thanks for your request.
+          </h1>
+          <p className="typo-p-l text-black dr-mb-48 dt:dr-mb-56 leading-[1.6] dr-max-w-340 dt:dr-max-w-420 mx-auto">
+            We'll get back to you soon!
+          </p>
+          <button
+            type="button"
+            onClick={() => setStatus('idle')}
+            className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0 mx-auto"
           >
-            <circle
-              cx="32"
-              cy="32"
-              r="30"
-              stroke="currentColor"
-              strokeWidth="3"
-            />
-            <path
-              d="M20 32L28 40L44 24"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+            Send another message
+          </button>
         </div>
-        <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-24 font-semibold">
-          Thanks for your request.
-        </h1>
-        <p className="typo-p-l text-black dr-mb-48 dt:dr-mb-56 leading-[1.6] dr-max-w-340 dt:dr-max-w-420 mx-auto">
-          We'll get back to you soon!
-        </p>
-        <button
-          onClick={() => setStatus('idle')}
-          className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0"
+
+        {/* Form - always in DOM to maintain height */}
+        <form
+          onSubmit={handleSubmit}
+          className={cn(
+            'dr-p-32 dt:dr-p-48 transition-opacity duration-300',
+            status === 'success' ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          )}
         >
-          Send another message
-        </button>
-      </div>
-    )
-  }
-
-  return (
-    <>
-      <div className="text-center dr-mb-48 dt:dr-mb-64">
-        <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-28">
-          Got something in mind?
-        </h1>
-        <p className="typo-p-l text-black dr-max-w-340 dt:dr-max-w-500 mx-auto leading-[1.6]">
-          Drop us a line and we'll get back to you{' '}
-          <span className="text-forest font-semibold relative whitespace-nowrap after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:dr-h-6 dt:after:dr-h-8 after:bg-mint after:opacity-40 after:-z-10">
-            as soon as possible
-          </span>
-          .
-        </p>
-      </div>
-
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white border-2 border-dark-grey dr-rounded-24 dt:dr-rounded-32 dr-p-32 dt:dr-p-48 backdrop-blur-[30px] shadow-[0_4px_24px_rgba(15,26,23,0.04)] relative overflow-visible"
-      >
         <div className="dr-mb-24 dt:dr-mb-32 last:dr-mb-32 last:dt:dr-mb-40">
           <label
             htmlFor="name"
-            className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase tracking-[0.05em]"
+            className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase font-semibold tracking-[0.05em]"
           >
             Name
           </label>
@@ -195,7 +162,7 @@ export function ContactForm() {
             value={formData.name}
             onChange={(e) => handleChange('name', e.target.value)}
             className={cn(
-              'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-off-white border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-dark-teal placeholder:opacity-50 focus:outline-none focus:border-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal',
+              'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-white border border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-black/50 focus:outline-none focus:border-teal focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal',
               errors.name &&
                 'border-red! focus:shadow-[0_0_0_4px_rgba(227,6,19,0.1)]!'
             )}
@@ -218,7 +185,7 @@ export function ContactForm() {
         <div className="dr-mb-24 dt:dr-mb-32 last:dr-mb-32 last:dt:dr-mb-40">
           <label
             htmlFor="email"
-            className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase tracking-[0.05em]"
+            className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase font-semibold tracking-[0.05em]"
           >
             Company email
           </label>
@@ -228,7 +195,7 @@ export function ContactForm() {
             value={formData.email}
             onChange={(e) => handleChange('email', e.target.value)}
             className={cn(
-              'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-off-white border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-dark-teal placeholder:opacity-50 focus:outline-none focus:border-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal',
+              'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-white border border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-black/50 focus:outline-none focus:border-teal focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal',
               errors.email &&
                 'border-red! focus:shadow-[0_0_0_4px_rgba(227,6,19,0.1)]!'
             )}
@@ -251,7 +218,7 @@ export function ContactForm() {
         <div className="dr-mb-24 dt:dr-mb-32 last:dr-mb-32 last:dt:dr-mb-40">
           <label
             htmlFor="useCase"
-            className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase tracking-[0.05em]"
+            className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase font-semibold tracking-[0.05em]"
           >
             What's your use case for Tambo?
           </label>
@@ -260,7 +227,7 @@ export function ContactForm() {
             value={formData.useCase}
             onChange={(e) => handleChange('useCase', e.target.value)}
             className={cn(
-              'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-off-white border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-dark-teal placeholder:opacity-50 focus:outline-none focus:border-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal resize-vertical dr-min-h-120 dt:dr-min-h-140',
+              'w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-white border border-dark-grey dr-rounded-12 dt:dr-rounded-16 text-black font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic placeholder:text-black/50 focus:outline-none focus:border-teal focus:shadow-[0_0_0_4px_rgba(127,255,195,0.1)] hover:border-teal resize-vertical dr-min-h-120 dt:dr-min-h-140',
               errors.useCase &&
                 'border-red! focus:shadow-[0_0_0_4px_rgba(227,6,19,0.1)]!'
             )}
@@ -284,7 +251,7 @@ export function ContactForm() {
         <div className="dr-mb-32 dt:dr-mb-40">
           <label
             htmlFor="source"
-            className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase tracking-[0.05em]"
+            className="typo-label-m block text-black dr-mb-8 dt:dr-mb-12 uppercase font-semibold tracking-[0.05em]"
           >
             How did you hear about us?
           </label>
@@ -317,22 +284,17 @@ export function ContactForm() {
           type="submit"
           disabled={status === 'loading'}
           className={cn(
-            'typo-button w-full dr-py-18 dr-px-32 dt:dr-py-20 dt:dr-px-40 bg-teal text-black border-2 border-dark-grey dr-rounded-12 dt:dr-rounded-16 font-semibold uppercase tracking-[0.05em] cursor-pointer transition-all duration-300 ease-out-cubic relative hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.3)] hover:border-teal active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed',
+            'typo-button w-full dr-py-18 dr-px-20 dt:dr-py-20 dt:dr-px-24 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 font-semibold uppercase tracking-[0.05em] cursor-pointer transition-all duration-300 ease-out-cubic relative hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.3)] hover:border-teal active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed text-left',
             status === 'loading' && 'pointer-events-none'
           )}
         >
           {status === 'loading' ? (
             <span className="flex items-center justify-center dr-gap-12 dt:dr-gap-12">
-              <span
-                className={cn(
-                  'dr-w-16 dr-h-16 dt:dr-w-16 dt:dr-h-16 border-2 border-black border-t-transparent rounded-full',
-                  s.spinner
-                )}
-              />
+              <Loader2 className={cn('dr-w-18 dr-h-18', s.spinner)} />
               Sending...
             </span>
           ) : (
-            'Talk to Tambo'
+            'Talk to Tambo Team'
           )}
         </button>
 
@@ -341,9 +303,7 @@ export function ContactForm() {
             Something went wrong. Please try again or email us directly.
           </div>
         )}
-      </form>
-    </>
+        </form>
+    </div>
   )
 }
-
-export default ContactForm
