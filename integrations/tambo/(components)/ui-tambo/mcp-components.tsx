@@ -76,7 +76,8 @@ export const McpPromptButton = React.forwardRef<
     return null
   }
 
-  const buttonClasses = cn('dr-w-10 dr-h-10 dr-rounded-8 border border-border bg-background text-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  const buttonClasses = cn(
+    'dr-w-10 dr-h-10 dr-rounded-8 border border-border bg-background text-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     className
   )
 
@@ -321,7 +322,8 @@ export const McpResourceButton = React.forwardRef<
     return null
   }
 
-  const buttonClasses = cn('dr-w-10 dr-h-10 dr-rounded-8 border border-border bg-background text-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+  const buttonClasses = cn(
+    'dr-w-10 dr-h-10 dr-rounded-8 border border-border bg-background text-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     className
   )
 

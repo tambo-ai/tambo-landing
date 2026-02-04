@@ -48,7 +48,8 @@ const BooleanField: React.FC<FieldProps> = ({
           type="button"
           autoFocus={autoFocus}
           onClick={() => onChange(true)}
-          className={cn('flex-1 dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
+          className={cn(
+            'flex-1 dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
             boolValue === true
               ? 'bg-accent text-accent-foreground border-accent'
               : 'bg-background border-border hover:bg-muted'
@@ -59,7 +60,8 @@ const BooleanField: React.FC<FieldProps> = ({
         <button
           type="button"
           onClick={() => onChange(false)}
-          className={cn('flex-1 dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
+          className={cn(
+            'flex-1 dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
             boolValue === false
               ? 'bg-accent text-accent-foreground border-accent'
               : 'bg-background border-border hover:bg-muted'
@@ -103,7 +105,8 @@ const EnumField: React.FC<FieldProps> = ({
             type="button"
             autoFocus={autoFocus && index === 0}
             onClick={() => onChange(option)}
-            className={cn('dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
+            className={cn(
+              'dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
               stringValue === option
                 ? 'bg-accent text-accent-foreground border-accent'
                 : 'bg-background border-border hover:bg-muted'
@@ -158,7 +161,10 @@ const StringField: React.FC<FieldProps> = ({
 
   return (
     <div className="space-y-2">
-      <label htmlFor={inputId} className="dr-text-14 font-medium text-foreground">
+      <label
+        htmlFor={inputId}
+        className="dr-text-14 font-medium text-foreground"
+      >
         {schema.description ?? name}
         {required && <span className="text-destructive dr-ml-1">*</span>}
       </label>
@@ -168,7 +174,8 @@ const StringField: React.FC<FieldProps> = ({
         autoFocus={autoFocus}
         value={stringValue}
         onChange={(e) => onChange(e.target.value)}
-        className={cn('w-full dr-px-3 dr-py-2 dr-rounded-8 border bg-background text-foreground focus:outline-none focus:ring-2',
+        className={cn(
+          'w-full dr-px-3 dr-py-2 dr-rounded-8 border bg-background text-foreground focus:outline-none focus:ring-2',
           hasError
             ? 'border-destructive focus:ring-destructive'
             : 'border-border focus:ring-accent'
@@ -181,7 +188,11 @@ const StringField: React.FC<FieldProps> = ({
         aria-describedby={hasError ? errorId : undefined}
       />
       {validationError && (
-        <p id={errorId} className="dr-text-12 text-destructive" aria-live="polite">
+        <p
+          id={errorId}
+          className="dr-text-12 text-destructive"
+          aria-live="polite"
+        >
           {validationError}
         </p>
       )}
@@ -212,7 +223,10 @@ const NumberField: React.FC<FieldProps> = ({
 
   return (
     <div className="space-y-2">
-      <label htmlFor={inputId} className="dr-text-14 font-medium text-foreground">
+      <label
+        htmlFor={inputId}
+        className="dr-text-14 font-medium text-foreground"
+      >
         {schema.description ?? name}
         {required && <span className="text-destructive dr-ml-1">*</span>}
       </label>
@@ -229,7 +243,8 @@ const NumberField: React.FC<FieldProps> = ({
               : valueAsNumber
           )
         }}
-        className={cn('w-full dr-px-3 dr-py-2 dr-rounded-8 border bg-background text-foreground focus:outline-none focus:ring-2',
+        className={cn(
+          'w-full dr-px-3 dr-py-2 dr-rounded-8 border bg-background text-foreground focus:outline-none focus:ring-2',
           hasError
             ? 'border-destructive focus:ring-destructive'
             : 'border-border focus:ring-accent'
@@ -243,7 +258,11 @@ const NumberField: React.FC<FieldProps> = ({
         aria-describedby={hasError ? errorId : undefined}
       />
       {validationError && (
-        <p id={errorId} className="dr-text-12 text-destructive" aria-live="polite">
+        <p
+          id={errorId}
+          className="dr-text-12 text-destructive"
+          aria-live="polite"
+        >
           {validationError}
         </p>
       )}
@@ -515,7 +534,8 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
 
     return (
       <div
-        className={cn('flex flex-col dr-rounded-12 bg-background border border-border dr-p-4 space-y-3',
+        className={cn(
+          'flex flex-col dr-rounded-12 bg-background border border-border dr-p-4 space-y-3',
           className
         )}
       >
@@ -554,7 +574,8 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
   // Multiple-entry mode
   return (
     <div
-      className={cn('flex flex-col dr-rounded-12 bg-background border border-border dr-p-4 space-y-4',
+      className={cn(
+        'flex flex-col dr-rounded-12 bg-background border border-border dr-p-4 space-y-4',
         className
       )}
     >

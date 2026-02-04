@@ -14,19 +14,20 @@ import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { cn } from '~/integrations/tambo/(components)/lib/utils'
+import { siteConfig } from '~/libs/config'
 import { fromTo } from '~/libs/utils'
 import s from './features.module.css'
 
 const BUTTONS = [
   {
     title: 'Generative UI Components',
-    href: ' https://docs.tambo.co/concepts/components',
+    href: 'https://docs.tambo.co/concepts/generative-interfaces/generative-components',
     top: 18,
     left: 30,
   },
   {
     title: 'Interactable Components',
-    href: 'https://docs.tambo.co/concepts/components/interactable-components',
+    href: 'https://docs.tambo.co/concepts/generative-interfaces/interactable-components',
     top: 35,
     right: 15,
   },
@@ -38,37 +39,37 @@ const BUTTONS = [
   },
   {
     title: 'Local Tools',
-    href: 'https://docs.tambo.co/concepts/tools/adding-tools',
+    href: 'https://docs.tambo.co/concepts/tools',
     top: 45,
     left: 25,
   },
   {
     title: 'Streaming Support',
-    href: 'https://docs.tambo.co/concepts/streaming',
+    href: 'https://docs.tambo.co/reference/react-sdk/providers',
     top: 35,
     right: 90,
   },
   {
     title: 'Message History',
-    href: 'https://docs.tambo.co/concepts/message-threads',
+    href: 'https://docs.tambo.co/concepts/conversation-storage',
     top: 18,
     left: 70,
   },
   {
     title: 'State Management',
-    href: ' https://docs.tambo.co/api-reference/react-hooks',
+    href: 'https://docs.tambo.co/reference/react-sdk/hooks',
     top: 68,
     left: 85,
   },
   {
     title: 'Suggested Actions',
-    href: 'https://docs.tambo.co/concepts/suggestions',
+    href: 'https://docs.tambo.co/guides/build-interfaces/build-chat-interface#add-contextual-suggestions-optional',
     top: 76,
     right: 33,
   },
   {
     title: 'Tool Orchestration',
-    href: 'Ahttps://docs.tambo.co/#why-tambo',
+    href: 'https://docs.tambo.co/#why-tambo',
     top: 85,
     left: 40,
   },
@@ -285,7 +286,10 @@ export function Features() {
                   What Tambo <br /> solves for you
                 </TitleBlock.Title>
               </TitleBlock>
-              <CTA className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only">
+              <CTA
+                className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only"
+                href={siteConfig.links.docs}
+              >
                 Start building
               </CTA>
             </div>
@@ -298,7 +302,11 @@ export function Features() {
                 </CTA>
               </div>
             ))}
-            <CTA color="black" className="mobile-only w-full dr-mt-24 dr-mb-80">
+            <CTA
+              color="black"
+              className="mobile-only w-full dr-mt-24 dr-mb-80"
+              href={siteConfig.links.docs}
+            >
               Start building
             </CTA>
           </div>

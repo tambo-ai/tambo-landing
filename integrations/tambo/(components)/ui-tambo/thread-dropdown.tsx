@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import { cn } from "@/lib/utils";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useTamboThread, useTamboThreadList } from "@tambo-ai/react";
-import { ChevronDownIcon, PlusIcon } from "lucide-react";
-import * as React from "react";
-import { useCallback } from "react";
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { useTamboThread, useTamboThreadList } from '@tambo-ai/react'
+import { ChevronDownIcon, PlusIcon } from 'lucide-react'
+import * as React from 'react'
+import { useCallback } from 'react'
+import { cn } from '@/lib/utils'
 
 /**
  * Props for the ThreadDropdown component
@@ -15,9 +15,9 @@ import { useCallback } from "react";
 export interface ThreadDropdownProps
   extends React.HTMLAttributes<HTMLDivElement> {
   /** Optional context key for filtering threads */
-  contextKey?: string;
+  contextKey?: string
   /** Optional callback function called when the current thread changes */
-  onThreadChange?: () => void;
+  onThreadChange?: () => void
 }
 
 /**
@@ -41,59 +41,59 @@ export const ThreadDropdown = React.forwardRef<
     isLoading,
     error,
     refetch,
-  } = useTamboThreadList({ contextKey });
-  const { switchCurrentThread, startNewThread } = useTamboThread();
+  } = useTamboThreadList({ contextKey })
+  const { switchCurrentThread, startNewThread } = useTamboThread()
   const isMac =
-    typeof navigator !== "undefined" && navigator.platform.startsWith("Mac");
-  const modKey = isMac ? "⌥" : "Alt";
+    typeof navigator !== 'undefined' && navigator.platform.startsWith('Mac')
+  const modKey = isMac ? '⌥' : 'Alt'
 
   const handleNewThread = useCallback(
     async (e?: React.MouseEvent) => {
       if (e) {
-        e.stopPropagation();
+        e.stopPropagation()
       }
 
       try {
-        await startNewThread();
-        await refetch();
-        onThreadChange?.();
+        await startNewThread()
+        await refetch()
+        onThreadChange?.()
       } catch (error) {
-        console.error("Failed to create new thread:", error);
+        console.error('Failed to create new thread:', error)
       }
     },
-    [onThreadChange, startNewThread, refetch],
-  );
+    [onThreadChange, startNewThread, refetch]
+  )
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.altKey && event.shiftKey && event.key === "n") {
-        event.preventDefault();
-        handleNewThread();
+      if (event.altKey && event.shiftKey && event.key === 'n') {
+        event.preventDefault()
+        handleNewThread()
       }
-    };
+    }
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [handleNewThread]);
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [handleNewThread])
 
   const handleSwitchThread = async (threadId: string, e?: React.MouseEvent) => {
     if (e) {
-      e.stopPropagation();
+      e.stopPropagation()
     }
 
     try {
-      switchCurrentThread(threadId);
-      onThreadChange?.();
+      switchCurrentThread(threadId)
+      onThreadChange?.()
     } catch (error) {
-      console.error("Failed to switch thread:", error);
+      console.error('Failed to switch thread:', error)
     }
-  };
+  }
 
   return (
-    <div className={cn("relative", className)} ref={ref} {...props}>
+    <div className={cn('relative', className)} ref={ref} {...props}>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <div
@@ -115,8 +115,8 @@ export const ThreadDropdown = React.forwardRef<
             <DropdownMenu.Item
               className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
               onSelect={(e: Event) => {
-                e.preventDefault();
-                handleNewThread();
+                e.preventDefault()
+                handleNewThread()
               }}
             >
               <div className="flex items-center">
@@ -160,8 +160,8 @@ export const ThreadDropdown = React.forwardRef<
                   key={thread.id}
                   className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                   onSelect={(e: Event) => {
-                    e.preventDefault();
-                    handleSwitchThread(thread.id);
+                    e.preventDefault()
+                    handleSwitchThread(thread.id)
                   }}
                 >
                   <span className="truncate max-w-[180px]">
@@ -174,6 +174,6 @@ export const ThreadDropdown = React.forwardRef<
         </DropdownMenu.Portal>
       </DropdownMenu.Root>
     </div>
-  );
-});
-ThreadDropdown.displayName = "ThreadDropdown";
+  )
+})
+ThreadDropdown.displayName = 'ThreadDropdown'

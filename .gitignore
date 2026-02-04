@@ -21,6 +21,10 @@
 .DS_Store
 *.pem
 .cursor/scratchpad.md
+.claude/
+
+# typescript
+tsconfig.tsbuildinfo
 
 # debug
 npm-debug.log*
@@ -51,3 +55,6 @@ certificates
 
 next-env.d.ts
 .vercel
+
+.playwright-mcp
+.playwright-cli

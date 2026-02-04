@@ -11,6 +11,7 @@ import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { siteConfig } from '~/libs/config'
 import { fromTo } from '~/libs/utils'
 import s from './hero.module.css'
 
@@ -96,7 +97,7 @@ export function Hero() {
             <div className="dr-mt-24">
               <CTA
                 snippet
-                href="https://docs.tambo.co/"
+                href={siteConfig.links.docs}
                 snippetEyebrow="NPM"
                 className="bg-black! text-teal border-teal"
               >

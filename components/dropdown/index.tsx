@@ -1,7 +1,8 @@
 'use client'
 
 import cn from 'clsx'
-import { Activity, useEffect, useState } from 'react'
+import { ChevronDown } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import s from './dropdown.module.css'
 
 type DropdownProps = {
@@ -35,10 +36,14 @@ export function Dropdown({
   }, [])
 
   return (
-    <div className={cn(s.dropdown, isOpened && s.isOpened, className)}>
+    <div className={cn('relative w-full', className)}>
       <button
         type="button"
-        className={s.trigger}
+        className={cn(
+          'relative flex items-center justify-between w-full dr-py-16 dr-px-20 dt:dr-py-18 dt:dr-px-24 bg-white border border-dark-grey dr-rounded-12 dt:dr-rounded-16 font-[system-ui] dr-text-15 dt:dr-text-15 leading-[1.6] transition-all duration-300 ease-out-cubic cursor-pointer hover:border-teal',
+          isOpened && 'border-teal! shadow-[0_0_0_4px_rgba(127,255,195,0.1)]',
+          selected !== undefined ? 'text-black' : 'text-black/50'
+        )}
         onClick={(e) => {
           e.stopPropagation()
           setIsOpened(!isOpened)
@@ -49,31 +54,47 @@ export function Dropdown({
           }
         }}
       >
-        <span>{selected && !isOpened ? options[selected] : placeholder}</span>
-      </button>
-      {/* Activity pre-renders options for instant first open */}
-      <Activity mode={isOpened ? 'visible' : 'hidden'}>
-        <div
-          className={s.options}
-          aria-hidden={!isOpened}
-          onClick={(e) => e.stopPropagation()}
+        <span
+          className={
+            selected !== undefined && !isOpened ? 'text-black opacity-100' : ''
+          }
         >
-          {options.map((value, i) => (
-            <button
-              type="button"
-              className={s.option}
-              onClick={() => {
-                setSelected(i)
-                setIsOpened(false)
-                onChange?.(i)
-              }}
-              key={`option-${value}`}
-            >
-              {value}
-            </button>
-          ))}
+          {selected !== undefined && !isOpened
+            ? options[selected]
+            : placeholder}
+        </span>
+        <ChevronDown
+          className={cn(
+            'dr-w-18 dr-h-18 text-dark-grey transition-transform duration-200',
+            isOpened && 'rotate-180'
+          )}
+        />
+      </button>
+      {isOpened && (
+        <div
+          role="listbox"
+          className="absolute dr-top-56 dt:dr-top-58 z-100 w-full bg-white border border-dark-grey dr-rounded-12 dt:dr-rounded-16 shadow-[0_8px_32px_rgba(15,26,23,0.12)] dr-p-8 dt:dr-p-8"
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          <div className={s.options} onWheel={(e) => e.stopPropagation()}>
+            {options.map((value, i) => (
+              <button
+                type="button"
+                className="block text-black dr-py-12 dr-px-16 dt:dr-py-12 dt:dr-px-16 text-left whitespace-nowrap w-full dr-rounded-8 dt:dr-rounded-8 bg-transparent transition-all duration-200 ease-out-cubic font-[system-ui] dr-text-15 dt:dr-text-15 cursor-pointer hover:bg-teal hover:text-black"
+                onClick={() => {
+                  setSelected(i)
+                  setIsOpened(false)
+                  onChange?.(i)
+                }}
+                key={`option-${value}`}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
         </div>
-      </Activity>
+      )}
     </div>
   )
 }

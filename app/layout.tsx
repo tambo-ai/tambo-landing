@@ -29,6 +29,20 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
+  keywords: [
+    'AI-Powered React Components',
+    'Generative UI Components',
+    'React AI Integration',
+    'Contextual UI Generation',
+    'Dynamic Interface Adaptation',
+    'Conversational UI Framework',
+    'Context-Aware Interfaces',
+    'Natural Language UI',
+    'AI UX Development',
+    'Client Side MCP Integration',
+    'Server Side MCP Integration',
+    'React AI Agent Framework',
+  ],
   alternates: {
     canonical: '/',
     languages: {

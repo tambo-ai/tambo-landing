@@ -155,7 +155,8 @@ const ThreadHistory = React.forwardRef<HTMLDivElement, ThreadHistoryProps>(
       >
         <div
           ref={ref}
-          className={cn('border-flat bg-container h-full transition-all duration-300 flex-none',
+          className={cn(
+            'border-flat bg-container h-full transition-all duration-300 flex-none',
             position === 'left' ? 'border-r' : 'border-l',
             isCollapsed ? 'dr-w-12' : 'dr-w-64',
             className
@@ -163,7 +164,8 @@ const ThreadHistory = React.forwardRef<HTMLDivElement, ThreadHistoryProps>(
           {...props}
         >
           <div
-            className={cn('flex flex-col h-full',
+            className={cn(
+              'flex flex-col h-full',
               isCollapsed ? 'py-4 px-2' : 'dr-p-4'
             )} // py-4 px-2 is for better alignment when isCollapsed
           >
@@ -192,14 +194,16 @@ const ThreadHistoryHeader = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn('flex items-center dr-mb-4 relative',
+      className={cn(
+        'flex items-center dr-mb-4 relative',
         isCollapsed ? 'dr-p-1' : 'dr-p-1',
         className
       )}
       {...props}
     >
       <h2
-        className={cn('dr-text-14 text-muted-foreground whitespace-nowrap ',
+        className={cn(
+          'dr-text-14 text-muted-foreground whitespace-nowrap ',
           isCollapsed
             ? 'opacity-0 dr-max-w-0 overflow-hidden '
             : 'opacity-100 max-w-none transition-all duration-300 delay-75'
@@ -209,18 +213,25 @@ const ThreadHistoryHeader = React.forwardRef<
       </h2>
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className={cn(`bg-container dr-p-1 hover:bg-backdrop transition-colors dr-rounded-6 cursor-pointer absolute flex items-center justify-center`,
+        className={cn(
+          `bg-container dr-p-1 hover:bg-backdrop transition-colors dr-rounded-6 cursor-pointer absolute flex items-center justify-center`,
           position === 'left' ? 'right-1' : 'left-0'
         )}
         aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {isCollapsed ? (
           <ArrowRightToLine
-            className={cn('dr-h-4 dr-w-4', position === 'right' && 'rotate-180')}
+            className={cn(
+              'dr-h-4 dr-w-4',
+              position === 'right' && 'rotate-180'
+            )}
           />
         ) : (
           <ArrowLeftToLine
-            className={cn('dr-h-4 dr-w-4', position === 'right' && 'rotate-180')}
+            className={cn(
+              'dr-h-4 dr-w-4',
+              position === 'right' && 'rotate-180'
+            )}
           />
         )}
       </button>
@@ -270,7 +281,8 @@ const ThreadHistoryNewButton = React.forwardRef<
     <button
       ref={ref}
       onClick={handleNewThread}
-      className={cn('flex items-center dr-rounded-6 dr-mb-4 hover:bg-backdrop transition-colors cursor-pointer relative',
+      className={cn(
+        'flex items-center dr-rounded-6 dr-mb-4 hover:bg-backdrop transition-colors cursor-pointer relative',
         isCollapsed ? 'dr-p-1 justify-center' : 'dr-p-2 dr-gap-2'
       )}
       title="New thread"
@@ -278,7 +290,8 @@ const ThreadHistoryNewButton = React.forwardRef<
     >
       <PlusIcon className="dr-h-4 dr-w-4 bg-green-600 rounded-full text-white" />
       <span
-        className={cn('dr-text-14 font-medium whitespace-nowrap absolute dr-left-8 pb-[2px] ',
+        className={cn(
+          'dr-text-14 font-medium whitespace-nowrap absolute dr-left-8 pb-[2px] ',
           isCollapsed
             ? 'opacity-0 dr-max-w-0 overflow-hidden pointer-events-none'
             : 'opacity-100 transition-all duration-300 delay-100'
@@ -316,7 +329,8 @@ const ThreadHistorySearch = React.forwardRef<
       {/*visible when collapsed */}
       <button
         onClick={expandOnSearch}
-        className={cn('dr-p-1 hover:bg-backdrop dr-rounded-6 cursor-pointer absolute left-1/2 -translate-x-1/2',
+        className={cn(
+          'dr-p-1 hover:bg-backdrop dr-rounded-6 cursor-pointer absolute left-1/2 -translate-x-1/2',
           isCollapsed
             ? 'opacity-100 pointer-events-auto transition-all duration-300'
             : 'opacity-0 pointer-events-none'
@@ -485,7 +499,21 @@ const ThreadHistoryList = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          `text-sm text-destructive p-2 whitespace-nowrap ${isCollapsed ? 'opacity-0 dr-max-w-0 overflow-hidden' : 'opacity-100'}`, className )} {...props} > Error loading threads </div> ) } else if (filteredThreads.length === 0) { content = ( <div ref={ref} className={cn( `text-sm text-muted-foreground dr-p-2 whitespace-nowrap ${isCollapsed ? 'opacity-0 max-w-0 overflow-hidden' : 'opacity-100'}`,
+          `text-sm text-destructive p-2 whitespace-nowrap ${isCollapsed ? 'opacity-0 dr-max-w-0 overflow-hidden' : 'opacity-100'}`,
+          className
+        )}
+        {...props}
+      >
+        {' '}
+        Error loading threads{' '}
+      </div>
+    )
+  } else if (filteredThreads.length === 0) {
+    content = (
+      <div
+        ref={ref}
+        className={cn(
+          `text-sm text-muted-foreground dr-p-2 whitespace-nowrap ${isCollapsed ? 'opacity-0 max-w-0 overflow-hidden' : 'opacity-100'}`,
           className
         )}
         {...props}
@@ -500,7 +528,8 @@ const ThreadHistoryList = React.forwardRef<
           <div
             key={thread.id}
             onClick={async () => await handleSwitchThread(thread.id)}
-            className={cn('dr-p-2 dr-rounded-6 hover:bg-backdrop cursor-pointer group flex items-center justify-between',
+            className={cn(
+              'dr-p-2 dr-rounded-6 hover:bg-backdrop cursor-pointer group flex items-center justify-between',
               currentThread?.id === thread.id ? 'bg-muted' : '',
               editingThread?.id === thread.id ? 'bg-muted' : ''
             )}
@@ -560,7 +589,8 @@ const ThreadHistoryList = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn('overflow-y-auto flex-1 transition-all duration-300 ease-in-out',
+      className={cn(
+        'overflow-y-auto flex-1 transition-all duration-300 ease-in-out',
         isCollapsed
           ? 'opacity-0 dr-max-h-0 overflow-hidden pointer-events-none'
           : 'opacity-100 max-h-full pointer-events-auto',

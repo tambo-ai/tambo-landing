@@ -3,52 +3,26 @@
 import cn from 'clsx'
 import gsap from 'gsap'
 import { useRect } from 'hamo'
-import { useEffect, useEffectEvent, useRef, useState } from 'react'
+import { useEffectEvent, useRef } from 'react'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
-import DiscordSVG from '~/assets/svgs/discord.svg'
-import GithubSVG from '~/assets/svgs/github.svg'
-import XSVG from '~/assets/svgs/X.svg'
 import { CTA } from '~/components/button'
+import { FooterContent } from '~/components/footer-content'
 import { Image } from '~/components/image'
-import { Link } from '~/components/link'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { siteConfig } from '~/libs/config'
 import { fromTo, mapRange } from '~/libs/utils'
 import Background, {
   type BackgroundRefType,
 } from '../../_components/background'
 
-const BOTTOM_LINKS = [
-  {
-    label: 'Documentation',
-    href: 'https://docs.tambo.ai',
-  },
-  {
-    label: 'License',
-    href: 'https://docs.tambo.ai',
-  },
-  {
-    label: 'Privacy notice',
-    href: 'https://docs.tambo.ai',
-  },
-  {
-    label: 'Terms of use',
-    href: 'https://docs.tambo.ai',
-  },
-]
-
 export function Footer() {
   const [setRectRef, rect] = useRect({ ignoreTransform: true })
   const innerRef = useRef<HTMLDivElement>(null)
-  const [currentYear, setCurrentYear] = useState<number | null>(2026)
   const desktopVW = useDesktopVW()
   const backgroundRef = useRef<BackgroundRefType>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const stickyRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear())
-  }, [])
 
   useScrollTrigger({
     rect,
@@ -199,7 +173,7 @@ export function Footer() {
                     className="bg-black! text-teal border-teal"
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
-                    href="https://docs.tambo.co/"
+                    href={siteConfig.links.docs}
                   >
                     START BUILDING
                   </CTA>
@@ -208,7 +182,7 @@ export function Footer() {
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
                     className="w-full"
-                    href="https://cal.com/michaelmagan/chat?duration=30"
+                    href="/contact-us"
                   >
                     contact us
                   </CTA>
@@ -222,48 +196,8 @@ export function Footer() {
                 fill
               />
             </div>
-            <div className="mobile-only flex dr-gap-12 dr-mb-32">
-              <Link
-                href="https://github.com/tambo-ai/tambo"
-                className="dr-size-32 rounded-full bg-grey grid place-items-center"
-              >
-                <GithubSVG className="dr-w-16 dr-h-16" />
-              </Link>
-              <Link
-                href="https://discord.com/invite/dJNvPEHth6"
-                className="dr-size-32 rounded-full bg-grey grid place-items-center"
-              >
-                <DiscordSVG className="dr-w-16 dr-h-16" />
-              </Link>
-              <Link
-                href="https://x.com/tambo_ai"
-                className="dr-size-32 rounded-full bg-grey grid place-items-center"
-              >
-                <XSVG className="dr-w-16 dr-h-16" />
-              </Link>
-            </div>
-
-            <div className="dt:absolute dt:dr-layout-grid-inner dr-px-0 flex flex-col-reverse w-full dr-bottom-16 typo-label-m dr-mb-16 dt:dr-mb-0">
-              <span className="dt:col-span-2 typo-label-s dt:typo-label-m text-center dt:text-left text-black/70">
-                Fractal Dynamics Inc © {currentYear ?? 2025}
-              </span>
-              <div className="dt:col-[3/-3] flex items-center justify-center dt:dr-gap-24 dr-gap-13 dr-mb-16 dt:mb-0">
-                {BOTTOM_LINKS.map((link, index) => (
-                  <Link
-                    key={link.label + index.toString()}
-                    href={link.href}
-                    className="link typo-label-s dt:typo-label-m"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-              <Link
-                href="https://x.com/tambo_ai"
-                className="col-span-2 justify-self-end link desktop-only"
-              >
-                <XSVG className="dr-w-16 dr-h-16" />
-              </Link>
+            <div className="w-full dt:absolute dt:left-0 dt:right-0 dt:bottom-0">
+              <FooterContent />
             </div>
           </div>
         </div>

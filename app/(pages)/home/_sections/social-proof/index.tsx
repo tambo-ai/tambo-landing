@@ -6,6 +6,13 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { socials } from './data'
 import s from './social.module.css'
 
+export type SocialData = {
+  text: string
+  author: string
+  position: string
+  icon: React.ReactNode
+}
+
 type ActiveCard = number | null
 
 export function SocialProof() {
@@ -44,16 +51,18 @@ export function SocialProof() {
   )
 }
 
-function SocialCard({
+export function SocialCard({
   social,
+  className,
   index,
   isActive,
   onIntersect,
 }: {
-  social: (typeof socials)[number]
-  index: number
-  isActive: boolean
-  onIntersect: (id: ActiveCard, isIntersecting: boolean) => void
+  social: SocialData
+  className?: string
+  index?: number
+  isActive?: boolean
+  onIntersect?: (id: ActiveCard, isIntersecting: boolean) => void
 }) {
   const [setIntersectionRef, intersection] = useIntersectionObserver({
     rootMargin: '-45% 0px -45% 0px',
@@ -61,7 +70,9 @@ function SocialCard({
   })
   const prevIntersecting = useRef<boolean | undefined>(undefined)
 
+  // Only run intersection logic when onIntersect is provided
   useEffect(() => {
+    if (!onIntersect || index === undefined) return
     const isIntersecting = intersection?.isIntersecting
     if (
       isIntersecting !== undefined &&
@@ -74,17 +85,20 @@ function SocialCard({
 
   return (
     <div
-      ref={setIntersectionRef}
+      ref={onIntersect ? setIntersectionRef : undefined}
       className={cn(
         s.social,
         isActive && s.active,
-        'dt:dr-h-258 bg-white dr-rounded-20 border border-dark-grey dr-p-8 dr-pb-16'
+        'bg-white dr-rounded-20 border border-dark-grey dr-p-8 dr-pb-16',
+        onIntersect && 'dt:dr-h-258',
+        className
       )}
     >
       <div
         className={cn(
           s.text,
-          'dr-p-24 bg-off-white dr-rounded-12  dt:dr-h-162 dr-mb-16'
+          'dr-p-24 bg-off-white dr-rounded-12 dr-mb-16',
+          onIntersect && 'dt:dr-h-162'
         )}
       >
         <p className="typo-p">{social?.text}</p>

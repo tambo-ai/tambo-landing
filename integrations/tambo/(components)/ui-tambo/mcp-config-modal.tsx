@@ -173,7 +173,8 @@ function MyApp() {
 
   const modalContent = (
     <motion.div
-      className={cn('fixed dr-inset-0 bg-backdrop flex items-center justify-center z-50',
+      className={cn(
+        'fixed dr-inset-0 bg-backdrop flex items-center justify-center z-50',
         className
       )}
       onClick={handleBackdropClick}
@@ -205,7 +206,7 @@ function MyApp() {
                 Setup Instructions
               </span>
               <ChevronDown
-                className={`dr-w-4 dr-h-4 text-foreground transition-transform duration-200 ${ showInstructions ? 'rotate-180' : '' }`}
+                className={`dr-w-4 dr-h-4 text-foreground transition-transform duration-200 ${showInstructions ? 'rotate-180' : ''}`}
               />
             </button>
             {showInstructions && (
@@ -393,7 +394,9 @@ function MyApp() {
 
           {/* Info Section */}
           <div className="dr-mt-8 bg-container border border-muted dr-p-4 dr-rounded-8">
-            <h4 className="font-medium dr-mb-2 text-foreground">What is MCP?</h4>
+            <h4 className="font-medium dr-mb-2 text-foreground">
+              What is MCP?
+            </h4>
             <p className="text-foreground dr-text-14 leading-relaxed">
               The{' '}
               <a
