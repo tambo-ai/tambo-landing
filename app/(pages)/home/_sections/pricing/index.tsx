@@ -48,7 +48,7 @@ export function Pricing() {
 
   return (
     <section
-      className="dt:dr-pt-65 dr-pt-0 dr-pb-120 dt:dr-pb-200 bg-white"
+      className="dt:dr-pt-65 dr-pt-0 dr-pb-120 dt:dr-pb-200 bg-white scroll-mt-220"
       ref={setRectRef}
       id="pricing"
     >

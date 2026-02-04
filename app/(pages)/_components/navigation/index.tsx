@@ -20,7 +20,10 @@ const LEFT_LINKS = [
   { href: 'blog', label: 'Blog' },
 ] as const
 
-const RIGHT_LINKS = [{ href: '/contact-us', label: 'Contact Us' }] as const
+const RIGHT_LINKS = [
+  { href: '/#pricing', label: 'Pricing', desktopOnly: true },
+  { href: '/contact-us', label: 'Contact Us' },
+] as const
 
 interface NavigationProps {
   githubStars?: string
@@ -164,7 +167,14 @@ export function Navigation({
           >
             <div className="flex flex-col dr-gap-y-16 dr-mb-40">
               {[...LEFT_LINKS, ...RIGHT_LINKS].map((link) => (
-                <Link key={link.href} href={link.href} className="link">
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    'desktopOnly' in link && 'desktop-only',
+                    'link'
+                  )}
+                >
                   {link.label}
                   {'external' in link && ' ↗'}
                 </Link>
