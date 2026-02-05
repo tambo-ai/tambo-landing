@@ -179,6 +179,7 @@ The site includes:
 - Dynamic sitemap at `/sitemap.xml`
 - AI agent endpoints:
   - `/llms.txt` - Summary (navigation + key features)
+  - `/.well-known/llms.txt` - Alias (redirects to `/llms.txt`)
   - `/llms-full.txt` - Full content (marketing site + all blog posts)
 
 ## Links

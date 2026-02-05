@@ -108,8 +108,6 @@ export default async function Layout({ children }: PropsWithChildren) {
         <link rel="preconnect" href="https://us-assets.i.posthog.com" />
         <link rel="dns-prefetch" href="https://api.mapbox.com" />
         <link rel="dns-prefetch" href="https://api.open-meteo.com" />
-        {/* AI agent discovery */}
-        <link rel="help" type="text/plain" href="/llms.txt" />
         {/* JSON-LD structured data for SEO */}
         <script
           type="application/ld+json"
