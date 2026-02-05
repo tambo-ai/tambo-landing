@@ -6,6 +6,9 @@ export async function GET(request: Request) {
   const envBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
   if (process.env.NODE_ENV === 'production' && !envBaseUrl) {
+    console.error(
+      'NEXT_PUBLIC_BASE_URL environment variable must be set for RSS feed in production'
+    )
     return new Response(
       'NEXT_PUBLIC_BASE_URL environment variable must be set',
       {
