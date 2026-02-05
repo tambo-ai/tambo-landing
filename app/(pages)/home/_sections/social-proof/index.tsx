@@ -3,6 +3,7 @@
 import cn from 'clsx'
 import { useIntersectionObserver } from 'hamo'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Image } from '~/components/image'
 import { socials } from './data'
 import s from './social.module.css'
 
@@ -31,11 +32,16 @@ export function SocialProof() {
 
   return (
     <section className="dt:dr-py-200 dr-py-120 dr-pt-80 dt:dr-pt-200 bg-white section-rounded-top section-shadow-top">
-      <h2 className="typo-h1 text-center dr-mb-56 px-safe">
-        Product engineers love Tambo
+      <h2 className="typo-h1 text-center dr-mb-56 px-safe dt:flex dt:dr-gap-16 dr-gap-8 items-center justify-center">
+        Product engineers
+        <span className="dt:dr-size-56 dr-size-32 z-1 flex w-full items-center justify-center dr-gap-12">
+          <Image block src="/images/green-heart.png" alt="Tambo Logo" />
+          <span className="mobile-only">Tambo</span>
+        </span>
+        <span className="desktop-only">Tambo</span>
       </h2>
-      {/* Social Proof */}
 
+      {/* Social Proof */}
       <div className="dt:grid dt:grid-cols-3 dt:dr-gap-24 flex flex-col dr-gap-16  content-max-width dt:dr-px-155 px-safe">
         {socials?.map((social, index) => (
           <SocialCard
