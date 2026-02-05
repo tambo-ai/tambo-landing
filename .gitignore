@@ -16,6 +16,7 @@
 # production
 /build
 /public/sw.js
+/public/llms-full.txt
 
 # misc
 .DS_Store

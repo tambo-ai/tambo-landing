@@ -1,5 +1,4 @@
 import cn from 'clsx'
-import { Handshake, Shield } from 'lucide-react'
 import { Theme } from '~/app/(pages)/_components/theme'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { Wrapper } from '~/app/(pages)/_components/wrapper'
@@ -11,6 +10,7 @@ import s from './contact-us.module.css'
 import { ScrollToTop } from '~/libs/scroll-to-top'
 import { SocialCard } from '~/app/(pages)/home/_sections/social-proof'
 import { socials } from '~/app/(pages)/home/_sections/social-proof/data'
+import { contactPageContent, valueProps } from './data'
 
 export default async function ContactUsPage() {
   const [githubStars, discordMembers] = await Promise.all([
@@ -38,47 +38,39 @@ export default async function ContactUsPage() {
                 {/* Mobile: Centered header */}
                 <div className="text-center dr-mb-48 dr-mt-48 dt:hidden">
                   <h1 className="typo-h3 text-black dr-mb-20">
-                    Partner with Tambo
+                    {contactPageContent.title}
                   </h1>
                   <p className="typo-p-l text-black dr-max-w-340 mx-auto leading-[1.6]">
-                    We're working closely with select teams building agents in
-                    React apps. Get direct access to Tambo's founders.
+                    {contactPageContent.subtitle}
                   </p>
                 </div>
 
                 {/* Desktop: Full value props */}
                 <div className="hidden dt:block">
                   <h1 className="typo-h1 text-black dr-mb-32">
-                    Partner with Tambo
+                    {contactPageContent.title}
                   </h1>
 
                   <div className="dr-mb-40">
-                    <div className="flex items-start dr-gap-16 dr-mb-24">
-                      <Handshake className="dr-w-24 dr-h-24 flex-shrink-0 dr-mt-4 text-forest" />
-                      <div>
-                        <span className="typo-p-bold text-black">
-                          Become a Design Partner.
-                        </span>{' '}
-                        <span className="typo-p text-black opacity-80">
-                          We're working closely with select teams building agents
-                          in React apps. Get direct access to Tambo's founders
-                          for expert help.
-                        </span>
+                    {valueProps.map((prop, index) => (
+                      <div
+                        key={prop.title}
+                        className={cn(
+                          'flex items-start dr-gap-16',
+                          index < valueProps.length - 1 && 'dr-mb-24'
+                        )}
+                      >
+                        <prop.icon className="dr-w-24 dr-h-24 flex-shrink-0 dr-mt-4 text-forest" />
+                        <div>
+                          <span className="typo-p-bold text-black">
+                            {prop.title}
+                          </span>{' '}
+                          <span className="typo-p text-black opacity-80">
+                            {prop.description}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="flex items-start dr-gap-16">
-                      <Shield className="dr-w-24 dr-h-24 flex-shrink-0 dr-mt-4 text-forest" />
-                      <div>
-                        <span className="typo-p-bold text-black">
-                          Enterprise Support.
-                        </span>{' '}
-                        <span className="typo-p text-black opacity-80">
-                          We'll help you set up on-prem, SSO, SOC 2, HIPAA,
-                          whatever your security and compliance needs.
-                        </span>
-                      </div>
-                    </div>
+                    ))}
                   </div>
 
                   {/* Solink Quote Card */}

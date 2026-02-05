@@ -10,7 +10,7 @@
     "dev:turbo": "next dev",
     "watch:styles": "bun --watch ./styles/scripts/setup-styles.ts",
     "dev:https": "bun --watch ./styles/scripts/setup-styles.ts & next dev --experimental-https",
-    "build": "bun run setup:styles && next build --webpack",
+    "build": "bun run setup:styles && bun run scripts/generate-llms-full.ts && next build --webpack",
     "build:analyze": "cross-env SOURCE_MAPS=true bun run build && source-map-explorer .next/static/chunks/*.js",
     "build:profile": "cross-env NEXT_BUILD_PROFILE=true next build",
     "start": "next start",

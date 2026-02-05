@@ -65,9 +65,19 @@ orchestra/              # Debug tools (CMD+O to toggle)
 ## Key Files
 
 - `app/layout.tsx` - Site metadata, SEO, JSON-LD structured data
-- `public/llms.txt` - Plain text endpoint for AI agents
+- `public/llms.txt` - Plain text endpoint for AI agents (summary)
+- `public/llms-full.txt` - Full site content for AI agents
+- `scripts/generate-llms-full.ts` - Generator for llms-full.txt
 - `package.json` - Site description (used in metadata)
 - `libs/config.tsx` - Site configuration, social links, footer
+
+## Creating Pages
+
+Pages separate content from presentation. See `app/(pages)/contact-us/` for reference:
+- `data.ts` - Content and copy
+- `page.tsx` - React component (imports from data.ts)
+
+**Important:** When adding a new page or section, you must also add its content to `scripts/generate-llms-full.ts` so AI agents can discover it. The file is generated automatically during `bun build`.
 
 ## Commands
 
@@ -151,7 +161,9 @@ Tambo's voice is technical but accessible. Direct and punchy. Like a developer a
 - "open-source generative UI toolkit for React"
 - Tagline: "Build agents that speak your UI"
 
-**Important:** Any copy changes to the landing page should also update `public/llms.txt` to keep messaging consistent for AI agents.
+**Important:** Any copy changes should also update:
+- `public/llms.txt` - Summary for AI agents
+- `scripts/generate-llms-full.ts` - Full content (auto-generated on build)
 
 ## SEO and Metadata
 
@@ -165,7 +177,9 @@ The site includes:
 - JSON-LD structured data (Organization, WebSite schemas)
 - OpenGraph and Twitter card tags
 - Dynamic sitemap at `/sitemap.xml`
-- AI agent endpoint at `/llms.txt`
+- AI agent endpoints:
+  - `/llms.txt` - Summary (navigation + key features)
+  - `/llms-full.txt` - Full content (marketing site + all blog posts)
 
 ## Links
 
