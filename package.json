@@ -61,7 +61,7 @@
     "rehype-pretty-code": "^0.14.1",
     "remark-gfm": "^4.0.1",
     "remark-mdx-frontmatter": "^5.2.0",
-    "streamdown": "^1.6.10",
+    "streamdown": "^2.1.0",
     "tempus": "1.0.0-dev.17",
     "three": "^0.181.2",
     "tunnel-rat": "^0.1.2",
