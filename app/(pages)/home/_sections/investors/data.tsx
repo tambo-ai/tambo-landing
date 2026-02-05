@@ -7,7 +7,7 @@ export const investors = [
   {
     name: 'Eric Wittman',
     position: 'ceo at',
-    companyIcon: <Vsco className="dr-w-39 dr-h-18" />,
+    companyIcon: <Vsco className="dr-w-39 dr-h-20" />,
     image: (
       <div className="dr-size-81 z-1">
         <Image
