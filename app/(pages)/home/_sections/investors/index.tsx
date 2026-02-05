@@ -143,19 +143,18 @@ function InvestorCard({
         )}
       >
         <div className="dr-size-80 dr-rounded-12 border border-dark-grey grid place-items-center relative overflow-hidden">
-          <HashPattern className="absolute inset-0 text-dark-grey z-0" />
-          {investor?.icon}
+          {investor?.image}
         </div>
 
-        <div className="flex flex-col dr-gap-4">
+        <div className="flex flex-col dr-gap-8">
           <p className="typo-p-bold">{investor.name}</p>
           <span
             className={cn(
-              'typo-label-s dr-px-8 dr-py-4 dr-rounded-16 bg-off-white w-fit',
+              'typo-label-s dr-px-12 dr-h-28 dr-rounded-8 bg-off-white w-fit flex dr-gap-8 items-center',
               s.position
             )}
           >
-            {investor?.position}
+            {investor?.position} {investor?.companyIcon}
           </span>
         </div>
       </div>
