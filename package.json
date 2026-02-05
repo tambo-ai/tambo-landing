@@ -86,7 +86,7 @@
     "cross-env": "^10.1.0",
     "lefthook": "^2.0.9",
     "postcss-functions": "^4.0.2",
-    "postcss-preset-env": "^10.5.0",
+    "postcss-preset-env": "^11.1.2",
     "source-map-explorer": "^2.5.3",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
