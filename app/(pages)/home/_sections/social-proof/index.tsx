@@ -31,7 +31,7 @@ export function SocialProof() {
 
   return (
     <section className="dt:dr-py-200 dr-py-120 dr-pt-80 dt:dr-pt-200 bg-white section-rounded-top section-shadow-top">
-      <h2 className="dt:typo-h2 typo-h1 text-center dr-mb-56 px-safe">
+      <h2 className="typo-h1 text-center dr-mb-56 px-safe">
         Product engineers love Tambo
       </h2>
       {/* Social Proof */}

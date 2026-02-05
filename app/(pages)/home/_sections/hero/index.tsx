@@ -6,8 +6,8 @@ import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
-import LinesBg from '~/assets/svgs/hero-line-bg.svg'
 import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
+import LinesBg from '~/assets/svgs/hero-line-bg.svg'
 import { CTA } from '~/components/button'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
@@ -81,16 +81,16 @@ export function Hero() {
       >
         <div className="flex dt:flex-row flex-col-reverse items-center content-max-width w-full">
           <div
-            className="dt:dr-w-col-4 flex flex-col dr-gap-16 text-center items-start z-1 columns-1"
+            className="dt:dr-w-col-5 flex flex-col dr-gap-16 text-center items-start z-1 columns-1"
             ref={titleRef}
           >
-            <h1 className="dt:typo-h1 typo-h3 dt:text-start ">
+            <h1 className="dt:typo-hero-title typo-h3 dt:text-start ">
               Build agents
               <br className="mobile-only" /> that{' '}
               <br className="desktop-only" /> speak your UI
             </h1>
-            <p className=" typo-p text-black/50 dt:dr-w-322 dr-w-263 dt:text-start">
-              An open-source toolkit for adding agents <br /> to your React app.
+            <p className=" typo-p text-black/50 dt:dr-w-489 dr-w-263 dt:text-start">
+              An open-source toolkit for adding agents to your React app.
               Connect your existing components—Tambo handles streaming, state
               management, and MCP.
             </p>

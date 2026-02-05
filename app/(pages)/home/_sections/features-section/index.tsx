@@ -282,7 +282,7 @@ export function Features() {
 
               <TitleBlock className="dt:dr-mb-40">
                 <TitleBlock.LeadIn>FEATURES</TitleBlock.LeadIn>
-                <TitleBlock.Title level="h2" className="dt:typo-h2! typo-h1!">
+                <TitleBlock.Title level="h2" className="typo-h1!">
                   What Tambo <br /> solves for you
                 </TitleBlock.Title>
               </TitleBlock>

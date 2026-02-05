@@ -27,7 +27,7 @@ export function Investors() {
   return (
     <section className="dt:dr-px-271 dt:dr-pb-200 dr-pb-120 px-safe bg-white section-rounded-bottom section-shadow-bottom">
       <div className="dt:dr-max-w-900 mx-auto">
-        <h2 className="dt:typo-h2 typo-h1 text-center dt:dr-mb-56 dr-mb-40">
+        <h2 className=" typo-h1 text-center dt:dr-mb-56 dr-mb-40">
           Backed by top investors and builders
         </h2>
         <MainInvestorCard
