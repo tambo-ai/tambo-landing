@@ -63,6 +63,7 @@ jobs:
         run: bun run build
         env:
           SKIP_ENV_VALIDATION: "true"
+          NEXT_PUBLIC_BASE_URL: "https://tambo.co"
 
   status:
     needs: [lint, typecheck, build]
