@@ -1,7 +1,7 @@
 'use client'
 
 import cn from 'clsx'
-import { useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import CloseIcon from '~/assets/svgs/close.svg'
 import DiscordIcon from '~/assets/svgs/discord.svg'
@@ -21,7 +21,7 @@ const LEFT_LINKS = [
 ] as const
 
 const RIGHT_LINKS = [
-  { href: '/#pricing', label: 'Pricing', desktopOnly: true },
+  { href: '/#pricing', label: 'Pricing' },
   { href: '/contact-us', label: 'Contact Us' },
 ] as const
 
@@ -42,6 +42,34 @@ export function Navigation({
   const rightRef = useRef<HTMLUListElement>(null)
   const githubRef = useRef<HTMLAnchorElement>(null)
   const discordRef = useRef<HTMLAnchorElement>(null)
+
+  const handleMobileLinkClick = useCallback(
+    (href: string) => {
+      setIsMobileNavOpened(false)
+
+      // Handle anchor links
+      const hashIndex = href.indexOf('#')
+      if (hashIndex !== -1) {
+        const hash = href.slice(hashIndex + 1)
+        // Small delay to let the menu close animation start
+        setTimeout(() => {
+          const element = document.getElementById(hash)
+          if (element) {
+            const mobileNavOffset = 80
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition =
+              elementPosition + window.scrollY - mobileNavOffset
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth',
+            })
+          }
+        }, 100)
+      }
+    },
+    [setIsMobileNavOpened]
+  )
 
   return (
     <nav
@@ -133,7 +161,7 @@ export function Navigation({
         >
           <div className="absolute dr-h-48 dr-pl-24 dr-pr-20  flex justify-between items-center w-full ">
             <div className="dr-h-24 relative">
-              <Link href="/">
+              <Link href="/" onClick={() => setIsMobileNavOpened(false)}>
                 <Image
                   block
                   src="/images/tambo.png"
@@ -170,10 +198,8 @@ export function Navigation({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={cn(
-                    'desktopOnly' in link && 'desktop-only',
-                    'link'
-                  )}
+                  className={cn('link')}
+                  onClick={() => handleMobileLinkClick(link.href)}
                 >
                   {link.label}
                   {'external' in link && ' ↗'}
@@ -187,6 +213,7 @@ export function Navigation({
                   'rounded-full border border-dark-grey flex items-center dr-gap-x-4 dr-pl-4 dr-h-32 dr-w-79',
                   s.loginButton
                 )}
+                onClick={() => setIsMobileNavOpened(false)}
               >
                 <div className="dr-size-24 bg-mint grid place-items-center rounded-full">
                   <GithubIcon className="dr-w-16 icon" />
@@ -199,6 +226,7 @@ export function Navigation({
                   'rounded-full border border-dark-grey flex items-center dr-gap-x-4 dr-pl-4 dr-h-32 dr-w-79',
                   s.loginButton
                 )}
+                onClick={() => setIsMobileNavOpened(false)}
               >
                 <div className="dr-size-24 bg-mint grid place-items-center rounded-full">
                   <DiscordIcon className="dr-w-16 icon" />
@@ -211,6 +239,7 @@ export function Navigation({
                   'rounded-full border border-dark-grey flex items-center dr-gap-x-4 dr-pl-4 dr-h-32 dr-w-79',
                   s.loginButton
                 )}
+                onClick={() => setIsMobileNavOpened(false)}
               >
                 <div className="dr-size-24 bg-mint grid place-items-center rounded-full">
                   <XIcon className="dr-w-16 icon" />
@@ -219,7 +248,11 @@ export function Navigation({
               </Link>
             </div>
 
-            <CTA className={s.ctaMobile} href={siteConfig.links.dashboard}>
+            <CTA
+              className={s.ctaMobile}
+              href={siteConfig.links.dashboard}
+              onClick={() => setIsMobileNavOpened(false)}
+            >
               Sign In
             </CTA>
           </div>
