@@ -1,14 +1,10 @@
 import { Feed } from 'feed'
 import { getPostListItems } from '~/libs/get-posts'
 
-export async function GET() {
-  const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
-  if (!rawBaseUrl && process.env.NODE_ENV === 'production') {
-    throw new Error(
-      'NEXT_PUBLIC_BASE_URL environment variable must be set in production'
-    )
-  }
-  const baseUrl = (rawBaseUrl || 'https://tambo.co').replace(/\/+$/, '')
+export async function GET(request: Request) {
+  const origin = new URL(request.url).origin
+  const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? origin
+  const baseUrl = rawBaseUrl.replace(/\/+$/, '')
 
   const feed = new Feed({
     title: 'Tambo Blog',
@@ -28,7 +24,15 @@ export async function GET() {
 
   for (const post of posts) {
     const postDate = new Date(post.date)
-    if (Number.isNaN(postDate.getTime())) continue
+    const hasValidDate = !Number.isNaN(postDate.getTime())
+    if (!hasValidDate && process.env.NODE_ENV !== 'production') {
+      console.warn('Invalid blog post date for RSS feed', {
+        slug: post.slug,
+        date: post.date,
+      })
+    }
+
+    const date = hasValidDate ? postDate : new Date(0)
 
     feed.addItem({
       title: post.title,
@@ -36,7 +40,7 @@ export async function GET() {
       link: `${baseUrl}/blog/posts/${post.slug}`,
       description: post.description || '',
       author: post.author ? [{ name: post.author }] : undefined,
-      date: postDate,
+      date,
       category: post.category ? [{ name: post.category }] : undefined,
     })
   }
@@ -44,6 +48,7 @@ export async function GET() {
   return new Response(feed.rss2(), {
     headers: {
       'Content-Type': 'application/rss+xml; charset=utf-8',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
     },
   })
 }

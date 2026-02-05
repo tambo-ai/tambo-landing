@@ -1,5 +1,8 @@
-import { redirect } from 'next/navigation'
-
 export function GET() {
-  redirect('/blog/feed.xml')
+  return new Response(null, {
+    status: 308,
+    headers: {
+      Location: '/blog/feed.xml',
+    },
+  })
 }
