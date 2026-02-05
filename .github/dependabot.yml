@@ -1,12 +1,92 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
-
 version: 2
 updates:
-  - package-ecosystem: "github-actions" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "area: github actions"
+      - "status: ready"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "area: dependencies"
+      - "status: ready"
+    # Let package releases bake for a bit before updating,
+    # in case there is a bad release. However, always update
+    # the latest version of the Tambo packages.
+    cooldown:
+      default-days: 5
+      semver-major-days: 7
+      semver-minor-days: 4
+      semver-patch-days: 2
+      include:
+        - "*"
+      exclude:
+        - "@tambo-ai/*"
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      next:
+        patterns:
+          - "next"
+          - "@next/*"
+      radix-ui:
+        patterns:
+          - "@radix-ui/*"
+          - "@base-ui-components/*"
+          - "radix-ui"
+      three:
+        patterns:
+          - "three"
+          - "@types/three"
+          - "@react-three/*"
+      tambo-ai:
+        patterns:
+          - "@tambo-ai/*"
+      tailwind:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+      nextra:
+        patterns:
+          - "nextra"
+          - "nextra-*"
+      mdx:
+        patterns:
+          - "@mdx-js/*"
+          - "rehype-*"
+          - "remark-*"
+      biome:
+        patterns:
+          - "@biomejs/*"
+      small-safe-packages:
+        # These aren't related, but these are all generally safe to update
+        # unconditionally, so we lump them together to get one PR
+        patterns:
+          - "posthog-js"
+          - "lucide-react"
+          - "clsx"
+          - "zod"
+          - "zustand"
