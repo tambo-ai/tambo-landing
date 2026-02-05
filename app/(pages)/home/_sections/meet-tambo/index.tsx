@@ -67,7 +67,7 @@ function Card({ data }: CardProps) {
         </div>
       </div>
       <div className="flex flex-col dr-gap-8">
-        <h4 className="typo-h4 dt:w-fit text-nowrap text-center dt:text-left">
+        <h4 className="typo-h4 dt:typo-h3 dt:w-fit text-nowrap text-center dt:text-left">
           {data?.title}
         </h4>
         <p className="typo-p text-black/50 text-center dt:text-left">
