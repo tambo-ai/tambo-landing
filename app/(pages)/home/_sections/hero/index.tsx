@@ -110,11 +110,12 @@ export function Hero() {
           </div>
           {/* Mobile Rive - only renders on mobile devices */}
           {isMobile && (
-            <div className="w-full h-full top-0 left-0 absolute">
+            <div className="w-full grow min-h-0">
               <RiveWrapper
                 src="/assets/rives/Mobile_hero_loop_1.riv"
                 className="size-full pointer-events-none"
-                alignment="TopCenter"
+                alignment="Center"
+                fit="Contain"
               />
             </div>
           )}
