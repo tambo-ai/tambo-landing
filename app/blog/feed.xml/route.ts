@@ -6,7 +6,16 @@ export async function GET(request: Request) {
   const envBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
   if (process.env.NODE_ENV === 'production' && !envBaseUrl) {
-    throw new Error('NEXT_PUBLIC_BASE_URL environment variable must be set')
+    return new Response(
+      'NEXT_PUBLIC_BASE_URL environment variable must be set',
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'no-store',
+        },
+      }
+    )
   }
 
   const rawBaseUrl = envBaseUrl ?? origin
