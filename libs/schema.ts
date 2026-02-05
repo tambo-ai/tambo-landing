@@ -1,8 +1,5 @@
-import { siteConfig } from "./config";
+type JsonLd = Record<string, unknown>
 
-/**
- * Generates JSON-LD schema markup for a blog post
- */
 export function generateBlogPostSchema({
   title,
   description,
@@ -13,43 +10,43 @@ export function generateBlogPostSchema({
   slug,
   image,
 }: {
-  title: string;
-  description: string;
-  publishedAt: string;
-  updatedAt?: string;
-  authorName: string;
-  authorUrl?: string;
-  slug: string;
-  image?: string;
-}) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || siteConfig.url;
-  const postUrl = `${baseUrl}/blog/posts/${slug}`;
+  title: string
+  description?: string
+  publishedAt: string
+  updatedAt?: string
+  authorName: string
+  authorUrl?: string
+  slug: string
+  image?: string
+}): JsonLd {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
+  const postUrl = `${baseUrl}/blog/posts/${slug}`
 
   return {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
     headline: title,
-    description: description,
+    ...(description ? { description } : {}),
     author: {
-      "@type": "Person",
+      '@type': 'Person',
       name: authorName,
-      url: authorUrl,
+      ...(authorUrl ? { url: authorUrl } : {}),
     },
-    image: image || `${baseUrl}/api/og`,
+    image: image || `${baseUrl}/opengraph-image.jpg`,
     url: postUrl,
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
     publisher: {
-      "@type": "Organization",
-      name: siteConfig.name,
+      '@type': 'Organization',
+      name: 'Tambo',
       logo: {
-        "@type": "ImageObject",
-        url: `${baseUrl}/api/og`,
+        '@type': 'ImageObject',
+        url: `${baseUrl}/icon.png`,
       },
     },
     mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": postUrl,
+      '@type': 'WebPage',
+      '@id': postUrl,
     },
-  };
+  }
 }

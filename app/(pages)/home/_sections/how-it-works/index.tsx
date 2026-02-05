@@ -3,6 +3,7 @@ import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { siteConfig } from '~/libs/config'
+import { howItWorksContent } from './data'
 
 export function HowItWorks() {
   return (
@@ -13,12 +14,13 @@ export function HowItWorks() {
     >
       <div className="z-1 overflow-hidden dr-rounded-20 dt:dr-py-80 dr-py-56 dr-px-16 dt:dr-px-0 flex flex-col relative content-max-width">
         <TitleBlock className="dr-mb-56">
-          <TitleBlock.LeadIn>how It Works</TitleBlock.LeadIn>
+          <TitleBlock.LeadIn>{howItWorksContent.leadIn}</TitleBlock.LeadIn>
           <TitleBlock.Title level="h2" className="dt:dr-mb-40! dr-mb-32">
-            The missing layer <br /> between React and LLMs
+            {howItWorksContent.title.line1} <br />{' '}
+            {howItWorksContent.title.line2}
           </TitleBlock.Title>
           <CTA href={siteConfig.links.docs} className="w-fit mx-auto">
-            learn more
+            {howItWorksContent.cta.text}
           </CTA>
         </TitleBlock>
         <div className="content-max-width">

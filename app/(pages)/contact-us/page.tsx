@@ -1,4 +1,5 @@
 import cn from 'clsx'
+import { Handshake, Shield } from 'lucide-react'
 import { Theme } from '~/app/(pages)/_components/theme'
 import { Wrapper } from '~/app/(pages)/_components/wrapper'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
@@ -10,7 +11,12 @@ import { getDiscordMembers } from '~/libs/discord'
 import { getGitHubStars } from '~/libs/github'
 import { ScrollToTop } from '~/libs/scroll-to-top'
 import s from './contact-us.module.css'
-import { contactPageContent, valueProps } from './data'
+import { contactPageContent, type ValuePropIconKey, valueProps } from './data'
+
+const valuePropIcons: Record<ValuePropIconKey, typeof Handshake> = {
+  handshake: Handshake,
+  shield: Shield,
+}
 
 export default async function ContactUsPage() {
   const [githubStars, discordMembers] = await Promise.all([
@@ -52,25 +58,29 @@ export default async function ContactUsPage() {
                   </h1>
 
                   <div className="dr-mb-40">
-                    {valueProps.map((prop, index) => (
-                      <div
-                        key={prop.title}
-                        className={cn(
-                          'flex items-start dr-gap-16',
-                          index < valueProps.length - 1 && 'dr-mb-24'
-                        )}
-                      >
-                        <prop.icon className="dr-w-24 dr-h-24 flex-shrink-0 dr-mt-4 text-forest" />
-                        <div>
-                          <span className="typo-p-bold text-black">
-                            {prop.title}
-                          </span>{' '}
-                          <span className="typo-p text-black opacity-80">
-                            {prop.description}
-                          </span>
+                    {valueProps.map((prop, index) => {
+                      const Icon = valuePropIcons[prop.icon]
+
+                      return (
+                        <div
+                          key={prop.title}
+                          className={cn(
+                            'flex items-start dr-gap-16',
+                            index < valueProps.length - 1 && 'dr-mb-24'
+                          )}
+                        >
+                          <Icon className="dr-w-24 dr-h-24 flex-shrink-0 dr-mt-4 text-forest" />
+                          <div>
+                            <span className="typo-p-bold text-black">
+                              {prop.title}
+                            </span>{' '}
+                            <span className="typo-p text-black opacity-80">
+                              {prop.description}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
 
                   {/* Solink Quote Card */}

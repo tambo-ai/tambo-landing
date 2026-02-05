@@ -1,18 +1,28 @@
-#!/usr/bin/env npx tsx
 /**
  * Generates llms-full.txt from site content sources:
  * - Blog posts (MDX files with frontmatter)
- * - Marketing copy from section data files
+ * - Marketing copy from canonical data modules
  * - Base llms.txt content
- *
- * Run: npx tsx scripts/generate-llms-full.ts
  */
 
-import { readdirSync, readFileSync, writeFileSync } from 'fs'
-import { join } from 'path'
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+
+import { contactPageContent, valueProps } from '../app/(pages)/contact-us/data'
+import { featureButtons } from '../app/(pages)/home/_sections/features-section/data'
+import { heroContent } from '../app/(pages)/home/_sections/hero/data'
+import { howItWorksContent } from '../app/(pages)/home/_sections/how-it-works/data'
+import { cards as meetTamboCards } from '../app/(pages)/home/_sections/meet-tambo/data'
+import {
+  banner as pricingBanner,
+  pricingCards,
+} from '../app/(pages)/home/_sections/pricing/data'
+import { showcaseCards } from '../app/(pages)/home/_sections/showcase/data'
+import { socials } from '../app/(pages)/home/_sections/social-proof/data'
 
 const ROOT = process.cwd()
 const BLOG_DIR = join(ROOT, 'app/blog/posts')
+const BASE_LLMS_PATH = join(ROOT, 'public/llms.txt')
 const OUTPUT_PATH = join(ROOT, 'public/llms-full.txt')
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -40,24 +50,37 @@ function extractFrontmatter(content: string): {
 }
 
 function cleanMdx(content: string): string {
-  return (
-    content
-      // Remove import statements
-      .replace(/^import\s+.*$/gm, '')
-      // Remove JSX components but keep text content
-      .replace(/<video[\s\S]*?\/>/gi, '[Video]')
-      .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
-      .replace(/<[A-Z][a-zA-Z]*[^>]*\/>/g, '')
-      .replace(/<[A-Z][a-zA-Z]*[^>]*>[\s\S]*?<\/[A-Z][a-zA-Z]*>/g, '')
-      // Clean up extra whitespace
-      .replace(/\n{3,}/g, '\n\n')
-      .trim()
-  )
+  let cleaned = content
+    // Remove ESM import/export blocks
+    .replace(/^import\s+.*$/gm, '')
+    .replace(/^export\s+.*$/gm, '')
+    // Replace known media tags
+    .replace(/<video[\s\S]*?\/>/gi, '[Video]')
+    .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
+
+  // Unwrap wrapper components (<Callout>text</Callout> -> text)
+  for (let i = 0; i < 10; i += 1) {
+    const next = cleaned.replace(/<([A-Z][\w]*)\b[^>]*>([\s\S]*?)<\/\1>/g, '$2')
+    if (next === cleaned) break
+    cleaned = next
+  }
+
+  // Remove any remaining self-closing components
+  cleaned = cleaned.replace(/<([A-Z][\w]*)\b[^>]*\/>/g, '')
+
+  return cleaned
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/^\s+$/gm, '')
+    .trim()
 }
 
 function readBlogPosts(): string[] {
+  if (!existsSync(BLOG_DIR)) return []
+
   const posts: string[] = []
-  const dirs = readdirSync(BLOG_DIR)
+  const dirs = readdirSync(BLOG_DIR, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name)
 
   for (const dir of dirs) {
     const mdxPath = join(BLOG_DIR, dir, 'page.mdx')
@@ -67,6 +90,8 @@ function readBlogPosts(): string[] {
       const cleanedBody = cleanMdx(body)
 
       posts.push(`### ${meta.title || dir}
+
+URL: ${process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'}/blog/posts/${dir}
 
 ${meta.description || ''}
 
@@ -82,116 +107,92 @@ ${cleanedBody}`)
   return posts
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Marketing content from data files
-// ─────────────────────────────────────────────────────────────────────────────
+function formatHeroSection(): string {
+  return `## Hero
 
-const HERO_CONTENT = `## Hero
+**Headline:** ${heroContent.headline.line1} ${heroContent.headline.line2Lead} ${heroContent.headline.line2Tail}
 
-**Headline:** Build agents that speak your UI
+**Subheadline:** ${heroContent.subheadline.line1} ${heroContent.subheadline.line2}`
+}
 
-**Subheadline:** An open-source toolkit for adding agents to your React app. Connect your existing components—Tambo handles streaming, state management, and MCP.`
+function formatWhyTamboSection(): string {
+  return [
+    '## Why Tambo',
+    '',
+    '**From zero to agent in a weekend** — Everything you need to add AI to your React app.',
+    '',
+    ...meetTamboCards.map((card) => `- **${card.title}**: ${card.text}`),
+  ].join('\n')
+}
 
-const WHY_TAMBO_CONTENT = `## Why Tambo
+function formatHowItWorksSection(): string {
+  return `## How It Works
 
-**From zero to agent in a weekend** — Everything you need to add AI to your React app.
+**${howItWorksContent.title.line1} ${howItWorksContent.title.line2}**`
+}
 
-- **Agent included**: No heavy frameworks required. Drop Tambo into your app in minutes.
-- **Auth just works**: The agent inherits your user's permissions, keeping your AI features secure.
-- **Your components**: Register them once. The agent renders your UI with the right props.
-- **The boring parts, solved**: Error states, cancellation, message threads, MCP—already done.`
+function formatFeaturesSection(): string {
+  return [
+    '## Features',
+    '',
+    'What Tambo solves for you:',
+    '',
+    ...featureButtons.map((button) => `- **${button.title}**: ${button.href}`),
+  ].join('\n')
+}
 
-const HOW_IT_WORKS_CONTENT = `## How It Works
+function formatPricingSection(): string {
+  const plans = pricingCards
+    .map((card) => {
+      return [
+        `### ${card.plan} (${card.title})`,
+        card.description,
+        ...card.features.map((feature) => `- ${feature}`),
+      ].join('\n')
+    })
+    .join('\n\n')
 
-**The missing layer between React and LLMs**
+  const openSource = [
+    `### ${pricingBanner.title}`,
+    pricingBanner.description,
+    ...pricingBanner.features.map((feature) => `- ${feature}`),
+  ].join('\n')
 
-When a user asks a question like "What seats are available?":
-1. Tambo's agent renders your components (like <SeatMap>) with your styling and logic
-2. Tambo updates state when users interact
-3. Same components, new capabilities—ship AI features without rebuilding`
+  return ['## Pricing', '', plans, '', openSource].join('\n')
+}
 
-const FEATURES_CONTENT = `## Features
+function formatShowcaseSection(): string {
+  return [
+    '## Built With Tambo',
+    '',
+    ...showcaseCards.map((card) => {
+      return `### ${card.title}\n${card.paragraph}\n${card.href}`
+    }),
+  ].join('\n\n')
+}
 
-What Tambo solves for you:
+function formatTestimonialsSection(): string {
+  const quote = socials[0]
 
-- **Generative UI Components**: AI agents render your React components with correct props
-- **Interactable Components**: Components that respond to user interactions
-- **MCP-Native**: Full Model Context Protocol support
-- **Local Tools**: Run tools locally in the browser
-- **Streaming Support**: Real-time streaming built-in
-- **Message History**: Persistent conversation threads
-- **State Management**: Handles complex state across agent interactions
-- **Suggested Actions**: Contextual action suggestions for users
-- **Tool Orchestration**: Coordinate multiple tools seamlessly
-- **Model Flexibility**: Works with various LLM providers
-- **Component Library**: Pre-built UI components at ui.tambo.co`
+  return [
+    '## Testimonials',
+    '',
+    `> ${quote.text}`,
+    `> — ${quote.author}, ${quote.position}`,
+  ].join('\n')
+}
 
-const PRICING_CONTENT = `## Pricing
-
-### Starter (Free)
-Perfect for getting started.
-- 10K stored messages / mo
-- Unlimited users (OAuth)
-- Chat-thread history
-- Analytics + observability
-- Community support
-
-### Growth ($25/mo)
-For growing teams and projects.
-- 200K messages / mo included
-- $8 per +100k (billed in 100k blocks)
-- Unlimited users
-- Chat-thread history
-- Analytics + observability
-
-### Enterprise (Annual Contract)
-For large organisations.
-- Negotiated message volume
-- Unlimited seats for cloud
-- Enterprise-only features
-- SSO / SAML, SCIM, RBAC
-- Single-tenant or on-prem
-- 99.99% uptime SLA
-- SOC 2, HIPAA opt-in, GDPR (upon request)
-- Early access to new features
-- 24x7 support
-
-### Open Source
-**Self-host for Free. Forever.**
-- tambo.ai/react package
-- UI component library
-- tambo-ai/tambo-cloud`
-
-const SHOWCASE_CONTENT = `## Built With Tambo
-
-### db-thing
-Database design through conversation. Create schemas, generate ERDs, get optimization tips, export SQL.
-https://db-thing.vercel.app/
-
-### Strudel AI
-Strudel lets you code music patterns live. You layer drums, melodies, and synths in real time, making complex electronic music using code.
-https://strudellm.com/
-
-### CheatSheet
-AI-powered document assistant.
-https://cheatsheet.tambo.co/`
-
-const TESTIMONIAL_CONTENT = `## Testimonials
-
-> "Tambo was insanely easy to get up and running—it's how you get a full chatbot from frontend to backend in minutes. I plugged it into my UI on a Friday and demoed it to my team on Monday."
-> — Jean-Philippe Bergeron, Product Engineer at Solink`
-
-const CONTACT_PAGE_CONTENT = `## Contact / Partner with Tambo
-
-We're working closely with select teams building agents in React apps. Get direct access to Tambo's founders.
-
-### Become a Design Partner
-We're working closely with select teams building agents in React apps. Get direct access to Tambo's founders for expert help.
-
-### Enterprise Support
-We'll help you set up on-prem, SSO, SOC 2, HIPAA, whatever your security and compliance needs.
-
-Contact: https://tambo.co/contact-us`
+function formatContactUsSection(): string {
+  return [
+    '## Contact / Partner with Tambo',
+    '',
+    contactPageContent.subtitle,
+    '',
+    ...valueProps.map((prop) => `- **${prop.title}** ${prop.description}`),
+    '',
+    'Contact: https://tambo.co/contact-us',
+  ].join('\n')
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Main generation
@@ -199,47 +200,26 @@ Contact: https://tambo.co/contact-us`
 
 function generateLlmsFull(): string {
   const blogPosts = readBlogPosts()
+  const base = existsSync(BASE_LLMS_PATH)
+    ? readFileSync(BASE_LLMS_PATH, 'utf-8').trim()
+    : '# Tambo'
 
   const sections = [
-    `# Tambo - Full Site Content
-
-> Build agents that speak your UI
-
-Tambo is the open-source generative UI toolkit for React. Built for product engineers adding AI features to existing apps.
-
-Tambo lets any React app add AI features that show real UI—not just chat responses. When a user asks "show me sales by region," the agent renders an actual interactive chart, not a text summary. Register your components, and the agent picks the right one and streams the props.
-
-It's a drop-in fullstack solution: a React SDK plus a backend that handles conversation state and agent execution. No separate agent framework required.
-
----
-
-# Marketing Site Content`,
-    HERO_CONTENT,
-    WHY_TAMBO_CONTENT,
-    HOW_IT_WORKS_CONTENT,
-    FEATURES_CONTENT,
-    PRICING_CONTENT,
-    SHOWCASE_CONTENT,
-    TESTIMONIAL_CONTENT,
-    CONTACT_PAGE_CONTENT,
+    base,
+    '---',
+    '# Marketing Site Content',
+    formatHeroSection(),
+    formatWhyTamboSection(),
+    formatHowItWorksSection(),
+    formatFeaturesSection(),
+    formatPricingSection(),
+    formatShowcaseSection(),
+    formatTestimonialsSection(),
+    formatContactUsSection(),
     `---
 
 # Blog Posts`,
     ...blogPosts,
-    `---
-
-## Resources
-
-- Documentation: https://docs.tambo.co
-- GitHub: https://github.com/tambo-ai/tambo
-- Component Library: https://ui.tambo.co
-- Discord: https://discord.com/invite/dJNvPEHth6
-- Twitter: https://x.com/tambo_ai
-- Website: https://tambo.co
-
-## About
-
-Tambo is developed by Fractal Dynamics Inc. The toolkit is open-source and free to self-host forever.`,
   ]
 
   return sections.join('\n\n')

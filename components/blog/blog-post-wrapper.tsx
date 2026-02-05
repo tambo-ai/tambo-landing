@@ -2,6 +2,7 @@ import { BlogPost } from './blog-post'
 
 interface BlogPostWithFrontmatterProps {
   children: React.ReactNode
+  slug?: string
   meta: {
     title?: string
     author?: string
@@ -35,7 +36,12 @@ interface BlogPostWithFrontmatterProps {
  */
 export function BlogPostWithFrontmatter({
   children,
+  slug,
   meta,
 }: BlogPostWithFrontmatterProps) {
-  return <BlogPost frontmatter={meta}>{children}</BlogPost>
+  return (
+    <BlogPost slug={slug} frontmatter={meta}>
+      {children}
+    </BlogPost>
+  )
 }

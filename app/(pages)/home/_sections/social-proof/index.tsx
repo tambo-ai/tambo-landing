@@ -3,14 +3,12 @@
 import cn from 'clsx'
 import { useIntersectionObserver } from 'hamo'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { socials } from './data'
+import { type Social, type SocialIconKey, socials } from './data'
 import s from './social.module.css'
+import SolinkSocialIcon from './social-proof-icons/solink-social.svg'
 
-export type SocialData = {
-  text: string
-  author: string
-  position: string
-  icon: React.ReactNode
+const socialIcons: Record<SocialIconKey, React.ReactNode> = {
+  solink: <SolinkSocialIcon className="dr-h-15" />,
 }
 
 type ActiveCard = number | null
@@ -58,7 +56,7 @@ export function SocialCard({
   isActive,
   onIntersect,
 }: {
-  social: SocialData
+  social: Social
   className?: string
   index?: number
   isActive?: boolean
@@ -115,7 +113,7 @@ export function SocialCard({
             {social?.position}
           </span>
         </div>
-        {social?.icon}
+        {socialIcons[social.icon]}
       </div>
     </div>
   )

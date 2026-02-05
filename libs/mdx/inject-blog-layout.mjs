@@ -1,4 +1,4 @@
-import { visit } from "unist-util-visit";
+import { visit } from 'unist-util-visit'
 
 /**
  * A remark plugin that automatically injects blog post layout wrapper
@@ -18,99 +18,117 @@ export function remarkInjectBlogLayout() {
   return (tree, file) => {
     // Only apply this plugin to blog post files
     // Normalize path separators for cross-platform compatibility
-    const filePath = (file.history[0] ?? "").replaceAll("\\", "/");
-    if (!filePath.includes("/blog/posts/")) {
-      return;
+    const filePath = (file.history[0] ?? '').replaceAll('\\', '/')
+    if (!filePath.includes('/blog/posts/')) {
+      return
     }
+
+    const slugMatch = filePath.match(/\/blog\/posts\/([^/]+)\//)
+    const slug = slugMatch?.[1]
 
     // Check if the file already has a layout export (to avoid double-wrapping)
     // Use AST-based detection instead of string matching for robustness
-    let hasLayoutExport = false;
-    visit(tree, "mdxjsEsm", (node) => {
+    let hasLayoutExport = false
+    visit(tree, 'mdxjsEsm', (node) => {
       // Check the estree AST structure for export default declarations
       if (node.data?.estree?.body) {
         for (const statement of node.data.estree.body) {
-          if (statement.type === "ExportDefaultDeclaration") {
-            hasLayoutExport = true;
-            break;
+          if (statement.type === 'ExportDefaultDeclaration') {
+            hasLayoutExport = true
+            break
           }
         }
       }
-    });
+    })
 
     // If the file already has a layout, don't inject
     if (hasLayoutExport) {
-      return;
+      return
     }
 
     // Inject the import statement at the beginning
     tree.children.unshift({
-      type: "mdxjsEsm",
+      type: 'mdxjsEsm',
       value:
         'import { BlogPostWithFrontmatter as BlogPost } from "~/components/blog/blog-post-wrapper";',
       data: {
         estree: {
-          type: "Program",
-          sourceType: "module",
+          type: 'Program',
+          sourceType: 'module',
           body: [
             {
-              type: "ImportDeclaration",
+              type: 'ImportDeclaration',
               specifiers: [
                 {
-                  type: "ImportSpecifier",
+                  type: 'ImportSpecifier',
                   imported: {
-                    type: "Identifier",
-                    name: "BlogPostWithFrontmatter",
+                    type: 'Identifier',
+                    name: 'BlogPostWithFrontmatter',
                   },
-                  local: { type: "Identifier", name: "BlogPost" },
+                  local: { type: 'Identifier', name: 'BlogPost' },
                 },
               ],
               source: {
-                type: "Literal",
-                value: "~/components/blog/blog-post-wrapper",
+                type: 'Literal',
+                value: '~/components/blog/blog-post-wrapper',
               },
             },
           ],
         },
       },
-    });
+    })
 
     // Inject the default export wrapper
     tree.children.push({
-      type: "mdxjsEsm",
+      type: 'mdxjsEsm',
       value: `export default function Layout(props) {
-  return <BlogPost meta={typeof frontmatter === "undefined" ? {} : frontmatter}>{props.children}</BlogPost>;
+  return <BlogPost${slug ? ` slug="${slug}"` : ''} meta={typeof frontmatter === "undefined" ? {} : frontmatter}>{props.children}</BlogPost>;
 }`,
       data: {
         estree: {
-          type: "Program",
-          sourceType: "module",
+          type: 'Program',
+          sourceType: 'module',
           body: [
             {
-              type: "ExportDefaultDeclaration",
+              type: 'ExportDefaultDeclaration',
               declaration: {
-                type: "FunctionDeclaration",
-                id: { type: "Identifier", name: "Layout" },
-                params: [{ type: "Identifier", name: "props" }],
+                type: 'FunctionDeclaration',
+                id: { type: 'Identifier', name: 'Layout' },
+                params: [{ type: 'Identifier', name: 'props' }],
                 body: {
-                  type: "BlockStatement",
+                  type: 'BlockStatement',
                   body: [
                     {
-                      type: "ReturnStatement",
+                      type: 'ReturnStatement',
                       argument: {
-                        type: "JSXElement",
+                        type: 'JSXElement',
                         openingElement: {
-                          type: "JSXOpeningElement",
-                          name: { type: "JSXIdentifier", name: "BlogPost" },
+                          type: 'JSXOpeningElement',
+                          name: { type: 'JSXIdentifier', name: 'BlogPost' },
                           attributes: [
+                            ...(slug
+                              ? [
+                                  {
+                                    type: 'JSXAttribute',
+                                    name: {
+                                      type: 'JSXIdentifier',
+                                      name: 'slug',
+                                    },
+                                    value: {
+                                      type: 'Literal',
+                                      value: slug,
+                                    },
+                                  },
+                                ]
+                              : []),
                             {
-                              type: "JSXAttribute",
-                              name: { type: "JSXIdentifier", name: "meta" },
+                              type: 'JSXAttribute',
+                              name: { type: 'JSXIdentifier', name: 'meta' },
                               value: {
-                                type: "JSXExpressionContainer",
+                                type: 'JSXExpressionContainer',
                                 expression: {
-                                  type: "Identifier",
-                                  name: "frontmatter",
+                                  type: 'Identifier',
+                                  name: 'frontmatter',
                                 },
                               },
                             },
@@ -118,18 +136,18 @@ export function remarkInjectBlogLayout() {
                           selfClosing: false,
                         },
                         closingElement: {
-                          type: "JSXClosingElement",
-                          name: { type: "JSXIdentifier", name: "BlogPost" },
+                          type: 'JSXClosingElement',
+                          name: { type: 'JSXIdentifier', name: 'BlogPost' },
                         },
                         children: [
                           {
-                            type: "JSXExpressionContainer",
+                            type: 'JSXExpressionContainer',
                             expression: {
-                              type: "MemberExpression",
-                              object: { type: "Identifier", name: "props" },
+                              type: 'MemberExpression',
+                              object: { type: 'Identifier', name: 'props' },
                               property: {
-                                type: "Identifier",
-                                name: "children",
+                                type: 'Identifier',
+                                name: 'children',
                               },
                             },
                           },
@@ -143,6 +161,6 @@ export function remarkInjectBlogLayout() {
           ],
         },
       },
-    });
-  };
+    })
+  }
 }

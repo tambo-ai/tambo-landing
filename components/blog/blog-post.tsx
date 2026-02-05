@@ -1,9 +1,11 @@
 import { ChevronRight } from 'lucide-react'
 import { Link } from '~/components/link'
 import { formatDate } from '~/libs/blog/format-date'
+import { generateBlogPostSchema } from '~/libs/schema'
 
 interface BlogPostProps {
   children: React.ReactNode
+  slug?: string
   title?: string
   author?: string
   date?: string
@@ -16,10 +18,9 @@ interface BlogPostProps {
   }
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://tambo.co'
-
 export function BlogPost({
   children,
+  slug,
   title: titleProp,
   author: authorProp,
   date: dateProp,
@@ -32,38 +33,24 @@ export function BlogPost({
   const date = rawDate ? formatDate(rawDate) : undefined
   const description = descriptionProp ?? frontmatter?.description
 
-  // Article schema for SEO
-  const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: title,
-    description: description,
-    author: {
-      '@type': 'Person',
-      name: author,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Tambo',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${BASE_URL}/icon.png`,
-      },
-    },
-    datePublished: rawDate,
-    dateModified: rawDate,
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': typeof window !== 'undefined' ? window.location.href : BASE_URL,
-    },
-  }
+  const articleSchema =
+    title && author && rawDate && slug
+      ? generateBlogPostSchema({
+          title,
+          description,
+          publishedAt: rawDate,
+          authorName: author,
+          slug,
+        })
+      : undefined
 
   return (
     <article className="min-h-dvh dr-layout-grid-inner dr-py-32">
       {/* Article JSON-LD Schema */}
-      {title && (
+      {articleSchema && (
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires injecting a serialized string.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
         />
       )}

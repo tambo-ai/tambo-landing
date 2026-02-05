@@ -10,7 +10,7 @@ import '~/styles/css/index.css'
 
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
-
+import { getRootStructuredData } from '~/libs/seo/structured-data'
 import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
 
@@ -43,9 +43,6 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: '/',
-    languages: {
-      'en-US': '/en-US',
-    },
   },
   appleWebApp: {
     capable: true,
@@ -93,6 +90,13 @@ export const viewport: Viewport = {
   colorScheme: 'normal',
 }
 
+const structuredDataJson = JSON.stringify(
+  getRootStructuredData({
+    baseUrl: APP_BASE_URL,
+    description: APP_DESCRIPTION,
+  })
+)
+
 export default async function Layout({ children }: PropsWithChildren) {
   return (
     <html
@@ -111,100 +115,8 @@ export default async function Layout({ children }: PropsWithChildren) {
         {/* JSON-LD structured data for SEO */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@graph': [
-                {
-                  '@type': 'Organization',
-                  '@id': `${APP_BASE_URL}/#organization`,
-                  name: 'Tambo',
-                  url: APP_BASE_URL,
-                  logo: {
-                    '@type': 'ImageObject',
-                    url: `${APP_BASE_URL}/icon.png`,
-                  },
-                  sameAs: [
-                    'https://github.com/tambo-ai/tambo',
-                    'https://twitter.com/tambo_ai',
-                    'https://discord.gg/wMeVUZXBPg',
-                  ],
-                  description:
-                    'Tambo is the open-source generative UI toolkit for React. Build agents that render your components.',
-                },
-                {
-                  '@type': 'WebSite',
-                  '@id': `${APP_BASE_URL}/#website`,
-                  url: APP_BASE_URL,
-                  name: 'Tambo',
-                  publisher: {
-                    '@id': `${APP_BASE_URL}/#organization`,
-                  },
-                  description: APP_DESCRIPTION,
-                },
-                {
-                  '@type': 'SoftwareApplication',
-                  '@id': `${APP_BASE_URL}/#software`,
-                  name: 'Tambo',
-                  applicationCategory: 'DeveloperApplication',
-                  operatingSystem: 'Any',
-                  offers: {
-                    '@type': 'Offer',
-                    price: '0',
-                    priceCurrency: 'USD',
-                  },
-                  description:
-                    'Open-source generative UI toolkit for React. Build AI agents that render your components.',
-                },
-                {
-                  '@type': 'FAQPage',
-                  '@id': `${APP_BASE_URL}/#faq`,
-                  mainEntity: [
-                    {
-                      '@type': 'Question',
-                      name: 'What is Tambo?',
-                      acceptedAnswer: {
-                        '@type': 'Answer',
-                        text: 'Tambo is an open-source generative UI toolkit for React that lets AI agents render your existing components. Instead of chat-only interfaces, agents can show actual interactive UI—charts, forms, dashboards—with the right props streamed in real-time.',
-                      },
-                    },
-                    {
-                      '@type': 'Question',
-                      name: 'How does Tambo work with React components?',
-                      acceptedAnswer: {
-                        '@type': 'Answer',
-                        text: 'You register your React components with Zod schemas that describe their props. When a user makes a request, the AI agent selects the appropriate component and streams the correct props to render it. Your existing components work without modification.',
-                      },
-                    },
-                    {
-                      '@type': 'Question',
-                      name: 'Does Tambo support MCP (Model Context Protocol)?',
-                      acceptedAnswer: {
-                        '@type': 'Answer',
-                        text: 'Yes, Tambo is MCP-native with full Model Context Protocol support built in. This enables seamless tool orchestration and integration with the broader AI agent ecosystem.',
-                      },
-                    },
-                    {
-                      '@type': 'Question',
-                      name: 'Is Tambo free to use?',
-                      acceptedAnswer: {
-                        '@type': 'Answer',
-                        text: 'Tambo offers a free Starter tier with 10K stored messages per month and unlimited OAuth users. The Growth plan is $25/month with 200K messages included. Enterprise plans with custom pricing are available for larger organizations. Self-hosting is free forever.',
-                      },
-                    },
-                    {
-                      '@type': 'Question',
-                      name: 'How do I get started with Tambo?',
-                      acceptedAnswer: {
-                        '@type': 'Answer',
-                        text: 'Run "npm create tambo-app" to scaffold a new project, or add "@tambo-ai/react" to an existing React application. Documentation is available at docs.tambo.co.',
-                      },
-                    },
-                  ],
-                },
-              ],
-            }),
-          }}
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires injecting a serialized string.
+          dangerouslySetInnerHTML={{ __html: structuredDataJson }}
         />
       </head>
       {/* this helps to track Satus usage thanks to Wappalyzer */}

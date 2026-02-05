@@ -11,9 +11,10 @@ import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { fromTo } from '~/libs/utils'
-import s from './hero.module.css'
 import { siteConfig } from '~/libs/config'
+import { fromTo } from '~/libs/utils'
+import { heroContent } from './data'
+import s from './hero.module.css'
 
 const RiveWrapper = dynamic(
   () => import('~/components/rive').then((mod) => mod.RiveWrapper),
@@ -85,25 +86,26 @@ export function Hero() {
             ref={titleRef}
           >
             <h1 className="dt:typo-h1 typo-h3 dt:text-start ">
-              Build agents
-              <br className="mobile-only" /> that{' '}
-              <br className="desktop-only" /> speak your UI
+              {heroContent.headline.line1}
+              <br className="mobile-only" /> {heroContent.headline.line2Lead}{' '}
+              <br className="desktop-only" /> {heroContent.headline.line2Tail}
             </h1>
             <p className=" typo-p text-black/50 dt:dr-w-322 dr-w-263 dt:text-start">
-              An open-source toolkit for adding agents <br /> to your React app.
-              Connect your existing components—Tambo handles streaming, state
-              management, and MCP.
+              {heroContent.subheadline.line1} <br />{' '}
+              {heroContent.subheadline.line2}
             </p>
             <div className="dr-mt-24">
               <CTA
                 snippet
                 href={siteConfig.links.docs}
-                snippetEyebrow="NPM"
+                snippetEyebrow={heroContent.cta.snippetEyebrow}
                 className="bg-black! text-teal border-teal"
               >
-                get started for free
+                {heroContent.cta.text}
                 <span className="typo-code-snippet">
-                  <span className="text-white">npm create tambo-app</span>
+                  <span className="text-white">
+                    {heroContent.cta.snippetCommand}
+                  </span>
                 </span>
               </CTA>
             </div>

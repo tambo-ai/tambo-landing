@@ -14,78 +14,10 @@ import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { cn } from '~/integrations/tambo/(components)/lib/utils'
-import { fromTo } from '~/libs/utils'
-import s from './features.module.css'
 import { siteConfig } from '~/libs/config'
-
-const BUTTONS = [
-  {
-    title: 'Generative UI Components',
-    href: 'https://docs.tambo.co/concepts/generative-interfaces/generative-components',
-    top: 18,
-    left: 30,
-  },
-  {
-    title: 'Interactable Components',
-    href: 'https://docs.tambo.co/concepts/generative-interfaces/interactable-components',
-    top: 35,
-    right: 15,
-  },
-  {
-    title: 'MCP-Native',
-    href: 'https://docs.tambo.co/concepts/model-context-protocol',
-    top: 20,
-    left: 10,
-  },
-  {
-    title: 'Local Tools',
-    href: 'https://docs.tambo.co/concepts/tools',
-    top: 45,
-    left: 25,
-  },
-  {
-    title: 'Streaming Support',
-    href: 'https://docs.tambo.co/reference/react-sdk/providers',
-    top: 35,
-    right: 90,
-  },
-  {
-    title: 'Message History',
-    href: 'https://docs.tambo.co/concepts/conversation-storage',
-    top: 18,
-    left: 70,
-  },
-  {
-    title: 'State Management',
-    href: 'https://docs.tambo.co/reference/react-sdk/hooks',
-    top: 68,
-    left: 85,
-  },
-  {
-    title: 'Suggested Actions',
-    href: 'https://docs.tambo.co/guides/build-interfaces/build-chat-interface#add-contextual-suggestions-optional',
-    top: 76,
-    right: 33,
-  },
-  {
-    title: 'Tool Orchestration',
-    href: 'https://docs.tambo.co/#why-tambo',
-    top: 85,
-    left: 40,
-  },
-  {
-    title: 'Model Flexibility',
-    href: ' https://docs.tambo.co/models',
-    top: 90,
-    right: 23,
-  },
-  {
-    title: 'Component Library ',
-    href: 'https://ui.tambo.co/',
-    top: 76,
-    left: 18,
-  },
-]
+import { fromTo } from '~/libs/utils'
+import { featureButtons } from './data'
+import s from './features.module.css'
 
 export function Features() {
   const buttonsRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -286,20 +218,27 @@ export function Features() {
                   What Tambo <br /> solves for you
                 </TitleBlock.Title>
               </TitleBlock>
-              <CTA className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only" href={siteConfig.links.docs}>
+              <CTA
+                className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only"
+                href={siteConfig.links.docs}
+              >
                 Start building
               </CTA>
             </div>
           </div>
           <div className="w-full px-safe mobile-only flex flex-col dr-gap-y-8 dr-mt-56">
-            {BUTTONS.map((button, index) => (
+            {featureButtons.map((button, index) => (
               <div className="w-full " key={button.title + index.toString()}>
                 <CTA className="flex! justify-between" href={button.href}>
                   {button.title}
                 </CTA>
               </div>
             ))}
-            <CTA color="black" className="mobile-only w-full dr-mt-24 dr-mb-80" href={siteConfig.links.docs}>
+            <CTA
+              color="black"
+              className="mobile-only w-full dr-mt-24 dr-mb-80"
+              href={siteConfig.links.docs}
+            >
               Start building
             </CTA>
           </div>
@@ -316,7 +255,7 @@ export function Features() {
             className="absolute inset-0 pointer-events-none desktop-only"
             ref={buttonsWrapperRef}
           >
-            {BUTTONS.map((button, index) => (
+            {featureButtons.map((button, index) => (
               <div
                 className="absolute pointer-events-auto"
                 style={{
