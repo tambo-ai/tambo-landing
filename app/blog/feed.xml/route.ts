@@ -5,12 +5,11 @@ export async function GET(request: Request) {
   const origin = new URL(request.url).origin
   const envBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
-  const rawBaseUrl =
-    process.env.NODE_ENV === 'production' ? envBaseUrl : (envBaseUrl ?? origin)
-
-  if (!rawBaseUrl) {
+  if (process.env.NODE_ENV === 'production' && !envBaseUrl) {
     throw new Error('NEXT_PUBLIC_BASE_URL environment variable must be set')
   }
+
+  const rawBaseUrl = envBaseUrl ?? origin
 
   const baseUrl = rawBaseUrl.replace(/\/+$/, '')
 
