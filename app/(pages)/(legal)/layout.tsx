@@ -12,16 +12,16 @@ interface LegalLayoutProps {
 }
 
 export default async function LegalLayout({ children }: LegalLayoutProps) {
-  const [githubStars, discordMembers] = await Promise.all([
-    getGitHubStars(),
-    getDiscordMembers(),
-  ])
-
-  return (
-    <Theme theme="light" global>
-      <ScrollToTop />
-      <div className="min-h-dvh flex flex-col bg-white">
-        <Wrapper githubStars={githubStars} discordMembers={discordMembers} />
+    const [githubStars, discordMembers] = await Promise.all([
+      getGitHubStars().catch(() => null),
+      getDiscordMembers().catch(() => null),
+    ])
+  
+    return (
+      <Theme theme="light" global>
+        <ScrollToTop />
+        <div className="min-h-dvh flex flex-col bg-white">
+          <Wrapper githubStars={githubStars ?? '2.5k'} discordMembers={discordMembers ?? '8.2k'} />
         <main className="flex-1 dr-pt-80">
           <div className="dr-layout-grid-inner dr-py-64">
             <article className={`col-span-full dt:col-start-4 dt:col-end-10 ${s.prose}`}>

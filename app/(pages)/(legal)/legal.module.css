@@ -5,14 +5,15 @@
   color: var(--color-black);
 }
 
-.prose > p:first-child {
+.prose h1 {
   font-weight: 700;
   font-size: 1.5rem;
   text-align: center;
   margin-bottom: 0.5rem;
+  margin-top: 0;
 }
 
-.prose > p:nth-child(2) {
+.prose [data-legal-meta] {
   text-align: center;
   color: var(--color-black);
   margin-bottom: 2rem;
