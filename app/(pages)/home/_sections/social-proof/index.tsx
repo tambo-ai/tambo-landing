@@ -113,7 +113,7 @@ export function SocialCard({
             {social?.position}
           </span>
         </div>
-        {socialIcons[social.icon]}
+        {socialIcons[social.icon] ?? null}
       </div>
     </div>
   )

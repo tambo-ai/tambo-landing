@@ -8,6 +8,8 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
+// NOTE: These data modules must remain pure (no browser-only imports), since this
+// script runs in a Node environment during `bun run build`.
 import { contactPageContent, valueProps } from '../app/(pages)/contact-us/data'
 import { featureButtons } from '../app/(pages)/home/_sections/features-section/data'
 import { heroContent } from '../app/(pages)/home/_sections/hero/data'
@@ -59,7 +61,7 @@ function cleanMdx(content: string): string {
     .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
 
   // Unwrap wrapper components (<Callout>text</Callout> -> text)
-  for (let i = 0; i < 10; i += 1) {
+  for (;;) {
     const next = cleaned.replace(/<([A-Z][\w]*)\b[^>]*>([\s\S]*?)<\/\1>/g, '$2')
     if (next === cleaned) break
     cleaned = next
@@ -105,6 +107,21 @@ ${cleanedBody}`)
   }
 
   return posts
+}
+
+function readBaseLlms(): string {
+  if (!existsSync(BASE_LLMS_PATH)) {
+    const message = `Base llms.txt not found at ${BASE_LLMS_PATH}`
+
+    if (process.env.CI) {
+      throw new Error(message)
+    }
+
+    console.warn(`${message} — falling back to a minimal header.`)
+    return '# Tambo'
+  }
+
+  return readFileSync(BASE_LLMS_PATH, 'utf-8').trim()
 }
 
 function formatHeroSection(): string {
@@ -200,9 +217,7 @@ function formatContactUsSection(): string {
 
 function generateLlmsFull(): string {
   const blogPosts = readBlogPosts()
-  const base = existsSync(BASE_LLMS_PATH)
-    ? readFileSync(BASE_LLMS_PATH, 'utf-8').trim()
-    : '# Tambo'
+  const base = readBaseLlms()
 
   const sections = [
     base,

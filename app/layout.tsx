@@ -90,14 +90,15 @@ export const viewport: Viewport = {
   colorScheme: 'normal',
 }
 
-const structuredDataJson = JSON.stringify(
-  getRootStructuredData({
-    baseUrl: APP_BASE_URL,
-    description: APP_DESCRIPTION,
-  })
-)
-
 export default async function Layout({ children }: PropsWithChildren) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://localhost:3000'
+  const structuredDataJson = JSON.stringify(
+    getRootStructuredData({
+      baseUrl,
+      description: APP_DESCRIPTION,
+    })
+  )
+
   return (
     <html
       lang="en"

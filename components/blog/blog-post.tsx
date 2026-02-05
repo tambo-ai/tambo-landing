@@ -18,6 +18,13 @@ interface BlogPostProps {
   }
 }
 
+function toIsoDate(value: string | undefined): string | undefined {
+  if (!value) return undefined
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return undefined
+  return date.toISOString()
+}
+
 export function BlogPost({
   children,
   slug,
@@ -27,18 +34,22 @@ export function BlogPost({
   description: descriptionProp,
   frontmatter,
 }: BlogPostProps) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
+
   const title = titleProp ?? frontmatter?.title
   const author = authorProp ?? frontmatter?.author
   const rawDate = dateProp ?? frontmatter?.date
   const date = rawDate ? formatDate(rawDate) : undefined
   const description = descriptionProp ?? frontmatter?.description
+  const publishedAt = toIsoDate(rawDate)
 
   const articleSchema =
-    title && author && rawDate && slug
+    title && author && publishedAt && slug
       ? generateBlogPostSchema({
+          baseUrl,
           title,
           description,
-          publishedAt: rawDate,
+          publishedAt,
           authorName: author,
           slug,
         })

@@ -1,5 +1,20 @@
 import { visit } from 'unist-util-visit'
 
+function getBlogSlugFromPath(filePath) {
+  const slugMatch = filePath.match(/\/blog\/posts\/([^/]+)\//)
+  if (!slugMatch) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        '[remarkInjectBlogLayout] Could not derive slug from',
+        filePath
+      )
+    }
+    return undefined
+  }
+
+  return slugMatch[1]
+}
+
 /**
  * A remark plugin that automatically injects blog post layout wrapper
  * into all MDX files under /blog/posts/.
@@ -23,8 +38,7 @@ export function remarkInjectBlogLayout() {
       return
     }
 
-    const slugMatch = filePath.match(/\/blog\/posts\/([^/]+)\//)
-    const slug = slugMatch?.[1]
+    const slug = getBlogSlugFromPath(filePath)
 
     // Check if the file already has a layout export (to avoid double-wrapping)
     // Use AST-based detection instead of string matching for robustness

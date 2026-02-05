@@ -1,6 +1,7 @@
 type JsonLd = Record<string, unknown>
 
 export function generateBlogPostSchema({
+  baseUrl,
   title,
   description,
   publishedAt,
@@ -10,6 +11,7 @@ export function generateBlogPostSchema({
   slug,
   image,
 }: {
+  baseUrl: string
   title: string
   description?: string
   publishedAt: string
@@ -19,7 +21,6 @@ export function generateBlogPostSchema({
   slug: string
   image?: string
 }): JsonLd {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
   const postUrl = `${baseUrl}/blog/posts/${slug}`
 
   return {

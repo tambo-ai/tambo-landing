@@ -6,7 +6,10 @@ export function GET(request: Request) {
   const url = new URL(request.url)
 
   const suffixIndex = url.pathname.lastIndexOf(WELL_KNOWN_LLMS_SUFFIX)
-  if (suffixIndex >= 0) {
+  const isSuffix =
+    suffixIndex === url.pathname.length - WELL_KNOWN_LLMS_SUFFIX.length
+
+  if (isSuffix) {
     url.pathname = `${url.pathname.slice(0, suffixIndex)}/llms.txt`
   } else {
     url.pathname = '/llms.txt'
