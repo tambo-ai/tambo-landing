@@ -9,15 +9,14 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  pull-requests: read
 
 jobs:
   validate-pr-title:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      pull-requests: read
       checks: write
     steps:
       - name: PR Conventional Commit Validation

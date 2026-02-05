@@ -47,6 +47,18 @@ jobs:
 
       - name: Merge main into deploy-prod
         run: |
-          git checkout deploy-prod || git checkout -b deploy-prod
-          git merge --no-ff main -m "chore: deploy release ${{ needs.release-please.outputs.tag_name }} to production"
+          # Fetch all remote branches
+          git fetch origin
+
+          # Checkout deploy-prod, creating from main if it doesn't exist
+          if git show-ref --verify --quiet refs/remotes/origin/deploy-prod; then
+            git checkout -B deploy-prod origin/deploy-prod
+          else
+            git checkout -b deploy-prod origin/main
+          fi
+
+          # Merge main into deploy-prod
+          git merge --no-ff origin/main -m "chore: deploy release ${{ needs.release-please.outputs.tag_name }} to production"
+
+          # Push to remote
           git push origin deploy-prod
