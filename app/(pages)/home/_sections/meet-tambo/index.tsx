@@ -28,7 +28,7 @@ export function MeetTambo() {
             </TitleBlock.Subtitle>
           </TitleBlock>
           <CTA href="https://docs.tambo.co" className="w-fit mx-auto dt:mx-0">
-            get started for free
+            learn more
           </CTA>
         </div>
 
