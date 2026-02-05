@@ -1,12 +1,13 @@
-import { BlogPost } from "./blog-post";
+import { BlogPost } from './blog-post'
 
 interface BlogPostWithFrontmatterProps {
-  children: React.ReactNode;
+  children: React.ReactNode
   meta: {
-    title?: string;
-    author?: string;
-    date?: string;
-  };
+    title?: string
+    author?: string
+    date?: string
+    description?: string
+  }
 }
 
 /**
@@ -36,5 +37,5 @@ export function BlogPostWithFrontmatter({
   children,
   meta,
 }: BlogPostWithFrontmatterProps) {
-  return <BlogPost frontmatter={meta}>{children}</BlogPost>;
+  return <BlogPost frontmatter={meta}>{children}</BlogPost>
 }

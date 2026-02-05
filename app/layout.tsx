@@ -144,6 +144,66 @@ export default async function Layout({ children }: PropsWithChildren) {
                   },
                   description: APP_DESCRIPTION,
                 },
+                {
+                  '@type': 'SoftwareApplication',
+                  '@id': `${APP_BASE_URL}/#software`,
+                  name: 'Tambo',
+                  applicationCategory: 'DeveloperApplication',
+                  operatingSystem: 'Any',
+                  offers: {
+                    '@type': 'Offer',
+                    price: '0',
+                    priceCurrency: 'USD',
+                  },
+                  description:
+                    'Open-source generative UI toolkit for React. Build AI agents that render your components.',
+                },
+                {
+                  '@type': 'FAQPage',
+                  '@id': `${APP_BASE_URL}/#faq`,
+                  mainEntity: [
+                    {
+                      '@type': 'Question',
+                      name: 'What is Tambo?',
+                      acceptedAnswer: {
+                        '@type': 'Answer',
+                        text: 'Tambo is an open-source generative UI toolkit for React that lets AI agents render your existing components. Instead of chat-only interfaces, agents can show actual interactive UI—charts, forms, dashboards—with the right props streamed in real-time.',
+                      },
+                    },
+                    {
+                      '@type': 'Question',
+                      name: 'How does Tambo work with React components?',
+                      acceptedAnswer: {
+                        '@type': 'Answer',
+                        text: 'You register your React components with Zod schemas that describe their props. When a user makes a request, the AI agent selects the appropriate component and streams the correct props to render it. Your existing components work without modification.',
+                      },
+                    },
+                    {
+                      '@type': 'Question',
+                      name: 'Does Tambo support MCP (Model Context Protocol)?',
+                      acceptedAnswer: {
+                        '@type': 'Answer',
+                        text: 'Yes, Tambo is MCP-native with full Model Context Protocol support built in. This enables seamless tool orchestration and integration with the broader AI agent ecosystem.',
+                      },
+                    },
+                    {
+                      '@type': 'Question',
+                      name: 'Is Tambo free to use?',
+                      acceptedAnswer: {
+                        '@type': 'Answer',
+                        text: 'Tambo offers a free Starter tier with 10K stored messages per month and unlimited OAuth users. The Growth plan is $25/month with 200K messages included. Enterprise plans with custom pricing are available for larger organizations. Self-hosting is free forever.',
+                      },
+                    },
+                    {
+                      '@type': 'Question',
+                      name: 'How do I get started with Tambo?',
+                      acceptedAnswer: {
+                        '@type': 'Answer',
+                        text: 'Run "npm create tambo-app" to scaffold a new project, or add "@tambo-ai/react" to an existing React application. Documentation is available at docs.tambo.co.',
+                      },
+                    },
+                  ],
+                },
               ],
             }),
           }}

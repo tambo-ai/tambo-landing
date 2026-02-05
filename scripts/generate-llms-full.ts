@@ -8,7 +8,7 @@
  * Run: npx tsx scripts/generate-llms-full.ts
  */
 
-import { readFileSync, writeFileSync, readdirSync } from 'fs'
+import { readdirSync, readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
 const ROOT = process.cwd()
@@ -19,7 +19,10 @@ const OUTPUT_PATH = join(ROOT, 'public/llms-full.txt')
 // Content extraction helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-function extractFrontmatter(content: string): { meta: Record<string, string>; body: string } {
+function extractFrontmatter(content: string): {
+  meta: Record<string, string>
+  body: string
+} {
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
   if (!match) return { meta: {}, body: content }
 
@@ -27,24 +30,29 @@ function extractFrontmatter(content: string): { meta: Record<string, string>; bo
   match[1].split('\n').forEach((line) => {
     const [key, ...rest] = line.split(':')
     if (key && rest.length) {
-      meta[key.trim()] = rest.join(':').trim().replace(/^["']|["']$/g, '')
+      meta[key.trim()] = rest
+        .join(':')
+        .trim()
+        .replace(/^["']|["']$/g, '')
     }
   })
   return { meta, body: match[2] }
 }
 
 function cleanMdx(content: string): string {
-  return content
-    // Remove import statements
-    .replace(/^import\s+.*$/gm, '')
-    // Remove JSX components but keep text content
-    .replace(/<video[\s\S]*?\/>/gi, '[Video]')
-    .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
-    .replace(/<[A-Z][a-zA-Z]*[^>]*\/>/g, '')
-    .replace(/<[A-Z][a-zA-Z]*[^>]*>[\s\S]*?<\/[A-Z][a-zA-Z]*>/g, '')
-    // Clean up extra whitespace
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
+  return (
+    content
+      // Remove import statements
+      .replace(/^import\s+.*$/gm, '')
+      // Remove JSX components but keep text content
+      .replace(/<video[\s\S]*?\/>/gi, '[Video]')
+      .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
+      .replace(/<[A-Z][a-zA-Z]*[^>]*\/>/g, '')
+      .replace(/<[A-Z][a-zA-Z]*[^>]*>[\s\S]*?<\/[A-Z][a-zA-Z]*>/g, '')
+      // Clean up extra whitespace
+      .replace(/\n{3,}/g, '\n\n')
+      .trim()
+  )
 }
 
 function readBlogPosts(): string[] {
@@ -240,4 +248,6 @@ Tambo is developed by Fractal Dynamics Inc. The toolkit is open-source and free 
 // Run
 const output = generateLlmsFull()
 writeFileSync(OUTPUT_PATH, output)
-console.log(`Generated ${OUTPUT_PATH} (${output.length} chars, ${output.split('\n').length} lines)`)
+console.log(
+  `Generated ${OUTPUT_PATH} (${output.length} chars, ${output.split('\n').length} lines)`
+)

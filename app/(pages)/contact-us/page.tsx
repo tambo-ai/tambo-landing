@@ -1,15 +1,15 @@
 import cn from 'clsx'
 import { Theme } from '~/app/(pages)/_components/theme'
-import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { Wrapper } from '~/app/(pages)/_components/wrapper'
-import { FooterContent } from '~/components/footer-content'
-import { ContactForm } from '~/components/contact-form'
-import { getDiscordMembers } from '~/libs/discord'
-import { getGitHubStars } from '~/libs/github'
-import s from './contact-us.module.css'
-import { ScrollToTop } from '~/libs/scroll-to-top'
+import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { SocialCard } from '~/app/(pages)/home/_sections/social-proof'
 import { socials } from '~/app/(pages)/home/_sections/social-proof/data'
+import { ContactForm } from '~/components/contact-form'
+import { FooterContent } from '~/components/footer-content'
+import { getDiscordMembers } from '~/libs/discord'
+import { getGitHubStars } from '~/libs/github'
+import { ScrollToTop } from '~/libs/scroll-to-top'
+import s from './contact-us.module.css'
 import { contactPageContent, valueProps } from './data'
 
 export default async function ContactUsPage() {
@@ -88,7 +88,7 @@ export default async function ContactUsPage() {
             </div>
           </div>
         </main>
-          <FooterContent />
+        <FooterContent />
       </div>
     </Theme>
   )

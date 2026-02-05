@@ -1,33 +1,72 @@
-import { ChevronRight } from "lucide-react";
-import { Link } from "~/components/link";
-import { formatDate } from "~/libs/blog/format-date";
+import { ChevronRight } from 'lucide-react'
+import { Link } from '~/components/link'
+import { formatDate } from '~/libs/blog/format-date'
 
 interface BlogPostProps {
-  children: React.ReactNode;
-  title?: string;
-  author?: string;
-  date?: string;
+  children: React.ReactNode
+  title?: string
+  author?: string
+  date?: string
+  description?: string
   frontmatter?: {
-    title?: string;
-    author?: string;
-    date?: string;
-  };
+    title?: string
+    author?: string
+    date?: string
+    description?: string
+  }
 }
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://tambo.co'
 
 export function BlogPost({
   children,
   title: titleProp,
   author: authorProp,
   date: dateProp,
+  description: descriptionProp,
   frontmatter,
 }: BlogPostProps) {
-  const title = titleProp ?? frontmatter?.title;
-  const author = authorProp ?? frontmatter?.author;
-  const rawDate = dateProp ?? frontmatter?.date;
-  const date = rawDate ? formatDate(rawDate) : undefined;
+  const title = titleProp ?? frontmatter?.title
+  const author = authorProp ?? frontmatter?.author
+  const rawDate = dateProp ?? frontmatter?.date
+  const date = rawDate ? formatDate(rawDate) : undefined
+  const description = descriptionProp ?? frontmatter?.description
+
+  // Article schema for SEO
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description,
+    author: {
+      '@type': 'Person',
+      name: author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Tambo',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${BASE_URL}/icon.png`,
+      },
+    },
+    datePublished: rawDate,
+    dateModified: rawDate,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': typeof window !== 'undefined' ? window.location.href : BASE_URL,
+    },
+  }
 
   return (
     <article className="min-h-dvh dr-layout-grid-inner dr-py-32">
+      {/* Article JSON-LD Schema */}
+      {title && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        />
+      )}
       <div className="col-span-full dt:col-start-4 dt:col-end-10">
         {/* Back Navigation */}
         <nav className="dr-mb-40">
@@ -55,9 +94,7 @@ export function BlogPost({
                 <span className="font-medium text-black">By {author}</span>
               )}
               {author && date && <span className="text-black">•</span>}
-              {date && (
-                <span className="text-black font-medium">{date}</span>
-              )}
+              {date && <span className="text-black font-medium">{date}</span>}
             </div>
           </div>
         )}
@@ -66,5 +103,5 @@ export function BlogPost({
         <div className="blog-prose">{children}</div>
       </div>
     </article>
-  );
+  )
 }
