@@ -3,7 +3,15 @@ import { getPostListItems } from '~/libs/get-posts'
 
 export async function GET(request: Request) {
   const origin = new URL(request.url).origin
-  const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? origin
+  const envBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
+
+  const rawBaseUrl =
+    process.env.NODE_ENV === 'production' ? envBaseUrl : (envBaseUrl ?? origin)
+
+  if (!rawBaseUrl) {
+    throw new Error('NEXT_PUBLIC_BASE_URL environment variable must be set')
+  }
+
   const baseUrl = rawBaseUrl.replace(/\/+$/, '')
 
   const feed = new Feed({
