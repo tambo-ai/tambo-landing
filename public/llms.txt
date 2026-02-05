@@ -2,22 +2,22 @@
 
 > Build agents that speak your UI
 
-Tambo is an open-source toolkit for adding AI agents to React applications. It's the missing layer between React and LLMs.
+Tambo is the open-source generative UI toolkit for React. Built for product engineers adding AI features to existing apps.
 
 ## What Tambo Does
 
-Tambo connects your existing React components to AI agents. The agent renders your UI with the right props—no separate chat interface needed.
+Tambo lets any React app add AI features that show real UI—not just chat responses. When a user asks "show me sales by region," the agent renders an actual interactive chart, not a text summary. Register your components, and the agent picks the right one and streams the props.
+
+It's a drop-in fullstack solution: a React SDK plus a backend that handles conversation state and agent execution. No separate agent framework required.
 
 ### Core Features
 
-- **Generative UI**: AI agents render your React components with correct props
-- **Streaming Support**: Real-time streaming built-in
-- **State Management**: Handles complex state across agent interactions
-- **MCP-Native**: Full Model Context Protocol support
-- **Message History**: Persistent conversation threads
-- **Tool Orchestration**: Coordinate multiple tools seamlessly
-- **Model Flexibility**: Works with various LLM providers
-- **Agent-Native Auth**: Agents inherit user permissions
+- **Your Components**: Register them once with Zod schemas. The agent renders your UI with the right props.
+- **Agent Included**: No LangChain or Mastra required. Drop Tambo in and ship features, not infrastructure.
+- **Streaming & Error Handling**: Real-time streaming, cancellation, error states, reconnection—already solved.
+- **Agent-Native Auth**: The agent inherits your user's permissions. No separate auth layer to build.
+- **MCP Support**: Full Model Context Protocol support built in.
+- **Conversation Memory**: Persistent message threads across interactions.
 
 ## Quick Start
 
