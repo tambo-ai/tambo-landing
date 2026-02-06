@@ -114,7 +114,7 @@ export default async function Layout({ children }: PropsWithChildren) {
       {/* this helps to track Satus usage thanks to Wappalyzer */}
       <Script async>{`window.satusVersion = '${AppData.version}';`}</Script>
       {/* Cloudflare Turnstile for contact form spam protection */}
-      {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+      {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
           strategy="lazyOnload"

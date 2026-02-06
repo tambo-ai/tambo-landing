@@ -2,6 +2,7 @@ import * as z from 'zod'
 import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { checkRateLimit } from '~/libs/rate-limit'
+import { SOURCE_OPTIONS } from '~/libs/contact-form-options'
 import {
   isDisposableEmail,
   isSpammyContent,
@@ -9,18 +10,6 @@ import {
   isValidSubmissionTime,
   verifyTurnstileToken,
 } from '~/libs/spam-protection'
-
-const SOURCE_OPTIONS = [
-  'Word of mouth',
-  'GitHub',
-  'X',
-  'LinkedIn',
-  'Reddit',
-  'Slack/Discord',
-  'Meetup/Conference',
-  'ChatGPT/Claude',
-  'Newsletter',
-] as const
 
 const contactFormSchema = z.object({
   name: z.string().trim().min(1).max(200),
@@ -40,10 +29,13 @@ const ALLOWED_HOSTS = [
   process.env.NEXT_PUBLIC_BASE_URL
     ? new URL(process.env.NEXT_PUBLIC_BASE_URL).host
     : 'localhost:3000',
-]
+  // Vercel preview deployments use dynamic URLs
+  process.env.VERCEL_URL ? process.env.VERCEL_URL : '',
+].filter(Boolean)
 
 // Silent fake success — prevents bots from learning what triggers rejection
-function silentReject() {
+function silentReject(reason: string) {
+  console.warn(`Contact form: silently rejected (${reason})`)
   return NextResponse.json({ success: true })
 }
 
@@ -63,8 +55,7 @@ export async function POST(request: Request) {
     // --- Origin check ---
     const origin = headersList.get('origin')
     if (!isValidOrigin(origin, ALLOWED_HOSTS)) {
-      console.warn('Contact form: rejected origin', origin)
-      return silentReject()
+      return silentReject(`invalid origin: ${origin}`)
     }
 
     // --- Rate limiting (skip if IP cannot be determined) ---
@@ -101,7 +92,7 @@ export async function POST(request: Request) {
 
     // --- Honeypot check ---
     if (data._hp) {
-      return silentReject()
+      return silentReject('honeypot filled')
     }
 
     // --- Time-based detection ---
@@ -114,34 +105,25 @@ export async function POST(request: Request) {
             { status: 400 }
           )
         }
-        return silentReject()
+        return silentReject('submitted too fast')
       }
     }
 
     // --- Disposable email check ---
     if (isDisposableEmail(data.company_email)) {
-      return silentReject()
+      return silentReject('disposable email')
     }
 
     // --- Spam content check ---
     if (isSpammyContent(data.use_case)) {
-      return silentReject()
+      return silentReject('spammy content')
     }
 
-    // --- Turnstile verification ---
-    // Only strictly enforce token requirement when the request also looks suspicious.
-    // This prevents blocking legit users whose browser blocks the Turnstile script.
+    // --- Turnstile verification (when token provided) ---
     if (data._cf) {
       const turnstileValid = await verifyTurnstileToken(data._cf, ip ?? undefined)
       if (!turnstileValid) {
-        return silentReject()
-      }
-    } else if (process.env.TURNSTILE_SECRET_KEY) {
-      const suspicious =
-        isDisposableEmail(data.company_email) ||
-        isSpammyContent(data.use_case)
-      if (suspicious) {
-        return silentReject()
+        return silentReject('turnstile verification failed')
       }
     }
 

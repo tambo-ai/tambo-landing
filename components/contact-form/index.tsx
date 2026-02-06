@@ -4,6 +4,7 @@ import cn from 'clsx'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Dropdown } from '~/components/dropdown'
+import { SOURCE_OPTIONS } from '~/libs/contact-form-options'
 import s from './contact-form.module.css'
 
 type FormData = {
@@ -14,18 +15,6 @@ type FormData = {
 }
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error'
-
-const SOURCE_OPTIONS = [
-  'Word of mouth',
-  'GitHub',
-  'X',
-  'LinkedIn',
-  'Reddit',
-  'Slack/Discord',
-  'Meetup/Conference',
-  'ChatGPT/Claude',
-  'Newsletter',
-]
 
 declare global {
   interface Window {
@@ -68,7 +57,7 @@ export function ContactForm() {
   }, [])
 
   useEffect(() => {
-    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+    const siteKey = process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY
     if (!(siteKey && turnstileRef.current)) return
 
     const renderWidget = () => {
@@ -334,10 +323,10 @@ export function ContactForm() {
           </label>
           <Dropdown
             placeholder="Select an option"
-            options={SOURCE_OPTIONS}
+            options={[...SOURCE_OPTIONS]}
             defaultValue={
               formData.source
-                ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source))
+                ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source as typeof SOURCE_OPTIONS[number]))
                 : undefined
             }
             onChange={(index) => {
@@ -358,7 +347,7 @@ export function ContactForm() {
         </div>
 
         {/* Cloudflare Turnstile widget */}
-        {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+        {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
           <div ref={turnstileRef} className="dr-mb-24 dt:dr-mb-32" />
         )}
 

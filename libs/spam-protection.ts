@@ -92,7 +92,7 @@ export async function verifyTurnstileToken(
   token: string,
   remoteip?: string
 ): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY
+  const secret = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY
   if (!secret) return true // Skip verification if not configured
 
   const form = new URLSearchParams({ secret, response: token })
