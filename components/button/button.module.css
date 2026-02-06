@@ -126,12 +126,6 @@
       }
     }
   }
-
-  /* TODO: Not sure about this event */
-
-  /* &.isSnippet {
-    pointer-events: none;
-  } */
 }
 
 .snippet {
@@ -171,6 +165,7 @@
         opacity: 1;
         pointer-events: auto;
         clip-path: inset(0 0 0 0 round desktop-vw(16px));
+        border-color: var(--color-teal);
 
         &:hover {
           clip-path: inset(
@@ -191,6 +186,7 @@
         color: var(--color-teal);
         border-color: var(--color-teal);
         box-shadow: var(--glow);
+        gap: desktop-vw(24px);
 
         .arrow {
           &::before {
@@ -206,7 +202,6 @@
       /* Controls the button box */
       &:has(.snippet:hover) .isSnippet {
         box-shadow: none;
-
         .arrow {
           &::before,
           &::after {

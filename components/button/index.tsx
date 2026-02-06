@@ -4,6 +4,7 @@ import cn from 'clsx'
 import React from 'react'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import ArrowSVG from '~/assets/svgs/arrow.svg'
+import CheckSVG from '~/assets/svgs/check.svg'
 import ClipboardSVG from '~/assets/svgs/clipboard.svg'
 import DiscordSVG from '~/assets/svgs/discord.svg'
 import GithubSVG from '~/assets/svgs/github.svg'
@@ -95,11 +96,14 @@ export function CTA({
     snippet && childrenArray.length > 1 ? childrenArray.slice(1) : null
 
   const contentRef = React.useRef<HTMLSpanElement>(null)
+  const [copied, setCopied] = React.useState(false)
 
   const handleCopy = () => {
     if (!contentRef.current) return
     const text = contentRef.current.innerText
     navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -148,8 +152,19 @@ export function CTA({
         >
           <span className="flex items-center justify-between ">
             <span className="typo-label-s text-teal">{snippetEyebrow}</span>
-            <span className="flex items-center justify-center dt:dr-w-32 dt:dr-h-32 dr-rounded-10 bg-white/10">
-              <ClipboardSVG className="dt:dr-w-16 dt:dr-h-16" />
+            <span className="relative flex items-center justify-center dt:dr-w-32 dt:dr-h-32 dr-rounded-10 bg-white/10 transition-colors duration-300 hover:bg-white/20">
+              <ClipboardSVG
+                className={cn(
+                  'dt:dr-w-16 dt:dr-h-16 transition-opacity duration-300',
+                  copied ? 'opacity-0' : 'opacity-100'
+                )}
+              />
+              <CheckSVG
+                className={cn(
+                  'dt:dr-w-16 dt:dr-h-16 absolute transition-opacity duration-300 text-teal',
+                  copied ? 'opacity-100' : 'opacity-0'
+                )}
+              />
             </span>
           </span>
 
