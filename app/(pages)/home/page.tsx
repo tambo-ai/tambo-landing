@@ -10,6 +10,7 @@ import { MeetTambo } from './_sections/meet-tambo'
 import { TamboSteps } from './_sections/tambo-steps'
 
 // Below-fold: dynamic imports to reduce initial JS and TBT
+
 const SocialProof = dynamic(() =>
   import('./_sections/social-proof').then((mod) => mod.SocialProof)
 )
