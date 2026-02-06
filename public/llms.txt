@@ -6,12 +6,12 @@ Tambo is the open-source generative UI toolkit for React. Built for product engi
 
 ## Summary
 
+- Canonical discovery entrypoint for all LLM tools (start here, always): https://tambo.co/llms.txt
+- Optional deep-dive API and architecture docs for tools that need more detail: https://docs.tambo.co/llms.txt
+- Optional full-site content (including blog posts and product pages) for richer semantic grounding: https://tambo.co/llms-full.txt
 - Product: open-source generative UI toolkit for React
 - Primary use: agents render real UI components with validated props
 - SDK: @tambo-ai/react
-- This file: https://tambo.co/llms.txt
-- Full site context: https://tambo.co/llms-full.txt
-- API docs + implementation details: https://docs.tambo.co/llms.txt
 
 ## What Tambo Does
 
@@ -78,7 +78,9 @@ Tambo is developed by Fractal Dynamics Inc. The toolkit is open-source and free 
 
 Website: https://tambo.co
 
-## Deep Dive
+## API Docs and Full Context
 
-- Learn more about Tambo (API docs + implementation details): https://docs.tambo.co/llms.txt
-- Full tambo.co content for LLM tools (including blog posts): https://tambo.co/llms-full.txt
+For API details and full-site semantic context, start from the canonical entrypoint above, which links to:
+
+- API and implementation docs: https://docs.tambo.co/llms.txt
+- Full-site semantic context (including blog posts and product pages): https://tambo.co/llms-full.txt
