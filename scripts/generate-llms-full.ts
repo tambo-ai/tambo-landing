@@ -58,6 +58,18 @@ type BlogFrontmatter = {
   slug?: string
 }
 
+function parseIsoDate(value: string | undefined): number | undefined {
+  if (!value) return undefined
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return undefined
+  }
+
+  const timestamp = Date.parse(value)
+  if (Number.isNaN(timestamp)) return undefined
+  return timestamp
+}
+
 function getString(
   data: Record<string, unknown> | undefined,
   key: string
@@ -144,6 +156,7 @@ function readBlogPosts(): string[] {
     title: string
     description?: string
     date?: string
+    dateTimestamp?: number
     author?: string
     body: string
   }[] = []
@@ -163,11 +176,20 @@ function readBlogPosts(): string[] {
       }
 
       const slug = meta.slug || dir
+
+      const dateTimestamp = parseIsoDate(meta.date)
+      if (meta.date && dateTimestamp == null) {
+        console.warn(
+          `[llms-full] Non-ISO or unparseable blog date for ${slug}: ${meta.date}`
+        )
+      }
+
       posts.push({
         slug,
         title: meta.title || slug,
         description: meta.description,
         date: meta.date,
+        dateTimestamp,
         author: meta.author,
         body: cleanMdx(parsed.content),
       })
@@ -189,15 +211,13 @@ function readBlogPosts(): string[] {
   }
 
   posts.sort((a, b) => {
-    const aDate = a.date ? Date.parse(a.date) : Number.NaN
-    const bDate = b.date ? Date.parse(b.date) : Number.NaN
+    const aDate = a.dateTimestamp
+    const bDate = b.dateTimestamp
 
-    if (!(Number.isNaN(aDate) || Number.isNaN(bDate)) && aDate !== bDate) {
-      return bDate - aDate
-    }
+    if (aDate != null && bDate != null && aDate !== bDate) return bDate - aDate
 
-    if (!Number.isNaN(aDate) && Number.isNaN(bDate)) return -1
-    if (Number.isNaN(aDate) && !Number.isNaN(bDate)) return 1
+    if (aDate != null && bDate == null) return -1
+    if (aDate == null && bDate != null) return 1
 
     return a.slug.localeCompare(b.slug)
   })
@@ -298,15 +318,19 @@ function formatShowcaseSection(): string {
 }
 
 function formatTestimonialsSection(): string {
-  const uniqueByText = new Map<string, (typeof socials)[number]>()
+  const uniqueByKey = new Map<string, (typeof socials)[number]>()
 
   for (const quote of socials) {
-    if (!uniqueByText.has(quote.text)) {
-      uniqueByText.set(quote.text, quote)
+    const key = [quote.text, quote.author, quote.position]
+      .map((value) => value.trim())
+      .join('::')
+
+    if (!uniqueByKey.has(key)) {
+      uniqueByKey.set(key, quote)
     }
   }
 
-  const quotes = Array.from(uniqueByText.values()).slice(0, 5)
+  const quotes = Array.from(uniqueByKey.values()).slice(0, 5)
   if (quotes.length === 0) return ''
 
   return [

@@ -12,6 +12,7 @@ function redirect(url: URL) {
 export function GET(request: Request) {
   const url = new URL(request.url)
 
+  // Canonicalize all `.well-known` llms requests to the root-level llms.txt.
   url.pathname = '/llms.txt'
   url.search = ''
   url.hash = ''
