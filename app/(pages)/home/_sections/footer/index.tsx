@@ -10,11 +10,11 @@ import { FooterContent } from '~/components/footer-content'
 import { Image } from '~/components/image'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
+import { siteConfig } from '~/libs/config'
 import { fromTo, mapRange } from '~/libs/utils'
 import Background, {
   type BackgroundRefType,
 } from '../../_components/background'
-import { siteConfig } from '~/libs/config'
 
 export function Footer() {
   const [setRectRef, rect] = useRect({ ignoreTransform: true })
@@ -168,12 +168,12 @@ export function Footer() {
                 <TitleBlock.Subtitle className="typo-p! dt:typo-p-l!">
                   Your first agent is only minutes away.
                 </TitleBlock.Subtitle>
-                <div className="flex dr-gap-8 dt:dr-mt-40 dr-mt-32 dt:flex-row flex-col">
+                <div className="flex dr-gap-8 dt:dr-mt-40 dr-mt-32 dt:flex-row flex-col items-center">
                   <CTA
                     className="bg-black! text-teal border-teal"
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
-                    href={siteConfig.links.docs}
+                    href={siteConfig.links.dashboard}
                   >
                     START BUILDING
                   </CTA>
@@ -181,7 +181,7 @@ export function Footer() {
                   <CTA
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
-                    className="w-full"
+                    className="w-fit"
                     href="/contact-us"
                   >
                     contact us

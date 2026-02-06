@@ -48,9 +48,9 @@ export function Pricing() {
 
   return (
     <section
-      className="dt:dr-pt-65 dr-pt-0 dr-pb-120 dt:dr-pb-200 bg-white"
+      className="dt:dr-pt-65 dr-pt-0 dr-pb-120 dt:dr-pb-200 bg-white scroll-mt-220"
       ref={setRectRef}
-      id='pricing'
+      id="pricing"
     >
       <div className="mx-auto dr-layout-grid-inner relative content-max-width">
         <TitleBlock className="dt:col-start-4 dt:col-end-10 dr-mb-56 col-span-full">

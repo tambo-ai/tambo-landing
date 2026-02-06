@@ -102,7 +102,7 @@ pre::-webkit-scrollbar-thumb:hover {
 }
 
 /* Firefox scrollbar */
-pre {
+.blog-prose pre {
   scrollbar-width: thin;
   scrollbar-color: #444d56 transparent;
 }
