@@ -101,10 +101,7 @@ function cleanMdx(content: string): string {
       if (segment.isCode) return segment.content
 
       let next = segment.content
-        .replace(
-          /^\s*import\s+(?:type\s+)?[^\n]*\bfrom\b[^\n]*$/gm,
-          ''
-        )
+        .replace(/^\s*import\s+(?:type\s+)?[^\n]*\bfrom\b[^\n]*$/gm, '')
         .replace(/^\s*import\s+['"][^'"]+['"];?\s*$/gm, '')
         .replace(
           /^\s*export\s+(?:\{[^}]*\}|default|const|let|var|function|class|type|interface)\b[^\n]*$/gm,
@@ -128,7 +125,10 @@ function cleanMdx(content: string): string {
     })
     .join('\n')
 
-  return cleaned.replace(/\n{3,}/g, '\n\n').replace(/^\s+$/gm, '').trim()
+  return cleaned
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/^\s+$/gm, '')
+    .trim()
 }
 
 function readBlogPosts(): string[] {
