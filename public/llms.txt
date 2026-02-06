@@ -43,7 +43,7 @@ npm install @tambo-ai/react
 
 - **Starter**: Free forever (self-hosted)
 - **Growth**: $25/month (managed infrastructure)
-- **Enterprise**: Custom pricing
+- **Enterprise**: Custom pricing (on-prem, SSO, SOC 2, HIPAA)
 
 ## Built With Tambo
 
