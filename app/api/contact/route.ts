@@ -34,15 +34,26 @@ const contactFormSchema = z.object({
   _cf: z.string().optional(), // Turnstile token
 })
 
-const ALLOWED_ORIGINS = [
-  'https://tambo.co',
-  'https://www.tambo.co',
-  process.env.NEXT_PUBLIC_BASE_URL,
-].filter(Boolean) as string[]
+const ALLOWED_HOSTS = [
+  'tambo.co',
+  'www.tambo.co',
+  process.env.NEXT_PUBLIC_BASE_URL
+    ? new URL(process.env.NEXT_PUBLIC_BASE_URL).host
+    : 'localhost:3000',
+]
 
 // Silent fake success — prevents bots from learning what triggers rejection
 function silentReject() {
   return NextResponse.json({ success: true })
+}
+
+function getClientIp(headersList: Headers): string | null {
+  const forwardedFor = headersList.get('x-forwarded-for')
+  return (
+    forwardedFor?.split(',')[0]?.trim() ||
+    headersList.get('x-real-ip')?.trim() ||
+    null
+  )
 }
 
 export async function POST(request: Request) {
@@ -51,19 +62,28 @@ export async function POST(request: Request) {
 
     // --- Origin check ---
     const origin = headersList.get('origin')
-    if (!isValidOrigin(origin, ALLOWED_ORIGINS)) {
+    if (!isValidOrigin(origin, ALLOWED_HOSTS)) {
+      console.warn('Contact form: rejected origin', origin)
       return silentReject()
     }
 
-    // --- Rate limiting ---
-    const ip =
-      headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
-    const { limited } = checkRateLimit(ip)
-    if (limited) {
-      return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
-      )
+    // --- Rate limiting (skip if IP cannot be determined) ---
+    const ip = getClientIp(headersList)
+    if (ip) {
+      const { limited, retryAfter } = checkRateLimit(ip)
+      if (limited) {
+        const retryAfterSeconds = retryAfter
+          ? Math.max(1, Math.ceil(retryAfter / 1000))
+          : 3600
+
+        return NextResponse.json(
+          { error: 'Too many requests. Please try again later.' },
+          {
+            status: 429,
+            headers: { 'Retry-After': String(retryAfterSeconds) },
+          }
+        )
+      }
     }
 
     // --- Parse and validate with Zod ---
@@ -109,14 +129,20 @@ export async function POST(request: Request) {
     }
 
     // --- Turnstile verification ---
+    // Only strictly enforce token requirement when the request also looks suspicious.
+    // This prevents blocking legit users whose browser blocks the Turnstile script.
     if (data._cf) {
-      const turnstileValid = await verifyTurnstileToken(data._cf)
+      const turnstileValid = await verifyTurnstileToken(data._cf, ip ?? undefined)
       if (!turnstileValid) {
         return silentReject()
       }
     } else if (process.env.TURNSTILE_SECRET_KEY) {
-      // Turnstile is configured but no token was provided — likely a bot
-      return silentReject()
+      const suspicious =
+        isDisposableEmail(data.company_email) ||
+        isSpammyContent(data.use_case)
+      if (suspicious) {
+        return silentReject()
+      }
     }
 
     // --- Forward to Clay webhook ---

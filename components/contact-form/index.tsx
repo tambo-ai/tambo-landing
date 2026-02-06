@@ -71,24 +71,28 @@ export function ContactForm() {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
     if (!(siteKey && turnstileRef.current)) return
 
-    // Wait for script to load
-    const interval = setInterval(() => {
-      if (window.turnstile && turnstileRef.current) {
-        clearInterval(interval)
-        turnstileWidgetId.current = window.turnstile.render(
-          turnstileRef.current,
-          {
-            sitekey: siteKey,
-            callback: handleTurnstileVerify,
-            theme: 'light',
-            size: 'flexible',
-          }
-        )
-      }
-    }, 100)
+    const renderWidget = () => {
+      if (!(window.turnstile && turnstileRef.current)) return
+      turnstileWidgetId.current = window.turnstile.render(
+        turnstileRef.current,
+        {
+          sitekey: siteKey,
+          callback: handleTurnstileVerify,
+          theme: 'light',
+          size: 'flexible',
+        }
+      )
+    }
+
+    // If script already loaded, render immediately; otherwise wait for event
+    if (window.turnstile) {
+      renderWidget()
+    } else {
+      window.addEventListener('turnstile:loaded', renderWidget)
+    }
 
     return () => {
-      clearInterval(interval)
+      window.removeEventListener('turnstile:loaded', renderWidget)
       if (turnstileWidgetId.current && window.turnstile) {
         window.turnstile.remove(turnstileWidgetId.current)
       }

@@ -118,6 +118,9 @@ export default async function Layout({ children }: PropsWithChildren) {
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
           strategy="lazyOnload"
+          onLoad={() =>
+            window.dispatchEvent(new Event('turnstile:loaded'))
+          }
         />
       )}
       <body>

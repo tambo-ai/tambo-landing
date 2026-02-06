@@ -57,10 +57,15 @@ export function isSpammyContent(text: string): boolean {
 
 export function isValidOrigin(
   origin: string | null,
-  allowedOrigins: string[]
+  allowedHosts: string[]
 ): boolean {
   if (!origin) return false
-  return allowedOrigins.includes(origin)
+  try {
+    const { host } = new URL(origin)
+    return allowedHosts.includes(host)
+  } catch {
+    return false
+  }
 }
 
 const MIN_SUBMISSION_TIME_MS = 3_000 // 3 seconds
@@ -83,17 +88,23 @@ export function isValidSubmissionTime(loadedAt: number): {
   return { valid: true }
 }
 
-export async function verifyTurnstileToken(token: string): Promise<boolean> {
+export async function verifyTurnstileToken(
+  token: string,
+  remoteip?: string
+): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY
   if (!secret) return true // Skip verification if not configured
+
+  const form = new URLSearchParams({ secret, response: token })
+  if (remoteip) form.set('remoteip', remoteip)
 
   try {
     const response = await fetch(
       'https://challenges.cloudflare.com/turnstile/v0/siteverify',
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ secret, response: token }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: form,
       }
     )
     const data = await response.json()
