@@ -65,7 +65,7 @@ const MAX_COMPONENT_UNWRAP_PASSES = 10
 function parseIsoDateOnly(value: string | undefined): number | undefined {
   if (!value) return undefined
 
-  const match = /^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:T.*)?$/.exec(value)
+  const match = /^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})(?:T.*)?$/.exec(value)
   if (!match) return undefined
 
   const [, yearStr, monthStr, dayStr] = match
@@ -201,6 +201,12 @@ function readBlogPosts(): string[] {
         console.warn(
           `[llms-full] Blog date must start with YYYY-MM-DD for ${slug}: ${meta.date}`
         )
+
+        if (process.env.CI) {
+          throw new Error(
+            `[llms-full] Invalid blog date format for ${slug}: ${meta.date}`
+          )
+        }
       }
 
       posts.push({
@@ -343,13 +349,17 @@ function formatTestimonialsSection(): string {
   const uniqueByKey = new Map<string, (typeof socials)[number]>()
 
   for (const quote of socials) {
+    const text = String(quote.text ?? '').trim()
+    const author = String(quote.author ?? '').trim()
+    if (!(text && author)) continue
+
     const key = JSON.stringify({
-      text: String(quote.text).trim(),
-      author: String(quote.author).trim(),
+      text,
+      author,
     })
 
     if (!uniqueByKey.has(key)) {
-      uniqueByKey.set(key, quote)
+      uniqueByKey.set(key, { ...quote, text, author })
     }
   }
 
@@ -413,8 +423,13 @@ function generateLlmsFull(): string {
 // Run
 const rawOutput = generateLlmsFull()
 const output = `${rawOutput.trimEnd()}\n`
-mkdirSync(dirname(OUTPUT_PATH), { recursive: true })
-writeFileSync(OUTPUT_PATH, output, { encoding: 'utf8' })
+try {
+  mkdirSync(dirname(OUTPUT_PATH), { recursive: true })
+  writeFileSync(OUTPUT_PATH, output, { encoding: 'utf8' })
+} catch (err) {
+  console.error(`[llms-full] Failed to write ${OUTPUT_PATH}:`, err)
+  throw err
+}
 console.log(
   `Generated ${OUTPUT_PATH} (${output.length} chars, ${output.split('\n').length} lines)`
 )
