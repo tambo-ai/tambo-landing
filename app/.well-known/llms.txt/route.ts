@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 export function GET(request: Request) {
-  const url = new URL(request.url)
-  url.pathname = '/llms.txt'
-  return NextResponse.redirect(url, 308)
+  const target = new URL('/llms.txt', request.url)
+  target.search = ''
+  return NextResponse.redirect(target, 308)
 }
