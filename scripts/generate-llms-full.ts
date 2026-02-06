@@ -58,7 +58,7 @@ type BlogFrontmatter = {
   slug?: string
 }
 
-function parseIsoDate(value: string | undefined): number | undefined {
+function parseIsoDateOnly(value: string | undefined): number | undefined {
   if (!value) return undefined
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
@@ -122,7 +122,7 @@ function cleanMdx(content: string): string {
         .replace(/<video[\s\S]*?\/>/gi, '[Video]')
         .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
 
-      for (;;) {
+      for (let i = 0; i < 10; i += 1) {
         const unwrapped = next.replace(
           /<([A-Z][\w]*)\b[^>]*>([\s\S]*?)<\/\1>/g,
           '$2'
@@ -177,10 +177,10 @@ function readBlogPosts(): string[] {
 
       const slug = meta.slug || dir
 
-      const dateTimestamp = parseIsoDate(meta.date)
+      const dateTimestamp = parseIsoDateOnly(meta.date)
       if (meta.date && dateTimestamp == null) {
         console.warn(
-          `[llms-full] Non-ISO or unparseable blog date for ${slug}: ${meta.date}`
+          `[llms-full] Blog date must be YYYY-MM-DD for ${slug}: ${meta.date}`
         )
       }
 
@@ -322,7 +322,7 @@ function formatTestimonialsSection(): string {
 
   for (const quote of socials) {
     const key = [quote.text, quote.author, quote.position]
-      .map((value) => value.trim())
+      .map((value) => String(value).trim())
       .join('::')
 
     if (!uniqueByKey.has(key)) {
