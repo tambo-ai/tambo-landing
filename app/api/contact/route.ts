@@ -1,41 +1,125 @@
+import * as z from 'zod'
 import { NextResponse } from 'next/server'
+import { headers } from 'next/headers'
+import { checkRateLimit } from '~/libs/rate-limit'
+import {
+  isDisposableEmail,
+  isSpammyContent,
+  isValidOrigin,
+  isValidSubmissionTime,
+  verifyTurnstileToken,
+} from '~/libs/spam-protection'
 
-type ContactFormData = {
-  name: string
-  company_email: string
-  use_case: string
-  source: string
-  submitted_at: string
-}
+const SOURCE_OPTIONS = [
+  'Word of mouth',
+  'GitHub',
+  'X',
+  'LinkedIn',
+  'Reddit',
+  'Slack/Discord',
+  'Meetup/Conference',
+  'ChatGPT/Claude',
+  'Newsletter',
+] as const
 
-function validateFormData(data: unknown): data is ContactFormData {
-  if (typeof data !== 'object' || data === null) return false
+const contactFormSchema = z.object({
+  name: z.string().trim().min(1).max(200),
+  company_email: z.email().max(320),
+  use_case: z.string().trim().min(10).max(5000),
+  source: z.enum(SOURCE_OPTIONS),
+  submitted_at: z.iso.datetime(),
+  // Spam protection fields
+  _hp: z.string().optional(), // honeypot
+  _t: z.number().optional(), // form load timestamp
+  _cf: z.string().optional(), // Turnstile token
+})
 
-  const fields = data as Record<string, unknown>
-  return (
-    typeof fields.name === 'string' &&
-    typeof fields.company_email === 'string' &&
-    typeof fields.use_case === 'string' &&
-    typeof fields.source === 'string' &&
-    typeof fields.submitted_at === 'string' &&
-    fields.name.trim().length > 0 &&
-    fields.company_email.trim().length > 0 &&
-    fields.use_case.trim().length > 0 &&
-    fields.source.trim().length > 0
-  )
+const ALLOWED_ORIGINS = [
+  'https://tambo.co',
+  'https://www.tambo.co',
+  process.env.NEXT_PUBLIC_BASE_URL,
+].filter(Boolean) as string[]
+
+// Silent fake success — prevents bots from learning what triggers rejection
+function silentReject() {
+  return NextResponse.json({ success: true })
 }
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const headersList = await headers()
 
-    if (!validateFormData(body)) {
+    // --- Origin check ---
+    const origin = headersList.get('origin')
+    if (!isValidOrigin(origin, ALLOWED_ORIGINS)) {
+      return silentReject()
+    }
+
+    // --- Rate limiting ---
+    const ip =
+      headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    const { limited } = checkRateLimit(ip)
+    if (limited) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+
+    // --- Parse and validate with Zod ---
+    const body = await request.json()
+    const result = contactFormSchema.safeParse(body)
+
+    if (!result.success) {
       return NextResponse.json(
         { error: 'Invalid form data' },
         { status: 400 }
       )
     }
 
+    const data = result.data
+
+    // --- Honeypot check ---
+    if (data._hp) {
+      return silentReject()
+    }
+
+    // --- Time-based detection ---
+    if (data._t) {
+      const timeCheck = isValidSubmissionTime(data._t)
+      if (!timeCheck.valid) {
+        if (timeCheck.reason === 'session_expired') {
+          return NextResponse.json(
+            { error: 'Form session expired. Please refresh the page.' },
+            { status: 400 }
+          )
+        }
+        return silentReject()
+      }
+    }
+
+    // --- Disposable email check ---
+    if (isDisposableEmail(data.company_email)) {
+      return silentReject()
+    }
+
+    // --- Spam content check ---
+    if (isSpammyContent(data.use_case)) {
+      return silentReject()
+    }
+
+    // --- Turnstile verification ---
+    if (data._cf) {
+      const turnstileValid = await verifyTurnstileToken(data._cf)
+      if (!turnstileValid) {
+        return silentReject()
+      }
+    } else if (process.env.TURNSTILE_SECRET_KEY) {
+      // Turnstile is configured but no token was provided — likely a bot
+      return silentReject()
+    }
+
+    // --- Forward to Clay webhook ---
     const webhookUrl = process.env.CLAY_WEBHOOK_URL
     if (!webhookUrl) {
       return NextResponse.json(
@@ -44,12 +128,18 @@ export async function POST(request: Request) {
       )
     }
 
+    const webhookPayload = {
+      name: data.name,
+      company_email: data.company_email,
+      use_case: data.use_case,
+      source: data.source,
+      submitted_at: data.submitted_at,
+    }
+
     const response = await fetch(webhookUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(webhookPayload),
     })
 
     if (!response.ok) {
@@ -59,14 +149,12 @@ export async function POST(request: Request) {
       )
     }
 
-    // Handle potential non-JSON responses
     const contentType = response.headers.get('content-type')
     if (contentType?.includes('application/json')) {
-      const data = await response.json()
-      return NextResponse.json(data)
+      const responseData = await response.json()
+      return NextResponse.json(responseData)
     }
 
-    // Return success for non-JSON responses
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('API route error:', error)
