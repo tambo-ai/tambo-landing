@@ -173,7 +173,7 @@ export function Footer() {
                     className="bg-black! text-teal border-teal"
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
-                    href={siteConfig.links.docs}
+                    href={siteConfig.links.dashboard}
                   >
                     START BUILDING
                   </CTA>

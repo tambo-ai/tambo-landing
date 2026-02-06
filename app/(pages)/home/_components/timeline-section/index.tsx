@@ -206,7 +206,7 @@ export function TimelineSection({
               href={href}
               wrapperClassName="dt:w-[80%] relative z-20"
             >
-              START BUILDING
+              Read the Docs
               <span className="typo-code-snippet dr-pt-12 block">
                 <span className="text-pink">{'<TamboProvider'} </span>
                 <span className="text-teal">

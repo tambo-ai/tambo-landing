@@ -20,70 +20,64 @@ import s from './features.module.css'
 
 const BUTTONS = [
   {
-    title: 'Generative UI Components',
+    title: 'Generative Components',
     href: 'https://docs.tambo.co/concepts/generative-interfaces/generative-components',
-    top: 18,
-    left: 30,
+    top: 13,
+    left: 38,
   },
   {
     title: 'Interactable Components',
     href: 'https://docs.tambo.co/concepts/generative-interfaces/interactable-components',
-    top: 35,
-    right: 15,
+    top: 19,
+    right: 34,
   },
   {
-    title: 'MCP-Native',
+    title: 'Component State',
+    href: 'https://docs.tambo.co/concepts/generative-interfaces/component-state',
+    top: 31,
+    left: 21,
+  },
+  {
+    title: 'MCP Support',
     href: 'https://docs.tambo.co/concepts/model-context-protocol',
-    top: 20,
-    left: 10,
+    top: 33,
+    right: 25,
   },
   {
-    title: 'Local Tools',
+    title: 'Tools',
     href: 'https://docs.tambo.co/concepts/tools',
-    top: 45,
-    left: 25,
+    top: 52,
+    left: 13,
   },
   {
-    title: 'Streaming Support',
-    href: 'https://docs.tambo.co/reference/react-sdk/providers',
-    top: 35,
-    right: 90,
-  },
-  {
-    title: 'Message History',
+    title: 'Conversation Storage',
     href: 'https://docs.tambo.co/concepts/conversation-storage',
-    top: 18,
-    left: 70,
+    top: 57,
+    right: 16,
   },
   {
-    title: 'State Management',
-    href: 'https://docs.tambo.co/reference/react-sdk/hooks',
-    top: 68,
-    left: 85,
+    title: 'User Authentication',
+    href: 'https://docs.tambo.co/concepts/user-authentication',
+    top: 66,
+    left: 24,
   },
   {
-    title: 'Suggested Actions',
-    href: 'https://docs.tambo.co/guides/build-interfaces/build-chat-interface#add-contextual-suggestions-optional',
-    top: 76,
-    right: 33,
+    title: 'Agent Configuration',
+    href: 'https://docs.tambo.co/concepts/agent-configuration',
+    top: 77,
+    right: 28,
   },
   {
-    title: 'Tool Orchestration',
-    href: 'https://docs.tambo.co/#why-tambo',
-    top: 85,
+    title: 'Multi-Model Support',
+    href: 'https://docs.tambo.co/models',
+    top: 84,
     left: 40,
   },
   {
-    title: 'Model Flexibility',
-    href: ' https://docs.tambo.co/models',
-    top: 90,
-    right: 23,
-  },
-  {
-    title: 'Component Library ',
+    title: 'Component Library',
     href: 'https://ui.tambo.co/',
-    top: 76,
-    left: 18,
+    top: 92,
+    right: 42,
   },
 ]
 
@@ -282,13 +276,13 @@ export function Features() {
 
               <TitleBlock className="dt:dr-mb-40">
                 <TitleBlock.LeadIn>FEATURES</TitleBlock.LeadIn>
-                <TitleBlock.Title level="h2" className=" typo-h1!">
+                <TitleBlock.Title level="h2" className="dt:typo-h2! typo-h1!">
                   What Tambo <br /> solves for you
                 </TitleBlock.Title>
               </TitleBlock>
               <CTA
                 className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only"
-                href={siteConfig.links.docs}
+                href={siteConfig.links.dashboard}
               >
                 Start building
               </CTA>
@@ -305,7 +299,7 @@ export function Features() {
             <CTA
               color="black"
               className="mobile-only w-full dr-mt-24 dr-mb-80"
-              href={siteConfig.links.docs}
+              href={siteConfig.links.dashboard}
             >
               Start building
             </CTA>

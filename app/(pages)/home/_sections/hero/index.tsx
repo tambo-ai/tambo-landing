@@ -97,7 +97,7 @@ export function Hero() {
             <div className="dr-mt-24">
               <CTA
                 snippet
-                href={siteConfig.links.docs}
+                href={siteConfig.links.dashboard}
                 snippetEyebrow="NPM"
                 className="bg-black! text-teal border-teal"
               >

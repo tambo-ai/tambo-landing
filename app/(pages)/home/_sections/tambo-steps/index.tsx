@@ -22,7 +22,7 @@ export function TamboSteps() {
       ref={setSnapRef}
       id="moment-1"
       messages={messages}
-      href={siteConfig.links.generativeUiComponents}
+      href={siteConfig.links.dashboard}
       title="Generative UI, powered by your components."
     >
       {/* Only render the appropriate Rive animation for the device */}

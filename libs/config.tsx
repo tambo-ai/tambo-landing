@@ -44,7 +44,8 @@ export const siteConfig = {
     githubOrg: 'https://github.com/tambo-ai',
     docs: process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.tambo.co',
     dashboard:
-      process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://console.tambo.co',
+      process.env.NEXT_PUBLIC_DASHBOARD_URL ||
+      'https://console.tambo.co/dashboard',
     componentLibrary: 'https://ui.tambo.co',
     generativeUiComponents:
       'https://docs.tambo.co/concepts/generative-interfaces/generative-components',
