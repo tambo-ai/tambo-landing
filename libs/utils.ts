@@ -315,8 +315,10 @@ export function cva<V extends VariantConfig>(
   }
 }
 
-export type VariantProps<T extends (...args: any[]) => any> = T extends (
+type AnyFunction = (...args: unknown[]) => unknown
+
+export type VariantProps<T extends AnyFunction> = T extends (
   props: infer P
-) => any
+) => unknown
   ? P
   : never

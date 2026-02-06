@@ -74,23 +74,23 @@ export function SeatMap({ ref, selected }: SeatMapProps) {
 
     seat.style.backgroundColor = gsap.utils.interpolate(
       colors['ghost-mint'],
-      colors['black'],
+      colors.black,
       progress
     )
     seat.style.borderColor = gsap.utils.interpolate(
       colors['dark-grey'],
-      colors['mint'],
+      colors.mint,
       progress
     )
     seat.style.outlineWidth = `${mapRange(0, 1, progress, 0, 2)}px`
     label.style.backgroundColor = gsap.utils.interpolate(
-      colors['white'],
-      colors['mint'],
+      colors.white,
+      colors.mint,
       progress
     )
     label.style.borderColor = gsap.utils.interpolate(
       colors['dark-grey'],
-      colors['mint'],
+      colors.mint,
       progress
     )
   }, [])
