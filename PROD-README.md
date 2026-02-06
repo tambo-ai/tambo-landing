@@ -21,12 +21,9 @@ bun dev
 Required in `.env.local`:
 
 ```env
-# Demo app
+# Tambo
 NEXT_PUBLIC_TAMBO_API_KEY="your-tambo-api-key"
-NEXT_PUBLIC_MAPBOX_TOKEN="your-mapbox-token"
 NEXT_PUBLIC_DASHBOARD_URL="https://console.tambo.co"
-MAPBOX_TOKEN="your-mapbox-token or API specific tokens"
-[mapbox token docs](https://docs.mapbox.com/accounts/guides/tokens/)
 
 # Base URL
 NEXT_PUBLIC_BASE_URL="https://your-domain.com"

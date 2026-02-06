@@ -108,8 +108,6 @@ export default async function Layout({ children }: PropsWithChildren) {
         {/* Preconnect to external origins for faster resource loading */}
         <link rel="preconnect" href="https://us.i.posthog.com" />
         <link rel="preconnect" href="https://us-assets.i.posthog.com" />
-        <link rel="dns-prefetch" href="https://api.mapbox.com" />
-        <link rel="dns-prefetch" href="https://api.open-meteo.com" />
       </head>
       {/* this helps to track Satus usage thanks to Wappalyzer */}
       <Script async>{`window.satusVersion = '${AppData.version}';`}</Script>

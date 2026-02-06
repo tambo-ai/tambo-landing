@@ -13,7 +13,7 @@ import { Video } from '~/components/video'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
-import { cn } from '~/integrations/tambo/(components)/lib/utils'
+import cn from 'clsx'
 import { siteConfig } from '~/libs/config'
 import { fromTo } from '~/libs/utils'
 import s from './features.module.css'
@@ -282,7 +282,7 @@ export function Features() {
 
               <TitleBlock className="dt:dr-mb-40">
                 <TitleBlock.LeadIn>FEATURES</TitleBlock.LeadIn>
-                <TitleBlock.Title level="h2" className="typo-h1!">
+                <TitleBlock.Title level="h2" className=" typo-h1!">
                   What Tambo <br /> solves for you
                 </TitleBlock.Title>
               </TitleBlock>
