@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "~/libs/utils";
 import type { MDXComponents } from "mdx/types";
 import Image from "next/image";
 import { BlogPost } from "./components/blog/blog-post";
