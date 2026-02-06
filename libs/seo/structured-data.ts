@@ -7,8 +7,10 @@ export function getRootStructuredData({
 }: {
   baseUrl: string
   description: string
-  sameAs: string[]
+  sameAs: readonly string[]
 }): JsonLd {
+  const filteredSameAs = sameAs.filter(Boolean)
+
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -21,7 +23,7 @@ export function getRootStructuredData({
           '@type': 'ImageObject',
           url: `${baseUrl}/icon.png`,
         },
-        sameAs,
+        sameAs: filteredSameAs,
         description,
       },
       {

@@ -133,7 +133,10 @@ ${cleanedBody}`)
         continue
       }
 
-      console.warn(`[llms-full] Failed to read ${mdxPath}`)
+      console.warn(`[llms-full] Failed to read ${mdxPath}:`, err)
+      if (process.env.CI) {
+        throw err
+      }
     }
   }
 
@@ -223,7 +226,7 @@ function formatTestimonialsSection(): string {
   const quote = socials[0]
 
   if (!quote) {
-    return '## Testimonials\n\n(No testimonials configured)'
+    return ''
   }
 
   return [

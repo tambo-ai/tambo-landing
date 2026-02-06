@@ -11,6 +11,7 @@ import '~/styles/css/index.css'
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
 import { siteConfig } from '~/libs/config'
+import { getBaseUrl } from '~/libs/seo/base-url'
 import { getRootStructuredData } from '~/libs/seo/structured-data'
 import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
@@ -19,18 +20,6 @@ const APP_NAME = AppData.name
 const APP_DEFAULT_TITLE = 'Tambo'
 const APP_TITLE_TEMPLATE = '%s'
 const APP_DESCRIPTION = AppData.description
-
-function getBaseUrl(): string {
-  const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
-  if (!rawBaseUrl && process.env.NODE_ENV === 'production') {
-    throw new Error(
-      'NEXT_PUBLIC_BASE_URL environment variable must be set in production'
-    )
-  }
-
-  return (rawBaseUrl || 'https://tambo.co').replace(/\/+$/, '')
-}
-
 const APP_BASE_URL = getBaseUrl()
 
 export const metadata: Metadata = {
@@ -107,7 +96,7 @@ export default async function Layout({ children }: PropsWithChildren) {
     siteConfig.links.github,
     siteConfig.links.twitter,
     siteConfig.links.discord,
-  ]
+  ].filter(Boolean)
 
   const structuredDataJson = JSON.stringify(
     getRootStructuredData({
