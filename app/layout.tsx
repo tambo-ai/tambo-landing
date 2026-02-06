@@ -29,6 +29,20 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
+  keywords: [
+    'AI-Powered React Components',
+    'Generative UI Components',
+    'React AI Integration',
+    'Contextual UI Generation',
+    'Dynamic Interface Adaptation',
+    'Conversational UI Framework',
+    'Context-Aware Interfaces',
+    'Natural Language UI',
+    'AI UX Development',
+    'Client Side MCP Integration',
+    'Server Side MCP Integration',
+    'React AI Agent Framework',
+  ],
   alternates: {
     canonical: '/',
     languages: {
@@ -94,8 +108,6 @@ export default async function Layout({ children }: PropsWithChildren) {
         {/* Preconnect to external origins for faster resource loading */}
         <link rel="preconnect" href="https://us.i.posthog.com" />
         <link rel="preconnect" href="https://us-assets.i.posthog.com" />
-        <link rel="dns-prefetch" href="https://api.mapbox.com" />
-        <link rel="dns-prefetch" href="https://api.open-meteo.com" />
       </head>
       {/* this helps to track Satus usage thanks to Wappalyzer */}
       <Script async>{`window.satusVersion = '${AppData.version}';`}</Script>

@@ -55,13 +55,8 @@ app/
 
 ## API Routes
 
-**`/api/mapbox/`**
-- Mapbox API routes for geocoding and search
-- Requires Mapbox API key
-
-**`/api/weather /`**
-- Weather API route for getting weather forecast
-
+**`/api/contact/`**
+- Contact form submission endpoint
 
 ## Page Components Pattern
 

@@ -5,7 +5,7 @@ export const pricingCards = [
     description: 'Perfect for getting started.',
     button: {
       text: 'SIGNUP',
-      href: 'https://tambo.co/login?returnUrl=%2Fdashboard',
+      href: process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://console.tambo.co',
     },
     features: [
       '10K stored messages / mo',
@@ -21,7 +21,7 @@ export const pricingCards = [
     description: 'For growing teams and projects',
     button: {
       text: 'SIGNUP',
-      href: 'https://tambo.co/login?returnUrl=%2Fdashboard',
+      href: process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://console.tambo.co',
     },
     features: [
       '200K messages / mo included',
@@ -37,7 +37,7 @@ export const pricingCards = [
     description: 'For large organisations',
     button: {
       text: 'contact us',
-      href: 'https://cal.com/michaelmagan/chat?duration=30',
+      href: '/contact-us',
     },
     features: [
       'negotiated message volume',

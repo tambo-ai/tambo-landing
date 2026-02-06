@@ -1,7 +1,7 @@
 'use client'
 
 import cn from 'clsx'
-import { useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import CloseIcon from '~/assets/svgs/close.svg'
 import DiscordIcon from '~/assets/svgs/discord.svg'
@@ -11,16 +11,19 @@ import XIcon from '~/assets/svgs/X.svg'
 import { Button, CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Link } from '~/components/link'
+import { siteConfig } from '~/libs/config'
 import { useStore } from '~/libs/store'
 import s from './navigation.module.css'
 
 const LEFT_LINKS = [
   { href: '/docs', label: 'Docs', external: true },
-  { href: '/mcp', label: 'MCP' },
-  { href: '/pricing', label: 'sanity' },
+  { href: 'blog', label: 'Blog' },
 ] as const
 
-const RIGHT_LINKS = [{ href: '/blog', label: 'Blog', external: true }] as const
+const RIGHT_LINKS = [
+  { href: '/#pricing', label: 'Pricing' },
+  { href: '/contact-us', label: 'Contact Us' },
+] as const
 
 interface NavigationProps {
   githubStars?: string
@@ -40,6 +43,34 @@ export function Navigation({
   const githubRef = useRef<HTMLAnchorElement>(null)
   const discordRef = useRef<HTMLAnchorElement>(null)
 
+  const handleMobileLinkClick = useCallback(
+    (href: string) => {
+      setIsMobileNavOpened(false)
+
+      // Handle anchor links
+      const hashIndex = href.indexOf('#')
+      if (hashIndex !== -1) {
+        const hash = href.slice(hashIndex + 1)
+        // Small delay to let the menu close animation start
+        setTimeout(() => {
+          const element = document.getElementById(hash)
+          if (element) {
+            const mobileNavOffset = 80
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition =
+              elementPosition + window.scrollY - mobileNavOffset
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth',
+            })
+          }
+        }, 100)
+      }
+    },
+    [setIsMobileNavOpened]
+  )
+
   return (
     <nav
       className={cn(
@@ -49,7 +80,7 @@ export function Navigation({
       )}
     >
       <Link
-        href="https://discord.com/invite/dJNvPEHth6"
+        href={siteConfig.links.discord}
         className={cn(
           s.linkWrapper,
           'desktop-only dr-size-48 dr-w-99 dr-pl-8 flex items-center dr-gap-x-8 rounded-full border border-dark-grey bg-white/50 backdrop-blur-[30px]'
@@ -84,14 +115,16 @@ export function Navigation({
           </ul>
           <div className="dt:absolute dt:left-1/2 dt:-translate-x-1/2 dt:grid dt:place-items-center">
             <div className="dr-h-24 relative">
-              <Image
-                block
-                src="/images/tambo.png"
-                alt="Tambo Logo"
-                className="min-h-full"
-                desktopSize="25vw"
-                preload
-              />
+              <Link href="/">
+                <Image
+                  block
+                  src="/images/tambo.png"
+                  alt="Tambo Logo"
+                  className="min-h-full"
+                  desktopSize="25vw"
+                  preload
+                />
+              </Link>
             </div>
           </div>
           <ul
@@ -107,7 +140,7 @@ export function Navigation({
             ))}
             <li>
               <Link
-                href={process.env.NEXT_PUBLIC_LOGIN_URL}
+                href={siteConfig.links.dashboard}
                 className={cn(
                   'dr-px-16 dr-h-32 rounded-full bg-mint grid place-items-center',
                   s.loginButton
@@ -128,14 +161,16 @@ export function Navigation({
         >
           <div className="absolute dr-h-48 dr-pl-24 dr-pr-20  flex justify-between items-center w-full ">
             <div className="dr-h-24 relative">
-              <Image
-                block
-                src="/images/tambo.png"
-                alt="Tambo Logo"
-                className="min-h-full"
-                mobileSize="25vw"
-                preload
-              />
+              <Link href="/" onClick={() => setIsMobileNavOpened(false)}>
+                <Image
+                  block
+                  src="/images/tambo.png"
+                  alt="Tambo Logo"
+                  className="min-h-full"
+                  mobileSize="25vw"
+                  preload
+                />
+              </Link>
             </div>
             <Button
               onClick={() => {
@@ -160,7 +195,12 @@ export function Navigation({
           >
             <div className="flex flex-col dr-gap-y-16 dr-mb-40">
               {[...LEFT_LINKS, ...RIGHT_LINKS].map((link) => (
-                <Link key={link.href} href={link.href} className="link">
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn('link')}
+                  onClick={() => handleMobileLinkClick(link.href)}
+                >
                   {link.label}
                   {'external' in link && ' ↗'}
                 </Link>
@@ -168,11 +208,12 @@ export function Navigation({
             </div>
             <div className="flex dr-gap-x-12 dr-mb-40">
               <Link
-                href="https://github.com/tambo-ai"
+                href={siteConfig.links.github}
                 className={cn(
                   'rounded-full border border-dark-grey flex items-center dr-gap-x-4 dr-pl-4 dr-h-32 dr-w-79',
                   s.loginButton
                 )}
+                onClick={() => setIsMobileNavOpened(false)}
               >
                 <div className="dr-size-24 bg-mint grid place-items-center rounded-full">
                   <GithubIcon className="dr-w-16 icon" />
@@ -180,11 +221,12 @@ export function Navigation({
                 <span>{githubStars}</span>
               </Link>
               <Link
-                href="https://discord.com/invite/dJNvPEHth6"
+                href={siteConfig.links.discord}
                 className={cn(
                   'rounded-full border border-dark-grey flex items-center dr-gap-x-4 dr-pl-4 dr-h-32 dr-w-79',
                   s.loginButton
                 )}
+                onClick={() => setIsMobileNavOpened(false)}
               >
                 <div className="dr-size-24 bg-mint grid place-items-center rounded-full">
                   <DiscordIcon className="dr-w-16 icon" />
@@ -192,11 +234,12 @@ export function Navigation({
                 <span>{discordMembers}</span>
               </Link>
               <Link
-                href="https://x.com/tambo_ai"
+                href={siteConfig.links.twitter}
                 className={cn(
                   'rounded-full border border-dark-grey flex items-center dr-gap-x-4 dr-pl-4 dr-h-32 dr-w-79',
                   s.loginButton
                 )}
+                onClick={() => setIsMobileNavOpened(false)}
               >
                 <div className="dr-size-24 bg-mint grid place-items-center rounded-full">
                   <XIcon className="dr-w-16 icon" />
@@ -205,14 +248,18 @@ export function Navigation({
               </Link>
             </div>
 
-            <CTA className={s.ctaMobile} href="https://ui.tambo.co/">
+            <CTA
+              className={s.ctaMobile}
+              href={siteConfig.links.dashboard}
+              onClick={() => setIsMobileNavOpened(false)}
+            >
               Sign In
             </CTA>
           </div>
         </div>
       </section>
       <Link
-        href="https://github.com/tambo-ai"
+        href={siteConfig.links.github}
         className={cn(
           s.linkWrapper,
           'desktop-only col-start-12 dr-size-48 dr-w-99 dr-pr-8 flex justify-end items-center dr-gap-x-8 rounded-full border border-dark-grey bg-white/50 backdrop-blur-[30px] justify-self-end'
