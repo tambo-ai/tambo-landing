@@ -11,8 +11,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getPostListItems()
   const blogPosts = posts
     .filter((post) => {
-      const date = new Date(post.date)
-      return !Number.isNaN(date.getTime())
+      const date = new Date(post.date);
+      return !Number.isNaN(date.getTime());
     })
     .map((post) => ({
       url: `${baseUrl}/blog/posts/${post.slug}`,

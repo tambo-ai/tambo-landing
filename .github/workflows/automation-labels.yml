@@ -1,0 +1,309 @@
+name: Automation / Labels
+
+# SECURITY NOTE: This workflow uses pull_request_target to gain write permissions
+# for labeling PRs from forks. This is safe because:
+# 1. We do NOT checkout fork code (no ref: parameter pointing to fork)
+# 2. We use GitHub API for file detection
+# 3. We only read PR metadata (title, author, file paths) - never execute PR code
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited, labeled, unlabeled]
+
+  issues:
+    types: [opened]
+
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/labels.yml"
+      - ".github/workflows/automation-labels.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.issue.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  meta:
+    name: "Meta"
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    outputs:
+      author: ${{ steps.author.outputs.author }}
+      status: ${{ steps.status.outputs.status }}
+      change_type: ${{ steps.change_type.outputs.change_type }}
+      labels_changed: ${{ steps.files_changed.outputs.labels_changed }}
+
+    steps:
+      # NOTE: No checkout step - this is intentional for security with pull_request_target.
+
+      - name: Determine Author
+        id: author
+        env:
+          AUTHOR_LOGIN: "${{ github.event.sender.login }}"
+          AUTHOR_TYPE: "${{ github.event.sender.type }}"
+          TAMBO_TEAM_MEMBERS: |- # json
+            [
+              "alecf",
+              "akhileshrangani4",
+              "lachieh",
+              "MichaelMilstead",
+              "michaelmagan"
+            ]
+          KNOWN_AI_ACTORS: |- # json
+            [
+              "charliecreates[bot]",
+              "CharlieHelps"
+            ]
+        run: | # shell
+          AUTHOR="external"
+
+          if jq -e ". | index(\"${AUTHOR_LOGIN}\")" <<< "${TAMBO_TEAM_MEMBERS}" > /dev/null; then
+            AUTHOR="tambo-team"
+          elif jq -e ". | index(\"${AUTHOR_LOGIN}\")" <<< "${KNOWN_AI_ACTORS}" > /dev/null; then
+            AUTHOR="ai"
+          elif [[ "$AUTHOR_TYPE" == "Bot" || "${AUTHOR_LOGIN}" == *"[bot]"* ]]; then
+            AUTHOR="bot"
+          fi
+
+          echo "author=${AUTHOR}" >> "${GITHUB_OUTPUT}"
+
+      - name: Check Status
+        id: status
+        if: github.event_name == 'pull_request_target' || github.event_name == 'issues'
+        env:
+          EXISTING_LABELS: ${{ toJson(github.event.issue.labels || github.event.pull_request.labels || '[]') }}
+          AUTHOR: ${{ steps.author.outputs.author }}
+        run: | # shell
+          ISSUE_STATUS="in progress"
+
+          if [[ "${AUTHOR}" != "tambo-team" ]]; then
+            ISSUE_STATUS="triage"
+          fi
+
+          # Only apply one status label
+          if jq -e '.[] | select(.name | startswith("status: "))' <<< "${EXISTING_LABELS}" > /dev/null; then
+            ALL_STATUS_LABELS="$(jq -r '.[] | select(.name | startswith("status: ")) | .name' <<< "${EXISTING_LABELS}")"
+            FIRST_STATUS_LABEL=$(echo "${ALL_STATUS_LABELS}" | head -n 1)
+            ISSUE_STATUS="$(echo "${FIRST_STATUS_LABEL}" | sed 's/status: //')"
+          fi
+
+          echo "status=${ISSUE_STATUS}" >> "${GITHUB_OUTPUT}"
+
+      - name: Determine Change Type
+        id: change_type
+        if: github.event_name == 'pull_request_target'
+        env:
+          PR_TITLE: "${{ github.event.pull_request.title }}"
+        run: | # shell
+          # Extract conventional commit type from PR title
+          CHANGE_TYPE=""
+          if [[ "${PR_TITLE}" =~ ^(feat|fix|chore|docs|refactor|test|ci|perf|build|style|revert|deps)(\(.+\))?!?:.*$ ]]; then
+            CHANGE_TYPE="${BASH_REMATCH[1]}"
+          fi
+          echo "change_type=${CHANGE_TYPE}" >> "${GITHUB_OUTPUT}"
+
+      - name: Check Labels Changed
+        id: files_changed
+        if: github.event_name == 'pull_request_target' || github.event_name == 'push'
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        with:
+          script: | # javascript
+            const changedPaths = new Set();
+
+            if (context.eventName === 'push') {
+              if (context.payload.before && context.payload.after) {
+                const { data: compareData } = await github.rest.repos.compareCommits({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  base: context.payload.before,
+                  head: context.payload.after
+                });
+
+                for (const file of compareData.files || []) {
+                  changedPaths.add(file.filename);
+                }
+              }
+            } else if (context.eventName === 'pull_request_target') {
+              const files = await github.paginate(github.rest.pulls.listFiles, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                per_page: 100
+              });
+
+              for (const file of files) {
+                changedPaths.add(file.filename);
+              }
+            }
+
+            const labelsChanged = Array.from(changedPaths).some(path =>
+              path === '.github/labels.yml' || path === '.github/workflows/automation-labels.yml'
+            );
+
+            core.setOutput('labels_changed', labelsChanged.toString());
+
+  repo-labels:
+    name: "Repository Labels"
+    runs-on: ubuntu-latest
+    needs: [meta]
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request_target' }}
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Update Labels
+        uses: crazy-max/ghaction-github-labeler@24d110aa46a59976b8a7f35518cb7f14f434c916 # v5.3.0
+        if: ${{ needs.meta.outputs.labels_changed == 'true' }}
+        with:
+          dry-run: ${{ github.event_name == 'pull_request_target' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-delete: true
+          yaml-file: .github/labels.yml
+
+      - name: Comment on PR about label updates
+        if: github.event_name == 'pull_request_target' && needs.meta.outputs.labels_changed == 'true'
+        uses: marocchino/sticky-pull-request-comment@773744901bac0e8cbb5a0dc842800d45e9b2b405 # v2.9.4
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          header: "## :label: Repository Labels Updated"
+          message: |
+            This PR will update the repository labels in `.github/labels.yml`.
+
+      - name: Delete Comment on PR if no label updates
+        if: github.event_name == 'pull_request_target' && needs.meta.outputs.labels_changed != 'true'
+        uses: marocchino/sticky-pull-request-comment@773744901bac0e8cbb5a0dc842800d45e9b2b405 # v2.9.4
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          header: "## :label: Repository Labels Updated"
+          delete: true
+
+  do-not-merge:
+    name: "Do Not Merge"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target'
+    permissions:
+      contents: read
+    steps:
+      - name: Check
+        env:
+          DO_NOT_MERGE: "${{contains(github.event.pull_request.labels.*.name, 'status: do not merge')}}"
+        run: | # shell
+          if [[ "${DO_NOT_MERGE}" == "true" ]]; then
+            echo "##[error]Cannot merge when 'status: do not merge' label is present. Remove the label to proceed."
+            exit 1
+          else
+            echo "No 'status: do not merge' label found. Passing check."
+          fi
+
+  sync-labels:
+    name: "Sync Labels"
+    needs: [meta, repo-labels]
+    runs-on: ubuntu-latest
+    if: (github.event_name == 'pull_request_target' || github.event_name == 'issues') && (github.event.action != 'labeled' && github.event.action != 'unlabeled')
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Determine Labels
+        id: determine_labels
+        env:
+          EXISTING_LABELS: "${{ toJson(github.event.issue.labels || github.event.pull_request.labels || '[]') }}"
+          DATA_STATUS: "${{ needs.meta.outputs.status }}"
+          DATA_AUTHOR: "${{ needs.meta.outputs.author }}"
+          DATA_CHANGE: "${{ needs.meta.outputs.change_type }}"
+        run: | # shell
+          LABEL_CHANGES="{}"
+
+          remove_label() {
+            local LABEL_TO_REMOVE="$1"
+            LABEL_CHANGES=$(jq --arg key "$LABEL_TO_REMOVE" '. + {($key): false}' <<< "${LABEL_CHANGES}")
+          }
+
+          add_label() {
+            local LABEL_TO_ADD="$1"
+            LABEL_CHANGES=$(jq --arg key "$LABEL_TO_ADD" '. + {($key): true}' <<< "${LABEL_CHANGES}")
+          }
+
+          remove_all_by_prefix() {
+            local PREFIX="$1"
+            while IFS= read -r LABEL; do
+              if [[ "$LABEL" == ${PREFIX}* ]]; then
+                remove_label "$LABEL"
+              fi
+            done < <(jq -r '.[] | .name' <<< "${EXISTING_LABELS}")
+          }
+
+          # Status
+          remove_all_by_prefix "status: "
+          if [[ -n "${DATA_STATUS}" ]]; then
+            LABEL_KEY="status: ${DATA_STATUS}"
+            add_label "$LABEL_KEY"
+          fi
+
+          # Contributor
+          remove_all_by_prefix "contributor: "
+          if [[ -n "${DATA_AUTHOR}" ]]; then
+            LABEL_KEY="contributor: ${DATA_AUTHOR}"
+            add_label "$LABEL_KEY"
+          fi
+
+          # Change Type
+          if [[ -n "${DATA_CHANGE}" ]]; then
+            remove_all_by_prefix "change: "
+            LABEL_KEY="change: ${DATA_CHANGE}"
+            add_label "$LABEL_KEY"
+          fi
+
+          echo "added_labels=$(jq -c '.' <<< "${LABEL_CHANGES}")" >> "${GITHUB_OUTPUT}"
+
+      - name: Apply Label Changes
+        env:
+          PR_OR_ISSUE_NUMBER: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.number || github.event.issue.number }}
+          GH_SUBCOMMAND: ${{ github.event_name == 'pull_request_target' && 'pr' || 'issue' }}
+          GH_REPO: ${{ github.repository }}
+          LABEL_CHANGES: |-
+            ${{ steps.determine_labels.outputs.added_labels || '{}' }}
+        run: | # shell
+          LABELS_TO_ADD=$(jq -r '[to_entries[] | select(.value == true) | .key] | join(",")' <<< "${LABEL_CHANGES}")
+          LABELS_TO_REMOVE=$(jq -r '[to_entries[] | select(.value == false) | .key] | join(",")' <<< "${LABEL_CHANGES}")
+
+          echo "Adding labels:"
+          if [[ -n "${LABELS_TO_ADD}" ]]; then
+            jq -r 'to_entries[] | select(.value == true) | "- \(.key)"' <<< "${LABEL_CHANGES}"
+          else
+            echo "- none"
+          fi
+
+          echo "Removing labels:"
+          if [[ -n "${LABELS_TO_REMOVE}" ]]; then
+            jq -r 'to_entries[] | select(.value == false) | "- \(.key)"' <<< "${LABEL_CHANGES}"
+          else
+            echo "- none"
+          fi
+
+          CMD_ARGS=()
+          if [[ -n "${LABELS_TO_ADD}" ]]; then
+            CMD_ARGS+=(--add-label "${LABELS_TO_ADD}")
+          fi
+          if [[ -n "${LABELS_TO_REMOVE}" ]]; then
+            CMD_ARGS+=(--remove-label "${LABELS_TO_REMOVE}")
+          fi
+
+          if [[ ${#CMD_ARGS[@]} -gt 0 ]]; then
+            RESULT=$(gh "${GH_SUBCOMMAND}" edit "${PR_OR_ISSUE_NUMBER}" -R "${GH_REPO}" "${CMD_ARGS[@]}" 2>&1)
+            if [[ $? -ne 0 ]]; then
+              echo "::error title=Failed to sync labels::Failed to sync labels. Error: ${RESULT}"
+            fi
+          else
+            echo "No label changes to apply"
+          fi

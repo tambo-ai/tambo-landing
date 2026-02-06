@@ -27,7 +27,7 @@ export function Investors() {
   return (
     <section className="dt:dr-px-271 dt:dr-pb-200 dr-pb-120 px-safe bg-white section-rounded-bottom section-shadow-bottom">
       <div className="dt:dr-max-w-900 mx-auto">
-        <h2 className="dt:typo-h2 typo-h1 text-center dt:dr-mb-56 dr-mb-40">
+        <h2 className=" typo-h1 text-center dt:dr-mb-56 dr-mb-40">
           Backed by top investors and builders
         </h2>
         <MainInvestorCard
@@ -90,11 +90,10 @@ function MainInvestorCard({
         )}
       >
         <HashPattern className="absolute inset-0 text-dark-grey z-0" />
-        {/* <PartnershipSVG className="dt:dr-w-353 dr-w-254 relative z-1" /> */}
         <div className="dt:dr-w-353 dr-w-254">
           <Image
             block
-            src="/images/gp.png"
+            src="/images/TheGeneralPartnership_Logo.svg"
             alt="Partnership"
             className="relative z-1 min-w-full"
           />
@@ -144,19 +143,18 @@ function InvestorCard({
         )}
       >
         <div className="dr-size-80 dr-rounded-12 border border-dark-grey grid place-items-center relative overflow-hidden">
-          <HashPattern className="absolute inset-0 text-dark-grey z-0" />
-          {investor?.icon}
+          {investor?.image}
         </div>
 
-        <div className="flex flex-col dr-gap-4">
+        <div className="flex flex-col dr-gap-8">
           <p className="typo-p-bold">{investor.name}</p>
           <span
             className={cn(
-              'typo-label-s dr-px-8 dr-py-4 dr-rounded-16 bg-off-white w-fit',
+              'typo-label-s dr-px-12 dr-h-28 dr-rounded-8 bg-off-white w-fit flex dr-gap-8 items-center',
               s.position
             )}
           >
-            {investor?.position}
+            {investor?.position} {investor?.companyIcon}
           </span>
         </div>
       </div>

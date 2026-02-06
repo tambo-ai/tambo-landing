@@ -66,8 +66,10 @@ export function Dropdown({
       </button>
       {isOpened && (
         <div
+          role="listbox"
           className="absolute dr-top-56 dt:dr-top-58 z-100 w-full bg-white border border-dark-grey dr-rounded-12 dt:dr-rounded-16 shadow-[0_8px_32px_rgba(15,26,23,0.12)] dr-p-8 dt:dr-p-8"
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
         >
           <div className={s.options} onWheel={(e) => e.stopPropagation()}>
             {options.map((value, i) => (
