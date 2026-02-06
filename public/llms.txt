@@ -4,6 +4,15 @@
 
 Tambo is the open-source generative UI toolkit for React. Built for product engineers adding AI features to existing apps.
 
+## Summary
+
+- Product: open-source generative UI toolkit for React
+- Primary use: agents render real UI components with validated props
+- SDK: @tambo-ai/react
+- This file: https://tambo.co/llms.txt
+- Full site context: https://tambo.co/llms-full.txt
+- API docs + implementation details: https://docs.tambo.co/llms.txt
+
 ## What Tambo Does
 
 Tambo lets any React app add AI features that show real UI—not just chat responses. When a user asks "show me sales by region," the agent renders an actual interactive chart, not a text summary. Register your components, and the agent picks the right one and streams the props.
@@ -71,4 +80,5 @@ Website: https://tambo.co
 
 ## Deep Dive
 
-For full API docs and implementation details: https://docs.tambo.co/llms.txt
+- Learn more about Tambo (API docs + implementation details): https://docs.tambo.co/llms.txt
+- Full tambo.co content for LLM tools (including blog posts): https://tambo.co/llms-full.txt
