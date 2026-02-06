@@ -6,7 +6,8 @@ import { NextResponse } from 'next/server'
 // Note: intentionally omit `immutable` so we can update redirect behavior within weeks if needed.
 const REDIRECT_CACHE_BROWSER_DAYS = 7
 const REDIRECT_CACHE_EDGE_DAYS = 30
-const REDIRECT_CACHE_BROWSER_SECONDS = REDIRECT_CACHE_BROWSER_DAYS * 24 * 60 * 60
+const REDIRECT_CACHE_BROWSER_SECONDS =
+  REDIRECT_CACHE_BROWSER_DAYS * 24 * 60 * 60
 const REDIRECT_CACHE_EDGE_SECONDS = REDIRECT_CACHE_EDGE_DAYS * 24 * 60 * 60
 const REDIRECT_CACHE_CONTROL = `public, max-age=${REDIRECT_CACHE_BROWSER_SECONDS}, s-maxage=${REDIRECT_CACHE_EDGE_SECONDS}`
 
