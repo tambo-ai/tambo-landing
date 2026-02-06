@@ -26,9 +26,9 @@ export function TamboSteps() {
       title="Generative UI, powered by your components."
     >
       {/* Only render the appropriate Rive animation for the device */}
-      {isDesktop && <RiveWrapper src="/assets/rives/moment-1_loop_1.riv" />}
+      {isDesktop && <RiveWrapper src="/assets/rives/REF_moment-1_loop_2.riv" />}
       {isMobile && (
-        <RiveWrapper src="/assets/rives/mobile_moment-1_loop_1.riv" />
+        <RiveWrapper src="/assets/rives/REF_Mobile_moment-1_loop_2.riv" />
       )}
     </TimelineSection>
   )

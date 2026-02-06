@@ -81,18 +81,18 @@ export function Hero() {
       >
         <div className="flex dt:flex-row flex-col-reverse items-center content-max-width w-full">
           <div
-            className="dt:dr-w-col-4 flex flex-col dr-gap-16 text-center items-start z-1 columns-1"
+            className="dt:dr-w-col-5 flex flex-col dr-gap-16 text-center items-start z-1 columns-1"
             ref={titleRef}
           >
-            <h1 className="dt:typo-h1 typo-h3 dt:text-start ">
+            <h1 className="dt:typo-hero-title typo-h3 dt:text-start ">
               Build agents
               <br className="mobile-only" /> that{' '}
               <br className="desktop-only" /> speak your UI
             </h1>
-            <p className=" typo-p text-black/50 dt:dr-w-322 dr-w-263 dt:text-start">
-              An open-source toolkit for adding agents <br /> to your React app.
+            <p className="typo-p dt:typo-p-l text-black/50 dt:dr-w-489 dr-w-263 dt:text-start">
+              An open-source toolkit for adding agents to your React app.
               Connect your existing components—Tambo handles streaming, state
-              management, and MCP.
+              management, <br className="desktop-only" /> and MCP.
             </p>
             <div className="dr-mt-24">
               <CTA
@@ -110,11 +110,12 @@ export function Hero() {
           </div>
           {/* Mobile Rive - only renders on mobile devices */}
           {isMobile && (
-            <div className="w-full h-full top-0 left-0 absolute">
+            <div className="w-full grow min-h-0">
               <RiveWrapper
                 src="/assets/rives/Mobile_hero_loop_1.riv"
                 className="size-full pointer-events-none"
-                alignment="TopCenter"
+                alignment="Center"
+                fit="Contain"
               />
             </div>
           )}

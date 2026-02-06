@@ -30,7 +30,7 @@ export function Showcase() {
           <TitleBlock.Title level="h2" className="dr-mb-8!">
             Built with Tambo
           </TitleBlock.Title>
-          <TitleBlock.Subtitle className="dt:dr-mb-40 typo-p! dt:typo-p-l! ">
+          <TitleBlock.Subtitle className="dt:dr-mb-40 typo-p! dt:typo-p-l! dt:dr-w-600">
             Try our examples to see what tambo can do. Then build your own and
             share it—we'd love to showcase your app!
           </TitleBlock.Subtitle>
@@ -50,7 +50,6 @@ export function Showcase() {
                   '--content-height': `${contentRefs.current[i]?.offsetHeight}px`,
                 }}
               >
-                {/* Before was not working, div instead */}
                 <div className={s.cardRing} />
                 <Button
                   key={`${card?.title}-${i}`}

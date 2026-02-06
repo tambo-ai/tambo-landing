@@ -43,7 +43,7 @@ function TitleBlockTitle({
 }: ComponentProps<'h2'> & { level: 'h2' | 'h3' | 'h4' }) {
   return (
     <Tag
-      className={cn('typo-h3 dt:typo-h2 text-center :last:dr-mb-40', className)}
+      className={cn('typo-h3 dt:typo-h1 text-center :last:dr-mb-40', className)}
       {...props}
     >
       {children}
