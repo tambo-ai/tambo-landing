@@ -12,7 +12,10 @@ import matter from 'gray-matter'
 
 // NOTE: These content modules must remain pure (no browser-only imports), since this
 // script runs in a Node environment during `bun run build`.
-import { contactPageContent, valueProps } from '../app/(pages)/contact-us/content'
+import {
+  contactPageContent,
+  valueProps,
+} from '../app/(pages)/contact-us/content'
 import { featureButtons } from '../app/(pages)/home/_sections/features-section/content'
 import { heroContent } from '../app/(pages)/home/_sections/hero/content'
 import { howItWorksContent } from '../app/(pages)/home/_sections/how-it-works/content'
@@ -121,7 +124,12 @@ ${meta.author ? `*Author: ${meta.author}*` : ''}
 
 ${cleanedBody}`)
     } catch (err) {
-      if (err && typeof err === 'object' && 'code' in err && err.code === 'ENOENT') {
+      if (
+        err &&
+        typeof err === 'object' &&
+        'code' in err &&
+        err.code === 'ENOENT'
+      ) {
         continue
       }
 
