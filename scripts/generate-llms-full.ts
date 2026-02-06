@@ -58,6 +58,7 @@ type BlogFrontmatter = {
   slug?: string
 }
 
+// Only accepts date-only ISO strings (YYYY-MM-DD).
 function parseIsoDateOnly(value: string | undefined): number | undefined {
   if (!value) return undefined
 
@@ -210,6 +211,7 @@ function readBlogPosts(): string[] {
     }
   }
 
+  // Deterministic ordering: newest first (YYYY-MM-DD), undated last, then slug.
   posts.sort((a, b) => {
     const aDate = a.dateTimestamp
     const bDate = b.dateTimestamp
@@ -318,6 +320,8 @@ function formatShowcaseSection(): string {
 }
 
 function formatTestimonialsSection(): string {
+  // De-dupe and cap testimonials to keep the output compact and avoid
+  // placeholder repetition.
   const uniqueByKey = new Map<string, (typeof socials)[number]>()
 
   for (const quote of socials) {
