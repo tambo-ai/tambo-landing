@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next'
-import { getBaseUrl } from '~/libs/seo/base-url'
 
-const APP_BASE_URL = getBaseUrl()
+const APP_BASE_URL = (
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
+).replace(/\/+$/, '')
 
 export default function robots(): MetadataRoute.Robots {
   return {

@@ -11,7 +11,6 @@ import '~/styles/css/index.css'
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
 import { siteConfig } from '~/libs/config'
-import { getBaseUrl } from '~/libs/seo/base-url'
 import { getRootStructuredData } from '~/libs/seo/structured-data'
 import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
@@ -20,7 +19,9 @@ const APP_NAME = AppData.name
 const APP_DEFAULT_TITLE = 'Tambo'
 const APP_TITLE_TEMPLATE = '%s'
 const APP_DESCRIPTION = AppData.description
-const APP_BASE_URL = getBaseUrl()
+const APP_BASE_URL = (
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
+).replace(/\/+$/, '')
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_BASE_URL),

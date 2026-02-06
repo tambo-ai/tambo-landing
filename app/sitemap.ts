@@ -1,9 +1,12 @@
 import type { MetadataRoute } from 'next'
 import { getPostListItems } from '~/libs/get-posts'
-import { getBaseUrl } from '~/libs/seo/base-url'
+
+const APP_BASE_URL = (
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
+).replace(/\/+$/, '')
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = getBaseUrl()
+  const baseUrl = APP_BASE_URL
 
   const posts = await getPostListItems()
   const blogPosts = posts
