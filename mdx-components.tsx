@@ -1,6 +1,6 @@
 import type { MDXComponents } from 'mdx/types'
 import Image from 'next/image'
-import { cn } from '@/lib/utils'
+import cn from 'clsx'
 import { BlogPost } from './components/blog/blog-post'
 import { ImageZoom } from './components/ui/imagezoom'
 
