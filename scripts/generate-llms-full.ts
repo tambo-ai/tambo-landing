@@ -58,17 +58,31 @@ type BlogFrontmatter = {
   slug?: string
 }
 
-// Only accepts date-only ISO strings (YYYY-MM-DD).
+const MAX_COMPONENT_UNWRAP_PASSES = 10
+
+// Accepts ISO-like date strings. If a time is provided, it is ignored and we
+// sort by the date component only.
 function parseIsoDateOnly(value: string | undefined): number | undefined {
   if (!value) return undefined
 
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+  const match = /^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:T.*)?$/.exec(value)
+  if (!match) return undefined
+
+  const [, yearStr, monthStr, dayStr] = match
+  const year = Number(yearStr)
+  const month = Number(monthStr)
+  const day = Number(dayStr)
+
+  const date = new Date(Date.UTC(year, month - 1, day))
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
     return undefined
   }
 
-  const timestamp = Date.parse(value)
-  if (Number.isNaN(timestamp)) return undefined
-  return timestamp
+  return date.getTime()
 }
 
 function getString(
@@ -111,7 +125,11 @@ function cleanMdx(content: string): string {
 
   const cleaned = segments
     .map((segment) => {
-      if (segment.isCode) return segment.content
+      if (segment.isCode) {
+        // Preserve fenced code blocks verbatim (including import/export lines)
+        // so code samples remain intact in llms-full.txt.
+        return segment.content
+      }
 
       let next = segment.content
         .replace(/^\s*import\s+(?:type\s+)?[^\n]*\bfrom\b[^\n]*$/gm, '')
@@ -123,7 +141,7 @@ function cleanMdx(content: string): string {
         .replace(/<video[\s\S]*?\/>/gi, '[Video]')
         .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
 
-      for (let i = 0; i < 10; i += 1) {
+      for (let i = 0; i < MAX_COMPONENT_UNWRAP_PASSES; i += 1) {
         const unwrapped = next.replace(
           /<([A-Z][\w]*)\b[^>]*>([\s\S]*?)<\/\1>/g,
           '$2'
@@ -181,7 +199,7 @@ function readBlogPosts(): string[] {
       const dateTimestamp = parseIsoDateOnly(meta.date)
       if (meta.date && dateTimestamp == null) {
         console.warn(
-          `[llms-full] Blog date must be YYYY-MM-DD for ${slug}: ${meta.date}`
+          `[llms-full] Blog date must start with YYYY-MM-DD for ${slug}: ${meta.date}`
         )
       }
 
@@ -325,9 +343,10 @@ function formatTestimonialsSection(): string {
   const uniqueByKey = new Map<string, (typeof socials)[number]>()
 
   for (const quote of socials) {
-    const key = [quote.text, quote.author, quote.position]
-      .map((value) => String(value).trim())
-      .join('::')
+    const key = JSON.stringify({
+      text: String(quote.text).trim(),
+      author: String(quote.author).trim(),
+    })
 
     if (!uniqueByKey.has(key)) {
       uniqueByKey.set(key, quote)
@@ -392,9 +411,10 @@ function generateLlmsFull(): string {
 }
 
 // Run
-const output = generateLlmsFull()
+const rawOutput = generateLlmsFull()
+const output = `${rawOutput.trimEnd()}\n`
 mkdirSync(dirname(OUTPUT_PATH), { recursive: true })
-writeFileSync(OUTPUT_PATH, `${output.trimEnd()}\n`, { encoding: 'utf8' })
+writeFileSync(OUTPUT_PATH, output, { encoding: 'utf8' })
 console.log(
   `Generated ${OUTPUT_PATH} (${output.length} chars, ${output.split('\n').length} lines)`
 )
