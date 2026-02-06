@@ -232,6 +232,14 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <del className={cn("line-through text-gray-500", className)} {...props} />
     ),
 
+    u: ({ className, ...props }) => (
+      <u className={cn("underline", className)} {...props} />
+    ),
+
+    span: ({ className, style, ...props }) => (
+      <span className={className} style={style} {...props} />
+    ),
+
     mark: ({ className, ...props }) => (
       <mark
         className={cn(

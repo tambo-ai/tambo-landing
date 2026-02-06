@@ -18,10 +18,7 @@ export function Community() {
     <section className="dt:dr-pt-132 dt:dr-pb-200 dr-pb-120 section-rounded-bottom section-shadow-bottom z-1 bg-light-gray dt:mb-0 -dr-mb-30">
       <div className="flex flex-col items-center dr-mb-56 dt:dr-px-0 mx-auto px-safe">
         <TitleBlock className="dr-mb-32 dt:mb-0">
-          <TitleBlock.Title
-            level="h2"
-            className="dr-mb-8! dt:typo-h2! typo-h1!"
-          >
+          <TitleBlock.Title level="h2" className="dr-mb-8!">
             Join the Tambo community
           </TitleBlock.Title>
           <TitleBlock.Subtitle className="dt:dr-mb-40 typo-p! dt:typo-p-l! text-black/50 dt:dr-w-550!">
