@@ -11,7 +11,10 @@ import '~/styles/css/index.css'
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
 import { siteConfig } from '~/libs/config'
-import { getRootStructuredData, serializeJsonLd } from '~/libs/seo/structured-data'
+import {
+  getRootStructuredData,
+  serializeJsonLd,
+} from '~/libs/seo/structured-data'
 import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
 

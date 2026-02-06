@@ -21,10 +21,11 @@ export function generateBlogPostSchema({
   slug: string
   image?: string
 }): JsonLd {
-  const normalizedBaseUrl = (baseUrl || process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co').replace(
-    /\/+$/,
-    ''
-  )
+  const normalizedBaseUrl = (
+    baseUrl ||
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    'https://tambo.co'
+  ).replace(/\/+$/, '')
   const postUrl = `${normalizedBaseUrl}/blog/posts/${slug}`
 
   return {
