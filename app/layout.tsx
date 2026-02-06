@@ -11,7 +11,7 @@ import '~/styles/css/index.css'
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
 import { siteConfig } from '~/libs/config'
-import { getRootStructuredData } from '~/libs/seo/structured-data'
+import { getRootStructuredData, serializeJsonLd } from '~/libs/seo/structured-data'
 import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
 
@@ -97,9 +97,9 @@ export default async function Layout({ children }: PropsWithChildren) {
     siteConfig.links.github,
     siteConfig.links.twitter,
     siteConfig.links.discord,
-  ].filter(Boolean)
+  ]
 
-  const structuredDataJson = JSON.stringify(
+  const structuredDataJson = serializeJsonLd(
     getRootStructuredData({
       baseUrl: APP_BASE_URL,
       description: APP_DESCRIPTION,

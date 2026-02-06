@@ -11,7 +11,7 @@ export function generateBlogPostSchema({
   slug,
   image,
 }: {
-  baseUrl: string
+  baseUrl?: string
   title: string
   description?: string
   publishedAt: string
@@ -21,7 +21,11 @@ export function generateBlogPostSchema({
   slug: string
   image?: string
 }): JsonLd {
-  const postUrl = `${baseUrl}/blog/posts/${slug}`
+  const normalizedBaseUrl = (baseUrl || process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co').replace(
+    /\/+$/,
+    ''
+  )
+  const postUrl = `${normalizedBaseUrl}/blog/posts/${slug}`
 
   return {
     '@context': 'https://schema.org',
@@ -33,7 +37,7 @@ export function generateBlogPostSchema({
       name: authorName,
       ...(authorUrl ? { url: authorUrl } : {}),
     },
-    image: image || `${baseUrl}/opengraph-image.jpg`,
+    image: image || `${normalizedBaseUrl}/opengraph-image.jpg`,
     url: postUrl,
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
@@ -42,7 +46,7 @@ export function generateBlogPostSchema({
       name: 'Tambo',
       logo: {
         '@type': 'ImageObject',
-        url: `${baseUrl}/icon.png`,
+        url: `${normalizedBaseUrl}/icon.png`,
       },
     },
     mainEntityOfPage: {

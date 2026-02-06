@@ -1,5 +1,9 @@
 type JsonLd = Record<string, unknown>
 
+export function serializeJsonLd(data: unknown): string {
+  return JSON.stringify(data).replace(/<\//g, '<\\/')
+}
+
 export function getRootStructuredData({
   baseUrl,
   description,
@@ -9,8 +13,6 @@ export function getRootStructuredData({
   description: string
   sameAs: readonly string[]
 }): JsonLd {
-  const filteredSameAs = sameAs.filter(Boolean)
-
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -23,7 +25,7 @@ export function getRootStructuredData({
           '@type': 'ImageObject',
           url: `${baseUrl}/icon.png`,
         },
-        sameAs: filteredSameAs,
+        sameAs,
         description,
       },
       {
