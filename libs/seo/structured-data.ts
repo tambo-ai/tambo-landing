@@ -1,6 +1,12 @@
 type JsonLd = Record<string, unknown>
 
-export function serializeJsonLd(data: unknown): string {
+type MaybeUrl = string | null | undefined
+
+function isNonEmptyString(value: MaybeUrl): value is string {
+  return typeof value === 'string' && value.length > 0
+}
+
+export function serializeJsonLd(data: JsonLd | readonly JsonLd[]): string {
   return JSON.stringify(data).replace(/<\//g, '<\\/')
 }
 
@@ -11,8 +17,10 @@ export function getRootStructuredData({
 }: {
   baseUrl: string
   description: string
-  sameAs: readonly string[]
+  sameAs: readonly MaybeUrl[]
 }): JsonLd {
+  const filteredSameAs = sameAs.filter(isNonEmptyString)
+
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -25,7 +33,7 @@ export function getRootStructuredData({
           '@type': 'ImageObject',
           url: `${baseUrl}/icon.png`,
         },
-        sameAs,
+        sameAs: filteredSameAs,
         description,
       },
       {
