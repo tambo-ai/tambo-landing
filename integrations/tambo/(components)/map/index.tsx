@@ -63,7 +63,15 @@ export function MapAssistant() {
       removeContextHelper('mapState')
       removeContextHelper('itinerary')
     }
-  }, [selectedDemo, addContextHelper, removeContextHelper, currentBBox])
+  }, [
+    selectedDemo,
+    addContextHelper,
+    removeContextHelper,
+    destination,
+    weather,
+    currentBBox,
+    itinerary,
+  ])
 
   useEffect(() => {
     if (selectedDemo !== demo) return

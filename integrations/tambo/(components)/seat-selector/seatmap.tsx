@@ -77,7 +77,7 @@ export function SeatMap({ value }: { value: SeatMapProps }) {
         setSelectedSeats([...selectedSeats, seatId])
       }
     },
-    [selectedSeats, maxSelections]
+    [selectedSeats, maxSelections, setSelectedSeats]
   )
 
   return (

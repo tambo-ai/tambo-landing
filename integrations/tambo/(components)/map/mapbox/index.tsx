@@ -66,7 +66,7 @@ export function MapBox({
       mapRef.current = null
       map.remove()
     }
-  }, [setMap])
+  }, [setMap, center, fallbackZoom])
 
   // Separate effect for center marker (depends on center prop)
   useEffect(() => {
@@ -89,7 +89,7 @@ export function MapBox({
 
   return (
     <>
-      <div
+      <section
         className={cn(
           className,
           'transition-opacity duration-1000 ease-in-out starting:opacity-0',
@@ -103,7 +103,6 @@ export function MapBox({
         onMouseLeave={() => {
           lenis?.start()
         }}
-        role="region"
         aria-label="Area Select Map"
       >
         <div
@@ -112,7 +111,7 @@ export function MapBox({
           }}
           style={{ height, width: '100%' }}
         />
-      </div>
+      </section>
       <div
         className={cn(
           s.mapTooltip,

@@ -15,10 +15,10 @@ export function cva<V extends VariantConfig>(
     const variantClasses: string[] = []
     if (config?.variants) {
       for (const key in config.variants) {
-        const value =
-          props?.[key as keyof typeof props] ?? config.defaultVariants?.[key]
+        const variantKey = key as keyof V
+        const value = props?.[variantKey] ?? config.defaultVariants?.[variantKey]
         if (value != null) {
-          const cls = config.variants[key][value as string]
+          const cls = config.variants[variantKey][String(value)]
           if (cls) variantClasses.push(cls)
         }
       }
@@ -27,8 +27,6 @@ export function cva<V extends VariantConfig>(
   }
 }
 
-export type VariantProps<T extends (...args: any[]) => any> = T extends (
-  props: infer P
-) => any
-  ? P
+export type VariantProps<T> = T extends (props: infer P) => unknown
+  ? NonNullable<P>
   : never

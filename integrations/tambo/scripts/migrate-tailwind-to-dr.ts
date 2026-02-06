@@ -146,7 +146,10 @@ function removeDecimalsFromDrClasses(content: string): string {
   // Match dr-{utility}-{number with decimal} and convert to integer
   return content.replace(
     /\bdr-([a-z-]+)-(\d+)\.\d+\b/g,
-    (_, utility: string, intPart: string) => `dr-${utility}-${intPart}`
+    (match: string, utility: string, intPart: string) => {
+      void match
+      return `dr-${utility}-${intPart}`
+    }
   )
 }
 
@@ -173,6 +176,7 @@ function processFileContent(content: string): string {
   result = result.replace(
     /className=\{`([^`]+)`\}/g,
     (match, classes: string) => {
+      void match
       // Only process the static text parts, preserve ${} expressions
       const converted = classes.replace(/([^${}]+)/g, (staticPart: string) =>
         processClassString(staticPart)
@@ -185,6 +189,7 @@ function processFileContent(content: string): string {
   result = result.replace(
     /\b(cn|cva)\(\s*(['"`])([^'"`]+)\2/g,
     (match, fn: string, quote: string, classes: string) => {
+      void match
       const converted = processClassString(classes)
       return `${fn}(${quote}${converted}${quote}`
     }

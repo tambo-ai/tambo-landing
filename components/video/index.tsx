@@ -35,9 +35,7 @@ export function Video({
           setIntersectionRef(node)
           videoRef.current = node
         }}
-        onTimeUpdate={(e) => {
-          setIsPlaying(true)
-        }}
+        onTimeUpdate={() => setIsPlaying(true)}
         style={{
           visibility: isPlaying ? 'visible' : 'hidden',
         }}

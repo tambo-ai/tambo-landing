@@ -72,7 +72,7 @@ export function Marquee({
   })
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: <explanation>
+    // biome-ignore lint/a11y/noStaticElementInteractions: hover state is used to control animation speed; this isn't an interactive control
     <div
       ref={setIntersectionRef}
       className={cn(className, s.marquee)}

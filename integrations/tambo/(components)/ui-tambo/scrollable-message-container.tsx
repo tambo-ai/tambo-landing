@@ -74,25 +74,28 @@ export const ScrollableMessageContainer = React.forwardRef<
 
   // Auto-scroll to bottom when message content changes
   useEffect(() => {
-    if (scrollContainerRef.current && messagesContent && shouldAutoscroll) {
-      const scroll = () => {
-        if (scrollContainerRef.current) {
-          scrollContainerRef.current.scrollTo({
-            top: scrollContainerRef.current.scrollHeight,
-            behavior: 'smooth',
-          })
-        }
-      }
+    if (!(scrollContainerRef.current && messagesContent && shouldAutoscroll)) {
+      return undefined
+    }
 
-      if (generationStage === 'STREAMING_RESPONSE') {
-        // During streaming, scroll immediately
-        requestAnimationFrame(scroll)
-      } else {
-        // For other updates, use a short delay to batch rapid changes
-        const timeoutId = setTimeout(scroll, 50)
-        return () => clearTimeout(timeoutId)
+    const scroll = () => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTo({
+          top: scrollContainerRef.current.scrollHeight,
+          behavior: 'smooth',
+        })
       }
     }
+
+    if (generationStage === 'STREAMING_RESPONSE') {
+      // During streaming, scroll immediately
+      requestAnimationFrame(scroll)
+      return undefined
+    }
+
+    // For other updates, use a short delay to batch rapid changes
+    const timeoutId = setTimeout(scroll, 50)
+    return () => clearTimeout(timeoutId)
   }, [messagesContent, generationStage, shouldAutoscroll])
 
   const [setRect, rect] = useRect()

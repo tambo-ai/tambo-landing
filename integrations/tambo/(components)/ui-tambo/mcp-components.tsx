@@ -223,7 +223,7 @@ const ResourceCombobox: React.FC<ResourceComboboxProps> = ({
           ) : (
             filteredResources.map((resourceEntry) => (
               <DropdownMenu.Item
-                key={`${resourceEntry.server.url}-${resourceEntry.resource.uri}`}
+                key={`${resourceEntry.server?.url ?? 'unknown'}-${resourceEntry.resource.uri}`}
                 className="relative flex cursor-pointer select-none items-start flex-col dr-rounded-2 dr-px-2 dr-py-2 dr-text-14 outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-accent focus:text-accent-foreground"
                 onSelect={() => {
                   onSelectResource(resourceEntry.resource.uri)

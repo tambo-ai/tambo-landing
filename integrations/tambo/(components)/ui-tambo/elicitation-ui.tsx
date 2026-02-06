@@ -46,7 +46,6 @@ const BooleanField: React.FC<FieldProps> = ({
       <div className="flex dr-gap-2">
         <button
           type="button"
-          autoFocus={autoFocus}
           onClick={() => onChange(true)}
           className={cn('flex-1 dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
             boolValue === true
@@ -101,7 +100,6 @@ const EnumField: React.FC<FieldProps> = ({
           <button
             key={option}
             type="button"
-            autoFocus={autoFocus && index === 0}
             onClick={() => onChange(option)}
             className={cn('dr-px-4 dr-py-2 dr-rounded-8 border transition-colors',
               stringValue === option
@@ -165,7 +163,6 @@ const StringField: React.FC<FieldProps> = ({
       <input
         id={inputId}
         type={inputType}
-        autoFocus={autoFocus}
         value={stringValue}
         onChange={(e) => onChange(e.target.value)}
         className={cn('w-full dr-px-3 dr-py-2 dr-rounded-8 border bg-background text-foreground focus:outline-none focus:ring-2',
@@ -219,7 +216,6 @@ const NumberField: React.FC<FieldProps> = ({
       <input
         id={inputId}
         type="number"
-        autoFocus={autoFocus}
         value={numberValue ?? ''}
         onChange={(e) => {
           const { value, valueAsNumber } = e.currentTarget
@@ -579,7 +575,6 @@ export const ElicitationUI: React.FC<ElicitationUIProps> = ({
               value={formData[name]}
               onChange={(value) => handleFieldChange(name, value)}
               required={requiredFields.includes(name)}
-              autoFocus={index === 0}
               validationError={validationError}
             />
           )

@@ -34,7 +34,6 @@ interface ThreadHistoryContextValue {
   isCollapsed: boolean
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
   onThreadChange?: () => void
-  contextKey?: string
   position?: 'left' | 'right'
   updateThreadName: (newName: string, threadId?: string) => Promise<void>
   generateThreadName: (threadId: string) => Promise<TamboThread>
@@ -57,7 +56,6 @@ const useThreadHistoryContext = () => {
  * Root component that provides context for thread history
  */
 interface ThreadHistoryProps extends React.HTMLAttributes<HTMLDivElement> {
-  contextKey?: string
   onThreadChange?: () => void
   children?: React.ReactNode
   defaultCollapsed?: boolean
@@ -68,7 +66,6 @@ const ThreadHistory = React.forwardRef<HTMLDivElement, ThreadHistoryProps>(
   (
     {
       className,
-      contextKey,
       onThreadChange,
       defaultCollapsed = true,
       position = 'left',
@@ -86,7 +83,7 @@ const ThreadHistory = React.forwardRef<HTMLDivElement, ThreadHistoryProps>(
       isLoading,
       error,
       refetch,
-    } = useTamboThreadList({ contextKey })
+    } = useTamboThreadList()
 
     const {
       switchCurrentThread,
@@ -126,7 +123,6 @@ const ThreadHistory = React.forwardRef<HTMLDivElement, ThreadHistoryProps>(
         isCollapsed,
         setIsCollapsed,
         onThreadChange,
-        contextKey,
         position,
         updateThreadName,
         generateThreadName,
@@ -142,7 +138,6 @@ const ThreadHistory = React.forwardRef<HTMLDivElement, ThreadHistoryProps>(
         searchQuery,
         isCollapsed,
         onThreadChange,
-        contextKey,
         position,
         updateThreadName,
         generateThreadName,
@@ -406,6 +401,8 @@ const ThreadHistoryList = React.forwardRef<
       }, 100)
       return () => clearTimeout(timer)
     }
+
+    return undefined
   }, [editingThread])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -469,7 +466,7 @@ const ThreadHistoryList = React.forwardRef<
   }
 
   // Content to show
-  let content
+  let content: React.ReactNode
   if (isLoading) {
     content = (
       <div
@@ -485,7 +482,22 @@ const ThreadHistoryList = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          `text-sm text-destructive p-2 whitespace-nowrap ${isCollapsed ? 'opacity-0 dr-max-w-0 overflow-hidden' : 'opacity-100'}`, className )} {...props} > Error loading threads </div> ) } else if (filteredThreads.length === 0) { content = ( <div ref={ref} className={cn( `text-sm text-muted-foreground dr-p-2 whitespace-nowrap ${isCollapsed ? 'opacity-0 max-w-0 overflow-hidden' : 'opacity-100'}`,
+          'text-sm text-destructive p-2 whitespace-nowrap',
+          isCollapsed ? 'opacity-0 dr-max-w-0 overflow-hidden' : 'opacity-100',
+          className
+        )}
+        {...props}
+      >
+        Error loading threads
+      </div>
+    )
+  } else if (filteredThreads.length === 0) {
+    content = (
+      <div
+        ref={ref}
+        className={cn(
+          'text-sm text-muted-foreground dr-p-2 whitespace-nowrap',
+          isCollapsed ? 'opacity-0 dr-max-w-0 overflow-hidden' : 'opacity-100',
           className
         )}
         {...props}
@@ -499,7 +511,16 @@ const ThreadHistoryList = React.forwardRef<
         {filteredThreads.map((thread: TamboThread) => (
           <div
             key={thread.id}
-            onClick={async () => await handleSwitchThread(thread.id)}
+            role="button"
+            tabIndex={0}
+            onClick={() => void handleSwitchThread(thread.id)}
+            onKeyDown={(e) => {
+              if (editingThread?.id === thread.id) return
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                void handleSwitchThread(thread.id)
+              }
+            }}
             className={cn('dr-p-2 dr-rounded-6 hover:bg-backdrop cursor-pointer group flex items-center justify-between',
               currentThread?.id === thread.id ? 'bg-muted' : '',
               editingThread?.id === thread.id ? 'bg-muted' : ''
@@ -590,6 +611,7 @@ const ThreadOptionsDropdown = ({
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button
+          type="button"
           className="dr-p-1 hover:bg-backdrop dr-rounded-6 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
           onClick={(e) => e.stopPropagation()}
         >

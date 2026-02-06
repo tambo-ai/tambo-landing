@@ -6,6 +6,14 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import 'highlight.js/styles/github.css'
 import DOMPurify from 'dompurify'
+import { Link } from '~/components/link'
+
+type MarkdownComponentProps = {
+  children?: React.ReactNode
+  className?: string
+  href?: string
+  [key: string]: unknown
+}
 
 /**
  * Markdown Components for Streamdown
@@ -70,6 +78,7 @@ const CodeHeader = ({
     <div className="flex items-center justify-between dr-gap-4 dr-rounded-t-6 bg-container dr-px-4 dr-py-2 dr-text-14 font-semibold text-foreground">
       <span className="lowercase text-muted-foreground">{language}</span>
       <button
+        type="button"
         onClick={copyToClipboard}
         className="dr-p-1 dr-rounded-6 hover:bg-backdrop transition-colors cursor-pointer"
         title="Copy code"
@@ -90,10 +99,13 @@ const CodeHeader = ({
  */
 export const createMarkdownComponents = (): Record<
   string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  React.ComponentType<any>
+  React.ComponentType<MarkdownComponentProps>
 > => ({
-  code: function Code({ className, children, ...props }) {
+  code: function Code({
+    className,
+    children,
+    ...props
+  }: MarkdownComponentProps) {
     const match = /language-(\w+)/.exec(className ?? '')
     const content = String(children).replace(/\n$/, '')
     const deferredContent = React.useDeferredValue(content)
@@ -122,6 +134,7 @@ export const createMarkdownComponents = (): Record<
             <pre className="dr-p-4 whitespace-pre">
               <code
                 className={className}
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: highlighted HTML is sanitized via DOMPurify before injection
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(highlighted ?? content),
                 }}
@@ -138,7 +151,7 @@ export const createMarkdownComponents = (): Record<
           'bg-muted dr-px-1 dr-py-0 dr-rounded-4 dr-text-14',
           className
         )}
-        {...props}
+        {...(props as React.ComponentProps<'code'>)}
       >
         {children}
       </code>
@@ -224,15 +237,13 @@ export const createMarkdownComponents = (): Record<
    * Includes hover underline effect
    */
   a: ({ href, children }) => (
-    <a
+    <Link
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       className="inline-flex items-center dr-gap-1 text-foreground underline underline-offset-4 decoration-muted-foreground hover:text-foreground hover:decoration-foreground transition-colors"
     >
       <span>{children}</span>
       <ExternalLink className="dr-w-3 dr-h-3" />
-    </a>
+    </Link>
   ),
 
   /**

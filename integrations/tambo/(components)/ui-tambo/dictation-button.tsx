@@ -31,7 +31,7 @@ export default function DictationButton() {
   useEffect(() => {
     if (transcript && transcript !== lastProcessedTranscript) {
       setLastProcessedTranscript(transcript)
-      setValue(value + ' ' + transcript)
+      setValue(`${value} ${transcript}`)
     }
   }, [transcript, lastProcessedTranscript, value, setValue])
 

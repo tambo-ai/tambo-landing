@@ -3,7 +3,7 @@
 import { XIcon } from 'lucide-react'
 import { Collapsible } from 'radix-ui'
 import * as React from 'react'
-import type { messageVariants, VariantProps } from '@/components/tambo/message'
+import type { messageVariants } from '@/components/tambo/message'
 import {
   MessageInput,
   MessageInputError,
@@ -17,7 +17,7 @@ import {
   ThreadContent,
   ThreadContentMessages,
 } from '@/components/tambo/thread-content'
-import { cn } from '@/lib/utils'
+import { cn, type VariantProps } from '@/lib/utils'
 
 /**
  * Props for the MessageThreadCollapsible component

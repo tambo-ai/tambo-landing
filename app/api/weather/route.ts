@@ -109,7 +109,7 @@ export async function GET(request: Request) {
     const data = (await response.json()) as OpenMeteoResponse
 
     // Validate response structure
-    if (!(data?.daily && data.daily.time) || data.daily.time.length === 0) {
+    if (!data?.daily?.time || data.daily.time.length === 0) {
       return NextResponse.json(
         { error: 'Invalid response from weather API' },
         { status: 500 }

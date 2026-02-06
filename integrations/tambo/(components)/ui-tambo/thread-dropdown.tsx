@@ -14,8 +14,6 @@ import { useCallback } from "react";
  */
 export interface ThreadDropdownProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  /** Optional context key for filtering threads */
-  contextKey?: string;
   /** Optional callback function called when the current thread changes */
   onThreadChange?: () => void;
 }
@@ -35,13 +33,13 @@ export interface ThreadDropdownProps
 export const ThreadDropdown = React.forwardRef<
   HTMLDivElement,
   ThreadDropdownProps
->(({ className, contextKey, onThreadChange, ...props }, ref) => {
+>(({ className, onThreadChange, ...props }, ref) => {
   const {
     data: threads,
     isLoading,
     error,
     refetch,
-  } = useTamboThreadList({ contextKey });
+  } = useTamboThreadList();
   const { switchCurrentThread, startNewThread } = useTamboThread();
   const isMac =
     typeof navigator !== "undefined" && navigator.platform.startsWith("Mac");

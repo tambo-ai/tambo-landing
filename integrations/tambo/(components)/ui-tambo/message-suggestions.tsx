@@ -179,8 +179,12 @@ const MessageSuggestions = React.forwardRef<
           : event.ctrlKey && event.altKey
 
         if (modifierPressed) {
-          const keyNum = Number.parseInt(event.key)
-          if (!isNaN(keyNum) && keyNum > 0 && keyNum <= suggestions.length) {
+          const keyNum = Number.parseInt(event.key, 10)
+          if (
+            !Number.isNaN(keyNum) &&
+            keyNum > 0 &&
+            keyNum <= suggestions.length
+          ) {
             event.preventDefault()
             const suggestionIndex = keyNum - 1
             accept({ suggestion: suggestions[suggestionIndex] as Suggestion })
@@ -242,15 +246,17 @@ const MessageSuggestionsStatus = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { error, isGenerating, thread } = useMessageSuggestionsContext()
 
+  const isIdle =
+    !error &&
+    !isGenerating &&
+    (!thread?.generationStage || thread.generationStage === 'COMPLETE')
+
   return (
     <div
       ref={ref}
       className={cn(
         'dr-p-2 dr-rounded-6 dr-text-14 bg-transparent',
-        !(error || isGenerating) &&
-          (!thread?.generationStage || thread.generationStage === 'COMPLETE')
-          ? 'dr-p-0 dr-min-h-0 dr-mb-0'
-          : '',
+        isIdle && 'dr-p-0 dr-min-h-0 dr-mb-0',
         className
       )}
       data-slot="message-suggestions-status"
@@ -308,7 +314,15 @@ const MessageSuggestionsList = React.forwardRef<
   const altKey = isMac ? '⌥' : 'Alt'
 
   // Create placeholder suggestions when there are no real suggestions
-  const placeholders = Array(3).fill(null)
+  const placeholders = ['placeholder-0', 'placeholder-1', 'placeholder-2']
+
+  const getButtonStateClass = (suggestionId: string) => {
+    if (isGenerating) return 'bg-muted/50 text-muted-foreground'
+    if (selectedSuggestionId === suggestionId) {
+      return 'bg-accent text-accent-foreground'
+    }
+    return 'bg-background hover:bg-accent hover:text-accent-foreground'
+  }
 
   return (
     <div
@@ -333,18 +347,16 @@ const MessageSuggestionsList = React.forwardRef<
               side="top"
             >
               <button
+                type="button"
                 className={cn(
                   'dr-px-12 dr-py-7 dr-rounded-8 typo-label-m transition-colors',
                   'border border-dark-grey',
-                  isGenerating
-                    ? 'bg-muted/50 text-muted-foreground'
-                    : selectedSuggestionId === suggestion.id
-                      ? 'bg-accent text-accent-foreground'
-                      : 'bg-background hover:bg-accent hover:text-accent-foreground'
+                  getButtonStateClass(suggestion.id)
                 )}
-                onClick={async () =>
-                  !isGenerating && (await accept({ suggestion }))
-                }
+                onClick={async () => {
+                  if (isGenerating) return
+                  await accept({ suggestion })
+                }}
                 disabled={isGenerating}
                 data-suggestion-id={suggestion.id}
                 data-suggestion-index={index}
@@ -354,11 +366,11 @@ const MessageSuggestionsList = React.forwardRef<
             </Tooltip>
           ))
         : // Render placeholder buttons when no suggestions are available
-          placeholders.map((_, index) => (
+          placeholders.map((placeholderId) => (
             <div
-              key={`placeholder-${index}`}
+              key={placeholderId}
               className="dr-p-4 dr-rounded-16 typo-p border border-flat bg-muted/20 text-transparent animate-pulse"
-              data-placeholder-index={index}
+              data-placeholder-id={placeholderId}
             >
               <span className="invisible">Placeholder</span>
             </div>

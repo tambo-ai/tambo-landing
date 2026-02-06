@@ -34,6 +34,7 @@ import {
   ThreadHistorySearch,
 } from '@/components/tambo/thread-history'
 import { useMergeRefs } from '@/lib/thread-hooks'
+import type { VariantProps } from '@/lib/utils'
 
 /**
  * Props for the MessageThreadFull component
@@ -49,14 +50,12 @@ export interface MessageThreadFullProps
 }
 
 function ThreadHistorySidebar({
-  contextKey,
   historyPosition,
 }: {
-  contextKey: string | undefined
   historyPosition: 'left' | 'right'
 }) {
   return (
-    <ThreadHistory contextKey={contextKey} position={historyPosition}>
+    <ThreadHistory position={historyPosition}>
       <ThreadHistoryHeader />
       <ThreadHistoryNewButton />
       <ThreadHistorySearch />
@@ -105,10 +104,7 @@ export function MessageThreadFull({
     <div className="flex h-full w-full">
       {/* Thread History Sidebar - rendered first if history is on the left */}
       {showHistory && historyPosition === 'left' && (
-        <ThreadHistorySidebar
-          contextKey={contextKey}
-          historyPosition={historyPosition}
-        />
+        <ThreadHistorySidebar historyPosition={historyPosition} />
       )}
 
       <ThreadContainer
@@ -154,10 +150,7 @@ export function MessageThreadFull({
 
       {/* Thread History Sidebar - rendered last if history is on the right */}
       {showHistory && historyPosition === 'right' && (
-        <ThreadHistorySidebar
-          contextKey={contextKey}
-          historyPosition={historyPosition}
-        />
+        <ThreadHistorySidebar historyPosition={historyPosition} />
       )}
     </div>
   )

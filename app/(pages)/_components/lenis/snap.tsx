@@ -13,6 +13,8 @@ export function useLenisSnap(
         align: snap,
       })
     }
+
+    return undefined
   }, [lenisSnap, element, snap])
 
   return setElement

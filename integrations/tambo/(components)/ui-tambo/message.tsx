@@ -4,7 +4,7 @@ import type { TamboThreadMessage } from '@tambo-ai/react'
 import { useTambo } from '@tambo-ai/react'
 import type TamboAI from '@tambo-ai/typescript-sdk'
 import stringify from 'json-stringify-pretty-compact'
-// import { Check, ChevronDown, ExternalLink, Loader2, X } from 'lucide-react'
+import { ChevronDown, ExternalLink } from 'lucide-react'
 import { markdownComponents } from '@/components/tambo/markdown-components'
 import {
   checkHasContent,
@@ -12,11 +12,11 @@ import {
   getSafeContent,
 } from '@/lib/thread-hooks'
 import { cn, cva, type VariantProps } from '@/lib/utils'
-import Image from 'next/image'
 import * as React from 'react'
 import { useState } from 'react'
 import { Streamdown } from 'streamdown'
 import CheckSVG from '~/assets/svgs/check.svg'
+import { Image } from '~/components/image'
 
 /**
  * CSS variants for the message container
@@ -28,6 +28,7 @@ const messageVariants = cva('flex', {
   variants: {
     variant: {
       default: '',
+      compact: '',
       solid: [
         '[&>div>div:first-child]:shadow-md',
         '[&>div>div:first-child]:bg-container/50',
@@ -389,7 +390,13 @@ const ToolcallInfo = React.forwardRef<HTMLDivElement, ToolcallInfoProps>(
         {...props}
       >
         <div className="flex flex-col w-full">
-          <p className={cn('flex items-center dr-pl-24')}>
+          <button
+            type="button"
+            className={cn('flex items-center dr-pl-24')}
+            aria-expanded={isExpanded}
+            aria-controls={toolDetailsId}
+            onClick={() => setIsExpanded((prev) => !prev)}
+          >
             {isLoading ? (
               <span className="typo-p-s">Loading...</span>
             ) : (
@@ -406,13 +413,13 @@ const ToolcallInfo = React.forwardRef<HTMLDivElement, ToolcallInfoProps>(
             ) : (
               <Check className="dr-w-3 dr-h-3 text-bold text-green-500" />
             )} */}
-            {/* <ChevronDown
+            <ChevronDown
               className={cn(
                 'dr-w-3 dr-h-3 transition-transform duration-200',
                 !isExpanded && '-rotate-90'
               )}
-            /> */}
-          </p>
+            />
+          </button>
           <div
             id={toolDetailsId}
             className={cn(
@@ -559,25 +566,28 @@ const ReasoningInfo = React.forwardRef<HTMLDivElement, ReasoningInfoProps>(
 
     // Auto-scroll to bottom when reasoning content changes
     React.useEffect(() => {
-      if (scrollContainerRef.current && isExpanded && message.reasoning) {
-        const scroll = () => {
-          if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTo({
-              top: scrollContainerRef.current.scrollHeight,
-              behavior: 'smooth',
-            })
-          }
-        }
+      if (!(scrollContainerRef.current && isExpanded && message.reasoning)) {
+        return undefined
+      }
 
-        if (isLoading) {
-          // During streaming, scroll immediately
-          requestAnimationFrame(scroll)
-        } else {
-          // For other updates, use a short delay to batch rapid changes
-          const timeoutId = setTimeout(scroll, 50)
-          return () => clearTimeout(timeoutId)
+      const scroll = () => {
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTo({
+            top: scrollContainerRef.current.scrollHeight,
+            behavior: 'smooth',
+          })
         }
       }
+
+      if (isLoading) {
+        // During streaming, scroll immediately
+        requestAnimationFrame(scroll)
+        return undefined
+      }
+
+      // For other updates, use a short delay to batch rapid changes
+      const timeoutId = setTimeout(scroll, 50)
+      return () => clearTimeout(timeoutId)
     }, [message.reasoning, isExpanded, isLoading])
 
     // Only show if there's reasoning data

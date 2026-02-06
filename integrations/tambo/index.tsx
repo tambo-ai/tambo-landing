@@ -100,7 +100,9 @@ const AssistantContext = createContext<{
   setCurrentBBox: () => {},
   setDestination: () => {},
   setWeather: () => {},
-  switchToDemoThread: (demo: Demo) => {},
+  switchToDemoThread: (demo: Demo) => {
+    void demo
+  },
   finishSeatSelection: () => {},
 })
 
@@ -168,7 +170,7 @@ function AssistantProvider({ children }: { children: React.ReactNode }) {
   )
 
   // Listen for itinerary add events from the tool
-  useAddToItineraryListener((params) => {
+  useAddToItineraryListener((params: { poi: POI; selectedDate: string }) => {
     addToItinerary({
       poi: params.poi,
       selectedDate: params.selectedDate as itineraryItem['selectedDate'],

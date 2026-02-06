@@ -1,7 +1,6 @@
 'use client'
 
 import { type TamboThreadMessage, useTambo } from '@tambo-ai/react'
-import type { VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 import {
   Message,
@@ -12,7 +11,7 @@ import {
   ReasoningInfo,
   ToolcallInfo,
 } from '@/components/tambo/message'
-import { cn } from '@/lib/utils'
+import { cn, type VariantProps } from '@/lib/utils'
 
 /**
  * @typedef ThreadContentContextValue

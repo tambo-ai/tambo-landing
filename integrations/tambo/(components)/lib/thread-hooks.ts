@@ -10,53 +10,64 @@ import { useEffect, useState } from 'react'
 export function useMergeRefs<Instance>(
   ...refs: (React.Ref<Instance> | undefined)[]
 ): null | React.RefCallback<Instance> {
-  const cleanupRef = React.useRef<void | (() => void)>(undefined)
+  const cleanupRef = React.useRef<undefined | (() => void)>(undefined)
 
   const refEffect = React.useCallback((instance: Instance | null) => {
-    const cleanups = refs.map((ref) => {
+    const cleanups: Array<undefined | (() => void)> = []
+    for (const ref of refs) {
       if (ref == null) {
-        return
+        cleanups.push(undefined)
+        continue
       }
 
       if (typeof ref === 'function') {
         const refCallback = ref
-        const refCleanup: void | (() => void) = refCallback(instance)
-        return typeof refCleanup === 'function'
-          ? refCleanup
-          : () => {
-              refCallback(null)
-            }
+        const refCleanup: undefined | (() => void) = refCallback(instance)
+        cleanups.push(
+          typeof refCleanup === 'function'
+            ? refCleanup
+            : () => {
+                refCallback(null)
+              }
+        )
+        continue
       }
 
       ;(ref as React.MutableRefObject<Instance | null>).current = instance
-      return () => {
+      cleanups.push(() => {
         ;(ref as React.MutableRefObject<Instance | null>).current = null
-      }
-    })
+      })
+    }
 
     return () => {
       cleanups.forEach((refCleanup) => refCleanup?.())
     }
-  }, refs)
+  }, [...refs])
 
   return React.useMemo(() => {
-    if (refs.every((ref) => ref == null)) {
+    let allEmpty = true
+    for (const ref of refs) {
+      if (ref != null) {
+        allEmpty = false
+        break
+      }
+    }
+
+    if (allEmpty) {
       return null
     }
 
     return (value) => {
       if (cleanupRef.current) {
         cleanupRef.current()
-        ;(cleanupRef as React.MutableRefObject<void | (() => void)>).current =
-          undefined
+        cleanupRef.current = undefined
       }
 
       if (value != null) {
-        ;(cleanupRef as React.MutableRefObject<void | (() => void)>).current =
-          refEffect(value)
+        cleanupRef.current = refEffect(value)
       }
     }
-  }, refs)
+  }, [refEffect, ...refs])
 }
 /**
  * Custom hook to detect canvas space presence and position

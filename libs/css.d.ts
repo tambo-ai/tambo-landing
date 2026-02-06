@@ -14,6 +14,15 @@ declare module '*.module.sass' {
   export default classes
 }
 
+declare module '*.svg' {
+  import type * as React from 'react'
+
+  const Component: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & { title?: string }
+  >
+  export default Component
+}
+
 // Regular CSS imports
 declare module '*.css'
 declare module '*.scss'

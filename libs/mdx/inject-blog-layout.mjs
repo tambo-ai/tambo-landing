@@ -1,4 +1,15 @@
+import { Parser } from 'acorn'
+import jsx from 'acorn-jsx'
 import { visit } from 'unist-util-visit'
+
+const AcornParser = Parser.extend(jsx())
+
+function parseEsm(value) {
+  return AcornParser.parse(value, {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  })
+}
 
 function getBlogSlugFromPath(filePath) {
   const slugMatch = filePath.match(/\/blog\/posts\/([^/]+)\//)
@@ -61,45 +72,28 @@ export function remarkInjectBlogLayout() {
     }
 
     // Inject the import statement at the beginning
+    const importValue =
+      'import { BlogPostWithFrontmatter as BlogPost } from "~/components/blog/blog-post-wrapper";'
     tree.children.unshift({
       type: 'mdxjsEsm',
-      value:
-        'import { BlogPostWithFrontmatter as BlogPost } from "~/components/blog/blog-post-wrapper";',
+      value: importValue,
       data: {
-        estree: {
-          type: 'Program',
-          sourceType: 'module',
-          body: [
-            {
-              type: 'ImportDeclaration',
-              specifiers: [
-                {
-                  type: 'ImportSpecifier',
-                  imported: {
-                    type: 'Identifier',
-                    name: 'BlogPostWithFrontmatter',
-                  },
-                  local: { type: 'Identifier', name: 'BlogPost' },
-                },
-              ],
-              source: {
-                type: 'Literal',
-                value: '~/components/blog/blog-post-wrapper',
-              },
-            },
-          ],
-        },
+        estree: parseEsm(importValue),
       },
     })
 
     const slugAttr = slug ? ` slug=${JSON.stringify(slug)}` : ''
 
     // Inject the default export wrapper
+    const wrapperValue = `export default function Layout(props) {
+  return <BlogPost${slugAttr} meta={typeof frontmatter === "undefined" ? {} : frontmatter}>{props.children}</BlogPost>;
+}`
     tree.children.push({
       type: 'mdxjsEsm',
-      value: `export default function Layout(props) {
-  return <BlogPost${slugAttr} meta={typeof frontmatter === "undefined" ? {} : frontmatter}>{props.children}</BlogPost>;
-}`,
+      value: wrapperValue,
+      data: {
+        estree: parseEsm(wrapperValue),
+      },
     })
   }
 }

@@ -42,10 +42,9 @@ export function BlogPage({ posts, baseUrl }: BlogPageProps) {
 
   return (
     <div className="dr-layout-grid-inner dr-py-64">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
-      />
+      <script type="application/ld+json">
+        {JSON.stringify(blogListSchema)}
+      </script>
 
       <div className="col-span-full dt:col-start-4 dt:col-end-10">
         {/* Header */}

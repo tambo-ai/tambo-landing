@@ -185,17 +185,3 @@ function formatTimeRange(dateString: string) {
 
   return `${format(date)} → ${format(endDate)}`
 }
-
-function RandomSeatButton() {
-  const { finishSeatSelection } = useAssitant()
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        finishSeatSelection('1A')
-      }}
-    >
-      random seat
-    </button>
-  )
-}

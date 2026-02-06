@@ -7,13 +7,13 @@ import {
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu'
 import { MCPTransport, type McpServerInfo } from '@tambo-ai/react'
-import { motion } from 'framer-motion'
 import { ChevronDown, Trash2, X } from 'lucide-react'
 import React from 'react'
 import { createPortal } from 'react-dom'
 import { Streamdown } from 'streamdown'
 import { createMarkdownComponents } from '@/components/tambo/markdown-components'
 import { cn } from '@/lib/utils'
+import { Link } from '~/components/link'
 
 /**
  * Modal component for configuring client-side MCP (Model Context Protocol) servers.
@@ -88,6 +88,8 @@ export const McpConfigModal = ({
         return () => clearTimeout(timer)
       }
     }
+
+    return undefined
   }, [mcpServers])
 
   const addServer = (e: React.FormEvent) => {
@@ -172,14 +174,12 @@ function MyApp() {
 `
 
   const modalContent = (
-    <motion.div
-      className={cn('fixed dr-inset-0 bg-backdrop flex items-center justify-center z-50',
+    <div
+      className={cn(
+        'fixed dr-inset-0 bg-backdrop flex items-center justify-center z-50',
         className
       )}
       onClick={handleBackdropClick}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.2 }}
     >
       <div className="bg-card dr-rounded-8 shadow-xl max-w-2xl w-full dr-mx-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between dr-p-4">
@@ -209,16 +209,13 @@ function MyApp() {
               />
             </button>
             {showInstructions && (
-              <motion.div
+              <div
                 className="dr-px-4 dr-pb-4 border-t border-muted"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
               >
                 <Streamdown components={createMarkdownComponents()}>
                   {instructions}
                 </Streamdown>
-              </motion.div>
+              </div>
             )}
           </div>
           {/* Description */}
@@ -255,6 +252,7 @@ function MyApp() {
                   value={serverUrl}
                   onChange={(e) => setServerUrl(e.target.value)}
                   placeholder="https://your-mcp-server-url.com"
+                  autoComplete="off"
                   className="w-full dr-px-3 dr-py-2 border border-muted dr-rounded-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-150 dr-text-14"
                   required
                 />
@@ -277,6 +275,7 @@ function MyApp() {
                   value={serverName}
                   onChange={(e) => setServerName(e.target.value)}
                   placeholder="Custom server name"
+                  autoComplete="off"
                   className="w-full dr-px-3 dr-py-2 border border-muted dr-rounded-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-150 dr-text-14"
                 />
               </div>
@@ -370,6 +369,7 @@ function MyApp() {
                         </div>
                       </div>
                       <button
+                        type="button"
                         onClick={() => removeServer(index)}
                         className="dr-ml-4 dr-px-3 dr-py-1 dr-text-14 bg-destructive/20 text-destructive dr-rounded-6 hover:bg-destructive/30 focus:outline-none focus:ring-2 focus:ring-destructive focus:ring-offset-1 transition-colors duration-150 flex-shrink-0"
                       >
@@ -396,14 +396,14 @@ function MyApp() {
             <h4 className="font-medium dr-mb-2 text-foreground">What is MCP?</h4>
             <p className="text-foreground dr-text-14 leading-relaxed">
               The{' '}
-              <a
+              <Link
                 href="https://docs.tambo.co/concepts/model-context-protocol"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium underline underline-offset-2 hover:text-foreground"
               >
                 Model Context Protocol (MCP)
-              </a>{' '}
+              </Link>{' '}
               is a standard that allows applications to communicate with
               external tools and services. By configuring MCP servers, your
               tambo application will be able to make calls to these tools.
@@ -413,29 +413,29 @@ function MyApp() {
           <div className="dr-mt-4">
             <p className="dr-text-14 text-muted-foreground">
               <span className="font-semibold text-foreground">Learn more:</span>{' '}
-              <a
+              <Link
                 href="https://docs.tambo.co/concepts/model-context-protocol/clientside-mcp-connection"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground underline underline-offset-2"
               >
                 client-side
-              </a>{' '}
+              </Link>{' '}
               |{' '}
-              <a
+              <Link
                 href="https://docs.tambo.co/concepts/model-context-protocol/serverside-mcp-connection"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground underline underline-offset-2"
               >
                 server-side
-              </a>{' '}
+              </Link>{' '}
               MCP configuration.
             </p>
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 
   // Use portal to render outside current DOM tree to avoid nested forms

@@ -78,7 +78,7 @@ const COLUMN_POSITIONS: Record<string, SeatProps['position']> = {
   E: 'middle',
   F: 'window',
 }
-const EMERGENCY_EXIT_ROWS = SEAT_MAP_CONFIG.emergencyExitRows
+const EMERGENCY_EXIT_ROW_SET = new Set<number>(SEAT_MAP_CONFIG.emergencyExitRows)
 
 export function generateSeats(totalRows = TOTAL_ROWS, seed = 42): SeatProps[] {
   // Seeded random for consistent results
@@ -103,7 +103,7 @@ export function generateSeats(totalRows = TOTAL_ROWS, seed = 42): SeatProps[] {
         taken: seededRandom(seatIndex++) < takenProbability,
         price,
         position: COLUMN_POSITIONS[column],
-        emergencyExit: EMERGENCY_EXIT_ROWS.includes(row),
+        emergencyExit: EMERGENCY_EXIT_ROW_SET.has(row),
       })
     }
   }
