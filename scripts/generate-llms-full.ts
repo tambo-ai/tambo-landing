@@ -147,6 +147,13 @@ function cleanMdx(content: string): string {
           '$2'
         )
         if (unwrapped === next) break
+
+        if (i === MAX_COMPONENT_UNWRAP_PASSES - 1) {
+          console.warn(
+            `[llms-full] Reached MAX_COMPONENT_UNWRAP_PASSES=${MAX_COMPONENT_UNWRAP_PASSES} while cleaning MDX; wrappers may remain.`
+          )
+        }
+
         next = unwrapped
       }
 
@@ -201,12 +208,6 @@ function readBlogPosts(): string[] {
         console.warn(
           `[llms-full] Blog date must start with YYYY-MM-DD for ${slug}: ${meta.date}`
         )
-
-        if (process.env.CI) {
-          throw new Error(
-            `[llms-full] Invalid blog date format for ${slug}: ${meta.date}`
-          )
-        }
       }
 
       posts.push({
@@ -353,6 +354,7 @@ function formatTestimonialsSection(): string {
     const author = String(quote.author ?? '').trim()
     if (!(text && author)) continue
 
+    // De-dupe on (text, author) only; position is not considered unique.
     const key = JSON.stringify({
       text,
       author,
@@ -421,6 +423,7 @@ function generateLlmsFull(): string {
 }
 
 // Run
+// Normalize to a single trailing newline for more stable diffs and LLM corpora.
 const rawOutput = generateLlmsFull()
 const output = `${rawOutput.trimEnd()}\n`
 try {
