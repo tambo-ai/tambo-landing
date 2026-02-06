@@ -8,19 +8,21 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-// NOTE: These data modules must remain pure (no browser-only imports), since this
+import matter from 'gray-matter'
+
+// NOTE: These content modules must remain pure (no browser-only imports), since this
 // script runs in a Node environment during `bun run build`.
-import { contactPageContent, valueProps } from '../app/(pages)/contact-us/data'
-import { featureButtons } from '../app/(pages)/home/_sections/features-section/data'
-import { heroContent } from '../app/(pages)/home/_sections/hero/data'
-import { howItWorksContent } from '../app/(pages)/home/_sections/how-it-works/data'
-import { cards as meetTamboCards } from '../app/(pages)/home/_sections/meet-tambo/data'
+import { contactPageContent, valueProps } from '../app/(pages)/contact-us/content'
+import { featureButtons } from '../app/(pages)/home/_sections/features-section/content'
+import { heroContent } from '../app/(pages)/home/_sections/hero/content'
+import { howItWorksContent } from '../app/(pages)/home/_sections/how-it-works/content'
+import { cards as meetTamboCards } from '../app/(pages)/home/_sections/meet-tambo/content'
 import {
   banner as pricingBanner,
   pricingCards,
-} from '../app/(pages)/home/_sections/pricing/data'
-import { showcaseCards } from '../app/(pages)/home/_sections/showcase/data'
-import { socials } from '../app/(pages)/home/_sections/social-proof/data'
+} from '../app/(pages)/home/_sections/pricing/content'
+import { showcaseCards } from '../app/(pages)/home/_sections/showcase/content'
+import { socials } from '../app/(pages)/home/_sections/social-proof/content'
 
 const ROOT = process.cwd()
 const BLOG_DIR = join(ROOT, 'app/blog/posts')
@@ -31,24 +33,30 @@ const OUTPUT_PATH = join(ROOT, 'public/llms-full.txt')
 // Content extraction helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-function extractFrontmatter(content: string): {
-  meta: Record<string, string>
-  body: string
-} {
-  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
-  if (!match) return { meta: {}, body: content }
+function normalizeBaseUrl(rawBaseUrl: string): string {
+  return rawBaseUrl.replace(/\/+$/, '')
+}
 
-  const meta: Record<string, string> = {}
-  match[1].split('\n').forEach((line) => {
-    const [key, ...rest] = line.split(':')
-    if (key && rest.length) {
-      meta[key.trim()] = rest
-        .join(':')
-        .trim()
-        .replace(/^["']|["']$/g, '')
-    }
-  })
-  return { meta, body: match[2] }
+const BASE_URL = normalizeBaseUrl(
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
+)
+
+type BlogFrontmatter = {
+  title?: string
+  description?: string
+  date?: string
+  author?: string
+  slug?: string
+}
+
+function getString(
+  data: Record<string, unknown> | undefined,
+  key: string
+): string | undefined {
+  if (!data) return undefined
+  const value = data[key]
+  if (typeof value !== 'string') return undefined
+  return value
 }
 
 function cleanMdx(content: string): string {
@@ -88,12 +96,23 @@ function readBlogPosts(): string[] {
     const mdxPath = join(BLOG_DIR, dir, 'page.mdx')
     try {
       const content = readFileSync(mdxPath, 'utf-8')
-      const { meta, body } = extractFrontmatter(content)
-      const cleanedBody = cleanMdx(body)
+      const parsed = matter(content)
 
-      posts.push(`### ${meta.title || dir}
+      const meta: BlogFrontmatter = {
+        title: getString(parsed.data, 'title'),
+        description: getString(parsed.data, 'description'),
+        date: getString(parsed.data, 'date'),
+        author: getString(parsed.data, 'author'),
+        slug: getString(parsed.data, 'slug'),
+      }
 
-URL: ${process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'}/blog/posts/${dir}
+      const slug = meta.slug || dir
+      const url = `${BASE_URL}/blog/posts/${slug}`
+      const cleanedBody = cleanMdx(parsed.content)
+
+      posts.push(`### ${meta.title || slug}
+
+URL: ${url}
 
 ${meta.description || ''}
 
@@ -101,8 +120,12 @@ ${meta.date ? `*Published: ${meta.date}*` : ''}
 ${meta.author ? `*Author: ${meta.author}*` : ''}
 
 ${cleanedBody}`)
-    } catch {
-      // Skip if file doesn't exist
+    } catch (err) {
+      if (err && typeof err === 'object' && 'code' in err && err.code === 'ENOENT') {
+        continue
+      }
+
+      console.warn(`[llms-full] Failed to read ${mdxPath}`)
     }
   }
 
@@ -190,6 +213,10 @@ function formatShowcaseSection(): string {
 
 function formatTestimonialsSection(): string {
   const quote = socials[0]
+
+  if (!quote) {
+    return '## Testimonials\n\n(No testimonials configured)'
+  }
 
   return [
     '## Testimonials',

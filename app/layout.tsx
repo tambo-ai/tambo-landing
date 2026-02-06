@@ -10,6 +10,7 @@ import '~/styles/css/index.css'
 
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
+import { siteConfig } from '~/libs/config'
 import { getRootStructuredData } from '~/libs/seo/structured-data'
 import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
@@ -18,8 +19,19 @@ const APP_NAME = AppData.name
 const APP_DEFAULT_TITLE = 'Tambo'
 const APP_TITLE_TEMPLATE = '%s'
 const APP_DESCRIPTION = AppData.description
-const APP_BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ?? 'https://localhost:3000'
+
+function getBaseUrl(): string {
+  const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  if (!rawBaseUrl && process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'NEXT_PUBLIC_BASE_URL environment variable must be set in production'
+    )
+  }
+
+  return (rawBaseUrl || 'https://tambo.co').replace(/\/+$/, '')
+}
+
+const APP_BASE_URL = getBaseUrl()
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_BASE_URL),
@@ -91,11 +103,17 @@ export const viewport: Viewport = {
 }
 
 export default async function Layout({ children }: PropsWithChildren) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://localhost:3000'
+  const sameAs = [
+    siteConfig.links.github,
+    siteConfig.links.twitter,
+    siteConfig.links.discord,
+  ]
+
   const structuredDataJson = JSON.stringify(
     getRootStructuredData({
-      baseUrl,
+      baseUrl: APP_BASE_URL,
       description: APP_DESCRIPTION,
+      sameAs,
     })
   )
 

@@ -3,9 +3,11 @@ type JsonLd = Record<string, unknown>
 export function getRootStructuredData({
   baseUrl,
   description,
+  sameAs,
 }: {
   baseUrl: string
   description: string
+  sameAs: string[]
 }): JsonLd {
   return {
     '@context': 'https://schema.org',
@@ -19,11 +21,7 @@ export function getRootStructuredData({
           '@type': 'ImageObject',
           url: `${baseUrl}/icon.png`,
         },
-        sameAs: [
-          'https://github.com/tambo-ai/tambo',
-          'https://x.com/tambo_ai',
-          'https://discord.gg/wMeVUZXBPg',
-        ],
+        sameAs,
         description,
       },
       {

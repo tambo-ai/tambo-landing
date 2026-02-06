@@ -92,11 +92,13 @@ export function remarkInjectBlogLayout() {
       },
     })
 
+    const slugAttr = slug ? ` slug=${JSON.stringify(slug)}` : ''
+
     // Inject the default export wrapper
     tree.children.push({
       type: 'mdxjsEsm',
       value: `export default function Layout(props) {
-  return <BlogPost${slug ? ` slug="${slug}"` : ''} meta={typeof frontmatter === "undefined" ? {} : frontmatter}>{props.children}</BlogPost>;
+  return <BlogPost${slugAttr} meta={typeof frontmatter === "undefined" ? {} : frontmatter}>{props.children}</BlogPost>;
 }`,
       data: {
         estree: {
