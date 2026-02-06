@@ -5,8 +5,14 @@
  * - Base llms.txt content
  */
 
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
+import { dirname, join } from 'node:path'
 
 import matter from 'gray-matter'
 
@@ -63,37 +69,84 @@ function getString(
 }
 
 function cleanMdx(content: string): string {
-  let cleaned = content
-    // Remove ESM import/export blocks
-    .replace(/^import\s+.*$/gm, '')
-    .replace(/^export\s+.*$/gm, '')
-    // Replace known media tags
-    .replace(/<video[\s\S]*?\/>/gi, '[Video]')
-    .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
+  const fenceRegex = /^\s*```/
 
-  // Unwrap wrapper components (<Callout>text</Callout> -> text)
-  for (;;) {
-    const next = cleaned.replace(/<([A-Z][\w]*)\b[^>]*>([\s\S]*?)<\/\1>/g, '$2')
-    if (next === cleaned) break
-    cleaned = next
+  const segments: { content: string; isCode: boolean }[] = []
+  let current: string[] = []
+  let inFence = false
+
+  for (const line of content.split('\n')) {
+    if (fenceRegex.test(line)) {
+      if (!inFence) {
+        segments.push({ content: current.join('\n'), isCode: false })
+        current = [line]
+        inFence = true
+        continue
+      }
+
+      current.push(line)
+      segments.push({ content: current.join('\n'), isCode: true })
+      current = []
+      inFence = false
+      continue
+    }
+
+    current.push(line)
   }
 
-  // Remove any remaining self-closing components
-  cleaned = cleaned.replace(/<([A-Z][\w]*)\b[^>]*\/>/g, '')
+  segments.push({ content: current.join('\n'), isCode: inFence })
 
-  return cleaned
-    .replace(/\n{3,}/g, '\n\n')
-    .replace(/^\s+$/gm, '')
-    .trim()
+  const cleaned = segments
+    .map((segment) => {
+      if (segment.isCode) return segment.content
+
+      let next = segment.content
+        .replace(
+          /^\s*import\s+(?:type\s+)?[^\n]*\bfrom\b[^\n]*$/gm,
+          ''
+        )
+        .replace(/^\s*import\s+['"][^'"]+['"];?\s*$/gm, '')
+        .replace(
+          /^\s*export\s+(?:\{[^}]*\}|default|const|let|var|function|class|type|interface)\b[^\n]*$/gm,
+          ''
+        )
+        .replace(/<video[\s\S]*?\/>/gi, '[Video]')
+        .replace(/<Video[\s\S]*?>[\s\S]*?<\/Video>/gi, '[Video]')
+
+      for (;;) {
+        const unwrapped = next.replace(
+          /<([A-Z][\w]*)\b[^>]*>([\s\S]*?)<\/\1>/g,
+          '$2'
+        )
+        if (unwrapped === next) break
+        next = unwrapped
+      }
+
+      next = next.replace(/<([A-Z][\w]*)\b[^>]*\/>/g, '')
+
+      return next
+    })
+    .join('\n')
+
+  return cleaned.replace(/\n{3,}/g, '\n\n').replace(/^\s+$/gm, '').trim()
 }
 
 function readBlogPosts(): string[] {
   if (!existsSync(BLOG_DIR)) return []
 
-  const posts: string[] = []
   const dirs = readdirSync(BLOG_DIR, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name)
+    .sort((a, b) => a.localeCompare(b))
+
+  const posts: {
+    slug: string
+    title: string
+    description?: string
+    date?: string
+    author?: string
+    body: string
+  }[] = []
 
   for (const dir of dirs) {
     const mdxPath = join(BLOG_DIR, dir, 'page.mdx')
@@ -110,19 +163,14 @@ function readBlogPosts(): string[] {
       }
 
       const slug = meta.slug || dir
-      const url = `${BASE_URL}/blog/posts/${slug}`
-      const cleanedBody = cleanMdx(parsed.content)
-
-      posts.push(`### ${meta.title || slug}
-
-URL: ${url}
-
-${meta.description || ''}
-
-${meta.date ? `*Published: ${meta.date}*` : ''}
-${meta.author ? `*Author: ${meta.author}*` : ''}
-
-${cleanedBody}`)
+      posts.push({
+        slug,
+        title: meta.title || slug,
+        description: meta.description,
+        date: meta.date,
+        author: meta.author,
+        body: cleanMdx(parsed.content),
+      })
     } catch (err) {
       if (
         err &&
@@ -140,7 +188,34 @@ ${cleanedBody}`)
     }
   }
 
-  return posts
+  posts.sort((a, b) => {
+    const aDate = a.date ? Date.parse(a.date) : Number.NaN
+    const bDate = b.date ? Date.parse(b.date) : Number.NaN
+
+    if (!(Number.isNaN(aDate) || Number.isNaN(bDate)) && aDate !== bDate) {
+      return bDate - aDate
+    }
+
+    if (!Number.isNaN(aDate) && Number.isNaN(bDate)) return -1
+    if (Number.isNaN(aDate) && !Number.isNaN(bDate)) return 1
+
+    return a.slug.localeCompare(b.slug)
+  })
+
+  return posts.map((post) => {
+    const url = `${BASE_URL}/blog/posts/${post.slug}`
+
+    return `### ${post.title}
+
+URL: ${url}
+
+${post.description || ''}
+
+${post.date ? `*Published: ${post.date}*` : ''}
+${post.author ? `*Author: ${post.author}*` : ''}
+
+${post.body}`
+  })
 }
 
 function readBaseLlms(): string {
@@ -223,18 +298,28 @@ function formatShowcaseSection(): string {
 }
 
 function formatTestimonialsSection(): string {
-  const quote = socials[0]
+  const uniqueByText = new Map<string, (typeof socials)[number]>()
 
-  if (!quote) {
-    return ''
+  for (const quote of socials) {
+    if (!uniqueByText.has(quote.text)) {
+      uniqueByText.set(quote.text, quote)
+    }
   }
+
+  const quotes = Array.from(uniqueByText.values()).slice(0, 5)
+  if (quotes.length === 0) return ''
 
   return [
     '## Testimonials',
     '',
-    `> ${quote.text}`,
-    `> — ${quote.author}, ${quote.position}`,
-  ].join('\n')
+    ...quotes.flatMap((quote) => [
+      `> ${quote.text}`,
+      `> — ${quote.author}, ${quote.position}`,
+      '',
+    ]),
+  ]
+    .join('\n')
+    .trimEnd()
 }
 
 function formatContactUsSection(): string {
@@ -280,7 +365,8 @@ function generateLlmsFull(): string {
 
 // Run
 const output = generateLlmsFull()
-writeFileSync(OUTPUT_PATH, output)
+mkdirSync(dirname(OUTPUT_PATH), { recursive: true })
+writeFileSync(OUTPUT_PATH, `${output.trimEnd()}\n`, { encoding: 'utf8' })
 console.log(
   `Generated ${OUTPUT_PATH} (${output.length} chars, ${output.split('\n').length} lines)`
 )

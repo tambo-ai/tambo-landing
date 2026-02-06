@@ -68,7 +68,7 @@ export const featureButtons = [
     right: 23,
   },
   {
-    title: 'Component Library ',
+    title: 'Component Library',
     href: 'https://ui.tambo.co/',
     top: 76,
     left: 18,

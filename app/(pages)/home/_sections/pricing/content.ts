@@ -47,7 +47,7 @@ export const pricingCards = [
       'single-tenant or on-prem',
       '99.99% uptime SLA',
       'SOC 2, HIPAA opt-in, GDPR (upon request)',
-      'earlya ccess to new features',
+      'early access to new features',
       '24x7 support',
     ],
   },
