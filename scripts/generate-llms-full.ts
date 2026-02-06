@@ -175,6 +175,7 @@ function readBlogPosts(): string[] {
   const dirs = readdirSync(BLOG_DIR, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name)
+    // Sort to keep warnings and processing deterministic across platforms.
     .sort((a, b) => a.localeCompare(b))
 
   const posts: {
@@ -371,11 +372,14 @@ function formatTestimonialsSection(): string {
   return [
     '## Testimonials',
     '',
-    ...quotes.flatMap((quote) => [
-      `> ${quote.text}`,
-      `> — ${quote.author}, ${quote.position}`,
-      '',
-    ]),
+    ...quotes.flatMap((quote) => {
+      const position = String(quote.position ?? '').trim()
+      return [
+        `> ${quote.text}`,
+        `> — ${quote.author}${position ? `, ${position}` : ''}`,
+        '',
+      ]
+    }),
   ]
     .join('\n')
     .trimEnd()
