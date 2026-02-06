@@ -1,10 +1,10 @@
 'use client'
 
+import cn from 'clsx'
 import Zoom, {
   type ControlledProps,
   type UncontrolledProps,
 } from 'react-medium-image-zoom'
-import cn from 'clsx'
 
 export type ImageZoomProps = UncontrolledProps & {
   isZoomed?: ControlledProps['isZoomed']

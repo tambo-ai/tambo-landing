@@ -1,6 +1,6 @@
+import cn from 'clsx'
 import type { MDXComponents } from 'mdx/types'
 import Image from 'next/image'
-import cn from 'clsx'
 import { BlogPost } from './components/blog/blog-post'
 import { ImageZoom } from './components/ui/imagezoom'
 
@@ -231,7 +231,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
 
     u: ({ className, ...props }) => (
-      <u className={cn("underline", className)} {...props} />
+      <u className={cn('underline', className)} {...props} />
     ),
 
     span: ({ className, style, ...props }) => (
