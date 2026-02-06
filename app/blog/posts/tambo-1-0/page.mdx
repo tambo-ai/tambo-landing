@@ -1,92 +1,75 @@
 ---
-title: "Tambo 1.0"
+title: "Introducing Tambo 1.0"
 date: "2026-02-10"
 description: "Tambo 1.0"
 author: "Michael Milstead"
 ---
 
-[do we need an intro here?]
+Most AI interfaces are just chat windows bolted onto existing products. Users try them once and move on.
 
-## The UX Problem
+The problem isn't AI. It's that text isn't how people use apps. They need to see and interact with things: a chart, a table, a form. Not a paragraph describing one.
 
-In the feature-rich apps of today, it's hard to find the features you want to use unless you're an expert in the app's structure. When your end goal requires multiple steps, you need to keep in mind how to find and use multiple parts of the app. Often, the end goal isn't even clear at the start. [better transition here] Development teams spend months searching for a UX that balances simplicity for new users and power for advanced users, and end up compromising by creating an interface that isn't ideal for anybody.
+With Tambo, the agent doesn't respond with text. It renders your actual React components, with the right props, and the user can still interact with them.
 
-For example, [dmv site example]
+Today we're releasing Tambo 1.0: a fullstack, **open-source generative UI toolkit for React.** It's stable and ready for you to use in production environments, now with SOC 2 and HIPAA compliance. Get started today!
 
-AI has recently crossed a threshold. LLMs are now smart enough to understand your goals and the context of the system they're in, and fast enough to respond in a way that feels natural. Developers don't need to make that UX compromise anymore. The interface can adapt to each user.
+## How it works
 
-## Generative UI
+You register your existing React components with Tambo. When a user makes a request, the agent picks the right components, streams their props, and renders them. A user says "show me my recent orders" and they get your actual `OrderTable` component, filtered correctly, instead of a wall of markdown.
 
-With the rise of LLMs, apps started integrating text-based chatbots, but it's clear now that text isn't enough. I need UI to easily understand the information I'm interacting with in an app, and it's often much easier to interact with and edit that information through UI than through words alone.
+But Tambo isn't just a client SDK. It's a hosted backend that handles conversation threads, agent execution, auth, and state management. You don't need to wire up an agent framework or run your own agent infrastructure. The agent is included. Drop it in your React app and
+ship.
 
-LLMs should be able to change the UI I see on screen, and assist me in interacting with that UI based on my goals.
+-- TODO: Add gif here of component being rendered --
 
-This is the core idea behind Generative UI. This is what Tambo enables you to build.
+**Tambo's core pieces:**
 
-We're not the only ones with this vision. Specs and protocols are landing every other week that give developers a new way to implement some piece of their AI app from scratch, but it's hard to keep up with best practices and to tie all these separate pieces together. [maybe some examples of different pieces]
+- Your components — register the React components you've already built. Tambo learns to use them.
+- Agent — chooses the right component, streams the right props, handles the conversation.
+- Tools — let the agent take actions or fetch data on behalf of the user.
+- Context — give the agent what it needs to make good decisions about your app.
 
-Tambo brings all of these ideas together into one tool for building generative UI apps, in a way that any React developer will understand.
+## Why this is hard to build yourself
 
-## How Tambo works
+Getting to a demo of an AI app from scratch is fast. Getting to production is where it gets hard. There are countless tricky details and edgecases we've worked through so you don't have to.
 
-Tambo lets you add generative UI to your app by registering your own React components. When a user makes a request, Tambo renders the appropriate components with the right props, and the user can still interact with them. [something about how you can use the sdk to change where response components are shown and how you can customize the layout of things]
+Say your component has state — a filter, a form value, a toggle. The user updates it. Does the agent know? When the user reloads the thread, what happens to that value? Should the agent be able to update it too? What if there are three instances of the same component in the
+conversation — can the agent update all of them, or just the latest? And how do you expose all of this through an interface that feels natural in a React component?
 
-[Generative UI registration code example and gif or screenshot]
+The agent picks a component and starts generating props. They don't arrive all at once. You need to render something meaningful while half the props are missing, avoid a flash of broken UI, and handle the stream erroring out mid-render.
 
-But Tambo is more than a client SDK. It's a hosted service that processes your user's messages, interacts with the LLM, stores conversation threads, and handles auth. You don't need to wire up LangChain or Mastra or manage your own agent infrastructure. [transition to next sentence feels awkward]
+And the ground keeps shifting. You want to support MCP — now you need to implement elicitation, sampling, tool discovery. Each new protocol means new plumbing before you get back to building your actual product.
 
-This 1.0 release is a clarification and organization of all the ideas we've been iterating on about how users can collaborate with AI inside applications, and what the developer experience for building those collaborations should be.
-
-The fundamental parts of an app built with Tambo are:
-[to improve]
-
-- **Agent behavior configuration** - choose the LLM behind Tambo's agent and set behavioral instructions
-- **UI component registration** - build the list of UI components Tambo can use and interact with
-- **Tool registration** - let the agent take actions or fetch information
-- **Additional context settings** - give the agent what it needs to make good decisions
+Each of these sounds simple, but are complicated in aggregate, and all of them must be solved for an AI app to really work. These are the types of details that trap teams for months and sometimes stop them from ever making it to production.
 
 ## Why we built Tambo
 
-Michael Magan and I met at a hackathon and connected over the shared idea that the apps we use should be personalized for our individual goals and preferences. [maybe some info about how we realized that it is hard to implement from scratch]. Since then, our goal has been to make it simple and effortless for developers to build intent-driven AI apps.
+Michael Magan and I met at a hackathon and became obsessed with the idea that  the apps we use should adapt to what we're trying to do, not force us to learn their structure. 
 
-The list of features to implement and edgecases to consider when building an AI app is overwhelming. [info about some of the specifics we needed to build to enable building ai apps]. We continue to think through best practices and package them up.
+The first version turned React components into tool definitions. Now it's a full toolkit with an agent, a React SDK, and a component library.
 
-The first version of Tambo was a tiny library to turn React components into tool definitions to send to an LLM.
+"Tambo was insanely easy to get up and running — it's how you get a full chatbot from frontend to backend in minutes. I plugged it into my UI on a Friday and demoed it to my team on Monday." — Jean-Philippe Bergeron, Sr. Fullstack Engineer at Solink
 
-Now, it's [info about what's different now and what tambo includes, like API, SDK, CLI, component library]. We've worked through [a couple examples of tricky things we've implemented.]
+Who's building with Tambo
 
-## Who's building with Tambo
+7,700+ developers have starred the repo. Teams at Zapier, Rocket Money, and Solink are building generative UI into their apps with Tambo. More than 350,000 user messages have been processed. Tambo is SOC 2 and HIPAA compliant.
 
-7,700+ developers have starred the repo.
+The timing of this interest isn't a coincidence. The industry is converging on the idea that agents should render real UI, not text. New specs are landing every week — Anthropic's MCP Apps, Google's A2UI, Vercel's json-render. But a protocol isn't an implementation. Developers building these experiences keep arriving at the
+same conclusion: they need a toolkit they can drop into their app. Tambo is here for it.
 
-Teams at companies like Zapier, Rocket Money, and Solink are building with Tambo.
+Get started
 
-Thousands of projects have been created, and more than 350k user messages have been processed.
+*Quickstart:* Get a working agent in your React app in minutes.
+→ https://docs.tambo.co/getting-started/quickstart
 
-The common thread among everybody we've built with is clear: Generative UI apps are coming, and a simple framework to build them is needed.
+*Star the repo.* It's all open source.
+→ https://github.com/tambo-ai/tambo
 
-## Get started
+To the thousands of developers who starred, filed issues, and built with Tambo: 1.0 exists because of you.
 
-**Quickstart:** Get a working generative UI agent in your React app in minutes.
-→ [docs.tambo.co/quickstart](https://docs.tambo.co/getting-started/quickstart)
+We build in the open because this community makes the product better. Thank you for being part of it.
 
-**Building something ambitious?** We want to hear about it. Join the Discord and tell us what you're working on.
-→ [discord.gg/tambo](https://discord.gg/tambo)
-
-**Star the repo.** Explore how things work. It's all opensource.
-→ [github.com/tambo-ai/tambo](https://github.com/tambo-ai/tambo)
-
-## Thank you
-
-To all the developers who starred, filed issues, and built things we didn't imagine - 1.0 exists because of you.
-
-Your GitHub issues turned into features. Your Discord conversations changed our roadmap. Your projects pushed Tambo in directions we never planned.
-
-We're consistently amazed by your ideas, and energized by your excitement about the future.
-
-Thank you!
-
-[too cheesy or? -> ] This is 1.0. The foundation is solid. But the best part is what comes next.
+Building with Tambo? https://discord.gg/FIXME and tell us what you're working on.
 
 ---
 
