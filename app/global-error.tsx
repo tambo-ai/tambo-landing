@@ -16,7 +16,7 @@ export default function GlobalError({
   }, [error])
 
   return (
-    <Wrapper theme="light" className="font-mono" webgl>
+    <Wrapper theme="light" className="font-mono">
       <div className="flex flex-col items-center justify-center dr-gap-y-24 my-auto uppercase">
         <h1 className="mb-4 text-4xl font-bold">Critical Error</h1>
         <p className="mb-6 text-lg text-gray-600">

@@ -29,13 +29,13 @@ export async function getPosts(): Promise<BlogPost[]> {
   const posts = directories
     .filter(
       (item: { name?: string; frontMatter?: unknown }): item is BlogPost => {
-        return item.name !== "index" && !!(item as any).frontMatter;
+        return item.name !== "index" && !!(item as unknown as BlogPost).frontMatter;
       },
     )
     .map((item) => ({
       name: item.name,
       route: item.route,
-      content: (item as any).content || "",
+      content: (item as unknown as { content?: string }).content || "",
       frontMatter: {
         title: item.frontMatter.title ?? "",
         date: item.frontMatter.date ?? new Date().toISOString(),

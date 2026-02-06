@@ -168,7 +168,7 @@ export function Footer() {
                 <TitleBlock.Subtitle className="typo-p! dt:typo-p-l!">
                   Your first agent is only minutes away.
                 </TitleBlock.Subtitle>
-                <div className="flex dr-gap-8 dt:dr-mt-40 dr-mt-32 dt:flex-row flex-col">
+                <div className="flex dr-gap-8 dt:dr-mt-40 dr-mt-32 dt:flex-row flex-col items-center">
                   <CTA
                     className="bg-black! text-teal border-teal"
                     onMouseEnter={onMouseEnter}
@@ -181,7 +181,7 @@ export function Footer() {
                   <CTA
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
-                    className="w-full"
+                    className="w-fit"
                     href="/contact-us"
                   >
                     contact us

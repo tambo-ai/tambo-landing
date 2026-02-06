@@ -149,7 +149,7 @@ export function TimelineSection({
         <div className="dr-layout-grid-inner dt:h-screen dt:dr-max-h-900 relative ">
           <div className="col-span-4 flex flex-col dr-pt-80 dt:dr-pt-165 max-dt:dr-pb-16 max-dt:h-screen z-1">
             <div className="relative">
-              <h3 className="relative typo-h1 dt:typo-h2 text-center dt:text-left z-10">
+              <h3 className="relative typo-h1 text-center dt:text-left z-10">
                 {title}
               </h3>
             </div>
