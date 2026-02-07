@@ -5,6 +5,7 @@ pre-commit:
       glob: '*.{js,mjs,ts,jsx,tsx,css,scss}'
       exclude: 'integrations/tambo/**/*'
       run: bun biome check --max-diagnostics=200 --write {staged_files}
+      stage_fixed: true
       
 post-merge:
   commands:
