@@ -129,8 +129,8 @@ export class MagneticScroll {
 
     const distance = Math.abs(nearestSnap - currentScroll)
 
-    // Only attract within threshold distance, and not when already there
-    if (distance > this.distanceThreshold || distance < 1) return
+    // Only attract within threshold distance; dead zone near snap point
+    if (distance > this.distanceThreshold || distance < 100) return
 
     // Exponential falloff - stronger when closer
     const strength = Math.exp(-distance / (this.distanceThreshold * 0.3))
