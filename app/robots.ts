@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next'
+import { SEO_FALLBACK_BASE_URL } from '~/libs/seo/constants'
 
-const APP_BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ?? 'https://localhost:3000'
+const APP_BASE_URL = (
+  process.env.NEXT_PUBLIC_BASE_URL || SEO_FALLBACK_BASE_URL
+).replace(/\/+$/, '')
 
 export default function robots(): MetadataRoute.Robots {
   return {

@@ -1,9 +1,9 @@
-import { siteConfig } from "./config";
+import { SEO_FALLBACK_BASE_URL } from '~/libs/seo/constants'
 
-/**
- * Generates JSON-LD schema markup for a blog post
- */
+type JsonLd = Record<string, unknown>
+
 export function generateBlogPostSchema({
+  baseUrl,
   title,
   description,
   publishedAt,
@@ -13,43 +13,48 @@ export function generateBlogPostSchema({
   slug,
   image,
 }: {
-  title: string;
-  description: string;
-  publishedAt: string;
-  updatedAt?: string;
-  authorName: string;
-  authorUrl?: string;
-  slug: string;
-  image?: string;
-}) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || siteConfig.url;
-  const postUrl = `${baseUrl}/blog/posts/${slug}`;
+  baseUrl?: string
+  title: string
+  description?: string
+  publishedAt: string
+  updatedAt?: string
+  authorName: string
+  authorUrl?: string
+  slug: string
+  image?: string
+}): JsonLd {
+  const normalizedBaseUrl = (
+    baseUrl ||
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    SEO_FALLBACK_BASE_URL
+  ).replace(/\/+$/, '')
+  const postUrl = `${normalizedBaseUrl}/blog/posts/${slug}`
 
   return {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
     headline: title,
-    description: description,
+    ...(description ? { description } : {}),
     author: {
-      "@type": "Person",
+      '@type': 'Person',
       name: authorName,
-      url: authorUrl,
+      ...(authorUrl ? { url: authorUrl } : {}),
     },
-    image: image || `${baseUrl}/api/og`,
+    image: image || `${normalizedBaseUrl}/opengraph-image.jpg`,
     url: postUrl,
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
     publisher: {
-      "@type": "Organization",
-      name: siteConfig.name,
+      '@type': 'Organization',
+      name: 'Tambo',
       logo: {
-        "@type": "ImageObject",
-        url: `${baseUrl}/api/og`,
+        '@type': 'ImageObject',
+        url: `${normalizedBaseUrl}/icon.png`,
       },
     },
     mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": postUrl,
+      '@type': 'WebPage',
+      '@id': postUrl,
     },
-  };
+  }
 }
