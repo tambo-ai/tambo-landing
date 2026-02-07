@@ -32,7 +32,7 @@ export const persons = [
     url: 'https://www.linkedin.com/in/ivan-cherepanov/',
     image: '/assets/profiles/ProfilePic-4.jpeg',
     tweet:
-      "Most agent UI specs are painfully enterprisey. Tambo is refreshingly straightforward to actually implement.",
+      'Most agent UI specs are painfully enterprisey. Tambo is refreshingly straightforward to actually implement.',
   },
   {
     name: 'Nicolas Mondain',
@@ -41,7 +41,7 @@ export const persons = [
     url: 'https://www.linkedin.com/in/nicolas-m-49073039b/',
     image: '/assets/profiles/ProfilePic-5.png',
     tweet:
-      'easiest generative UI sdk I\'ve found. and they actually engage with their developers.',
+      "easiest generative UI sdk I've found. and they actually engage with their developers.",
   },
   {
     name: 'Max Prilutskiy',
@@ -49,8 +49,7 @@ export const persons = [
     position: 'Creator of Lingo.dev',
     url: 'https://x.com/MaxPrilutskiy',
     image: '/assets/profiles/ProfilePic-6.jpeg',
-    tweet:
-      "@tambo_ai is the missing UI toolkit for the agentic web.",
+    tweet: '@tambo_ai is the missing UI toolkit for the agentic web.',
   },
   {
     name: 'Taylor Martin',
@@ -67,7 +66,8 @@ export const persons = [
     position: 'DevEx Eng at Chromatic',
     url: 'https://www.linkedin.com/in/varunvachhar/',
     image: '/assets/profiles/ProfilePic-8.jpeg',
-    tweet: "Seeing an LLM respond with real UI instead of just text is magical. Tambo made it easy to register my components and combine natural language with UI.",
+    tweet:
+      'Seeing an LLM respond with real UI instead of just text is magical. Tambo made it easy to register my components and combine natural language with UI.',
   },
 ]
 
@@ -75,7 +75,7 @@ export const buttons = [
   {
     icon: 'github',
     text: 'Star Tambo',
-    href: 'https://github.com/tambo-ai',
+    href: 'https://github.com/tambo-ai/tambo',
   },
   {
     icon: 'discord',
