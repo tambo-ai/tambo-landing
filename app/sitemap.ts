@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next'
 import { getPostListItems } from '~/libs/get-posts'
+import { SEO_FALLBACK_BASE_URL } from '~/libs/seo/constants'
 
 const APP_BASE_URL = (
-  process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
+  process.env.NEXT_PUBLIC_BASE_URL || SEO_FALLBACK_BASE_URL
 ).replace(/\/+$/, '')
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

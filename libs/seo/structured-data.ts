@@ -3,11 +3,14 @@ type JsonLd = Record<string, unknown>
 type MaybeUrl = string | null | undefined
 
 function isNonEmptyString(value: MaybeUrl): value is string {
-  return typeof value === 'string' && value.length > 0
+  return typeof value === 'string' && value.trim().length > 0
 }
 
 export function serializeJsonLd(data: JsonLd | readonly JsonLd[]): string {
-  return JSON.stringify(data).replace(/<\//g, '<\\/')
+  return JSON.stringify(data)
+    .replace(/<\//g, '<\\/')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029')
 }
 
 export function getRootStructuredData({

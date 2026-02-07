@@ -11,6 +11,7 @@ import '~/styles/css/index.css'
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
 import { siteConfig } from '~/libs/config'
+import { SEO_FALLBACK_BASE_URL } from '~/libs/seo/constants'
 import {
   getRootStructuredData,
   serializeJsonLd,
@@ -23,7 +24,7 @@ const APP_DEFAULT_TITLE = 'Tambo'
 const APP_TITLE_TEMPLATE = '%s'
 const APP_DESCRIPTION = AppData.description
 const APP_BASE_URL = (
-  process.env.NEXT_PUBLIC_BASE_URL || 'https://tambo.co'
+  process.env.NEXT_PUBLIC_BASE_URL || SEO_FALLBACK_BASE_URL
 ).replace(/\/+$/, '')
 
 export const metadata: Metadata = {

@@ -1,3 +1,5 @@
+import { SEO_FALLBACK_BASE_URL } from '~/libs/seo/constants'
+
 type JsonLd = Record<string, unknown>
 
 export function generateBlogPostSchema({
@@ -24,7 +26,7 @@ export function generateBlogPostSchema({
   const normalizedBaseUrl = (
     baseUrl ||
     process.env.NEXT_PUBLIC_BASE_URL ||
-    'https://tambo.co'
+    SEO_FALLBACK_BASE_URL
   ).replace(/\/+$/, '')
   const postUrl = `${normalizedBaseUrl}/blog/posts/${slug}`
 
