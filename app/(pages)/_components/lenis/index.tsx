@@ -44,8 +44,8 @@ export function Lenis({ root, options }: LenisProps) {
     if (lenis) {
       const magnetic = new MagneticScroll(lenis, {
         velocityThreshold: 4,
-        distanceThreshold: 800,
-        pullStrength: 0.25,
+        distanceThreshold: 600,
+        pullStrength: 0.1,
       })
       magneticScrollRef.current = magnetic
       setMagneticScroll(magnetic)
