@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.3.0](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.2.0...tambo-website-v1.3.0) (2026-02-07)
+
+
+### Features
+
+* **seo:** add JSON-LD structured data and improve metadata ([#33](https://github.com/tambo-ai/tambo-landing/issues/33)) ([078d552](https://github.com/tambo-ai/tambo-landing/commit/078d552aca79f98b247a667dd0c66cf82dcbe00c))
+* update llms.txt copy and add testimonials ([#35](https://github.com/tambo-ai/tambo-landing/issues/35)) ([5300501](https://github.com/tambo-ai/tambo-landing/commit/53005016c25d7dec6a43346b1d90dd95d58006c1))
+
+
+### Bug Fixes
+
+* move Turnstile script to client component for Next.js 16 compat ([#41](https://github.com/tambo-ai/tambo-landing/issues/41)) ([658c42e](https://github.com/tambo-ai/tambo-landing/commit/658c42e46a3e4636eb74b415b31698bd68e12683))
+
+
+### Miscellaneous Chores
+
+* add layered spam protection to contact form ([#40](https://github.com/tambo-ai/tambo-landing/issues/40)) ([f1b954c](https://github.com/tambo-ai/tambo-landing/commit/f1b954cc4b38b9e549b20de42bbaf70c48803bf6))
+
 ## [1.2.0](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.1.0...tambo-website-v1.2.0) (2026-02-06)
 
 
