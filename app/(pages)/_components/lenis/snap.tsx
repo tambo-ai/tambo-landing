@@ -5,16 +5,16 @@ export function useLenisSnap(
   snap?: ('start' | 'end' | 'center')[] | 'start' | 'end' | 'center' | false
 ) {
   const [element, setElement] = useState<HTMLElement | null>(null)
-  const lenisSnap = useStore((state) => state.lenisSnap)
+  const magneticScroll = useStore((state) => state.magneticScroll)
 
   useEffect(() => {
-    if (snap && lenisSnap && element) {
-      return lenisSnap.addElement(element, {
+    if (snap && magneticScroll && element) {
+      return magneticScroll.addElement(element, {
         align: snap,
       })
     }
     return undefined
-  }, [lenisSnap, element, snap])
+  }, [magneticScroll, element, snap])
 
   return setElement
 }
