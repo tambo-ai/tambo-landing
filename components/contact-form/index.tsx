@@ -2,8 +2,9 @@
 
 import cn from 'clsx'
 import { CheckCircle2, Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Dropdown } from '~/components/dropdown'
+import { SOURCE_OPTIONS } from '~/libs/contact-form-options'
 import s from './contact-form.module.css'
 
 type FormData = {
@@ -15,17 +16,18 @@ type FormData = {
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error'
 
-const SOURCE_OPTIONS = [
-  'Word of mouth',
-  'GitHub',
-  'X',
-  'LinkedIn',
-  'Reddit',
-  'Slack/Discord',
-  'Meetup/Conference',
-  'ChatGPT/Claude',
-  'Newsletter',
-]
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        element: HTMLElement,
+        options: Record<string, unknown>
+      ) => string
+      remove: (widgetId: string) => void
+      reset: (widgetId: string) => void
+    }
+  }
+}
 
 export function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
@@ -38,6 +40,53 @@ export function ContactForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
     {}
   )
+
+  // Spam protection state
+  const [honeypot, setHoneypot] = useState('')
+  const formLoadedAt = useRef(0)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const turnstileRef = useRef<HTMLDivElement>(null)
+  const turnstileWidgetId = useRef<string>(undefined)
+
+  useEffect(() => {
+    formLoadedAt.current = Date.now()
+  }, [])
+
+  const handleTurnstileVerify = useCallback((token: string) => {
+    setTurnstileToken(token)
+  }, [])
+
+  useEffect(() => {
+    const siteKey = process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY
+    if (!(siteKey && turnstileRef.current)) return
+
+    const renderWidget = () => {
+      if (!(window.turnstile && turnstileRef.current)) return
+      turnstileWidgetId.current = window.turnstile.render(
+        turnstileRef.current,
+        {
+          sitekey: siteKey,
+          callback: handleTurnstileVerify,
+          theme: 'light',
+          size: 'flexible',
+        }
+      )
+    }
+
+    // If script already loaded, render immediately; otherwise wait for event
+    if (window.turnstile) {
+      renderWidget()
+    } else {
+      window.addEventListener('turnstile:loaded', renderWidget)
+    }
+
+    return () => {
+      window.removeEventListener('turnstile:loaded', renderWidget)
+      if (turnstileWidgetId.current && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId.current)
+      }
+    }
+  }, [handleTurnstileVerify])
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof FormData, string>> = {}
@@ -83,6 +132,9 @@ export function ContactForm() {
           use_case: formData.useCase,
           source: formData.source,
           submitted_at: new Date().toISOString(),
+          _hp: honeypot,
+          _t: formLoadedAt.current,
+          ...(turnstileToken && { _cf: turnstileToken }),
         }),
       })
 
@@ -149,6 +201,20 @@ export function ContactForm() {
             status === 'success' ? 'opacity-0 pointer-events-none' : 'opacity-100'
           )}
         >
+        {/* Honeypot field — hidden from humans via CSS */}
+        <div className={s.formHelper} aria-hidden="true">
+          <label htmlFor="website">Website</label>
+          <input
+            type="text"
+            id="website"
+            name="website"
+            tabIndex={-1}
+            autoComplete="one-time-code"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+          />
+        </div>
+
         <div className="dr-mb-24 dt:dr-mb-32 last:dr-mb-32 last:dt:dr-mb-40">
           <label
             htmlFor="name"
@@ -257,10 +323,10 @@ export function ContactForm() {
           </label>
           <Dropdown
             placeholder="Select an option"
-            options={SOURCE_OPTIONS}
+            options={[...SOURCE_OPTIONS]}
             defaultValue={
               formData.source
-                ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source))
+                ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source as typeof SOURCE_OPTIONS[number]))
                 : undefined
             }
             onChange={(index) => {
@@ -279,6 +345,11 @@ export function ContactForm() {
             </span>
           )}
         </div>
+
+        {/* Cloudflare Turnstile widget */}
+        {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
+          <div ref={turnstileRef} className="dr-mb-24 dt:dr-mb-32" />
+        )}
 
         <button
           type="submit"
