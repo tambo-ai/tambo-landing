@@ -40,7 +40,9 @@ export function Lenis({ root, options }: LenisProps) {
 
   useEffect(() => {
     if (lenis) {
-      setLenisSnap(new LenisSnap(lenis))
+      const snap = new LenisSnap(lenis)
+      snap.stop()
+      setLenisSnap(snap)
     }
   }, [lenis, setLenisSnap])
 
