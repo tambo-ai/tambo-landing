@@ -1,3 +1,7 @@
+.formHelper {
+  display: none;
+}
+
 .successIcon {
   animation: scaleIn 0.6s var(--ease-out-cubic);
 }

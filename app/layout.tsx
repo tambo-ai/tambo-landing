@@ -10,7 +10,13 @@ import '~/styles/css/index.css'
 
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
-
+import { TurnstileScript } from '~/components/turnstile-script'
+import { siteConfig } from '~/libs/config'
+import { SEO_FALLBACK_BASE_URL } from '~/libs/seo/constants'
+import {
+  getRootStructuredData,
+  serializeJsonLd,
+} from '~/libs/seo/structured-data'
 import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
 
@@ -18,8 +24,9 @@ const APP_NAME = AppData.name
 const APP_DEFAULT_TITLE = 'Tambo'
 const APP_TITLE_TEMPLATE = '%s'
 const APP_DESCRIPTION = AppData.description
-const APP_BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ?? 'https://localhost:3000'
+const APP_BASE_URL = (
+  process.env.NEXT_PUBLIC_BASE_URL || SEO_FALLBACK_BASE_URL
+).replace(/\/+$/, '')
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_BASE_URL),
@@ -30,24 +37,19 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   keywords: [
-    'AI-Powered React Components',
-    'Generative UI Components',
-    'React AI Integration',
-    'Contextual UI Generation',
-    'Dynamic Interface Adaptation',
-    'Conversational UI Framework',
-    'Context-Aware Interfaces',
-    'Natural Language UI',
-    'AI UX Development',
-    'Client Side MCP Integration',
-    'Server Side MCP Integration',
-    'React AI Agent Framework',
+    'generative UI',
+    'React AI toolkit',
+    'open-source AI',
+    'AI components',
+    'MCP',
+    'Model Context Protocol',
+    'React agent',
+    'AI copilot',
+    'streaming UI',
+    'component rendering',
   ],
   alternates: {
     canonical: '/',
-    languages: {
-      'en-US': '/en-US',
-    },
   },
   appleWebApp: {
     capable: true,
@@ -69,7 +71,7 @@ export const metadata: Metadata = {
         url: '/opengraph-image.jpg',
         width: 1200,
         height: 630,
-        alt: APP_DEFAULT_TITLE,
+        alt: 'Tambo - the open-source generative UI toolkit for React',
       },
     ],
     locale: 'en_US',
@@ -96,6 +98,20 @@ export const viewport: Viewport = {
 }
 
 export default async function Layout({ children }: PropsWithChildren) {
+  const sameAs = [
+    siteConfig.links.github,
+    siteConfig.links.twitter,
+    siteConfig.links.discord,
+  ]
+
+  const structuredDataJson = serializeJsonLd(
+    getRootStructuredData({
+      baseUrl: APP_BASE_URL,
+      description: APP_DESCRIPTION,
+      sameAs,
+    })
+  )
+
   return (
     <html
       lang="en"
@@ -108,9 +124,19 @@ export default async function Layout({ children }: PropsWithChildren) {
         {/* Preconnect to external origins for faster resource loading */}
         <link rel="preconnect" href="https://us.i.posthog.com" />
         <link rel="preconnect" href="https://us-assets.i.posthog.com" />
+        <link rel="dns-prefetch" href="https://api.mapbox.com" />
+        <link rel="dns-prefetch" href="https://api.open-meteo.com" />
+        {/* JSON-LD structured data for SEO */}
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires injecting a serialized string.
+          dangerouslySetInnerHTML={{ __html: structuredDataJson }}
+        />
       </head>
       {/* this helps to track Satus usage thanks to Wappalyzer */}
       <Script async>{`window.satusVersion = '${AppData.version}';`}</Script>
+      {/* Cloudflare Turnstile for contact form spam protection */}
+      <TurnstileScript />
       <body>
         <AnalyticsProvider>
           {/* Critical: CSS custom properties needed for layout */}

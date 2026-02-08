@@ -1,14 +1,13 @@
 import type { MetadataRoute } from 'next'
 import { getPostListItems } from '~/libs/get-posts'
+import { SEO_FALLBACK_BASE_URL } from '~/libs/seo/constants'
+
+const APP_BASE_URL = (
+  process.env.NEXT_PUBLIC_BASE_URL || SEO_FALLBACK_BASE_URL
+).replace(/\/+$/, '')
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
-  if (!rawBaseUrl && process.env.NODE_ENV === 'production') {
-    throw new Error(
-      'NEXT_PUBLIC_BASE_URL environment variable must be set in production'
-    )
-  }
-  const baseUrl = (rawBaseUrl || 'https://tambo.co').replace(/\/+$/, '')
+  const baseUrl = APP_BASE_URL
 
   const posts = await getPostListItems()
   const blogPosts = posts

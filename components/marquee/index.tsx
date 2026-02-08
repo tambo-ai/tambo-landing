@@ -72,7 +72,7 @@ export function Marquee({
   })
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: <explanation>
+    // biome-ignore lint/a11y/noStaticElementInteractions: marquee needs mouse events for pause-on-hover
     <div
       ref={setIntersectionRef}
       className={cn(className, s.marquee)}

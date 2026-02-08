@@ -44,7 +44,7 @@ export function BlogPage({ posts, baseUrl }: BlogPageProps) {
     <div className="dr-layout-grid-inner dr-py-64">
       <script
         type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires innerHTML
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: required for JSON-LD structured data
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
       />
 

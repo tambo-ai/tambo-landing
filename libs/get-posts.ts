@@ -19,14 +19,6 @@ export interface BlogPost {
   content?: string
 }
 
-// Intermediate type for items from normalizePages before type narrowing
-interface PageMapItem {
-  name?: string
-  route: string
-  frontMatter?: BlogFrontMatter
-  content?: string
-}
-
 export async function getPosts(): Promise<BlogPost[]> {
   const pageMap = await getPageMap('/blog/posts')
   const { directories } = normalizePages({
@@ -34,23 +26,18 @@ export async function getPosts(): Promise<BlogPost[]> {
     route: '/blog/posts',
   })
 
-  const posts = (directories as PageMapItem[])
+  const posts = directories
     .filter(
-      (
-        item
-      ): item is PageMapItem & {
-        name: string
-        frontMatter: BlogFrontMatter
-      } => {
+      (item: { name?: string; frontMatter?: unknown }): item is BlogPost => {
         return (
-          item.name !== undefined && item.name !== 'index' && !!item.frontMatter
+          item.name !== 'index' && !!(item as unknown as BlogPost).frontMatter
         )
       }
     )
     .map((item) => ({
       name: item.name,
       route: item.route,
-      content: item.content || '',
+      content: (item as unknown as { content?: string }).content || '',
       frontMatter: {
         title: item.frontMatter.title ?? '',
         date: item.frontMatter.date ?? new Date().toISOString(),
@@ -60,7 +47,7 @@ export async function getPosts(): Promise<BlogPost[]> {
       },
     }))
     .toSorted(
-      (a: BlogPost, b: BlogPost) =>
+      (a, b) =>
         new Date(b.frontMatter.date).getTime() -
         new Date(a.frontMatter.date).getTime()
     )

@@ -101,7 +101,7 @@ pre::-webkit-scrollbar-thumb:hover {
   background: #586069;
 }
 
-/* Firefox scrollbar - using .blog-prose pre for consistent specificity */
+/* Firefox scrollbar */
 .blog-prose pre {
   scrollbar-width: thin;
   scrollbar-color: #444d56 transparent;
