@@ -68,7 +68,7 @@ export function Showcase() {
                 >
                   <div
                     className={cn(
-                      'dt:dr-w-337 dt:dr-h-189 dr-h-170 border border-dark-teal/50 dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block',
+                      'dt:dr-w-337 dt:dr-h-189 dr-h-170 border border-dark-teal/50 dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block overflow-hidden',
                       s.cardImage
                     )}
                   >
