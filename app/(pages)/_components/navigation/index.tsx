@@ -7,9 +7,9 @@ import CloseIcon from '~/assets/svgs/close.svg'
 import DiscordIcon from '~/assets/svgs/discord.svg'
 import GithubIcon from '~/assets/svgs/github.svg'
 import NavMobile from '~/assets/svgs/nav-mobile.svg'
-import TamboLogo from '~/assets/svgs/tambo.svg'
 import XIcon from '~/assets/svgs/X.svg'
 import { Button, CTA } from '~/components/button'
+import { Image } from '~/components/image'
 import { Link } from '~/components/link'
 import { siteConfig } from '~/libs/config'
 import { useStore } from '~/libs/store'
@@ -114,9 +114,15 @@ export function Navigation({
             ))}
           </ul>
           <div className="dt:absolute dt:left-1/2 dt:-translate-x-1/2 dt:grid dt:place-items-center">
-            <div className="dr-h-24 relative">
+            <div className="dr-h-24 dr-w-89 relative">
               <Link href="/">
-                <TamboLogo className="min-h-full" />
+                <Image
+                  fill
+                  src="/images/tambo.png"
+                  alt="Tambo Logo"
+                  desktopSize="25vw"
+                  preload
+                />
               </Link>
             </div>
           </div>
@@ -155,7 +161,14 @@ export function Navigation({
           <div className="absolute dr-h-48 dr-pl-24 dr-pr-20  flex justify-between items-center w-full ">
             <div className="dr-h-24 relative">
               <Link href="/" onClick={() => setIsMobileNavOpened(false)}>
-                <TamboLogo className="min-h-full" />
+                <Image
+                  block
+                  src="/images/tambo.png"
+                  alt="Tambo Logo"
+                  className="min-h-full"
+                  mobileSize="25vw"
+                  preload
+                />
               </Link>
             </div>
             <Button
