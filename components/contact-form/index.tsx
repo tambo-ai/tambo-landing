@@ -4,6 +4,7 @@ import cn from 'clsx'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Dropdown } from '~/components/dropdown'
+import { Link } from '~/components/link'
 import { SOURCE_OPTIONS } from '~/libs/contact-form-options'
 import s from './contact-form.module.css'
 
@@ -42,6 +43,7 @@ export function ContactForm() {
   const [honeypot, setHoneypot] = useState('')
   const formLoadedAt = useRef(0)
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [turnstileVisible, setTurnstileVisible] = useState(false)
   const turnstileRef = useRef<HTMLDivElement>(null)
   const turnstileWidgetId = useRef<string>(undefined)
 
@@ -64,8 +66,10 @@ export function ContactForm() {
         {
           sitekey: siteKey,
           callback: handleTurnstileVerify,
+          'before-interactive-callback': () => setTurnstileVisible(true),
           theme: 'light',
           size: 'flexible',
+          appearance: 'interaction-only',
         }
       )
     }
@@ -161,36 +165,33 @@ export function ContactForm() {
 
   return (
     <div className="bg-white border border-dark-grey dr-rounded-24 dt:dr-rounded-32 shadow-[0_8px_32px_rgba(15,26,23,0.08)] relative">
-      {/* Success overlay - absolutely positioned over the form */}
-      <div
-        className={cn(
-          'absolute inset-0 bg-white dr-p-32 dt:dr-p-48 flex flex-col justify-center text-center transition-opacity duration-300 dr-rounded-24 dt:dr-rounded-32',
-          status === 'success'
-            ? 'opacity-100 z-50'
-            : 'opacity-0 pointer-events-none z-0'
-        )}
-      >
-        <CheckCircle2
+        {/* Success overlay - absolutely positioned over the form */}
+        <div
           className={cn(
-            'dr-w-96 dr-h-96 dt:dr-w-112 dt:dr-h-112 mx-auto dr-mb-40 dt:dr-mb-48 text-forest',
-            status === 'success' && s.successIcon
+            'absolute inset-0 bg-white dr-p-32 dt:dr-p-48 flex flex-col justify-center text-center transition-opacity duration-300 dr-rounded-24 dt:dr-rounded-32',
+            status === 'success' ? 'opacity-100 z-50' : 'opacity-0 pointer-events-none z-0'
           )}
-          strokeWidth={1.5}
-        />
-        <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-24 font-semibold">
-          Thanks for your request.
-        </h1>
-        <p className="typo-p-l text-black dr-mb-48 dt:dr-mb-56 leading-[1.6] dr-max-w-340 dt:dr-max-w-420 mx-auto">
-          We'll get back to you soon!
-        </p>
-        <button
-          type="button"
-          onClick={() => setStatus('idle')}
-          className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0 mx-auto"
         >
-          Send another message
-        </button>
-      </div>
+          <CheckCircle2
+            className={cn(
+              'dr-w-96 dr-h-96 dt:dr-w-112 dt:dr-h-112 mx-auto dr-mb-40 dt:dr-mb-48 text-forest',
+              status === 'success' && s.successIcon
+            )}
+            strokeWidth={1.5}
+          />
+          <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-24 font-semibold">
+            Thanks for your request.
+          </h1>
+          <p className="typo-p-l text-black dr-mb-48 dt:dr-mb-56 leading-[1.6] dr-max-w-340 dt:dr-max-w-420 mx-auto">
+            We'll get back to you soon!
+          </p>
+          <Link
+            href={process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.tambo.co'}
+            className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0 mx-auto no-underline"
+          >
+            Check out our docs
+          </Link>
+        </div>
 
       {/* Form - always in DOM to maintain height */}
       <form
@@ -352,12 +353,12 @@ export function ContactForm() {
 
         {/* Cloudflare Turnstile widget */}
         {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
-          <div ref={turnstileRef} className="dr-mb-24 dt:dr-mb-32" />
+          <div ref={turnstileRef} className={cn(s.turnstileContainer, turnstileVisible && s.turnstileContainerVisible, turnstileVisible && 'dr-mb-24 dt:dr-mb-32')} />
         )}
 
         <button
           type="submit"
-          disabled={status === 'loading'}
+          disabled={status === 'loading' || (turnstileVisible && !turnstileToken)}
           className={cn(
             'typo-button w-full dr-py-18 dr-px-20 dt:dr-py-20 dt:dr-px-24 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 font-semibold uppercase tracking-[0.05em] cursor-pointer transition-all duration-300 ease-out-cubic relative hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.3)] hover:border-teal active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed text-left',
             status === 'loading' && 'pointer-events-none'
