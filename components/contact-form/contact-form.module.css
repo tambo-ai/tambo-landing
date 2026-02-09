@@ -3,14 +3,12 @@
 }
 
 .turnstileContainer {
-  position: relative;
+  height: 0;
+  overflow: visible;
 }
 
-.turnstileContainer > * {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 10;
+.turnstileContainerVisible {
+  height: auto;
 }
 
 .successIcon {

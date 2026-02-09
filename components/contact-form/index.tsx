@@ -46,6 +46,7 @@ export function ContactForm() {
   const [honeypot, setHoneypot] = useState('')
   const formLoadedAt = useRef(0)
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [turnstileVisible, setTurnstileVisible] = useState(false)
   const turnstileRef = useRef<HTMLDivElement>(null)
   const turnstileWidgetId = useRef<string>(undefined)
 
@@ -68,6 +69,7 @@ export function ContactForm() {
         {
           sitekey: siteKey,
           callback: handleTurnstileVerify,
+          'before-interactive-callback': () => setTurnstileVisible(true),
           theme: 'light',
           size: 'flexible',
           appearance: 'interaction-only',
@@ -349,12 +351,12 @@ export function ContactForm() {
 
         {/* Cloudflare Turnstile widget */}
         {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
-          <div ref={turnstileRef} className={s.turnstileContainer} />
+          <div ref={turnstileRef} className={cn(s.turnstileContainer, turnstileVisible && s.turnstileContainerVisible, turnstileVisible && 'dr-mb-24 dt:dr-mb-32')} />
         )}
 
         <button
           type="submit"
-          disabled={status === 'loading'}
+          disabled={status === 'loading' || (turnstileVisible && !turnstileToken)}
           className={cn(
             'typo-button w-full dr-py-18 dr-px-20 dt:dr-py-20 dt:dr-px-24 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 font-semibold uppercase tracking-[0.05em] cursor-pointer transition-all duration-300 ease-out-cubic relative hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.3)] hover:border-teal active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed text-left',
             status === 'loading' && 'pointer-events-none'
