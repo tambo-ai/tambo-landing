@@ -1,43 +1,43 @@
-"use client";
+'use client'
 
-import { Search } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
+import { Search } from 'lucide-react'
+import { useCallback, useEffect, useRef } from 'react'
 
 interface BlogSearchProps {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
+  value: string
+  onChange: (value: string) => void
+  placeholder?: string
 }
 
 export function BlogSearch({
   value,
   onChange,
-  placeholder = "Search posts...",
+  placeholder = 'Search posts...',
 }: BlogSearchProps) {
-  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     return () => {
       if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
+        clearTimeout(debounceTimerRef.current)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value;
+      const newValue = e.target.value
 
       if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
+        clearTimeout(debounceTimerRef.current)
       }
 
       debounceTimerRef.current = setTimeout(() => {
-        onChange(newValue);
-      }, 300);
+        onChange(newValue)
+      }, 300)
     },
     [onChange]
-  );
+  )
 
   return (
     <div className="relative">
@@ -51,5 +51,5 @@ export function BlogSearch({
         maxLength={200}
       />
     </div>
-  );
+  )
 }

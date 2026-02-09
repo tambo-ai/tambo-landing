@@ -114,13 +114,12 @@ export function Navigation({
             ))}
           </ul>
           <div className="dt:absolute dt:left-1/2 dt:-translate-x-1/2 dt:grid dt:place-items-center">
-            <div className="dr-h-24 relative">
+            <div className="dr-h-24 dr-w-89 relative">
               <Link href="/">
                 <Image
-                  block
+                  fill
                   src="/images/tambo.png"
                   alt="Tambo Logo"
-                  className="min-h-full"
                   desktopSize="25vw"
                   preload
                 />

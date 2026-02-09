@@ -1,7 +1,9 @@
 'use client'
 
 import cn from 'clsx'
-import { useRef, useState } from 'react'
+import { useIntersectionObserver } from 'hamo'
+import type { MutableRefObject } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import ArrowSVG from '~/assets/svgs/arrow.svg'
@@ -17,6 +19,7 @@ import s from './section-11.module.css'
 export function Showcase() {
   const { isMobile, isDesktop } = useDeviceDetection()
   const [isOpenCard, setIsOpenCard] = useState<string | null>(null)
+  const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null)
   const contentRefs = useRef<HTMLDivElement[]>([])
 
   return (
@@ -39,120 +42,162 @@ export function Showcase() {
         <div className="dt:col-start-2 dt:col-end-12 col-span-full dt:dr-max-h-257">
           <div className="dt:dr-grid dt:dr-grid-cols-3 dt:dr-gap-24 flex flex-col dr-gap-y-16 relative items-start">
             {showcaseCards.map((card, i) => (
-              <div
+              <ShowcaseCard
                 key={`${card?.title}-${i}`}
-                className={cn(
-                  'relative',
-                  s.cardWrapper,
-                  isOpenCard === card?.title && s.isOpen
-                )}
-                style={{
-                  '--content-height': `${contentRefs.current[i]?.offsetHeight}px`,
+                card={card}
+                index={i}
+                isOpen={isOpenCard === card?.title}
+                isInViewport={activeCardIndex === i && isOpenCard === null}
+                onIntersectionChange={(isIntersecting) => {
+                  if (isIntersecting) {
+                    setActiveCardIndex(i)
+                  } else if (activeCardIndex === i) {
+                    setActiveCardIndex(null)
+                  }
                 }}
-              >
-                <div className={s.cardRing} />
-                <Button
-                  key={`${card?.title}-${i}`}
-                  href={isDesktop ? card?.href : undefined}
-                  className={cn(
-                    'relative border border-dark-teal/50 dr-p-12 dr-pb-56 dt:dr-pb-12 bg-off-white dr-rounded-20 dt:dr-w-361 w-full dt:dr-max-h-390 dr-max-h-389 block overflow-hidden',
-                    s.card
-                  )}
-                  onClick={() => {
-                    if (isMobile) {
-                      setIsOpenCard(
-                        isOpenCard === card?.title ? null : card?.title
-                      )
-                    }
-                  }}
-                >
-                  <div
-                    className={cn(
-                      'dt:dr-w-337 dt:dr-h-189 dr-h-170 border border-dark-teal/50 dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block',
-                      s.cardImage
-                    )}
-                  >
-                    {card?.image.includes('.png') ? (
-                      <Image src={card?.image} alt={card?.title} fill />
-                    ) : (
-                      <Video autoPlay>
-                        <source src={card?.image} type="video/webm" />
-                      </Video>
-                    )}
-                  </div>
-
-                  <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between desktop-only">
-                    <p className={cn('typo-h5 w-fit', s.title)}>
-                      {card?.title}
-                    </p>
-
-                    <div
-                      className={cn(
-                        'dr-w-32 dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
-                        s.button
-                      )}
-                    >
-                      <PlusSVG
-                        className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)}
-                      />
-                      <ArrowSVG
-                        className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)}
-                      />
-                    </div>
-                  </div>
-
-                  <div
-                    className={cn(
-                      'absolute dt:dr-top-262 dr-top-242 dt:dr-ml-12',
-                      s.cardContent
-                    )}
-                    ref={(el) => {
-                      if (el) {
-                        contentRefs.current.push(el)
-                      }
-                    }}
-                  >
-                    <p className="typo-p text-mint dr-mb-17 dt:dr-w-298 dr-w-263">
-                      {card?.paragraph}
-                    </p>
-                    <p className="typo-label-m text-mint">{card?.user}</p>
-                  </div>
-
-                  <HashPattern
-                    className={cn(
-                      'absolute inset-0 text-dark-teal/20',
-                      s.pattern
-                    )}
-                  />
-                </Button>
-                <Link
-                  className={cn(
-                    'absolute dr-top-193 w-full dr-px-12 flex items-center justify-between z-1 mobile-only',
-                    isOpenCard === null && 'pointer-events-none'
-                  )}
-                  href={card?.href}
-                >
-                  <p className={cn('typo-h5 w-fit', s.title)}>{card?.title}</p>
-
-                  <div
-                    className={cn(
-                      'dr-w-32 dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
-                      s.button
-                    )}
-                  >
-                    <PlusSVG
-                      className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)}
-                    />
-                    <ArrowSVG
-                      className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)}
-                    />
-                  </div>
-                </Link>
-              </div>
+                onToggle={() =>
+                  setIsOpenCard(isOpenCard === card?.title ? null : card?.title)
+                }
+                isOpenCard={isOpenCard}
+                contentRefs={contentRefs}
+                isMobile={isMobile}
+                isDesktop={isDesktop}
+              />
             ))}
           </div>
         </div>
       </div>
     </section>
+  )
+}
+
+function ShowcaseCard({
+  card,
+  index,
+  isOpen,
+  isInViewport,
+  onIntersectionChange,
+  onToggle,
+  isOpenCard,
+  contentRefs,
+  isMobile,
+  isDesktop,
+}: {
+  card: (typeof showcaseCards)[number]
+  index: number
+  isOpen: boolean
+  isInViewport: boolean
+  onIntersectionChange: (isIntersecting: boolean) => void
+  onToggle: () => void
+  isOpenCard: string | null
+  contentRefs: MutableRefObject<HTMLDivElement[]>
+  isMobile?: boolean
+  isDesktop?: boolean
+}) {
+  const [setIntersectionRef, intersection] = useIntersectionObserver({
+    rootMargin: '-40%',
+    threshold: 0.1,
+  })
+
+  const isIntersecting = intersection?.isIntersecting ?? false
+
+  useEffect(() => {
+    onIntersectionChange(isIntersecting)
+  }, [isIntersecting, onIntersectionChange])
+
+  return (
+    <div
+      className={cn('relative', s.cardWrapper, isOpen && s.isOpen)}
+      style={{
+        '--content-height': `${contentRefs.current[index]?.offsetHeight}px`,
+      }}
+    >
+      <div className={s.cardRing} />
+      <Button
+        ref={setIntersectionRef}
+        href={isDesktop ? card?.href : undefined}
+        className={cn(
+          'relative border border-dark-teal/50 dr-p-12 dr-pb-56 dt:dr-pb-12 bg-off-white dr-rounded-20 dt:dr-w-361 w-full dt:dr-max-h-390 dr-max-h-389 block overflow-hidden',
+          s.card,
+          isInViewport && s.personInViewport
+        )}
+        onClick={() => {
+          if (isMobile) {
+            onToggle()
+          }
+        }}
+      >
+        <div
+          className={cn(
+            'dt:dr-w-337 dt:dr-h-189 dr-h-170 border border-dark-teal/50 dr-rounded-8 aspect-16/9 dt:dr-mb-12 relative z-1 bg-white block overflow-hidden',
+            s.cardImage
+          )}
+        >
+          {card?.image.includes('.png') ? (
+            <Image src={card?.image} alt={card?.title} fill />
+          ) : (
+            <Video autoPlay>
+              <source src={card?.image} type="video/webm" />
+            </Video>
+          )}
+        </div>
+
+        <div className="dt:dr-ml-12 relative z-1 flex items-center justify-between desktop-only">
+          <p className={cn('typo-h5 w-fit', s.title)}>{card?.title}</p>
+
+          <div
+            className={cn(
+              'dr-w-32 dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
+              s.button
+            )}
+          >
+            <PlusSVG className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)} />
+            <ArrowSVG
+              className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)}
+            />
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            'absolute dt:dr-top-262 dr-top-242 dt:dr-ml-12',
+            s.cardContent
+          )}
+          ref={(el) => {
+            if (el) {
+              contentRefs.current[index] = el
+            }
+          }}
+        >
+          <p className="typo-p text-mint dr-mb-17 dt:dr-w-298 dr-w-263">
+            {card?.paragraph}
+          </p>
+          <p className="typo-label-m text-mint">{card?.user}</p>
+        </div>
+
+        <HashPattern
+          className={cn('absolute inset-0 text-dark-teal/20', s.pattern)}
+        />
+      </Button>
+      <Link
+        className={cn(
+          'absolute dr-top-193 w-full dr-px-12 flex items-center justify-between z-1 mobile-only',
+          isOpenCard === null && 'pointer-events-none'
+        )}
+        href={card?.href}
+      >
+        <p className={cn('typo-h5 w-fit', s.title)}>{card?.title}</p>
+
+        <div
+          className={cn(
+            'dr-w-32 dr-h-32 bg-mint flex items-center justify-center dr-rounded-10 relative',
+            s.button
+          )}
+        >
+          <PlusSVG className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)} />
+          <ArrowSVG className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)} />
+        </div>
+      </Link>
+    </div>
   )
 }

@@ -54,8 +54,14 @@ export function Dropdown({
           }
         }}
       >
-        <span className={selected !== undefined && !isOpened ? 'text-black opacity-100' : ''}>
-          {selected !== undefined && !isOpened ? options[selected] : placeholder}
+        <span
+          className={
+            selected !== undefined && !isOpened ? 'text-black opacity-100' : ''
+          }
+        >
+          {selected !== undefined && !isOpened
+            ? options[selected]
+            : placeholder}
         </span>
         <ChevronDown
           className={cn(

@@ -6,8 +6,8 @@ import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
-import LinesBg from '~/assets/svgs/hero-line-bg.svg'
 import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
+import LinesBg from '~/assets/svgs/hero-line-bg.svg'
 import { CTA } from '~/components/button'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
@@ -112,10 +112,11 @@ export function Hero() {
           {isMobile && (
             <div className="w-full grow min-h-0">
               <RiveWrapper
-                src="/assets/rives/Mobile_hero_loop_1.riv"
+                src="/assets/rives/REF_Mobile_hero_loop_2.riv"
                 className="size-full pointer-events-none"
                 alignment="Center"
                 fit="Contain"
+                autoBind={false}
               />
             </div>
           )}
@@ -137,8 +138,9 @@ export function Hero() {
       {isDesktop && (
         <div className="absolute inset-0 content-max-width">
           <RiveWrapper
-            src="/assets/rives/hero_loop_1.riv"
+            src="/assets/rives/REF_hero_loop_2.riv"
             className="size-full pointer-events-none"
+            autoBind={false}
           />
         </div>
       )}

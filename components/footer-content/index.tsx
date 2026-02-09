@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import XSVG from "~/assets/svgs/X.svg";
-import DiscordSVG from "~/assets/svgs/discord.svg";
-import GithubSVG from "~/assets/svgs/github.svg";
-import { Link } from "~/components/link";
-import { siteConfig, CURRENT_YEAR } from "~/libs/config";
+import DiscordSVG from '~/assets/svgs/discord.svg'
+import GithubSVG from '~/assets/svgs/github.svg'
+import XSVG from '~/assets/svgs/X.svg'
+import { Link } from '~/components/link'
+import { CURRENT_YEAR, siteConfig } from '~/libs/config'
 
 export function FooterContent() {
   return (
@@ -55,5 +55,5 @@ export function FooterContent() {
         </Link>
       </div>
     </footer>
-  );
+  )
 }

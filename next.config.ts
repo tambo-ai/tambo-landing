@@ -105,7 +105,6 @@ const nextConfig: NextConfig = {
       'zustand',
       'lucide-react',
       'highlight.js',
-      'mapbox-gl',
       'hamo',
       'tempus',
       'posthog-js',

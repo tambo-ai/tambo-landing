@@ -1,8 +1,8 @@
-import * as z from 'zod'
-import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { checkRateLimit } from '~/libs/rate-limit'
+import { NextResponse } from 'next/server'
+import * as z from 'zod'
 import { SOURCE_OPTIONS } from '~/libs/contact-form-options'
+import { checkRateLimit } from '~/libs/rate-limit'
 import {
   isDisposableEmail,
   isSpammyContent,
@@ -82,10 +82,7 @@ export async function POST(request: Request) {
     const result = contactFormSchema.safeParse(body)
 
     if (!result.success) {
-      return NextResponse.json(
-        { error: 'Invalid form data' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Invalid form data' }, { status: 400 })
     }
 
     const data = result.data
@@ -121,7 +118,10 @@ export async function POST(request: Request) {
 
     // --- Turnstile verification (when token provided) ---
     if (data._cf) {
-      const turnstileValid = await verifyTurnstileToken(data._cf, ip ?? undefined)
+      const turnstileValid = await verifyTurnstileToken(
+        data._cf,
+        ip ?? undefined
+      )
       if (!turnstileValid) {
         return silentReject('turnstile verification failed')
       }
