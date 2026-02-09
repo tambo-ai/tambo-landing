@@ -62,7 +62,7 @@ function Card({ data }: CardProps) {
             priority
             fallback={<Image src={data?.video?.png} alt={data?.title} />}
           >
-            <source src={data?.video?.mp4} type="video/mp4; codecs='hvc1'" />
+            <source src={data?.video?.mp4} type='video/mp4; codecs="hvc1"' />
             <source src={data?.video?.webm} type="video/webm" />
           </Video>
         </div>
