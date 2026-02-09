@@ -91,7 +91,7 @@ export function Features() {
     threshold: 0.5,
   })
   const setSnapRef = useLenisSnap('center')
-  const { isDesktop } = useDeviceDetection()
+  const { isDesktop, isSafari } = useDeviceDetection()
 
   const backgroundRef = useRef<BackgroundRefType>(null)
 
@@ -103,7 +103,7 @@ export function Features() {
       if (!backgroundRef.current) return
 
       const element = backgroundRef.current?.getElement?.()
-      if (element) {
+      if (element && !isSafari) {
         element.style.visibility = progress === 0 ? 'hidden' : 'visible'
       }
 
@@ -112,7 +112,9 @@ export function Features() {
         items,
         {
           width: (index) =>
-            desktopVW(1440 * 1.5 + (items.length - 1 - index) * 100, true),
+            isSafari
+              ? desktopVW(496 + (items.length - 1 - index) * 260, true)
+              : desktopVW(1440 * 1.5 + (items.length - 1 - index) * 100, true),
           opacity: 1,
           kinesis: 1,
           boxShadowOpacity: 1,
@@ -229,7 +231,8 @@ export function Features() {
       >
         <div
           className={cn(
-            'absolute left-0 right-0 top-[-50vh] bottom-0 desktop-only',
+            'absolute left-0 right-0  bottom-0 desktop-only',
+            isSafari ? 'top-0' : 'top-[-50vh]',
             s.background
           )}
         >
