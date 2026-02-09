@@ -93,7 +93,7 @@ export function Pricing() {
                     </li>
                   ))}
                 </ul>
-                <CTA color="black" icon="github" href={banner?.button?.href}>
+                <CTA color="black" icon="github" href={banner?.button?.href} active={isActive}>
                   {banner?.button?.text}
                 </CTA>
               </div>
