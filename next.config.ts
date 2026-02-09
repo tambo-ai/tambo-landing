@@ -128,6 +128,15 @@ const nextConfig: NextConfig = {
   },
   headers: async () => [
     {
+      source: '/assets/rives/:path*',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=31536000, immutable',
+        },
+      ],
+    },
+    {
       source: '/(.*)',
       headers: [
         {
@@ -230,7 +239,8 @@ const nextConfig: NextConfig = {
     // },
     {
       source: '/start',
-      destination: 'https://stackblitz.com/~/github.com/tambo-ai/tambo-template',
+      destination:
+        'https://stackblitz.com/~/github.com/tambo-ai/tambo-template',
       permanent: false,
     },
     {
@@ -305,11 +315,11 @@ const withNextra = nextra({
         rehypePrettyCode,
         {
           theme: {
-            light: "github-light",
-            dark: "github-dark",
+            light: 'github-light',
+            dark: 'github-dark',
           },
           keepBackground: false,
-          defaultLang: "typescript",
+          defaultLang: 'typescript',
         },
       ],
     ],
