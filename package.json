@@ -73,7 +73,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
     "@csstools/postcss-global-data": "^3.1.0",
-    "@next/bundle-analyzer": "16.0.9",
+    "@next/bundle-analyzer": "16.1.6",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@theatre/core": "^0.7.2",
