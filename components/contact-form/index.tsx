@@ -69,6 +69,7 @@ export function ContactForm() {
           callback: handleTurnstileVerify,
           theme: 'light',
           size: 'flexible',
+          appearance: 'interaction-only',
         }
       )
     }
@@ -348,7 +349,7 @@ export function ContactForm() {
 
         {/* Cloudflare Turnstile widget */}
         {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
-          <div ref={turnstileRef} className="dr-mb-24 dt:dr-mb-32" />
+          <div ref={turnstileRef} className={s.turnstileContainer} />
         )}
 
         <button
