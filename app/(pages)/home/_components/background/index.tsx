@@ -36,7 +36,7 @@ export function BackgroundItem({
   const greyBackgroundRef = useRef<HTMLDivElement>(null)
   const kinesisRef = useRef<number>(1)
 
-  const { dpr, isWindows } = useDeviceDetection()
+  const { dpr } = useDeviceDetection()
 
   useImperativeHandle(ref, () => ({
     getElement: () => elementRef.current,
