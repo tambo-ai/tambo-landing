@@ -56,9 +56,7 @@ export function Showcase() {
                   }
                 }}
                 onToggle={() =>
-                  setIsOpenCard(
-                    isOpenCard === card?.title ? null : card?.title
-                  )
+                  setIsOpenCard(isOpenCard === card?.title ? null : card?.title)
                 }
                 isOpenCard={isOpenCard}
                 contentRefs={contentRefs}
@@ -93,8 +91,8 @@ function ShowcaseCard({
   onToggle: () => void
   isOpenCard: string | null
   contentRefs: MutableRefObject<HTMLDivElement[]>
-  isMobile: boolean
-  isDesktop: boolean
+  isMobile?: boolean
+  isDesktop?: boolean
 }) {
   const [setIntersectionRef, intersection] = useIntersectionObserver({
     rootMargin: '-40%',
@@ -153,9 +151,7 @@ function ShowcaseCard({
               s.button
             )}
           >
-            <PlusSVG
-              className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)}
-            />
+            <PlusSVG className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)} />
             <ArrowSVG
               className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)}
             />
@@ -198,12 +194,8 @@ function ShowcaseCard({
             s.button
           )}
         >
-          <PlusSVG
-            className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)}
-          />
-          <ArrowSVG
-            className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)}
-          />
+          <PlusSVG className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.plus)} />
+          <ArrowSVG className={cn('dr-w-16 dr-h-16 z-1 absolute ', s.arrow)} />
         </div>
       </Link>
     </div>
