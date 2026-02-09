@@ -8,6 +8,7 @@ import { TitleBlock } from '~/app/(pages)/home/_components/title-block'
 import { CTA } from '~/components/button'
 import { FooterContent } from '~/components/footer-content'
 import { Image } from '~/components/image'
+import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { siteConfig } from '~/libs/config'
@@ -23,6 +24,7 @@ export function Footer() {
   const backgroundRef = useRef<BackgroundRefType>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const stickyRef = useRef<HTMLDivElement>(null)
+  const { isSafari } = useDeviceDetection()
 
   useScrollTrigger({
     rect,
@@ -79,7 +81,8 @@ export function Footer() {
   })
 
   const onMouseEnter = useEffectEvent(() => {
-    // return
+    if (isSafari) return
+
     const items = backgroundRef.current?.getItems()
     if (!items) return
     items.forEach((item, index) => {
@@ -98,6 +101,8 @@ export function Footer() {
   })
 
   const onMouseLeave = useEffectEvent(() => {
+    if (isSafari) return
+
     const items = backgroundRef.current?.getItems()
     if (!items) return
     items.forEach((item, index) => {
