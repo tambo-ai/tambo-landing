@@ -95,7 +95,6 @@ export function BackgroundItem({
             style={{ opacity: `${opacity * 0.5}` }}
           />
         )}
-        {isWindows ? (
           <DashedBorder
             ref={dashedBorderRef}
             className={cn('absolute inset-0', s.border)}
@@ -103,17 +102,6 @@ export function BackgroundItem({
               opacity: borderOpacity,
             }}
           />
-        ) : (
-          <div
-            className={cn(
-              'absolute inset-0 rounded-[inherit] border-dashed border-forest border',
-              s.border
-            )}
-            style={{
-              opacity: borderOpacity,
-            }}
-          />
-        )}
       </div>
     </div>
   )

@@ -1,9 +1,9 @@
-import type { BlogPostListItem } from "~/libs/blog/types";
-import { formatDate } from "~/libs/blog/format-date";
-import { Link } from "~/components/link";
+import { Link } from '~/components/link'
+import { formatDate } from '~/libs/blog/format-date'
+import type { BlogPostListItem } from '~/libs/blog/types'
 
 interface BlogCardProps {
-  post: BlogPostListItem;
+  post: BlogPostListItem
 }
 
 export function BlogCard({ post }: BlogCardProps) {
@@ -29,5 +29,5 @@ export function BlogCard({ post }: BlogCardProps) {
         </div>
       </article>
     </Link>
-  );
+  )
 }

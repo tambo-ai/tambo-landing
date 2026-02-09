@@ -20,10 +20,7 @@ type FormStatus = 'idle' | 'loading' | 'success' | 'error'
 declare global {
   interface Window {
     turnstile?: {
-      render: (
-        element: HTMLElement,
-        options: Record<string, unknown>
-      ) => string
+      render: (element: HTMLElement, options: Record<string, unknown>) => string
       remove: (widgetId: string) => void
       reset: (widgetId: string) => void
     }
@@ -196,14 +193,14 @@ export function ContactForm() {
           </Link>
         </div>
 
-        {/* Form - always in DOM to maintain height */}
-        <form
-          onSubmit={handleSubmit}
-          className={cn(
-            'dr-p-32 dt:dr-p-48 transition-opacity duration-300',
-            status === 'success' ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          )}
-        >
+      {/* Form - always in DOM to maintain height */}
+      <form
+        onSubmit={handleSubmit}
+        className={cn(
+          'dr-p-32 dt:dr-p-48 transition-opacity duration-300',
+          status === 'success' ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        )}
+      >
         {/* Honeypot field — hidden from humans via CSS */}
         <div className={s.formHelper} aria-hidden="true">
           <label htmlFor="website">Website</label>
@@ -329,7 +326,12 @@ export function ContactForm() {
             options={[...SOURCE_OPTIONS]}
             defaultValue={
               formData.source
-                ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source as typeof SOURCE_OPTIONS[number]))
+                ? Math.max(
+                    0,
+                    SOURCE_OPTIONS.indexOf(
+                      formData.source as (typeof SOURCE_OPTIONS)[number]
+                    )
+                  )
                 : undefined
             }
             onChange={(index) => {
@@ -377,7 +379,7 @@ export function ContactForm() {
             Something went wrong. Please try again or email us directly.
           </div>
         )}
-        </form>
+      </form>
     </div>
   )
 }

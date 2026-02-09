@@ -10,13 +10,13 @@ import '~/styles/css/index.css'
 
 import Script from 'next/script'
 import { GSAPRuntime } from '~/components/gsap/runtime'
+import { TurnstileScript } from '~/components/turnstile-script'
 import { siteConfig } from '~/libs/config'
 import { SEO_FALLBACK_BASE_URL } from '~/libs/seo/constants'
 import {
   getRootStructuredData,
   serializeJsonLd,
 } from '~/libs/seo/structured-data'
-import { TurnstileScript } from '~/components/turnstile-script'
 import { OrchestraTools } from '~/orchestra'
 import { fontsVariable } from '~/styles/fonts'
 

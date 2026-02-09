@@ -26,9 +26,7 @@
       }
     ],
     "paths": {
-      "~/*": ["./*"],
-      "@/components/tambo/*": ["./integrations/tambo/(components)/ui-tambo/*"],
-      "@/lib/*": ["./integrations/tambo/(components)/lib/*"]
+      "~/*": ["./*"]
     }
   },
   "include": [

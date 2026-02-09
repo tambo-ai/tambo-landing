@@ -50,6 +50,29 @@
     }
   }
 
+  &.isActive {
+    @media (--mobile) {
+      background-color: var(--color-black);
+      color: var(--color-teal);
+      border-color: var(--color-teal);
+      box-shadow: var(--glow);
+
+      .arrow {
+        &::before {
+          transform: scale(1.25);
+        }
+
+        &::after {
+          transform: scale(1.5);
+        }
+      }
+
+      .hashPattern {
+        opacity: 1;
+      }
+    }
+  }
+
   svg path {
     transition: stroke var(--duration) var(--ease);
   }
@@ -65,6 +88,26 @@
 
     @media (--hover) {
       &:hover {
+        background-color: var(--color-teal);
+        color: var(--color-black);
+
+        .arrow {
+          background-color: var(--color-black);
+
+          svg path {
+            fill: var(--color-teal);
+          }
+
+          &::before,
+          &::after {
+            background-color: var(--color-black);
+          }
+        }
+      }
+    }
+
+    &.isActive {
+      @media (--mobile) {
         background-color: var(--color-teal);
         color: var(--color-black);
 
@@ -126,12 +169,6 @@
       }
     }
   }
-
-  /* TODO: Not sure about this event */
-
-  /* &.isSnippet {
-    pointer-events: none;
-  } */
 }
 
 .snippet {
@@ -171,6 +208,7 @@
         opacity: 1;
         pointer-events: auto;
         clip-path: inset(0 0 0 0 round desktop-vw(16px));
+        border-color: var(--color-teal);
 
         &:hover {
           clip-path: inset(
@@ -191,6 +229,7 @@
         color: var(--color-teal);
         border-color: var(--color-teal);
         box-shadow: var(--glow);
+        gap: desktop-vw(24px);
 
         .arrow {
           &::before {
@@ -206,7 +245,6 @@
       /* Controls the button box */
       &:has(.snippet:hover) .isSnippet {
         box-shadow: none;
-
         .arrow {
           &::before,
           &::after {

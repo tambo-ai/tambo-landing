@@ -24,7 +24,8 @@ export function MeetTambo() {
               in a weekend
             </TitleBlock.Title>
             <TitleBlock.Subtitle className="dt:text-left dr-w-180 dt:dr-w-350">
-              Everything you need to add AI to your React app.
+              Everything you need to add AI <br className="desktop-only" /> to
+              your React app.
             </TitleBlock.Subtitle>
           </TitleBlock>
           <CTA href="https://docs.tambo.co" className="w-fit mx-auto dt:mx-0">
@@ -61,7 +62,7 @@ function Card({ data }: CardProps) {
             priority
             fallback={<Image src={data?.video?.png} alt={data?.title} />}
           >
-            <source src={data?.video?.mp4} type="video/mp4; codecs='hvc1'" />
+            <source src={data?.video?.mp4} type='video/mp4; codecs="hvc1"' />
             <source src={data?.video?.webm} type="video/webm" />
           </Video>
         </div>

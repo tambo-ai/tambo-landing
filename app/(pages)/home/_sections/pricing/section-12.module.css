@@ -10,7 +10,8 @@
   }
 
   @media (--mobile) {
-    &:has(.card.active) {
+    &:has(.card.active),
+    &:has(.banner.active) {
       .cardRing {
         opacity: 0.8;
       }
@@ -58,32 +59,7 @@
 }
 
 .banner {
-  outline: mobile-vw(6px) solid transparent;
-  transition: outline-color 0.3s ease;
-
-  @media (--desktop) {
-    outline: desktop-vw(6px) solid transparent;
-  }
-
-  @media (--hover) {
-    &:hover {
-      outline-color: color-mix(
-        in oklab,
-        var(--color-off-white) 80%,
-        transparent
-      );
-    }
-  }
-
-  &.active {
-    @media (--mobile) {
-      outline-color: color-mix(
-        in oklab,
-        var(--color-off-white) 80%,
-        transparent
-      );
-    }
-  }
+  background: var(--color-white);
 }
 
 .cardRing {
