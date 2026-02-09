@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.3.0...tambo-website-v1.3.1) (2026-02-09)
+
+
+### Bug Fixes
+
+* update bun.lock format ([#45](https://github.com/tambo-ai/tambo-landing/issues/45)) ([631e592](https://github.com/tambo-ai/tambo-landing/commit/631e592dc0c89a5e0f9d44c22af5cecb0b312e44))
+
 ## [1.3.0](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.2.0...tambo-website-v1.3.0) (2026-02-07)
 
 
