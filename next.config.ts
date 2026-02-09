@@ -105,7 +105,6 @@ const nextConfig: NextConfig = {
       'zustand',
       'lucide-react',
       'highlight.js',
-      'mapbox-gl',
       'hamo',
       'tempus',
       'posthog-js',
@@ -230,7 +229,8 @@ const nextConfig: NextConfig = {
     // },
     {
       source: '/start',
-      destination: 'https://stackblitz.com/~/github.com/tambo-ai/tambo-template',
+      destination:
+        'https://stackblitz.com/~/github.com/tambo-ai/tambo-template',
       permanent: false,
     },
     {
@@ -305,11 +305,11 @@ const withNextra = nextra({
         rehypePrettyCode,
         {
           theme: {
-            light: "github-light",
-            dark: "github-dark",
+            light: 'github-light',
+            dark: 'github-dark',
           },
           keepBackground: false,
-          defaultLang: "typescript",
+          defaultLang: 'typescript',
         },
       ],
     ],

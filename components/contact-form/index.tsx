@@ -19,10 +19,7 @@ type FormStatus = 'idle' | 'loading' | 'success' | 'error'
 declare global {
   interface Window {
     turnstile?: {
-      render: (
-        element: HTMLElement,
-        options: Record<string, unknown>
-      ) => string
+      render: (element: HTMLElement, options: Record<string, unknown>) => string
       remove: (widgetId: string) => void
       reset: (widgetId: string) => void
     }
@@ -164,43 +161,45 @@ export function ContactForm() {
 
   return (
     <div className="bg-white border border-dark-grey dr-rounded-24 dt:dr-rounded-32 shadow-[0_8px_32px_rgba(15,26,23,0.08)] relative">
-        {/* Success overlay - absolutely positioned over the form */}
-        <div
+      {/* Success overlay - absolutely positioned over the form */}
+      <div
+        className={cn(
+          'absolute inset-0 bg-white dr-p-32 dt:dr-p-48 flex flex-col justify-center text-center transition-opacity duration-300 dr-rounded-24 dt:dr-rounded-32',
+          status === 'success'
+            ? 'opacity-100 z-50'
+            : 'opacity-0 pointer-events-none z-0'
+        )}
+      >
+        <CheckCircle2
           className={cn(
-            'absolute inset-0 bg-white dr-p-32 dt:dr-p-48 flex flex-col justify-center text-center transition-opacity duration-300 dr-rounded-24 dt:dr-rounded-32',
-            status === 'success' ? 'opacity-100 z-50' : 'opacity-0 pointer-events-none z-0'
+            'dr-w-96 dr-h-96 dt:dr-w-112 dt:dr-h-112 mx-auto dr-mb-40 dt:dr-mb-48 text-forest',
+            status === 'success' && s.successIcon
           )}
+          strokeWidth={1.5}
+        />
+        <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-24 font-semibold">
+          Thanks for your request.
+        </h1>
+        <p className="typo-p-l text-black dr-mb-48 dt:dr-mb-56 leading-[1.6] dr-max-w-340 dt:dr-max-w-420 mx-auto">
+          We'll get back to you soon!
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus('idle')}
+          className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0 mx-auto"
         >
-          <CheckCircle2
-            className={cn(
-              'dr-w-96 dr-h-96 dt:dr-w-112 dt:dr-h-112 mx-auto dr-mb-40 dt:dr-mb-48 text-forest',
-              status === 'success' && s.successIcon
-            )}
-            strokeWidth={1.5}
-          />
-          <h1 className="typo-h1 text-black dr-mb-20 dt:dr-mb-24 font-semibold">
-            Thanks for your request.
-          </h1>
-          <p className="typo-p-l text-black dr-mb-48 dt:dr-mb-56 leading-[1.6] dr-max-w-340 dt:dr-max-w-420 mx-auto">
-            We'll get back to you soon!
-          </p>
-          <button
-            type="button"
-            onClick={() => setStatus('idle')}
-            className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0 mx-auto"
-          >
-            Send another message
-          </button>
-        </div>
+          Send another message
+        </button>
+      </div>
 
-        {/* Form - always in DOM to maintain height */}
-        <form
-          onSubmit={handleSubmit}
-          className={cn(
-            'dr-p-32 dt:dr-p-48 transition-opacity duration-300',
-            status === 'success' ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          )}
-        >
+      {/* Form - always in DOM to maintain height */}
+      <form
+        onSubmit={handleSubmit}
+        className={cn(
+          'dr-p-32 dt:dr-p-48 transition-opacity duration-300',
+          status === 'success' ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        )}
+      >
         {/* Honeypot field — hidden from humans via CSS */}
         <div className={s.formHelper} aria-hidden="true">
           <label htmlFor="website">Website</label>
@@ -326,7 +325,12 @@ export function ContactForm() {
             options={[...SOURCE_OPTIONS]}
             defaultValue={
               formData.source
-                ? Math.max(0, SOURCE_OPTIONS.indexOf(formData.source as typeof SOURCE_OPTIONS[number]))
+                ? Math.max(
+                    0,
+                    SOURCE_OPTIONS.indexOf(
+                      formData.source as (typeof SOURCE_OPTIONS)[number]
+                    )
+                  )
                 : undefined
             }
             onChange={(index) => {
@@ -374,7 +378,7 @@ export function ContactForm() {
             Something went wrong. Please try again or email us directly.
           </div>
         )}
-        </form>
+      </form>
     </div>
   )
 }

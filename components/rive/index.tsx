@@ -16,6 +16,7 @@ interface RiveWrapperProps {
   src: string
   alignment?: keyof typeof Alignment
   fit?: keyof typeof Fit
+  autoBind?: boolean
 }
 
 export function RiveWrapper({
@@ -23,6 +24,7 @@ export function RiveWrapper({
   className,
   alignment = 'Center',
   fit = 'FitWidth',
+  autoBind = true,
 }: RiveWrapperProps) {
   const [setRef, intersection] = useIntersectionObserver({
     threshold: 0.3,
@@ -55,7 +57,7 @@ export function RiveWrapper({
     src,
     autoplay: false,
     stateMachines: 'MainStateMachine',
-    autoBind: true,
+    autoBind,
     assetLoader,
     layout: new Layout({
       fit: Fit[fit],

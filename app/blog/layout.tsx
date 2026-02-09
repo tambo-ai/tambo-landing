@@ -1,23 +1,23 @@
-import type { ReactNode } from "react";
-import type { Metadata } from "next";
-import { Wrapper } from "~/app/(pages)/_components/wrapper";
-import { FooterContent } from "~/components/footer-content";
-import { Theme } from "~/app/(pages)/_components/theme";
-import { getGitHubStars } from "~/libs/github";
-import { getDiscordMembers } from "~/libs/discord";
-import { ScrollToTop } from "~/libs/scroll-to-top";
+import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
+import { Theme } from '~/app/(pages)/_components/theme'
+import { Wrapper } from '~/app/(pages)/_components/wrapper'
+import { FooterContent } from '~/components/footer-content'
+import { getDiscordMembers } from '~/libs/discord'
+import { getGitHubStars } from '~/libs/github'
+import { ScrollToTop } from '~/libs/scroll-to-top'
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | tambo blog",
-    default: "blog",
+    template: '%s | tambo blog',
+    default: 'blog',
   },
   description:
-    "Latest updates, tutorials, and insights about tambo - the AI orchestration framework for React frontends.",
-};
+    'Latest updates, tutorials, and insights about tambo - the AI orchestration framework for React frontends.',
+}
 
 interface BlogLayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export default async function BlogLayout({ children }: BlogLayoutProps) {
@@ -31,8 +31,8 @@ export default async function BlogLayout({ children }: BlogLayoutProps) {
       <div className="min-h-dvh flex flex-col bg-white">
         <Wrapper githubStars={githubStars} discordMembers={discordMembers} />
         <main className="flex-1 dr-pt-80">{children}</main>
-          <FooterContent />
+        <FooterContent />
       </div>
     </Theme>
-  );
+  )
 }

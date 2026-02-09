@@ -1,16 +1,16 @@
 import cn from 'clsx'
 import { Handshake, Shield } from 'lucide-react'
 import { Theme } from '~/app/(pages)/_components/theme'
-import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { Wrapper } from '~/app/(pages)/_components/wrapper'
-import { FooterContent } from '~/components/footer-content'
-import { ContactForm } from '~/components/contact-form'
-import { getDiscordMembers } from '~/libs/discord'
-import { getGitHubStars } from '~/libs/github'
-import s from './contact-us.module.css'
-import { ScrollToTop } from '~/libs/scroll-to-top'
+import { HashPattern } from '~/app/(pages)/home/_components/hash-pattern'
 import { SocialCard } from '~/app/(pages)/home/_sections/social-proof'
 import { socials } from '~/app/(pages)/home/_sections/social-proof/data'
+import { ContactForm } from '~/components/contact-form'
+import { FooterContent } from '~/components/footer-content'
+import { getDiscordMembers } from '~/libs/discord'
+import { getGitHubStars } from '~/libs/github'
+import { ScrollToTop } from '~/libs/scroll-to-top'
+import s from './contact-us.module.css'
 
 export default async function ContactUsPage() {
   const [githubStars, discordMembers] = await Promise.all([
@@ -60,9 +60,9 @@ export default async function ContactUsPage() {
                           Become a Design Partner.
                         </span>{' '}
                         <span className="typo-p text-black opacity-80">
-                          We're working closely with select teams building agents
-                          in React apps. Get direct access to Tambo's founders
-                          for expert help.
+                          We're working closely with select teams building
+                          agents in React apps. Get direct access to Tambo's
+                          founders for expert help.
                         </span>
                       </div>
                     </div>
@@ -96,7 +96,7 @@ export default async function ContactUsPage() {
             </div>
           </div>
         </main>
-          <FooterContent />
+        <FooterContent />
       </div>
     </Theme>
   )

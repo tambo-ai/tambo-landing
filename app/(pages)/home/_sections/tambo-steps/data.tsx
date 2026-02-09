@@ -33,8 +33,13 @@ export const messages = [
   {
     id: 'no-rebuilds',
     tag: 'benefit',
-    message:
-      'Same components, new capabilities. Ship AI features without rebuilding.',
+    message: (
+      <>
+        Same components, new capabilities.
+        <br />
+        Ship AI features without rebuilding.
+      </>
+    ),
     video: 'TODO: MISSING VIDEO',
   },
 ]
