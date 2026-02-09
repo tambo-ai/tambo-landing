@@ -4,6 +4,7 @@ import cn from 'clsx'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Dropdown } from '~/components/dropdown'
+import { Link } from '~/components/link'
 import { SOURCE_OPTIONS } from '~/libs/contact-form-options'
 import s from './contact-form.module.css'
 
@@ -185,13 +186,12 @@ export function ContactForm() {
           <p className="typo-p-l text-black dr-mb-48 dt:dr-mb-56 leading-[1.6] dr-max-w-340 dt:dr-max-w-420 mx-auto">
             We'll get back to you soon!
           </p>
-          <button
-            type="button"
-            onClick={() => setStatus('idle')}
-            className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0 mx-auto"
+          <Link
+            href={process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.tambo.co'}
+            className="typo-button dr-py-16 dr-px-32 dt:dr-py-18 dt:dr-px-36 bg-teal text-black border border-dark-grey dr-rounded-12 dt:dr-rounded-16 cursor-pointer transition-all duration-300 ease-out-cubic uppercase tracking-[0.05em] font-semibold hover:bg-mint hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(127,255,195,0.4)] hover:border-teal active:translate-y-0 mx-auto no-underline"
           >
-            Send another message
-          </button>
+            Check out our docs
+          </Link>
         </div>
 
         {/* Form - always in DOM to maintain height */}
