@@ -121,13 +121,6 @@ export default async function Layout({ children }: PropsWithChildren) {
       suppressHydrationWarning
     >
       <head>
-        {/* Preload hero Rive animation for faster above-fold render */}
-        <link
-          rel="preload"
-          href="/assets/rives/hero_loop_1.riv"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
         {/* Preconnect to external origins for faster resource loading */}
         <link rel="preconnect" href="https://us.i.posthog.com" />
         <link rel="preconnect" href="https://us-assets.i.posthog.com" />
