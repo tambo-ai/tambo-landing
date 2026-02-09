@@ -66,15 +66,16 @@ export function Pricing() {
             ))}
           </div>
           {/* BANNER */}
-
-          <div
-            className={cn(
-              'w-full dr-p-8 border border-dark-grey dr-rounded-20 relative',
-              s.banner,
-              isActive && s.active
-            )}
-            ref={setIntersectionRef}
-          >
+          <div className={s.cardWrapper}>
+            <div className={s.cardRing} />
+            <div
+              className={cn(
+                'w-full dr-p-8 border border-dark-grey dr-rounded-20 relative',
+                s.banner,
+                isActive && s.active
+              )}
+              ref={setIntersectionRef}
+            >
             <div className="bg-black w-full dr-rounded-12 dr-p-24 relative overflow-hidden flex flex-col dt:flex-row dt:justify-between dt:items-center">
               <div className="absolute inset-0 dark-teal-pattern z-0" />
               <div className="relative text-teal dr-mb-24 dt:dr-mb-0">
@@ -96,6 +97,7 @@ export function Pricing() {
                 {banner?.button?.text}
               </CTA>
             </div>
+          </div>
           </div>
         </div>
       </div>
