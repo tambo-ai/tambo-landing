@@ -72,6 +72,7 @@ type CTAProps = ButtonProps & {
   wrapperRef?: React.RefObject<HTMLDivElement | null>
   wrapperClassName?: string
   snippetEyebrow?: string
+  active?: boolean
 }
 
 export function CTA({
@@ -86,6 +87,7 @@ export function CTA({
   snippet = false,
   snippetEyebrow = 'JSX',
   icon = 'arrow',
+  active = false,
   ...props
 }: CTAProps) {
   // Split children: first child = button text, rest = snippet content
@@ -118,6 +120,7 @@ export function CTA({
           color === 'black' && s.isBlack,
           type === 'secondary' && s.isSecondary,
           snippet && s.isSnippet,
+          active && s.isActive,
           className
         )}
         href={href}

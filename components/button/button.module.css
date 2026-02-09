@@ -50,6 +50,29 @@
     }
   }
 
+  &.isActive {
+    @media (--mobile) {
+      background-color: var(--color-black);
+      color: var(--color-teal);
+      border-color: var(--color-teal);
+      box-shadow: var(--glow);
+
+      .arrow {
+        &::before {
+          transform: scale(1.25);
+        }
+
+        &::after {
+          transform: scale(1.5);
+        }
+      }
+
+      .hashPattern {
+        opacity: 1;
+      }
+    }
+  }
+
   svg path {
     transition: stroke var(--duration) var(--ease);
   }

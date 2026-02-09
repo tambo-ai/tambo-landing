@@ -135,6 +135,7 @@ function PricingCard({ card }: { card: (typeof pricingCards)[number] }) {
         <CTA
           className="w-full dt:justify-between dr-mb-32"
           href={card?.button?.href}
+          active={isActive}
         >
           {card?.button?.text}
         </CTA>
