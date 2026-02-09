@@ -2,6 +2,15 @@
   display: none;
 }
 
+.turnstileContainer {
+  height: 0;
+  overflow: visible;
+}
+
+.turnstileContainerVisible {
+  height: auto;
+}
+
 .successIcon {
   animation: scaleIn 0.6s var(--ease-out-cubic);
 }
