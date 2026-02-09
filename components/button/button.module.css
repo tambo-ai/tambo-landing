@@ -105,6 +105,26 @@
         }
       }
     }
+
+    &.isActive {
+      @media (--mobile) {
+        background-color: var(--color-teal);
+        color: var(--color-black);
+
+        .arrow {
+          background-color: var(--color-black);
+
+          svg path {
+            fill: var(--color-teal);
+          }
+
+          &::before,
+          &::after {
+            background-color: var(--color-black);
+          }
+        }
+      }
+    }
   }
 
   &.isSecondary {
