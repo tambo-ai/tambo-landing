@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.3.1...tambo-website-v1.4.0) (2026-02-09)
+
+
+### Features
+
+* Darkroom/UI updates v3 ([#56](https://github.com/tambo-ai/tambo-landing/issues/56)) ([4a18a83](https://github.com/tambo-ai/tambo-landing/commit/4a18a8342be4a94c19465c1de1fcfcf3dc62de68))
+
+
+### Bug Fixes
+
+* Turnstile widget layout and contact form success state ([#48](https://github.com/tambo-ai/tambo-landing/issues/48)) ([f3d804d](https://github.com/tambo-ai/tambo-landing/commit/f3d804d4e6953af9c701b2ac33ca506b0dfd259b))
+
 ## [1.3.1](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.3.0...tambo-website-v1.3.1) (2026-02-09)
 
 

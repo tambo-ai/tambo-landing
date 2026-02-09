@@ -36,7 +36,7 @@ export function BackgroundItem({
   const greyBackgroundRef = useRef<HTMLDivElement>(null)
   const kinesisRef = useRef<number>(1)
 
-  const { dpr, isWindows } = useDeviceDetection()
+  const { dpr } = useDeviceDetection()
 
   useImperativeHandle(ref, () => ({
     getElement: () => elementRef.current,
@@ -95,7 +95,6 @@ export function BackgroundItem({
             style={{ opacity: `${opacity * 0.5}` }}
           />
         )}
-        {isWindows ? (
           <DashedBorder
             ref={dashedBorderRef}
             className={cn('absolute inset-0', s.border)}
@@ -103,17 +102,6 @@ export function BackgroundItem({
               opacity: borderOpacity,
             }}
           />
-        ) : (
-          <div
-            className={cn(
-              'absolute inset-0 rounded-[inherit] border-dashed border-forest border',
-              s.border
-            )}
-            style={{
-              opacity: borderOpacity,
-            }}
-          />
-        )}
       </div>
     </div>
   )

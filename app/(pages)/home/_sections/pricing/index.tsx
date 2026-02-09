@@ -66,35 +66,42 @@ export function Pricing() {
             ))}
           </div>
           {/* BANNER */}
-
-          <div
-            className={cn(
-              'w-full dr-p-8 border border-dark-grey dr-rounded-20 relative',
-              s.banner,
-              isActive && s.active
-            )}
-            ref={setIntersectionRef}
-          >
-            <div className="bg-black w-full dr-rounded-12 dr-p-24 relative overflow-hidden flex flex-col dt:flex-row dt:justify-between dt:items-center">
-              <div className="absolute inset-0 dark-teal-pattern z-0" />
-              <div className="relative text-teal dr-mb-24 dt:dr-mb-0">
-                <h3 className="typo-h3 dr-mb-8">{banner?.title}</h3>
-                <p className="typo-p">{banner?.description}</p>
+          <div className={s.cardWrapper}>
+            <div className={s.cardRing} />
+            <div
+              className={cn(
+                'w-full dr-p-8 border border-dark-grey dr-rounded-20 relative',
+                s.banner,
+                isActive && s.active
+              )}
+              ref={setIntersectionRef}
+            >
+              <div className="bg-black w-full dr-rounded-12 dr-p-24 relative overflow-hidden flex flex-col dt:flex-row dt:justify-between dt:items-center">
+                <div className="absolute inset-0 dark-teal-pattern z-0" />
+                <div className="relative text-teal dr-mb-24 dt:dr-mb-0">
+                  <h3 className="typo-h3 dr-mb-8">{banner?.title}</h3>
+                  <p className="typo-p">{banner?.description}</p>
+                </div>
+                <ul className="flex flex-col dt:flex-row dt:dr-gap-40 dr-gap-8 relative dr-mb-32 dt:dr-mb-0">
+                  {banner?.features.map((feature) => (
+                    <li
+                      key={feature}
+                      className="flex items-center dt:dr-gap-4 dr-gap-8"
+                    >
+                      <CheckSVG className="dr-size-16 text-teal" />
+                      <p className="typo-label-s text-teal">{feature}</p>
+                    </li>
+                  ))}
+                </ul>
+                <CTA
+                  color="black"
+                  icon="github"
+                  href={banner?.button?.href}
+                  active={isActive}
+                >
+                  {banner?.button?.text}
+                </CTA>
               </div>
-              <ul className="flex flex-col dt:flex-row dt:dr-gap-40 dr-gap-8 relative dr-mb-32 dt:dr-mb-0">
-                {banner?.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className="flex items-center dt:dr-gap-4 dr-gap-8"
-                  >
-                    <CheckSVG className="dr-size-16 text-teal" />
-                    <p className="typo-label-s text-teal">{feature}</p>
-                  </li>
-                ))}
-              </ul>
-              <CTA color="black" icon="github" href={banner?.button?.href}>
-                {banner?.button?.text}
-              </CTA>
             </div>
           </div>
         </div>
@@ -135,6 +142,7 @@ function PricingCard({ card }: { card: (typeof pricingCards)[number] }) {
         <CTA
           className="w-full dt:justify-between dr-mb-32"
           href={card?.button?.href}
+          active={isActive}
         >
           {card?.button?.text}
         </CTA>

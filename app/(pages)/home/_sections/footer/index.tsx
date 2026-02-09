@@ -123,7 +123,7 @@ export function Footer() {
     >
       <div className="dt:absolute dt:bottom-0 dt:left-0 dt:right-0 dt:top-[-100vh]">
         <div
-          className="dt:h-screen dt:sticky dt:top-0 dt:left-0 dt:right-0 max-dt:transform-[unset]!"
+          className="dt:h-screen dt:sticky dt:top-0 dt:left-0 dt:right-0 max-dt:transform-[unset]! overflow-clip"
           ref={stickyRef}
         >
           <div
