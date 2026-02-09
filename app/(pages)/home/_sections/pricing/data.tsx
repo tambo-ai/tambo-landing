@@ -63,6 +63,6 @@ export const banner = {
   ],
   button: {
     text: 'GITHUB',
-    href: 'https://github.com/tambo-ai',
+    href: 'https://github.com/tambo-ai/tambo',
   },
 }
