@@ -1,11 +1,11 @@
-import type LenisSnap from 'lenis/snap'
 import { create } from 'zustand'
+import type { MagneticScroll } from '~/app/(pages)/_components/lenis/magnetic-scroll'
 
 type Store = {
   isNavOpened: boolean
   setIsNavOpened: (value: boolean) => void
-  lenisSnap: LenisSnap | null
-  setLenisSnap: (value: LenisSnap) => void
+  magneticScroll: MagneticScroll | null
+  setMagneticScroll: (value: MagneticScroll | null) => void
   hasAppeared: boolean
   setHasAppeared: (value: boolean) => void
   isMobileNavOpened: boolean
@@ -15,8 +15,9 @@ type Store = {
 export const useStore = create<Store>((set) => ({
   isNavOpened: false,
   setIsNavOpened: (value: boolean) => set({ isNavOpened: value }),
-  lenisSnap: null,
-  setLenisSnap: (value: LenisSnap) => set({ lenisSnap: value }),
+  magneticScroll: null,
+  setMagneticScroll: (value: MagneticScroll | null) =>
+    set({ magneticScroll: value }),
   hasAppeared: true,
   setHasAppeared: (value: boolean) => set({ hasAppeared: value }),
   isMobileNavOpened: false,

@@ -6,13 +6,15 @@ import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
-import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import LinesBg from '~/assets/svgs/hero-line-bg.svg'
+import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
+import { Image } from '~/components/image'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { siteConfig } from '~/libs/config'
 import { fromTo } from '~/libs/utils'
+import { EyebrowBanner } from './eyebrow-banner'
 import s from './hero.module.css'
 
 const RiveWrapper = dynamic(
@@ -28,6 +30,17 @@ export function Hero() {
 
   const titleRef = useRef<HTMLDivElement>(null)
   const arrowDownRef = useRef<HTMLDivElement>(null)
+  const mobilePlaceholderRef = useRef<HTMLDivElement>(null)
+  const desktopPlaceholderRef = useRef<HTMLDivElement>(null)
+
+  const hidePlaceholder =
+    (ref: React.RefObject<HTMLDivElement | null>) => () => {
+      if (ref.current) {
+        // Wait for Rive canvas to be fully visible (300ms) before fading out placeholder
+        ref.current.style.transition = 'opacity 300ms ease 300ms'
+        ref.current.style.opacity = '0'
+      }
+    }
 
   useScrollTrigger({
     rect,
@@ -84,6 +97,9 @@ export function Hero() {
             className="dt:dr-w-col-5 flex flex-col dr-gap-16 text-center items-start z-1 columns-1"
             ref={titleRef}
           >
+            <EyebrowBanner href="/blog/posts/introducing-tambo-generative-ui">
+              Announcing Tambo 1.0!
+            </EyebrowBanner>
             <h1 className="dt:typo-hero-title typo-h3 dt:text-start ">
               Build agents
               <br className="mobile-only" /> that{' '}
@@ -108,18 +124,28 @@ export function Hero() {
               </CTA>
             </div>
           </div>
-          {/* Mobile Rive - only renders on mobile devices */}
-          {isMobile && (
-            <div className="w-full grow min-h-0">
+          {/* Mobile Rive + SSR placeholder */}
+          <div className="w-full grow min-h-0 relative mobile-only">
+            <div ref={mobilePlaceholderRef} className="absolute inset-0">
+              <Image
+                src="/assets/rives/HeroThumbnail_Mobile.png"
+                fill
+                objectFit="contain"
+                preload
+                loading="eager"
+              />
+            </div>
+            {isMobile && (
               <RiveWrapper
                 src="/assets/rives/REF_Mobile_hero_loop_2.riv"
                 className="size-full pointer-events-none"
                 alignment="Center"
                 fit="Contain"
                 autoBind={false}
+                onReady={hidePlaceholder(mobilePlaceholderRef)}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       {isDesktop && (
@@ -134,16 +160,30 @@ export function Hero() {
           <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
         </div>
       )}
-      {/* Desktop Rive - only renders on desktop devices */}
-      {isDesktop && (
-        <div className="absolute inset-0 content-max-width">
+      {/* Desktop Rive + SSR placeholder */}
+      <div className="absolute inset-0 content-max-width desktop-only">
+        <div
+          ref={desktopPlaceholderRef}
+          className="absolute inset-0 overflow-hidden flex items-center"
+        >
+          <Image
+            src="/assets/rives/HeroThumbnail.png"
+            width={1440}
+            height={900}
+            style={{ width: '100%', height: 'auto' }}
+            preload
+            loading="eager"
+          />
+        </div>
+        {isDesktop && (
           <RiveWrapper
             src="/assets/rives/REF_hero_loop_2.riv"
             className="size-full pointer-events-none"
             autoBind={false}
+            onReady={hidePlaceholder(desktopPlaceholderRef)}
           />
-        </div>
-      )}
+        )}
+      </div>
     </section>
   )
 }

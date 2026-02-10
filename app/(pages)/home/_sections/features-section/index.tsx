@@ -218,10 +218,7 @@ export function Features() {
   })
 
   return (
-    <div
-      className={cn('dt:dr-py-200 bg-white relative', s.section)}
-      ref={isDesktop ? setSnapRef : undefined}
-    >
+    <div className={cn('dt:dr-py-200 bg-white relative', s.section)}>
       <section
         ref={(node) => {
           setRectRef(node)
@@ -248,7 +245,10 @@ export function Features() {
             fill
           />
         </div>
-        <div className="dt:h-screen w-full flex flex-col items-center justify-center dt:bg-transparent bg-white ">
+        <div
+          ref={isDesktop ? setSnapRef : undefined}
+          className="dt:h-screen w-full flex flex-col items-center justify-center dt:bg-transparent bg-white"
+        >
           <div className="text-center flex flex-col items-center relative dt:-dr-top-48">
             <div
               ref={setAnimationTriggerRef}

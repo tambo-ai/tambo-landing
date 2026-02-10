@@ -4,10 +4,10 @@ import type { LenisOptions } from 'lenis'
 import 'lenis/dist/lenis.css'
 import type { LenisRef, LenisProps as ReactLenisProps } from 'lenis/react'
 import { ReactLenis, useLenis } from 'lenis/react'
-import LenisSnap from 'lenis/snap'
 import { useEffect, useRef } from 'react'
 import { useTempus } from 'tempus/react'
 import { useStore } from '~/libs/store'
+import { MagneticScroll } from './magnetic-scroll'
 
 interface LenisProps extends Omit<ReactLenisProps, 'ref'> {
   root: boolean
@@ -16,7 +16,8 @@ interface LenisProps extends Omit<ReactLenisProps, 'ref'> {
 
 export function Lenis({ root, options }: LenisProps) {
   const lenisRef = useRef<LenisRef>(null)
-  const setLenisSnap = useStore((state) => state.setLenisSnap)
+  const magneticScrollRef = useRef<MagneticScroll | null>(null)
+  const setMagneticScroll = useStore((state) => state.setMagneticScroll)
   const isNavOpened = useStore((state) => state.isNavOpened)
   const isMobileNavOpened = useStore((state) => state.isMobileNavOpened)
   const hasAppeared = useStore((state) => state.hasAppeared)
@@ -24,6 +25,7 @@ export function Lenis({ root, options }: LenisProps) {
   useTempus((time: number) => {
     if (lenisRef.current?.lenis) {
       lenisRef.current.lenis.raf(time)
+      magneticScrollRef.current?.update()
     }
   })
 
@@ -39,10 +41,22 @@ export function Lenis({ root, options }: LenisProps) {
   const lenis = useLenis()
 
   useEffect(() => {
-    if (lenis) {
-      setLenisSnap(new LenisSnap(lenis))
+    if (!lenis) return
+
+    const magnetic = new MagneticScroll(lenis, {
+      velocityThreshold: 4,
+      distanceThreshold: 600,
+      pullStrength: 0.1,
+    })
+    magneticScrollRef.current = magnetic
+    setMagneticScroll(magnetic)
+
+    return () => {
+      magnetic.destroy()
+      magneticScrollRef.current = null
+      setMagneticScroll(null)
     }
-  }, [lenis, setLenisSnap])
+  }, [lenis, setMagneticScroll])
 
   return (
     <ReactLenis
