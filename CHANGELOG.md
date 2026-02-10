@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.4](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.3...tambo-website-v1.4.4) (2026-02-10)
+
+
+### Miscellaneous Chores
+
+* update twitter image ([#67](https://github.com/tambo-ai/tambo-landing/issues/67)) ([2c5c7f1](https://github.com/tambo-ai/tambo-landing/commit/2c5c7f120aa7904cc5874f5aaedae60de69191f0))
+
 ## [1.4.3](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.2...tambo-website-v1.4.3) (2026-02-10)
 
 
