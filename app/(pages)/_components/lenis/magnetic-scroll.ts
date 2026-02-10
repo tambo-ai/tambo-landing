@@ -1,6 +1,24 @@
 import type Lenis from 'lenis'
 
+const __DEV__ =
+  typeof process !== 'undefined' && process.env?.NODE_ENV === 'development'
+
+const DEFAULT_MIN_IMMEDIATE_ADJUSTMENT_PX = 0.25
+
 type Align = 'start' | 'end' | 'center'
+
+type ResizeObserverHandle = Pick<
+  ResizeObserver,
+  'observe' | 'unobserve' | 'disconnect'
+>
+
+function createNoopResizeObserver(): ResizeObserverHandle {
+  return {
+    observe: () => undefined,
+    unobserve: () => undefined,
+    disconnect: () => undefined,
+  }
+}
 
 type SnapElement = {
   element: HTMLElement
@@ -12,6 +30,9 @@ type MagneticScrollOptions = {
   velocityThreshold?: number
   distanceThreshold?: number
   pullStrength?: number
+
+  /** Minimum pixel delta before applying an immediate scroll adjustment. */
+  minImmediateAdjustmentPx?: number
 }
 
 export class MagneticScroll {
@@ -21,17 +42,58 @@ export class MagneticScroll {
   private velocityThreshold: number
   private distanceThreshold: number
   private pullStrength: number
-  private resizeObserver: ResizeObserver
+  private resizeObserver: ResizeObserverHandle
   private lastDirection = 0
+  private recomputeRafId: number | null = null
+  private unsupported = false
+  private destroyed = false
+  private attracting = false
+  private minImmediateAdjustmentPx: number
+
+  private onWindowResize = () => {
+    this.scheduleRecompute()
+  }
+
+  private get isActive() {
+    // Invariant: async callbacks (ResizeObserver, rAF, window events) must gate
+    // on `isActive` before mutating instance state.
+    return !(this.unsupported || this.destroyed)
+  }
 
   constructor(lenis: Lenis, options: MagneticScrollOptions = {}) {
     this.lenis = lenis
     this.velocityThreshold = options.velocityThreshold ?? 4
     this.distanceThreshold = options.distanceThreshold ?? 1000
     this.pullStrength = options.pullStrength ?? 0.06
+    this.minImmediateAdjustmentPx =
+      options.minImmediateAdjustmentPx ?? DEFAULT_MIN_IMMEDIATE_ADJUSTMENT_PX
+
+    if (typeof window === 'undefined') {
+      this.unsupported = true
+      this.resizeObserver = createNoopResizeObserver()
+      return
+    }
+
+    if (typeof ResizeObserver === 'undefined') {
+      if (__DEV__) {
+        console.warn(
+          'MagneticScroll: ResizeObserver is not available; magnetic snapping is disabled.'
+        )
+      }
+
+      this.unsupported = true
+      this.resizeObserver = createNoopResizeObserver()
+      return
+    }
 
     this.resizeObserver = new ResizeObserver(() => {
-      this.computeSnapPoints()
+      // Safe even during teardown; `scheduleRecompute()` is gated by `isActive`.
+      this.scheduleRecompute()
+    })
+
+    window.addEventListener('resize', this.onWindowResize, { passive: true })
+    window.addEventListener('orientationchange', this.onWindowResize, {
+      passive: true,
     })
   }
 
@@ -39,6 +101,14 @@ export class MagneticScroll {
     element: HTMLElement,
     options: { align?: Align | Align[] } = {}
   ): () => void {
+    if (!this.isActive) {
+      if (__DEV__ && this.destroyed) {
+        console.warn('MagneticScroll.addElement called after destroy()')
+      }
+
+      return () => undefined
+    }
+
     const align = Array.isArray(options.align)
       ? options.align
       : [options.align ?? 'start']
@@ -47,16 +117,34 @@ export class MagneticScroll {
 
     this.elements.set(element, { element, align, unobserve })
     this.resizeObserver.observe(element)
-    this.computeSnapPoints()
+    this.scheduleRecompute()
 
     return () => {
       unobserve()
       this.elements.delete(element)
-      this.computeSnapPoints()
+      this.scheduleRecompute()
     }
   }
 
+  private scheduleRecompute() {
+    if (!this.isActive) return
+    if (this.recomputeRafId !== null) return
+
+    if (typeof window.requestAnimationFrame !== 'function') {
+      this.computeSnapPoints()
+      return
+    }
+
+    this.recomputeRafId = window.requestAnimationFrame(() => {
+      this.recomputeRafId = null
+      if (!this.isActive) return
+      this.computeSnapPoints()
+    })
+  }
+
   private computeSnapPoints() {
+    if (!this.isActive || typeof window === 'undefined') return
+
     const points: number[] = []
     const viewportHeight = window.innerHeight
 
@@ -81,6 +169,7 @@ export class MagneticScroll {
   }
 
   update() {
+    if (typeof window === 'undefined' || !this.isActive) return
     if (this.snapPoints.length === 0) return
 
     const velocity = this.lenis.velocity
@@ -110,15 +199,31 @@ export class MagneticScroll {
 
         // Slow down by moving slightly against velocity
         const slowdown = -Math.sign(velocity) * absVelocity * drag
-        this.lenis.scrollTo(currentScroll + slowdown, {
-          immediate: true,
-        })
+
+        if (Math.abs(slowdown) >= this.minImmediateAdjustmentPx) {
+          this.lenis.scrollTo(currentScroll + slowdown, {
+            immediate: true,
+          })
+        }
         return
       }
     }
 
-    // Only apply attraction when velocity is low (decelerating)
-    if (absVelocity > this.velocityThreshold) return
+    // Hysteresis: enter attraction at a lower velocity and exit at a higher one
+    // to avoid flickering near the threshold.
+    const enterAttract = this.velocityThreshold
+    const exitAttract = this.velocityThreshold * 1.25
+
+    if (!this.attracting && absVelocity <= enterAttract) {
+      this.attracting = true
+    } else if (this.attracting && absVelocity >= exitAttract) {
+      this.attracting = false
+    }
+
+    if (!this.attracting) return
+
+    // Avoid ambiguous attraction before the user establishes a direction.
+    if (this.lastDirection === 0) return
 
     // Find snap point in the direction we were scrolling
     const nearestSnap = this.findDirectionalSnapPoint(
@@ -139,6 +244,8 @@ export class MagneticScroll {
     // Calculate adjustment toward snap point
     const direction = nearestSnap > currentScroll ? 1 : -1
     const adjustment = direction * distance * pull
+
+    if (Math.abs(adjustment) < this.minImmediateAdjustmentPx) return
 
     this.lenis.scrollTo(currentScroll + adjustment, {
       immediate: true,
@@ -209,8 +316,30 @@ export class MagneticScroll {
     return nearest
   }
 
+  /**
+   * Call this when the instance is no longer needed to detach observers and
+   * window listeners.
+   */
   destroy() {
+    if (this.destroyed) return
+
+    this.destroyed = true
+    this.attracting = false
+
+    // Stop future observer notifications as early as possible.
     this.resizeObserver.disconnect()
+
+    if (typeof window !== 'undefined') {
+      if (this.recomputeRafId !== null) {
+        if (typeof window.cancelAnimationFrame === 'function') {
+          window.cancelAnimationFrame(this.recomputeRafId)
+        }
+        this.recomputeRafId = null
+      }
+
+      window.removeEventListener('resize', this.onWindowResize)
+      window.removeEventListener('orientationchange', this.onWindowResize)
+    }
     this.elements.clear()
     this.snapPoints = []
   }
