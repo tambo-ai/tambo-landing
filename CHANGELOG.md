@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.1](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.0...tambo-website-v1.4.1) (2026-02-10)
+
+
+### Bug Fixes
+
+* Darkroom/UI fixes v4 ([#59](https://github.com/tambo-ai/tambo-landing/issues/59)) ([180f3b0](https://github.com/tambo-ai/tambo-landing/commit/180f3b0066c81904ba783ac357dda17e8f557b8c))
+
+
+### Performance Improvements
+
+* preload hero Rive animation and cache .riv assets ([#58](https://github.com/tambo-ai/tambo-landing/issues/58)) ([4cc9760](https://github.com/tambo-ai/tambo-landing/commit/4cc9760acf431844c431e193957fd4111eaab9ce))
+
 ## [1.4.0](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.3.1...tambo-website-v1.4.0) (2026-02-09)
 
 
