@@ -83,7 +83,7 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    images: ['/opengraph-image.jpg?v=2'],
+    images: ['/x-summary-card-image.jpg?v=2'],
   },
   authors: [
     { name: 'tambo', url: 'https://tambo.co' },
