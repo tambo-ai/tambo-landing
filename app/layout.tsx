@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     url: APP_BASE_URL,
     images: [
       {
-        url: '/opengraph-image.jpg?v=2',
+        url: '/opengraph-image.jpg?v=3',
         width: 1200,
         height: 630,
         alt: 'Tambo - the open-source generative UI toolkit for React',
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    images: ['/x-summary-card-image.jpg?v=2'],
+    images: ['/twitter-image.jpg?v=3'],
   },
   authors: [
     { name: 'tambo', url: 'https://tambo.co' },
