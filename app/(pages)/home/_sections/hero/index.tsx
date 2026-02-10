@@ -6,8 +6,8 @@ import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
-import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import LinesBg from '~/assets/svgs/hero-line-bg.svg'
+import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
@@ -109,26 +109,24 @@ export function Hero() {
               </CTA>
             </div>
           </div>
-          {/* Mobile Rive - only renders on mobile devices */}
-          {isMobile && (
-            <div className="w-full grow min-h-0">
+          {/* Mobile Rive + SSR placeholder */}
+          <div className="w-full grow min-h-0 relative mobile-only">
+            <Image
+              src="/assets/rives/HeroThumbnail_Mobile.png"
+              fill
+              objectFit="contain"
+              preload
+            />
+            {isMobile && (
               <RiveWrapper
                 src="/assets/rives/REF_Mobile_hero_loop_2.riv"
                 className="size-full pointer-events-none"
                 alignment="Center"
                 fit="Contain"
                 autoBind={false}
-                fallback={
-                  <Image
-                    src="/assets/rives/HeroThumbnail_Mobile.png"
-                    fill
-                    objectFit="contain"
-                    preload
-                  />
-                }
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       {isDesktop && (
@@ -143,19 +141,17 @@ export function Hero() {
           <ArrowDownSVG className="dr-w-32 absolute left-[50%] translate-x-[-50%] dr-top-24" />
         </div>
       )}
-      {/* Desktop Rive - only renders on desktop devices */}
-      {isDesktop && (
-        <div className="absolute inset-0 content-max-width">
+      {/* Desktop Rive + SSR placeholder */}
+      <div className="absolute inset-0 content-max-width desktop-only">
+        <Image src="/assets/rives/HeroThumbnail.png" fill preload />
+        {isDesktop && (
           <RiveWrapper
             src="/assets/rives/REF_hero_loop_2.riv"
             className="size-full pointer-events-none"
             autoBind={false}
-            fallback={
-              <Image src="/assets/rives/HeroThumbnail.png" fill preload />
-            }
           />
-        </div>
-      )}
+        )}
+      </div>
     </section>
   )
 }
