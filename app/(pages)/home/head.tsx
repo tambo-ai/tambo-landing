@@ -1,17 +1,17 @@
 export default function Head() {
   return (
     <>
-      {/* Preload hero Rive animation for faster above-the-fold render */}
+      {/* Preload hero placeholder images for instant above-the-fold render */}
       <link
         rel="preload"
-        href="/assets/rives/hero_loop_1.riv"
-        as="fetch"
+        href="/assets/rives/HeroThumbnail.png"
+        as="image"
         media="(min-width: 800px)"
       />
       <link
         rel="preload"
-        href="/assets/rives/Mobile_hero_loop_1.riv"
-        as="fetch"
+        href="/assets/rives/HeroThumbnail_Mobile.png"
+        as="image"
         media="(max-width: 799px)"
       />
     </>
