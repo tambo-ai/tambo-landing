@@ -41,19 +41,20 @@ export function Lenis({ root, options }: LenisProps) {
   const lenis = useLenis()
 
   useEffect(() => {
-    if (lenis) {
-      const magnetic = new MagneticScroll(lenis, {
-        velocityThreshold: 4,
-        distanceThreshold: 600,
-        pullStrength: 0.1,
-      })
-      magneticScrollRef.current = magnetic
-      setMagneticScroll(magnetic)
+    if (!lenis) return
 
-      return () => {
-        magnetic.destroy()
-        magneticScrollRef.current = null
-      }
+    const magnetic = new MagneticScroll(lenis, {
+      velocityThreshold: 4,
+      distanceThreshold: 600,
+      pullStrength: 0.1,
+    })
+    magneticScrollRef.current = magnetic
+    setMagneticScroll(magnetic)
+
+    return () => {
+      magnetic.destroy()
+      magneticScrollRef.current = null
+      setMagneticScroll(null)
     }
   }, [lenis, setMagneticScroll])
 
