@@ -83,10 +83,10 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    images: ['/twitter-image.jpg?v=2'],
+    images: ['/opengraph-image.jpg?v=2'],
   },
   authors: [
-    { name: 'darkroom.engineering', url: 'https://darkroom.engineering' },
+    { name: 'tambo', url: 'https://tambo.co' },
   ],
   other: {
     'fb:app_id': process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || '',
