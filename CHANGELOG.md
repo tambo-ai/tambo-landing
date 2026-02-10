@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.2](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.1...tambo-website-v1.4.2) (2026-02-10)
+
+
+### Miscellaneous Chores
+
+* add launch blog post ([#12](https://github.com/tambo-ai/tambo-landing/issues/12)) ([6e325a1](https://github.com/tambo-ai/tambo-landing/commit/6e325a1fdb237cc75f5b3ec55d2e2126b553446e))
+* add magnetic scroll ([#44](https://github.com/tambo-ai/tambo-landing/issues/44)) ([242ae6c](https://github.com/tambo-ai/tambo-landing/commit/242ae6c66683b52adee797729bb4e484cbfb9366))
+* darkroom/image placeholder hero ([#61](https://github.com/tambo-ai/tambo-landing/issues/61)) ([43f3246](https://github.com/tambo-ai/tambo-landing/commit/43f32462c17f56aef07d5afef935b0e6a28edd03))
+
 ## [1.4.1](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.0...tambo-website-v1.4.1) (2026-02-10)
 
 
