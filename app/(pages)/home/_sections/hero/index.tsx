@@ -6,8 +6,8 @@ import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { DashedBorder } from '~/app/(pages)/home/_components/dashed-border'
 import ArrowDownSVG from '~/assets/svgs/arrow-down.svg'
-import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import LinesBg from '~/assets/svgs/hero-line-bg.svg'
+import MobileLinesBg from '~/assets/svgs/hero-line-bg-mobile.svg'
 import { CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
@@ -158,10 +158,15 @@ export function Hero() {
       )}
       {/* Desktop Rive + SSR placeholder */}
       <div className="absolute inset-0 content-max-width desktop-only">
-        <div ref={desktopPlaceholderRef} className="absolute inset-0">
+        <div
+          ref={desktopPlaceholderRef}
+          className="absolute inset-0 overflow-hidden flex items-center"
+        >
           <Image
             src="/assets/rives/HeroThumbnail.png"
-            fill
+            width={1440}
+            height={900}
+            style={{ width: '100%', height: 'auto' }}
             preload
             loading="eager"
           />
