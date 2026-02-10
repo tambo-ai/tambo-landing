@@ -18,10 +18,10 @@
     0 36px 79px 0 rgba(127, 255, 195, 0.14); */
   /* background: red; */
 
-  .boxShadow {
-    /* border-radius: inherit; */
-    /* opacity: 0 !important; */
-  }
+  /* .boxShadow { */
+  /* border-radius: inherit; */
+  /* opacity: 0 !important; */
+  /* } */
 
   .hashed {
     background: repeating-linear-gradient(

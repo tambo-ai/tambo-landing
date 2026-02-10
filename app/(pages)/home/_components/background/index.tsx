@@ -36,7 +36,7 @@ export function BackgroundItem({
   const greyBackgroundRef = useRef<HTMLDivElement>(null)
   const kinesisRef = useRef<number>(1)
 
-  const { dpr } = useDeviceDetection()
+  const { dpr, isSafari } = useDeviceDetection()
 
   useImperativeHandle(ref, () => ({
     getElement: () => elementRef.current,
@@ -72,7 +72,10 @@ export function BackgroundItem({
         )}
       >
         <div
-          className="absolute inset-0 rounded-[inherit] shadow-m"
+          className={cn(
+            'absolute inset-0 rounded-[inherit] shadow-m',
+            isSafari && 'will-change-transform'
+          )}
           ref={boxShadowRef}
         />
 
@@ -95,13 +98,13 @@ export function BackgroundItem({
             style={{ opacity: `${opacity * 0.5}` }}
           />
         )}
-          <DashedBorder
-            ref={dashedBorderRef}
-            className={cn('absolute inset-0', s.border)}
-            style={{
-              opacity: borderOpacity,
-            }}
-          />
+        <DashedBorder
+          ref={dashedBorderRef}
+          className={cn('absolute inset-0', s.border)}
+          style={{
+            opacity: borderOpacity,
+          }}
+        />
       </div>
     </div>
   )
