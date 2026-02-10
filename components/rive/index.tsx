@@ -18,6 +18,7 @@ interface RiveWrapperProps {
   fit?: keyof typeof Fit
   autoBind?: boolean
   fallback?: React.ReactNode
+  onReady?: () => void
 }
 
 export function RiveWrapper({
@@ -27,6 +28,7 @@ export function RiveWrapper({
   fit = 'FitWidth',
   autoBind = true,
   fallback,
+  onReady,
 }: RiveWrapperProps) {
   const [setRef, intersection] = useIntersectionObserver({
     threshold: 0.3,
@@ -71,6 +73,7 @@ export function RiveWrapper({
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setIsLoaded(true)
+          onReady?.()
         })
       })
     },
