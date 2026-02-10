@@ -9,7 +9,7 @@ import {
 } from '@rive-app/react-webgl2'
 import cn from 'clsx'
 import { useIntersectionObserver } from 'hamo'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 interface RiveWrapperProps {
   className?: string
@@ -17,6 +17,7 @@ interface RiveWrapperProps {
   alignment?: keyof typeof Alignment
   fit?: keyof typeof Fit
   autoBind?: boolean
+  fallback?: React.ReactNode
 }
 
 export function RiveWrapper({
@@ -25,10 +26,12 @@ export function RiveWrapper({
   alignment = 'Center',
   fit = 'FitWidth',
   autoBind = true,
+  fallback,
 }: RiveWrapperProps) {
   const [setRef, intersection] = useIntersectionObserver({
     threshold: 0.3,
   })
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const assetLoader = useCallback((asset: FileAsset, bytes: Uint8Array) => {
     // If bytes has data, the asset is embedded - let Rive handle it
@@ -63,6 +66,14 @@ export function RiveWrapper({
       fit: Fit[fit],
       alignment: Alignment[alignment],
     }),
+    onLoad: () => {
+      // Wait for the canvas to actually render before swapping
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsLoaded(true)
+        })
+      })
+    },
   })
 
   useEffect(() => {
@@ -75,9 +86,26 @@ export function RiveWrapper({
 
   return (
     <div ref={setRef} className={cn('relative size-full', className)}>
-      <div className="absolute inset-0">
+      <div
+        className="absolute inset-0"
+        style={{
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 300ms ease',
+        }}
+      >
         <RiveComponent className="size-full" />
       </div>
+      {fallback && (
+        <div
+          className="absolute inset-0"
+          style={{
+            opacity: isLoaded ? 0 : 1,
+            transition: 'opacity 300ms ease',
+          }}
+        >
+          {fallback}
+        </div>
+      )}
     </div>
   )
 }
