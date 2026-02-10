@@ -20,7 +20,14 @@ You register your existing React components with Tambo. When a user makes a requ
 But Tambo isn't just a client SDK. It's a hosted backend that handles conversation threads, agent execution, auth, and state management. You don't need to wire up an agent framework or run your own agent infrastructure. The agent is included. Drop it in your React app and
 ship.
 
--- TODO: Add gif here of component being rendered --
+<ImageZoom>
+    <img
+      src="/assets/blog/introducing-tambo-generative-ui/show-my-orders.gif"
+      alt="Component being rendered by Tambo"
+      className="max-w-lg mx-auto rounded-md"
+    />
+</ImageZoom>
+
 
 **Tambo's core pieces:**
 
@@ -33,30 +40,28 @@ ship.
 
 Getting to a demo of an AI app from scratch is fast. Getting to production is where it gets hard. There are countless tricky details and edgecases we've worked through so you don't have to.
 
-Say your component has state — a filter, a form value, a toggle. The agent renders it and hten the user updates it. Does the agent know the new value? When the user reloads the thread, what happens to that value? Should the agent be able to update it too? What if there are three instances of the same component in the
-conversation — can the agent update all of them, or just the latest? And how do you expose all of this through an interface that feels natural in a React component?
+Say your component has state — a filter, a form value, a toggle. The agent renders it and then the user updates it. Does the agent know the new value? When the user reloads the thread, what happens to that value? Should the agent be able to update it too? What if there are three instances of the same component in the
+conversation? Can the agent update all of them, or just the latest? And how do you expose all of this through an interface that feels natural in a React component?
 
 Or, imagine the agent picks a component and starts generating props. They don't arrive all at once. You need to render something meaningful while half the props are missing, avoid a flash of broken UI, and handle the stream erroring out mid-render.
 
-And the ground keeps shifting. You want to support MCP — now you need to implement elicitation, sampling, tool discovery. Each new protocol means new plumbing before you get back to building your actual product.
+And the ground keeps shifting. You want to support MCP, so now you need to implement elicitation, sampling, tool discovery. Each new protocol means new plumbing before you get back to building your actual product.
 
 Each of these sounds simple, but are complicated in aggregate, and all of them must be solved for an AI app to really work. These are the types of details that trap teams for months and sometimes stop them from ever making it to production.
 
 ## Why we built Tambo
 
-Michael Magan and I met at a hackathon and became obsessed with the idea that  the apps we use should adapt to what we're trying to do, not force us to learn their structure. 
+Michael Magan and I met at a hackathon and became obsessed with the idea that the apps we use should adapt to what we're trying to do, not force us to learn their structure. 
 
-The first version of Tambo was a tiny library that turned React components into tool definitions. Now it's a full toolkit with an agent, a React SDK, and a component library that helps developers quickly add agents to their apps.
-
--- TODO: add a connecting sentence here before the quote --
+The first version of Tambo was a tiny library that turned React components into tool definitions. Now it's a full toolkit with an agent, a React SDK, and a component library that helps developers quickly add agents to their apps:
 
 "Tambo was insanely easy to get up and running — it's how you get a full chatbot from frontend to backend in minutes. I plugged it into my UI on a Friday and demoed it to my team on Monday." — Jean-Philippe Bergeron, Sr. Fullstack Engineer at Solink
 
 ## Who's building with Tambo
 
-7,700+ developers have starred the repo. Teams at Zapier, Rocket Money, and Solink are building generative UI into their apps with Tambo. More than 350,000 user messages have been processed.
+7,700+ developers have starred the repo. Teams at Zapier, Rocket Money, and Solink are building generative UI into their apps with Tambo. More than 500,000 user messages have been processed.
 
-The timing of this interest isn't a coincidence. The industry is converging on the idea that agents should render real UI, not text. New specs are landing every week — Anthropic's MCP Apps, Google's A2UI, Vercel's json-render. But a protocol isn't an implementation. Developers building these experiences keep arriving at the
+The timing of this interest isn't a coincidence. The industry is converging on the idea that agents should render real UI, not text. New specs are landing every week. Anthropic's MCP Apps, Google's A2UI, Vercel's json-render. But a protocol isn't an implementation. Developers building these experiences keep arriving at the
 same conclusion: they need a toolkit they can drop into their app. Tambo is here for it.
 
 ## Get started
