@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.3](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.2...tambo-website-v1.4.3) (2026-02-10)
+
+
+### Miscellaneous Chores
+
+* bust X/Twitter OG image cache ([#65](https://github.com/tambo-ai/tambo-landing/issues/65)) ([7c1947a](https://github.com/tambo-ai/tambo-landing/commit/7c1947ab52d2fd7add965c48ac738ea9b4c84643))
+
 ## [1.4.2](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.1...tambo-website-v1.4.2) (2026-02-10)
 
 
