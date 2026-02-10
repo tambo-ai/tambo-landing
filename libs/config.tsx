@@ -77,7 +77,7 @@ export const siteConfig = {
         'An open-source AI orchestration framework for your React front end.',
       images: [
         {
-          url: '/twitter-image.png',
+          url: '/twitter-image.jpg',
           width: 1200,
           height: 630,
           alt: "Screenshot of tambo-ai's adaptive UI component selection interface",
