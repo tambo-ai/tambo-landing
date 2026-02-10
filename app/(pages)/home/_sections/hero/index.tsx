@@ -13,6 +13,7 @@ import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { siteConfig } from '~/libs/config'
 import { fromTo } from '~/libs/utils'
+import { EyebrowBanner } from './eyebrow-banner'
 import s from './hero.module.css'
 
 const RiveWrapper = dynamic(
@@ -84,6 +85,9 @@ export function Hero() {
             className="dt:dr-w-col-5 flex flex-col dr-gap-16 text-center items-start z-1 columns-1"
             ref={titleRef}
           >
+            <EyebrowBanner href="/blog/posts/introducing-tambo-generative-ui">
+              Announcing Tambo 1.0!
+            </EyebrowBanner>
             <h1 className="dt:typo-hero-title typo-h3 dt:text-start ">
               Build agents
               <br className="mobile-only" /> that{' '}
