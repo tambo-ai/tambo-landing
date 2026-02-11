@@ -1,3 +1,4 @@
+import { parse as parseYaml, stringify as stringifyYaml } from 'yaml'
 import { visit } from 'unist-util-visit'
 
 /**
@@ -7,9 +8,10 @@ import { visit } from 'unist-util-visit'
  * This plugin:
  * 1. Detects if a file is a blog post (based on file path)
  * 2. Checks if it already has a layout export (to avoid double-wrapping)
- * 3. Adds an import for BlogPostWithFrontmatter
- * 4. Wraps the MDX content in a default export Layout component
- * 5. Passes frontmatter data (exported by remark-mdx-frontmatter) to the layout
+ * 3. Enriches YAML frontmatter with OpenGraph/Twitter metadata
+ * 4. Adds an import for BlogPostWithFrontmatter
+ * 5. Wraps the MDX content in a default export Layout component
+ * 6. Passes frontmatter data (exported by remark-mdx-frontmatter) to the layout
  *
  * This eliminates the need to manually add import/export statements
  * in each blog post MDX file.
@@ -42,6 +44,31 @@ export function remarkInjectBlogLayout() {
     if (hasLayoutExport) {
       return
     }
+
+    // Enrich YAML frontmatter with OpenGraph/Twitter metadata.
+    // This runs before Nextra's remarkMdxFrontMatter plugin, which converts
+    // the YAML node into `export const metadata = { ... }`. By adding OG/Twitter
+    // fields here, Nextra will include them in the metadata export automatically.
+    visit(tree, 'yaml', (node) => {
+      const fm = parseYaml(node.value)
+      if (!fm?.title) return
+
+      node.value = stringifyYaml({
+        ...fm,
+        openGraph: {
+          title: fm.title,
+          description: fm.description,
+          type: 'article',
+          ...(fm.date && { publishedTime: fm.date }),
+          ...(fm.author && { authors: [fm.author] }),
+        },
+        twitter: {
+          card: 'summary_large_image',
+          title: fm.title,
+          description: fm.description,
+        },
+      }).trim()
+    })
 
     // Inject the import statement at the beginning
     tree.children.unshift({
