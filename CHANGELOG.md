@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.11](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.10...tambo-website-v1.4.11) (2026-02-11)
+
+
+### Miscellaneous Chores
+
+* fix blog link on nav ([#81](https://github.com/tambo-ai/tambo-landing/issues/81)) ([3488127](https://github.com/tambo-ai/tambo-landing/commit/34881278b5e419dc6601d53fd6a87c4bfb89dab5))
+
 ## [1.4.10](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.9...tambo-website-v1.4.10) (2026-02-11)
 
 
