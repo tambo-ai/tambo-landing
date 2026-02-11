@@ -43,6 +43,54 @@ export function remarkInjectBlogLayout() {
       return
     }
 
+    // Transform the metadata export that Nextra created from YAML into getBlogPostMetadata(frontmatter)
+    // so shared links get proper OG/twitter cards (title, description, image).
+    const metadataExportIndex = tree.children.findIndex(
+      (node) =>
+        node.type === 'mdxjsEsm' &&
+        node.data?.estree?.body?.[0]?.type === 'ExportNamedDeclaration' &&
+        node.data.estree.body[0].declaration?.declarations?.[0]?.id?.name ===
+          'metadata'
+    )
+    if (metadataExportIndex !== -1) {
+      const metaNode = tree.children[metadataExportIndex]
+      const exportDecl = metaNode.data.estree.body[0]
+      const init = exportDecl.declaration.declarations[0].init
+      // Wrap frontmatter object in getBlogPostMetadata(...)
+      exportDecl.declaration.declarations[0].init = {
+        type: 'CallExpression',
+        callee: { type: 'Identifier', name: 'getBlogPostMetadata' },
+        arguments: [init],
+        optional: false,
+      }
+      // Prepend import for getBlogPostMetadata (must have data.estree for Nextra)
+      tree.children.unshift({
+        type: 'mdxjsEsm',
+        data: {
+          estree: {
+            type: 'Program',
+            sourceType: 'module',
+            body: [
+              {
+                type: 'ImportDeclaration',
+                specifiers: [
+                  {
+                    type: 'ImportSpecifier',
+                    imported: { type: 'Identifier', name: 'getBlogPostMetadata' },
+                    local: { type: 'Identifier', name: 'getBlogPostMetadata' },
+                  },
+                ],
+                source: {
+                  type: 'Literal',
+                  value: '~/libs/blog/get-blog-post-metadata',
+                },
+              },
+            ],
+          },
+        },
+      })
+    }
+
     // Inject the import statement at the beginning
     tree.children.unshift({
       type: 'mdxjsEsm',

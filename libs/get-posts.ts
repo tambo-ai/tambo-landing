@@ -10,6 +10,7 @@ export interface BlogFrontMatter {
   description?: string
   author?: string
   category?: BlogCategory
+  image?: string
 }
 
 export interface BlogPost {
@@ -44,6 +45,7 @@ export async function getPosts(): Promise<BlogPost[]> {
         description: item.frontMatter.description,
         author: item.frontMatter.author ?? BLOG_DEFAULTS.author,
         category: item.frontMatter.category,
+        image: item.frontMatter.image,
       },
     }))
     .toSorted(
@@ -72,6 +74,7 @@ export async function getPostListItems(): Promise<BlogPostListItem[]> {
       date: post.frontMatter.date,
       description: post.frontMatter.description,
       author: post.frontMatter.author,
+      image: post.frontMatter.image,
     }
   })
 }

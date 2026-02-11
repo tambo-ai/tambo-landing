@@ -17,4 +17,5 @@ export interface BlogPostListItem {
   description?: string
   date: string
   author?: string
+  image?: string
 }

@@ -85,10 +85,13 @@ title: "Post Title"
 date: "2025-10-30"
 description: "Brief description"
 author: "Author Name"
+image: "/assets/blog/slug/og.jpg"
 ---
 
 Your content here...
 ```
+
+- **image** (optional): Path for Open Graph/Twitter card (e.g. `/assets/blog/my-post/og.jpg`). If omitted, the site default OG image is used. Use 1200×630 for best results.
 
 The plugin automatically injects:
 
