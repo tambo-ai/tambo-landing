@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.9](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.8...tambo-website-v1.4.9) (2026-02-11)
+
+
+### Bug Fixes
+
+* update post metadata injection ([#77](https://github.com/tambo-ai/tambo-landing/issues/77)) ([13f8a77](https://github.com/tambo-ai/tambo-landing/commit/13f8a77157c78a191c552fa4bfd737dd7795bcaf))
+
 ## [1.4.8](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.7...tambo-website-v1.4.8) (2026-02-11)
 
 
