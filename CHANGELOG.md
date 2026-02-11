@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.10](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.9...tambo-website-v1.4.10) (2026-02-11)
+
+
+### Bug Fixes
+
+* update preview image ([#79](https://github.com/tambo-ai/tambo-landing/issues/79)) ([45f2a33](https://github.com/tambo-ai/tambo-landing/commit/45f2a3329ece21e8b15dbb67a0cf244885af516c))
+
 ## [1.4.9](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.8...tambo-website-v1.4.9) (2026-02-11)
 
 
