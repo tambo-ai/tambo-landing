@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.8](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.7...tambo-website-v1.4.8) (2026-02-11)
+
+
+### Bug Fixes
+
+* auto-stage lint fixes in pre-commit hook ([#46](https://github.com/tambo-ai/tambo-landing/issues/46)) ([2228925](https://github.com/tambo-ai/tambo-landing/commit/22289253bb1a6906741236c1d7ac7ce1a10a4417))
+
 ## [1.4.7](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.6...tambo-website-v1.4.7) (2026-02-11)
 
 
