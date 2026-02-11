@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.7](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.6...tambo-website-v1.4.7) (2026-02-11)
+
+
+### Miscellaneous Chores
+
+* update pricing typo ([#73](https://github.com/tambo-ai/tambo-landing/issues/73)) ([c9002d8](https://github.com/tambo-ai/tambo-landing/commit/c9002d8b3f1ecba14a8ffa4ba7fcc26731aa011e))
+
 ## [1.4.6](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.5...tambo-website-v1.4.6) (2026-02-10)
 
 
