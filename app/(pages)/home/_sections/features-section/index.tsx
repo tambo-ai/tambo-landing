@@ -3,7 +3,6 @@
 import cn from 'clsx'
 import { useIntersectionObserver, useRect, useWindowSize } from 'hamo'
 import { useEffect, useRef } from 'react'
-import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import Background, {
   type BackgroundRefType,
 } from '~/app/(pages)/home/_components/background'
@@ -90,8 +89,7 @@ export function Features() {
   const [setAnimationTriggerRef, intersection] = useIntersectionObserver({
     threshold: 0.5,
   })
-  const setSnapRef = useLenisSnap('center')
-  const { isDesktop, isSafari } = useDeviceDetection()
+  const { isSafari } = useDeviceDetection()
 
   const backgroundRef = useRef<BackgroundRefType>(null)
 
@@ -245,10 +243,7 @@ export function Features() {
             fill
           />
         </div>
-        <div
-          ref={isDesktop ? setSnapRef : undefined}
-          className="dt:h-screen w-full flex flex-col items-center justify-center dt:bg-transparent bg-white"
-        >
+        <div className="dt:h-screen w-full flex flex-col items-center justify-center dt:bg-transparent bg-white">
           <div className="text-center flex flex-col items-center relative dt:-dr-top-48">
             <div
               ref={setAnimationTriggerRef}
