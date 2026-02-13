@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.12](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.11...tambo-website-v1.4.12) (2026-02-13)
+
+
+### Miscellaneous Chores
+
+* increase pricing font size for better visisbility ([#83](https://github.com/tambo-ai/tambo-landing/issues/83)) ([acdb5fe](https://github.com/tambo-ai/tambo-landing/commit/acdb5fead44c8d52a4ff70f5b84e7942310ea971))
+
 ## [1.4.11](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.10...tambo-website-v1.4.11) (2026-02-11)
 
 

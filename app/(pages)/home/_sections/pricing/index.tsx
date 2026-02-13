@@ -89,7 +89,7 @@ export function Pricing() {
                       className="flex items-center dt:dr-gap-4 dr-gap-8"
                     >
                       <CheckSVG className="dr-size-16 text-teal" />
-                      <p className="typo-label-s text-teal">{feature}</p>
+                      <p className="typo-label-m text-teal">{feature}</p>
                     </li>
                   ))}
                 </ul>
@@ -149,8 +149,8 @@ function PricingCard({ card }: { card: (typeof pricingCards)[number] }) {
         <ul className="flex flex-col dt:dr-gap-12 dr-gap-8 dr-ml-8 dt:dr-ml-0">
           {card?.features.map((feature) => (
             <li key={feature} className="flex items-center dr-gap-8">
-              <CheckSVG className="dr-size-16 text-teal" />
-              <p className="typo-label-s">{feature}</p>
+              <CheckSVG className="dr-size-16 text-teal shrink-0" />
+              <p className="typo-label-m text-black">{feature}</p>
             </li>
           ))}
         </ul>

@@ -8,7 +8,7 @@ export const pricingCards = [
       href: process.env.NEXT_PUBLIC_DASHBOARD_URL || 'https://console.tambo.co',
     },
     features: [
-      '10K stored messages / mo',
+      '10K messages / mo',
       'Unlimited users (Oauth)',
       'chat-thread history',
       'analytics + observability',
