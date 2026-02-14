@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.13](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.12...tambo-website-v1.4.13) (2026-02-13)
+
+
+### Bug Fixes
+
+* remove scroll snapping and improve mobile eyebrow banner ([#85](https://github.com/tambo-ai/tambo-landing/issues/85)) ([9f04c92](https://github.com/tambo-ai/tambo-landing/commit/9f04c9214f19bc622be651d86cfaf7081bed3654))
+
 ## [1.4.12](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.11...tambo-website-v1.4.12) (2026-02-13)
 
 

@@ -11,7 +11,7 @@ export function EyebrowBanner({
   return (
     <Link
       href={href}
-      className="group/pill relative inline-flex items-center rounded-full dr-px-16 dr-py-8 shadow-[inset_0_-8px_10px_#80fcc21f] transition-shadow duration-500 ease-out hover:shadow-[inset_0_-5px_10px_#80fcc23f]"
+      className="group/pill relative inline-flex items-center rounded-full dr-px-10 dr-py-6 dt:dr-px-16 dt:dr-py-8 self-center dt:self-start shadow-[inset_0_-8px_10px_#80fcc21f] transition-shadow duration-500 ease-out hover:shadow-[inset_0_-5px_10px_#80fcc23f]"
     >
       <span
         className="animate-gradient absolute inset-0 block size-full rounded-[inherit] bg-gradient-to-r from-[#80fcc2]/50 via-[#40a0ff]/50 to-[#80fcc2]/50 bg-[length:300%_100%] p-px"
@@ -24,9 +24,9 @@ export function EyebrowBanner({
           WebkitClipPath: 'padding-box',
         }}
       />
-      🎉
+      <span className="dr-mr-4">🎉</span>
       <hr className="mx-2 h-4 w-px shrink-0 bg-neutral-500" />
-      <AnimatedGradientText className="typo-p font-medium" colorFrom="#80fcc2" colorTo="#40a0ff">
+      <AnimatedGradientText className="typo-p-s dt:typo-p font-medium" colorFrom="#80fcc2" colorTo="#40a0ff">
         {children}
       </AnimatedGradientText>
     </Link>

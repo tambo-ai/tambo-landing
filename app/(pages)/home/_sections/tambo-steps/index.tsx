@@ -1,6 +1,5 @@
 'use client'
 import dynamic from 'next/dynamic'
-import { useLenisSnap } from '~/app/(pages)/_components/lenis/snap'
 import { TimelineSection } from '~/app/(pages)/home/_components/timeline-section'
 import { useDeviceDetection } from '~/hooks/use-device-detection'
 import { siteConfig } from '~/libs/config'
@@ -14,12 +13,10 @@ const RiveWrapper = dynamic(
 )
 
 export function TamboSteps() {
-  const setSnapRef = useLenisSnap('center')
   const { isMobile, isDesktop } = useDeviceDetection()
 
   return (
     <TimelineSection
-      ref={setSnapRef}
       id="moment-1"
       messages={messages}
       href={siteConfig.links.docs}
