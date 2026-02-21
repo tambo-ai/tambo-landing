@@ -248,11 +248,6 @@ const nextConfig: NextConfig = {
       permanent: false,
     },
     {
-      source: '/dashboard',
-      destination: 'https://console.tambo.co',
-      permanent: false,
-    },
-    {
       source: '/dashboard/:path*',
       destination: 'https://console.tambo.co/:path*',
       permanent: false,
