@@ -253,6 +253,11 @@ const nextConfig: NextConfig = {
       permanent: false,
     },
     {
+      source: '/dashboard/:path*',
+      destination: 'https://console.tambo.co/:path*',
+      permanent: false,
+    },
+    {
       source: '/x',
       destination: 'https://x.com/tambo_ai',
       permanent: false,
