@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.14](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.13...tambo-website-v1.4.14) (2026-02-22)
+
+
+### Miscellaneous Chores
+
+* add /console and /dashboard redirects ([#89](https://github.com/tambo-ai/tambo-landing/issues/89)) ([db20b83](https://github.com/tambo-ai/tambo-landing/commit/db20b83facf95d9eb0a191dc6f66e50db41355c1))
+
 ## [1.4.13](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.12...tambo-website-v1.4.13) (2026-02-13)
 
 
