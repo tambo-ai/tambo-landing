@@ -280,9 +280,9 @@ export function Features() {
               </TitleBlock>
               <CTA
                 className="bg-black! text-teal border-teal w-full dt:w-auto desktop-only"
-                href={siteConfig.links.dashboard}
+                href={siteConfig.links.shutdownPost}
               >
-                Start building
+                Read the announcement
               </CTA>
             </div>
           </div>
@@ -297,9 +297,9 @@ export function Features() {
             <CTA
               color="black"
               className="mobile-only w-full dr-mt-24 dr-mb-80"
-              href={siteConfig.links.dashboard}
+              href={siteConfig.links.shutdownPost}
             >
-              Start building
+              Read the announcement
             </CTA>
           </div>
 

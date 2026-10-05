@@ -168,28 +168,19 @@ export function Footer() {
 
               <TitleBlock>
                 <TitleBlock.Title level="h2" className="dr-mb-8! typo-h1!">
-                  Start for free
+                  Tambo Cloud is <br /> shutting down
                 </TitleBlock.Title>
                 <TitleBlock.Subtitle className="typo-p! dt:typo-p-l!">
-                  Your first agent is only minutes away.
+                  Tambo stays open source and self-hostable.
                 </TitleBlock.Subtitle>
                 <div className="flex dr-gap-8 dt:dr-mt-40 dr-mt-32 dt:flex-row flex-col items-center">
                   <CTA
                     className="bg-black! text-teal border-teal"
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
-                    href={siteConfig.links.dashboard}
+                    href={siteConfig.links.shutdownPost}
                   >
-                    START BUILDING
-                  </CTA>
-
-                  <CTA
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
-                    className="w-fit"
-                    href="/contact-us"
-                  >
-                    contact us
+                    READ THE ANNOUNCEMENT
                   </CTA>
                 </div>
               </TitleBlock>

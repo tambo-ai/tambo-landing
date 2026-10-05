@@ -36,6 +36,7 @@
 	--spacing-safe: var(--safe);
 	--spacing-gap: var(--gap);
   --spacing-header-height: var(--header-height);
+	--spacing-banner-height: var(--banner-height);
 
   --font-*: initial;
   --font-mono: var(--next-font-mono);

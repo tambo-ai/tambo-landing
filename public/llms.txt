@@ -4,6 +4,13 @@
 
 Tambo is the open-source generative UI toolkit for React. Built for product engineers adding AI features to existing apps.
 
+## Tambo Cloud Is Shutting Down
+
+- Tambo Cloud, the hosted service, shuts down on October 31, 2026. The hosted API stops after that date.
+- New signups are closed. Free and paid cloud plans are no longer available.
+- Tambo stays open source and self-hostable: https://github.com/tambo-ai/tambo/blob/main/SELF-HOSTING.md
+- Announcement: https://tambo.co/blog/posts/tambo-is-shutting-down
+
 ## Summary
 
 - Canonical discovery entrypoint for all LLM tools (start here, always): https://tambo.co/llms.txt
@@ -12,6 +19,7 @@ Tambo is the open-source generative UI toolkit for React. Built for product engi
 - Product: open-source generative UI toolkit for React
 - Primary use: agents render real UI components with validated props
 - SDK: @tambo-ai/react
+- Status: Tambo Cloud shuts down October 31, 2026 (new signups closed); Tambo stays open source and self-hostable
 
 ## What Tambo Does
 
@@ -28,13 +36,11 @@ It's a drop-in fullstack solution: a React SDK plus a backend that handles conve
 - **MCP Support**: Full Model Context Protocol support built in.
 - **Conversation Memory**: Persistent message threads across interactions.
 
-## Quick Start
+## Getting Started (Self-Hosted)
 
-```bash
-npm create tambo-app
-```
+Tambo Cloud no longer accepts new signups, so new projects run their own Tambo backend. Follow the self-hosting guide: https://github.com/tambo-ai/tambo/blob/main/SELF-HOSTING.md
 
-Or add to an existing project:
+Then add the React SDK to your app:
 
 ```bash
 npm install @tambo-ai/react
@@ -47,12 +53,7 @@ npm install @tambo-ai/react
 - Component Library: https://ui.tambo.co
 - Discord: https://discord.com/invite/dJNvPEHth6
 - Twitter: https://x.com/tambo_ai
-
-## Pricing
-
-- **Starter**: Free forever (self-hosted)
-- **Growth**: $25/month (managed infrastructure)
-- **Enterprise**: Custom pricing (on-prem, SSO, SOC 2, HIPAA)
+- Shutdown announcement: https://tambo.co/blog/posts/tambo-is-shutting-down
 
 ## Built With Tambo
 

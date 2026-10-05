@@ -10,7 +10,7 @@ import { ScrollToTop } from '~/libs/scroll-to-top'
 export const metadata: Metadata = {
   title: 'Pricing | Tambo',
   description:
-    'Free to start, simple to scale. Explore Tambo pricing plans for generative UI.',
+    'Tambo Cloud is shutting down on October 31, 2026, and new signups are closed. Tambo stays open source and free to self-host.',
 }
 
 export default async function PricingPage() {
