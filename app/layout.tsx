@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import type { PropsWithChildren } from 'react'
 import { ReactTempus } from 'tempus/react'
 import { RealViewport } from '~/components/real-viewport'
+import { SiteBanner } from '~/components/site-banner'
 import AppData from '~/package.json'
 import { AnalyticsProvider } from '~/providers/posthog-provider'
 import { themes } from '~/styles/colors'
@@ -85,9 +86,7 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
     images: ['/twitter-image.jpg?v=3'],
   },
-  authors: [
-    { name: 'tambo', url: 'https://tambo.co' },
-  ],
+  authors: [{ name: 'tambo', url: 'https://tambo.co' }],
   other: {
     'fb:app_id': process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || '',
   },
@@ -142,6 +141,8 @@ export default async function Layout({ children }: PropsWithChildren) {
         <AnalyticsProvider>
           {/* Critical: CSS custom properties needed for layout */}
           <RealViewport>
+            {/* Site-wide announcement, above the fixed navigation */}
+            <SiteBanner />
             {/* Main app content */}
             {children}
           </RealViewport>

@@ -11,6 +11,7 @@ import XIcon from '~/assets/svgs/X.svg'
 import { Button, CTA } from '~/components/button'
 import { Image } from '~/components/image'
 import { Link } from '~/components/link'
+import { SITE_BANNER_ID } from '~/components/site-banner'
 import { siteConfig } from '~/libs/config'
 import { useStore } from '~/libs/store'
 import s from './navigation.module.css'
@@ -22,7 +23,7 @@ const LEFT_LINKS = [
 
 const RIGHT_LINKS = [
   { href: '/#pricing', label: 'Pricing' },
-  { href: '/contact-us', label: 'Contact Us' },
+  { href: siteConfig.links.shutdownPost, label: 'Contact Us' },
 ] as const
 
 interface NavigationProps {
@@ -55,7 +56,9 @@ export function Navigation({
         setTimeout(() => {
           const element = document.getElementById(hash)
           if (element) {
-            const mobileNavOffset = 80
+            const bannerHeight =
+              document.getElementById(SITE_BANNER_ID)?.offsetHeight ?? 0
+            const mobileNavOffset = 80 + bannerHeight
             const elementPosition = element.getBoundingClientRect().top
             const offsetPosition =
               elementPosition + window.scrollY - mobileNavOffset
@@ -74,7 +77,7 @@ export function Navigation({
   return (
     <nav
       className={cn(
-        'fixed top-0 z-100 dr-layout-grid-inner pt-gap uppercase typo-button dt:left-1/2 dt:-translate-x-1/2',
+        'fixed top-banner-height z-100 dr-layout-grid-inner pt-gap uppercase typo-button dt:left-1/2 dt:-translate-x-1/2',
         !hasAppeared && 'dt:opacity-0',
         'transition-opacity duration-600 ease-out-expo'
       )}

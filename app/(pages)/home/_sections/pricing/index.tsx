@@ -10,7 +10,7 @@ import { CTA } from '~/components/button'
 import { useDesktopVW } from '~/hooks/use-device-values'
 import { useScrollTrigger } from '~/hooks/use-scroll-trigger'
 import { mapRange } from '~/libs/utils'
-import { banner, pricingCards } from './data'
+import { banner, notice } from './data'
 import s from './section-12.module.css'
 
 export function Pricing() {
@@ -56,14 +56,12 @@ export function Pricing() {
         <TitleBlock className="dt:col-start-4 dt:col-end-10 dr-mb-56 col-span-full">
           <TitleBlock.LeadIn>PRICING</TitleBlock.LeadIn>
           <TitleBlock.Title level="h2" className="dr-mb-0!">
-            Free to start, <br className="mobile-only" /> simple to scale
+            New signups <br className="mobile-only" /> are closed
           </TitleBlock.Title>
         </TitleBlock>
         <div className="dt:col-start-2 dt:col-end-12 col-span-full">
-          <div className="grid dt:grid-cols-3 grid-cols-1 dt:dr-gap-24 dr-gap-16 dt:dr-mb-32 dr-mb-16">
-            {pricingCards.map((card, i) => (
-              <PricingCard key={`${card?.plan}-${i}`} card={card} />
-            ))}
+          <div className="dt:dr-mb-32 dr-mb-16">
+            <ShutdownNotice />
           </div>
           {/* BANNER */}
           <div className={s.cardWrapper}>
@@ -110,7 +108,7 @@ export function Pricing() {
   )
 }
 
-function PricingCard({ card }: { card: (typeof pricingCards)[number] }) {
+function ShutdownNotice() {
   const [setIntersectionRef, intersection] = useIntersectionObserver({
     rootMargin: '-20%',
     threshold: 0.4,
@@ -124,36 +122,31 @@ function PricingCard({ card }: { card: (typeof pricingCards)[number] }) {
       <div
         ref={setIntersectionRef}
         className={cn(
-          'dr-p-8 dr-pb-24 border border-dark-grey dr-rounded-20 bg-white dt:dr-h-497 relative ',
+          'dr-p-8 border border-dark-grey dr-rounded-20 bg-white relative flex flex-col dt:flex-row dt:items-center dr-gap-12 dt:dr-gap-24',
           s.card,
           isActive && s.active
         )}
       >
         <div
           className={cn(
-            'dr-p-16 dr-rounded-12 bg-off-white border border-dark-grey dr-mb-12',
+            'dr-p-16 dr-rounded-12 bg-off-white border border-dark-grey grow',
             s.cardHeader
           )}
         >
-          <p className="dt:typo-label-m typo-label-s dr-mb-16">{card?.plan}</p>
-          <h2 className="dt:typo-h3 typo-h4 dr-mb-8">{card?.title}</h2>
-          <p className="dt:typo-p typo-p-s">{card?.description}</p>
+          <p className="dt:typo-label-m typo-label-s dr-mb-16">
+            {notice.label}
+          </p>
+          <h3 className="dt:typo-h3 typo-h4 dr-mb-8">{notice.title}</h3>
+          <p className="dt:typo-p typo-p-s">{notice.description}</p>
         </div>
         <CTA
-          className="w-full dt:justify-between dr-mb-32"
-          href={card?.button?.href}
+          className="w-full dt:justify-between"
+          wrapperClassName="shrink-0 dt:dr-pr-16"
+          href={notice.button.href}
           active={isActive}
         >
-          {card?.button?.text}
+          {notice.button.text}
         </CTA>
-        <ul className="flex flex-col dt:dr-gap-12 dr-gap-8 dr-ml-8 dt:dr-ml-0">
-          {card?.features.map((feature) => (
-            <li key={feature} className="flex items-center dr-gap-8">
-              <CheckSVG className="dr-size-16 text-teal shrink-0" />
-              <p className="typo-label-m text-black">{feature}</p>
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   )
