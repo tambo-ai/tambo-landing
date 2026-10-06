@@ -18,6 +18,7 @@ const maxWidth = 1440
 
 const customSizes = {
   'header-height': { mobile: 58, desktop: 98 },
+  'banner-height': { mobile: 44, desktop: 36 },
 }
 
 export { breakpoints, customSizes, layout, screens, maxWidth }
