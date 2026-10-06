@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.14...tambo-website-v1.5.0) (2026-10-06)
+
+
+### Features
+
+* **web:** announce Tambo Cloud shutdown ([#105](https://github.com/tambo-ai/tambo-landing/issues/105)) ([8038cb7](https://github.com/tambo-ai/tambo-landing/commit/8038cb7e813ef644b4ac781eb33be46ee735a682))
+
 ## [1.4.14](https://github.com/tambo-ai/tambo-landing/compare/tambo-website-v1.4.13...tambo-website-v1.4.14) (2026-02-22)
 
 
